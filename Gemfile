@@ -38,7 +38,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem "foreman"
+gem "foreman", "~> 0.84"
 gem "graphql", "~> 1.7"
 
 group :development, :test do
