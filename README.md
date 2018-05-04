@@ -2,14 +2,15 @@
 
 This project is a Rails 5.2 app using webpacker and React.
 
-* Ruby version
+### Ruby version
 
 MRI 2.5.1
 
-* Getting ready
+### Getting ready
 
-`bundle install`
+- `bundle install`
+- `yarn install`
 
-* Start it up
+### Start it up
 
 `foreman start -f Procfile.development`
