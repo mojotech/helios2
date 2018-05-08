@@ -6,7 +6,9 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :latitude, !types.Float
     argument :longitude, !types.Float
     resolve ->(obj, args, ctx) {
-      ForecastIO.forecast(args[:latitude], args[:longitude])
+      Rails.cache.fetch('dark-sky-response', expires_in: 2.minutes) do
+        ForecastIO.forecast(args[:latitude], args[:longitude])
+      end
     }
   end
 end
