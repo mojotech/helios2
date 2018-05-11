@@ -10,8 +10,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from '../components/app';
+import injectBaseStyles from '../styles';
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.body.appendChild(document.createElement('div'));
+  injectBaseStyles();
   render(<App />, container);
 });
