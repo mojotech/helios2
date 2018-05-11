@@ -1,13 +1,14 @@
 Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
-  # Add root-level fields here.
-  # They will be entry points for queries on your schema.
 
-  # TODO: remove me
-  field :testField, types.String do
-    description "An example field added by the generator"
+  field :weather, Types::WeatherType do
+    description "Weather response from Dark Sky"
+    argument :latitude, !types.Float
+    argument :longitude, !types.Float
     resolve ->(obj, args, ctx) {
-      "Hello World!"
+      Rails.cache.fetch('dark-sky-response', expires_in: 2.minutes) do
+        ForecastIO.forecast(args[:latitude], args[:longitude])
+      end
     }
   end
 end
