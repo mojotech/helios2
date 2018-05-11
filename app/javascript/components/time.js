@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { GreySubText } from './typography';
 import { colors, fontSizes, spacing, weights } from '../lib/theme';
 import styled from 'styled-components';
@@ -9,31 +10,40 @@ const Wrapper = styled.div`
   font-weight: ${weights.light};
 `;
 
+const HourMin = styled.div``;
+
+const AMPM = styled.div``;
+
 const TimeValue = styled(Row)`
   align-items: flex-end;
-  color: ${({ primary }) => (primary ? colors.white : colors.grey)};
+  color: ${({ isPrimary }) => (isPrimary ? colors.white : colors.grey)};
+
+  ${/* sc-sel */ HourMin} {
+    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.huge}`};
+  }
+
+  ${/* sc-sel */ AMPM} {
+    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.large}`};
+  }
 `;
 
 const City = styled(GreySubText)`
   margin-bottom: ${spacing.xs};
 `;
 
-const HourMin = styled.div`
-  ${({ primary }) => primary && `font-size: ${fontSizes.huge}`};
-`;
-
-const AMPM = styled.div`
-  ${({ primary }) => primary && `font-size: ${fontSizes.large}`};
-`;
-
-export const Time = ({ primary }) => (
+export const Time = ({ isPrimary, cityName }) => (
   <Wrapper>
-    <City>Providence</City>
-    <TimeValue {...{ primary }}>
-      <HourMin {...{ primary }}>6:40</HourMin>
-      <AMPM {...{ primary }}>PM</AMPM>
+    <City>{cityName}</City>
+    <TimeValue {...{ isPrimary }}>
+      <HourMin>6:40</HourMin>
+      <AMPM>PM</AMPM>
     </TimeValue>
   </Wrapper>
 );
+
+Time.propTypes = {
+  isPrimary: PropTypes.bool.isRequired,
+  cityName: PropTypes.string.isRequired,
+};
 
 export default Time;
