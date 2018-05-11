@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import Logo from './logo';
 import { SpacedRow } from './row';
 import Date from './date';
+import Times from './times';
+import { spacing } from '../lib/theme';
 
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
+  margin-bottom: ${spacing.xxl};
 `;
 
 export const FixedContent = () => (
@@ -14,6 +17,7 @@ export const FixedContent = () => (
       <Date />
       <Logo />
     </DateLogoRow>
+    <Times />
   </div>
 );
 

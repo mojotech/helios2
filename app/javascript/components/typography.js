@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../lib/theme';
+import { colors, fontSizes, spacing } from '../lib/theme';
 
 export const GreyText = styled.div`
   color: ${colors.grey};
@@ -7,4 +7,9 @@ export const GreyText = styled.div`
 
 export const WhiteText = styled.div`
   color: ${colors.white};
+`;
+
+export const GreySubText = styled(GreyText)`
+  font-size: ${fontSizes.medium};
+  margin-bottom: ${spacing.xs};
 `;
