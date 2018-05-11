@@ -1,7 +1,15 @@
 import React from 'react';
+import Logo from './logo';
+import FullPanel from './full-panel';
+import SidePanel from './side-panel';
 
 export default class App extends React.Component {
   render() {
-    return <h1>Helios!</h1>;
+    return (
+      <div>
+        <FullPanel />
+        <SidePanel />
+      </div>
+    );
   }
 }
