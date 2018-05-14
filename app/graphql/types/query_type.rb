@@ -3,11 +3,10 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :weather, Types::WeatherType do
     description "Weather response from Dark Sky"
-    argument :latitude, !types.Float
-    argument :longitude, !types.Float
-    resolve ->(obj, args, ctx) {
+    resolve ->(_, _, _) {
       Rails.cache.fetch('dark-sky-response', expires_in: 2.minutes) do
-        ForecastIO.forecast(args[:latitude], args[:longitude])
+        primary_location = Location.primary
+        ForecastIO.forecast(primary_location.latitude, primary_location.longitude)
       end
     }
   end
