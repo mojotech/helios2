@@ -22,6 +22,7 @@ const getLocations = gql`
       id
       cityName
       isPrimary
+      timezone
     }
   }
 `;
@@ -42,8 +43,8 @@ export const Times = () => (
 
         return (
           <React.Fragment>
-            {locations.map(({ id, isPrimary, cityName }) => (
-              <Time key={id} {...{ isPrimary, cityName }} />
+            {locations.map(({ id, isPrimary, cityName, timezone }) => (
+              <Time key={id} {...{ isPrimary, cityName, timezone }} />
             ))}
           </React.Fragment>
         );
