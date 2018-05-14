@@ -4,6 +4,7 @@ import { GreySubText } from './typography';
 import { colors, fontSizes, spacing, weights } from '../lib/theme';
 import styled from 'styled-components';
 import { Row } from './row';
+import { timeForTimezone } from '../lib/time';
 
 const Wrapper = styled.div`
   font-size: ${fontSizes.medium};
@@ -31,19 +32,37 @@ const City = styled(GreySubText)`
   margin-bottom: ${spacing.xs};
 `;
 
-export const Time = ({ isPrimary, cityName }) => (
-  <Wrapper>
-    <City>{cityName}</City>
-    <TimeValue {...{ isPrimary }}>
-      <HourMin>6:40</HourMin>
-      <AMPM>PM</AMPM>
-    </TimeValue>
-  </Wrapper>
-);
+export class Time extends React.Component {
+  static propTypes = {
+    isPrimary: PropTypes.bool.isRequired,
+    cityName: PropTypes.string.isRequired,
+    timezone: PropTypes.string.isRequired,
+  };
 
-Time.propTypes = {
-  isPrimary: PropTypes.bool.isRequired,
-  cityName: PropTypes.string.isRequired,
-};
+  constructor(props) {
+    super(props);
+    this.state = { time: timeForTimezone(props.timezone) };
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ time: timeForTimezone(this.props.timezone) });
+    }, 10000);
+  }
+
+  render() {
+    const { timezone, cityName, isPrimary } = this.props;
+    const [time, ampm] = this.state.time.split(' ');
+    return (
+      <Wrapper>
+        <City>{cityName}</City>
+        <TimeValue {...{ isPrimary }}>
+          <HourMin>{time}</HourMin>
+          <AMPM>{ampm}</AMPM>
+        </TimeValue>
+      </Wrapper>
+    );
+  }
+}
 
 export default Time;
