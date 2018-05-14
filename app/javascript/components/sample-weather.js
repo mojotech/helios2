@@ -7,8 +7,8 @@ const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({message}) => <p>Error: {message}</p>;
 
 const getWeather = gql`
-  query weather($latitude: Float!, $longitude: Float!) {
-    weather(latitude: $latitude, longitude: $longitude) {
+  {
+    weather {
       currently {
         summary
         temperature
@@ -39,7 +39,7 @@ const getWeather = gql`
         }
       }
     }
-  } 
+  }
 `;
 
 const SampleWeather =  ({ data: { currently, hourly, daily } }) => (
@@ -63,8 +63,8 @@ SampleWeather.propsTypes = {
   data: PropTypes.shape({}).isRequired,
 };
 
-export default ({ latitude, longitude }) => (
-  <Query query={getWeather} variables={{ latitude, longitude }}>
+export default () => (
+  <Query query={getWeather}>
     {({ loading, error, data }) => {
       if(loading) {
         return <LoadingMessage />;

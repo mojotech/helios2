@@ -31,7 +31,7 @@ describe Helios2Schema do
     let(:query_string) {
       %|
 {
-  weather(latitude: 40.7127, longitude: -74.0059) {
+  weather() {
     currently {
       summary
       temperature

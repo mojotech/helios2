@@ -16,7 +16,7 @@ export const FullPanel = () => (
     <WhiteText>
       <h1>Helios</h1>
       <p>... and now for something completely different</p>
-      <SampleWeather latitude={40.712} longitude={-74.0059} />
+      <SampleWeather />
     </WhiteText>
   </Wrapper>
 );
