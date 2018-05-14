@@ -11,6 +11,6 @@ Types::LocationType = GraphQL::ObjectType.define do
     resolve ->(obj, _, _) { obj.city_name }
   end
   field "isPrimary", !types.Boolean do
-    resolve ->(obj, _, _) { obj.city_name == ENV['PRIMARY_CITY_NAME'] }
+    resolve ->(obj, _, _) { obj.id == Location.primary.id }
   end
 end
