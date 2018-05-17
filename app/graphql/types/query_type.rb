@@ -11,4 +11,18 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
     }
   end
+
+  field :locations, !types[Types::LocationType] do
+    description "MojoTech office locations"
+    resolve ->(_, _, _) {
+      Rails.cache.fetch('locations-response', expires_in: 15.minutes) do
+        Location.all
+      end
+    }
+  end
+
+  field :primaryLocation, Types::LocationType do
+    description "Location running the app"
+    resolve ->(_, _, _) { Location.primary }
+  end
 end
