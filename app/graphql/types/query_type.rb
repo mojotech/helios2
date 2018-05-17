@@ -20,4 +20,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
     }
   end
+
+  field :primaryLocation, Types::LocationType do
+    description "Location running the app"
+    resolve ->(_, _, _) { Location.primary }
+  end
 end
