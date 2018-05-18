@@ -4,7 +4,7 @@ import { GreySubText } from './typography';
 import { colors, fontSizes, spacing, weights } from '../lib/theme';
 import styled from 'styled-components';
 import { Row } from './row';
-import { timeForTimezone } from '../lib/time';
+import { timeForTimezone } from '../lib/datetime';
 
 const Wrapper = styled.div`
   font-size: ${fontSizes.medium};
