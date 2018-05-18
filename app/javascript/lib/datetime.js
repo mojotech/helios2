@@ -23,3 +23,26 @@ export const parseTime = datetime =>
     .split(' ')
     .join('')
     .toLowerCase();
+
+const parseDatetime = datetime => new Date(Date.parse(datetime));
+
+const isToday = datetime =>
+  parseDatetime(datetime).toDateString() === new Date().toDateString();
+
+const isTomorrow = datetime => {
+  let tomorrowDate = new Date();
+  tomorrowDate.setDate(new Date().getDate() + 1);
+  return parseDatetime(datetime).toDateString() === tomorrowDate.toDateString();
+};
+
+export const parseDay = datetime => {
+  if (isToday(datetime)) {
+    return 'Today';
+  }
+  if (isTomorrow(datetime)) {
+    return 'Tomorrow';
+  }
+  return parseDatetime(datetime).toLocaleString([], {
+    weekday: 'long',
+  });
+};

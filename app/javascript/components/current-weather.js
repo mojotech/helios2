@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CurrentTemp from './current-temp';
 import HourlyTemps from './hourly-temps';
 import MinutelyWeather from './minutely-weather';
+import DailyWeather from './daily-weather';
 import { Row } from './row';
 
 const CenteredRow = styled(Row)`
@@ -17,5 +18,6 @@ export default () => (
       <HourlyTemps />
     </CenteredRow>
     <MinutelyWeather />
+    <DailyWeather />
   </div>
 );
