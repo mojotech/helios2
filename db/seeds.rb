@@ -2,7 +2,10 @@ Location.create(
   latitude: 41.823989,
   longitude: -71.412834,
   city_name: 'Providence',
-  time_zone: 'America/New_York'
+  time_zone: 'America/New_York',
+  wifi_name: 'mojotech-guest',
+  wifi_password: 'p@ssw0rd',
+  bathroom_code: '0000*'
 )
 
 Location.create(

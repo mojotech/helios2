@@ -16,4 +16,13 @@ Types::LocationType = GraphQL::ObjectType.define do
   field "weather", Types::WeatherType do
     resolve ->(obj, _, _) { ForecastIO.forecast(obj.latitude, obj.longitude) }
   end
+  field "wifiName", types.String do
+    resolve ->(obj, _, _) { obj.wifi_name }
+  end
+  field "wifiPassword", types.String do
+    resolve ->(obj, _, _) { obj.wifi_password }
+  end
+  field "bathroomCode", types.String do
+    resolve ->(obj, _, _) { obj.bathroom_code }
+  end
 end
