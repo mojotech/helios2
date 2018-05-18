@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_18_014128) do
+ActiveRecord::Schema.define(version: 2018_05_18_015114) do
 
   create_table "locations", force: :cascade do |t|
     t.float "latitude", null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2018_05_18_014128) do
     t.datetime "updated_at", null: false
     t.string "wifi_name"
     t.string "wifi_password"
+    t.string "bathroom_code"
   end
 
 end

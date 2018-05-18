@@ -4,7 +4,8 @@ Location.create(
   city_name: 'Providence',
   time_zone: 'America/New_York',
   wifi_name: 'mojotech-guest',
-  wifi_password: 'p@ssw0rd'
+  wifi_password: 'p@ssw0rd',
+  bathroom_code: '0000*'
 )
 
 Location.create(
