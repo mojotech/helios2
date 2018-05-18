@@ -13,3 +13,13 @@ export const dateForTimezone = timeZone =>
     day: 'numeric',
     year: 'numeric',
   });
+
+export const parseTime = datetime =>
+  new Date(Date.parse(datetime))
+    .toLocaleString([], {
+      hour: 'numeric',
+      hour12: true,
+    })
+    .split(' ')
+    .join('')
+    .toLowerCase();
