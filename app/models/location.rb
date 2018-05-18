@@ -23,4 +23,8 @@ class Location < ApplicationRecord
   def wifi_password
     ENV['WIFI_PASSWORD']
   end
+
+  def bathroom_code
+    ENV['BATHROOM_CODE']
+  end
 end
