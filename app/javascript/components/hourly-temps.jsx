@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
 import { parseTime } from '../lib/datetime';
+import rainIcon from '../../assets/images/raincloud.png';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -33,6 +34,14 @@ const Temp = styled.div`
   font-size: ${fontSizes.xxlarge};
 `;
 
+const Precip = styled.div`
+  font-size: ${fontSizes.medium};
+`;
+
+const Percent = styled.span`
+  font-size: ${fontSizes.tiny};
+`;
+
 const getHourlyWeather = gql`
   {
     primaryLocation {
@@ -41,6 +50,7 @@ const getHourlyWeather = gql`
           data {
             temperature
             time
+            precipProbability
           }
         }
       }
@@ -63,12 +73,19 @@ export default () => (
 
       return (
         <Wrapper>
-          {take(5, hourlyWeathers).map(({ time, temperature }) => (
-            <Item key={time}>
-              <Time>{parseTime(time)}</Time>
-              <Temp>{parseInt(temperature, 10)}°</Temp>
-            </Item>
-          ))}
+          {take(5, hourlyWeathers).map(
+            ({ time, temperature, precipProbability }) => (
+              <Item key={time}>
+                <Time>{parseTime(time)}</Time>
+                <Temp>{parseInt(temperature, 10)}°</Temp>
+                <Precip>
+                  <img src={rainIcon} width="10" height="10" alt="" />
+                  {parseInt(precipProbability * 100, 10)}
+                  <Percent>%</Percent>
+                </Precip>
+              </Item>
+            ),
+          )}
         </Wrapper>
       );
     }}
