@@ -7,7 +7,7 @@ export const timeForTimezone = timeZone =>
 
 export const dateForTimezone = timeZone =>
   new Date().toLocaleString([], {
-    timeZone: 'America/New_York',
+    timeZone,
     weekday: 'long',
     month: 'short',
     day: 'numeric',
