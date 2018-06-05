@@ -1,9 +1,9 @@
 import React from 'react';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 import Logo from './logo';
 import FullPanel from './full-panel';
 import SidePanel from './side-panel';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 
 const client = new ApolloClient({});
 

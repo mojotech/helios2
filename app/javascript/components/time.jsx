@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { GreySubText } from './typography';
 import { colors, fontSizes, spacing, weights } from '../lib/theme';
-import styled from 'styled-components';
 import { Row } from './row';
 import { timeForTimezone } from '../lib/datetime';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { GreyText } from './typography';
 import { dateForTimezone } from 'lib/datetime';
+import { GreyText } from './typography';
 
 const LoadingMessage = () => <p>Loading...</p>;
 
