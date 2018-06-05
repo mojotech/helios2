@@ -6,15 +6,12 @@ import SidePanel from './side-panel';
 
 const client = new ApolloClient({});
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <React.Fragment>
-          <FullPanel />
-          <SidePanel />
-        </React.Fragment>
-      </ApolloProvider>
-    );
-  }
-}
+const App = () => (
+  <ApolloProvider client={client}>
+    <React.Fragment>
+      <FullPanel />
+      <SidePanel />
+    </React.Fragment>
+  </ApolloProvider>
+);
+export default App;
