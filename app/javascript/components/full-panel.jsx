@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../lib/theme';
-import { WhiteText } from './typography';
 import CurrentWeather from './current-weather';
 
 const Wrapper = styled.div`

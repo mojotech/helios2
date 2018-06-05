@@ -51,7 +51,7 @@ export class Time extends React.Component {
   }
 
   render() {
-    const { timezone, cityName, isPrimary } = this.props;
+    const { cityName, isPrimary } = this.props;
     const [time, ampm] = this.state.time.split(' ');
     return (
       <Wrapper>
