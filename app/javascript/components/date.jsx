@@ -23,11 +23,13 @@ const getTimezone = gql`
 export class Date extends React.Component {
   constructor(props) {
     super(props);
+    // eslint-disable-next-line react/no-unused-state
     this.state = { date: dateForTimezone(props.timezone) };
   }
 
   componentDidMount() {
     setInterval(() => {
+      // eslint-disable-next-line react/no-unused-state
       this.setState({ date: dateForTimezone(this.props.timezone) });
     }, 10000);
   }
