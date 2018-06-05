@@ -1,7 +1,7 @@
 module.exports = {
   "parser": "babel-eslint",
   "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "import"],
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-indent": [0],
@@ -9,5 +9,12 @@ module.exports = {
   },
   "env": {
     "browser": true,
-  }
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpacker.yml",
+      },
+    },
+  },
 };
