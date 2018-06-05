@@ -6,37 +6,43 @@ import { take } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
-import { parseTime } from '../lib/datetime';
+import { parseDay } from '../lib/datetime';
+import { WhiteText } from './typography';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};
   font-weight: ${weights.light};
   margin-left: ${spacing.xl};
+  margin-top: ${spacing.xxl};
 `;
 
 const Item = styled.div`
   margin: 0 ${spacing.l};
-  text-align: center;
 `;
 
-const Time = styled.div`
+const Day = styled(WhiteText)`
   font-size: ${fontSizes.medium};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.xxlarge};
+  font-size: ${fontSizes.medium};
+  margin-top: ${spacing.m};
 `;
 
-const getHourlyWeather = gql`
+const getDailyWeather = gql`
   {
     primaryLocation {
       weather {
-        hourly {
+        daily {
           data {
-            temperature
+            temperatureLow
+            temperatureHigh
             time
           }
         }
@@ -45,8 +51,13 @@ const getHourlyWeather = gql`
   }
 `;
 
+const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
+
+const formatTempatures = (temperatureLow, temperatureHigh) =>
+  `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
+
 export default () => (
-  <Query query={getHourlyWeather}>
+  <Query query={getDailyWeather}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -56,16 +67,18 @@ export default () => (
         return <ErrorMessage message={error.message} />;
       }
 
-      const { data: hourlyWeathers } = data.primaryLocation.weather.hourly;
+      const { data: dailyWeathers } = data.primaryLocation.weather.daily;
 
       return (
         <Wrapper>
-          {take(5, hourlyWeathers).map(({ time, temperature }) => (
-            <Item key={time}>
-              <Time>{parseTime(time)}</Time>
-              <Temp>{parseInt(temperature, 10)}°</Temp>
-            </Item>
-          ))}
+          {take(4, dailyWeathers).map(
+            ({ time, temperatureLow, temperatureHigh }) => (
+              <Item key={time}>
+                <Day>{parseDay(time)}</Day>
+                <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
+              </Item>
+            ),
+          )}
         </Wrapper>
       );
     }}

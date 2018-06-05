@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { GreyText } from './typography';
 import { dateForTimezone } from 'lib/datetime';
+import { GreyText } from './typography';
 
 const LoadingMessage = () => <p>Loading...</p>;
 
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const getTimezone = gql`
   {
@@ -20,11 +23,13 @@ const getTimezone = gql`
 export class Date extends React.Component {
   constructor(props) {
     super(props);
+    // eslint-disable-next-line react/no-unused-state
     this.state = { date: dateForTimezone(props.timezone) };
   }
 
   componentDidMount() {
     setInterval(() => {
+      // eslint-disable-next-line react/no-unused-state
       this.setState({ date: dateForTimezone(this.props.timezone) });
     }, 10000);
   }
@@ -48,6 +53,8 @@ export class Date extends React.Component {
   }
 }
 
-Date.propTypes = {};
+Date.propTypes = {
+  timezone: PropTypes.string.isRequired,
+};
 
 export default Date;

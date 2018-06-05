@@ -6,40 +6,40 @@ import { take } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
-import { parseDay } from '../lib/datetime';
-import { WhiteText } from './typography';
+import { parseTime } from '../lib/datetime';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};
   font-weight: ${weights.light};
   margin-left: ${spacing.xl};
-  margin-top: ${spacing.xxl};
 `;
 
 const Item = styled.div`
   margin: 0 ${spacing.l};
+  text-align: center;
 `;
 
-const Day = styled(WhiteText)`
+const Time = styled.div`
   font-size: ${fontSizes.medium};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.medium};
-  margin-top: ${spacing.m};
+  font-size: ${fontSizes.xxlarge};
 `;
 
-const getDailyWeather = gql`
+const getHourlyWeather = gql`
   {
     primaryLocation {
       weather {
-        daily {
+        hourly {
           data {
-            temperatureLow
-            temperatureHigh
+            temperature
             time
           }
         }
@@ -49,7 +49,7 @@ const getDailyWeather = gql`
 `;
 
 export default () => (
-  <Query query={getDailyWeather}>
+  <Query query={getHourlyWeather}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -59,19 +59,14 @@ export default () => (
         return <ErrorMessage message={error.message} />;
       }
 
-      const { data: dailyWeathers } = data.primaryLocation.weather.daily;
+      const { data: hourlyWeathers } = data.primaryLocation.weather.hourly;
 
       return (
         <Wrapper>
-          {take(
-            4,
-            dailyWeathers,
-          ).map(({ time, temperatureLow, temperatureHigh }) => (
+          {take(5, hourlyWeathers).map(({ time, temperature }) => (
             <Item key={time}>
-              <Day>{parseDay(time)}</Day>
-              <Temp>
-                {parseInt(temperatureLow, 10)}°-{parseInt(temperatureHigh, 10)}°
-              </Temp>
+              <Time>{parseTime(time)}</Time>
+              <Temp>{parseInt(temperature, 10)}°</Temp>
             </Item>
           ))}
         </Wrapper>
