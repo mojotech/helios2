@@ -7,6 +7,9 @@ import { colors, weights } from '../lib/theme';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const TempText = styled.div`
   color: ${colors.white};

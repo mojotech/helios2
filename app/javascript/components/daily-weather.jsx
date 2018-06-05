@@ -11,6 +11,9 @@ import { WhiteText } from './typography';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};

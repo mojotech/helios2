@@ -8,6 +8,9 @@ import { WhiteText } from './typography';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.xlarge};

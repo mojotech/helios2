@@ -8,6 +8,9 @@ import { GreyText } from './typography';
 const LoadingMessage = () => <p>Loading...</p>;
 
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 const getTimezone = gql`
   {
@@ -48,6 +51,8 @@ export class Date extends React.Component {
   }
 }
 
-Date.propTypes = {};
+Date.propTypes = {
+  timezone: PropTypes.string.isRequired,
+};
 
 export default Date;
