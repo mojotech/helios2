@@ -16,6 +16,15 @@
     "styled-normalize": "^4.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
     "webpack-dev-server": "2.11.2"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/"
   }
 }
