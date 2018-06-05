@@ -48,6 +48,11 @@ const getDailyWeather = gql`
   }
 `;
 
+const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
+
+const formatTempatures = (temperatureLow, temperatureHigh) =>
+  `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
+
 export default () => (
   <Query query={getDailyWeather}>
     {({ loading, error, data }) => {
@@ -63,17 +68,14 @@ export default () => (
 
       return (
         <Wrapper>
-          {take(
-            4,
-            dailyWeathers,
-          ).map(({ time, temperatureLow, temperatureHigh }) => (
-            <Item key={time}>
-              <Day>{parseDay(time)}</Day>
-              <Temp>
-                {parseInt(temperatureLow, 10)}°-{parseInt(temperatureHigh, 10)}°
-              </Temp>
-            </Item>
-          ))}
+          {take(4, dailyWeathers).map(
+            ({ time, temperatureLow, temperatureHigh }) => (
+              <Item key={time}>
+                <Day>{parseDay(time)}</Day>
+                <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
+              </Item>
+            ),
+          )}
         </Wrapper>
       );
     }}
