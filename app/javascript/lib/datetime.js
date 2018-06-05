@@ -14,7 +14,7 @@ export const dateForTimezone = timeZone =>
     year: 'numeric',
   });
 
-export const parseTime = datetime =>
+export const parseHour = datetime =>
   new Date(Date.parse(datetime))
     .toLocaleString([], {
       hour: 'numeric',
@@ -22,6 +22,15 @@ export const parseTime = datetime =>
     })
     .split(' ')
     .join('')
+    .toLowerCase();
+
+export const parseTime = datetime =>
+  new Date(Date.parse(datetime))
+    .toLocaleString([], {
+      hour: 'numeric',
+      hour12: true,
+      minute: 'numeric',
+    })
     .toLowerCase();
 
 const parseDatetime = datetime => new Date(Date.parse(datetime));
