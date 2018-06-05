@@ -30,7 +30,7 @@ const isToday = datetime =>
   parseDatetime(datetime).toDateString() === new Date().toDateString();
 
 const isTomorrow = datetime => {
-  let tomorrowDate = new Date();
+  const tomorrowDate = new Date();
   tomorrowDate.setDate(new Date().getDate() + 1);
   return parseDatetime(datetime).toDateString() === tomorrowDate.toDateString();
 };
