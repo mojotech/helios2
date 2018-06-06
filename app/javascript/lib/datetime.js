@@ -14,6 +14,13 @@ export const dateForTimezone = timeZone =>
     year: 'numeric',
   });
 
+export const timeAndDateForTimezone = timezone =>
+  new Date(
+    new Date().toLocaleString([], {
+      timezone,
+    }),
+  );
+
 export const parseHour = datetime =>
   new Date(Date.parse(datetime))
     .toLocaleString([], {
@@ -32,6 +39,11 @@ export const parseTime = datetime =>
       minute: 'numeric',
     })
     .toLowerCase();
+
+export const timeDiffInMinutes = (date, other) => {
+  const difference = date.getTime() - other.getTime();
+  return Math.round(difference / 60000);
+};
 
 const parseDatetime = datetime => new Date(Date.parse(datetime));
 
