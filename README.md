@@ -13,4 +13,5 @@ MRI 2.5.1
 
 ### Start it up
 
-`foreman start -f Procfile.development`
+- `foreman start -f Procfile.development`
+- http://localhost:5000
