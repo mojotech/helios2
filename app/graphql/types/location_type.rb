@@ -11,9 +11,7 @@ Types::LocationType = GraphQL::ObjectType.define do
     resolve ->(obj, _, _) { obj.city_name }
   end
   field "isPrimary", !types.Boolean do
-    resolve ->(obj, _, _) { obj.id == Location.primary.try(:id) }
+    resolve ->(obj, _, _) { obj.is_primary? }
   end
-  field "weather", Types::WeatherType do
-    resolve ->(obj, _, _) { ForecastIO.forecast(obj.latitude, obj.longitude) }
-  end
+  field "weather", Types::WeatherType
 end
