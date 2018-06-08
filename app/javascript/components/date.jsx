@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { dateForTimezone } from 'lib/datetime';
 import { GreyText } from './typography';
@@ -21,51 +21,40 @@ const getTimezone = gql`
 `;
 
 export class Date extends React.Component {
-  static propTypes = {
-    loading: PropTypes.bool,
-    error: PropTypes.shape({}),
-  };
-
-  static defaultProps = { error: null, loading: false };
-
-  state = { date: null };
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line react/no-unused-state
+    this.state = { date: dateForTimezone(props.timezone) };
+  }
 
   componentDidMount() {
-    if (this.timezone(this.props)) {
-      this.startDateTimer();
-    }
+    setInterval(() => {
+      // eslint-disable-next-line react/no-unused-state
+      this.setState({ date: dateForTimezone(this.props.timezone) });
+    }, 10000);
   }
-
-  componentDidUpdate(prevProps) {
-    if (this.timezone(this.props) && !this.timezone(prevProps)) {
-      this.startDateTimer();
-    }
-  }
-
-  setDate = () => {
-    this.setState({ date: dateForTimezone(this.timezone(this.props)) });
-  };
-
-  timezone = props =>
-    props.data.primaryLocation ? props.data.primaryLocation.timezone : null;
-
-  startDateTimer = () => {
-    this.setDate();
-    setInterval(() => this.setDate, 10000);
-  };
 
   render() {
-    const { loading, error } = this.props;
-    if (loading) {
-      return <LoadingMessage />;
-    }
+    return (
+      <Query query={getTimezone}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <LoadingMessage />;
+          }
 
-    if (error) {
-      return <ErrorMessage message={error.message} />;
-    }
+          if (error) {
+            return <ErrorMessage message={error.message} />;
+          }
 
-    return <GreyText>{this.state.date}</GreyText>;
+          return <GreyText>{dateForTimezone(data.timezone)}</GreyText>;
+        }}
+      </Query>
+    );
   }
 }
 
-export default graphql(getTimezone)(Date);
+Date.propTypes = {
+  timezone: PropTypes.string.isRequired,
+};
+
+export default Date;
