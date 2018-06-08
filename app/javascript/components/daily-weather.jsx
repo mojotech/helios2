@@ -35,6 +35,11 @@ const Temp = styled.div`
   margin-top: ${spacing.m};
 `;
 
+const Rain = styled.div`
+  font-size: ${fontSizes.medium};
+  margin-top: ${spacing.s};
+`;
+
 const getDailyWeather = gql`
   {
     primaryLocation {
@@ -44,6 +49,7 @@ const getDailyWeather = gql`
             temperatureLow
             temperatureHigh
             time
+            precipProbability
           }
         }
       }
@@ -72,10 +78,11 @@ export default () => (
       return (
         <Wrapper>
           {take(4, dailyWeathers).map(
-            ({ time, temperatureLow, temperatureHigh }) => (
+            ({ time, temperatureLow, temperatureHigh, precipProbability }) => (
               <Item key={time}>
                 <Day>{parseDay(time)}</Day>
                 <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
+                <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
               </Item>
             ),
           )}
