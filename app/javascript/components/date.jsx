@@ -53,8 +53,4 @@ export class Date extends React.Component {
   }
 }
 
-Date.propTypes = {
-  timezone: PropTypes.string.isRequired,
-};
-
 export default Date;
