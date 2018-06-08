@@ -15,4 +15,16 @@ class Location < ApplicationRecord
   def is_primary?
     city_name == ENV['PRIMARY_CITY_NAME']
   end
+
+  def wifi_name
+    ENV['WIFI_NAME']
+  end
+
+  def wifi_password
+    ENV['WIFI_PASSWORD']
+  end
+
+  def bathroom_code
+    ENV['BATHROOM_CODE']
+  end
 end
