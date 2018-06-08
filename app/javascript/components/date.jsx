@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { dateForTimezone } from 'lib/datetime';
 import { GreyText } from './typography';
@@ -21,40 +21,51 @@ const getTimezone = gql`
 `;
 
 export class Date extends React.Component {
-  constructor(props) {
-    super(props);
-    // eslint-disable-next-line react/no-unused-state
-    this.state = { date: dateForTimezone(props.timezone) };
-  }
+  static propTypes = {
+    loading: PropTypes.bool,
+    error: PropTypes.shape({}),
+  };
+
+  static defaultProps = { error: null, loading: false };
+
+  state = { date: null };
 
   componentDidMount() {
-    setInterval(() => {
-      // eslint-disable-next-line react/no-unused-state
-      this.setState({ date: dateForTimezone(this.props.timezone) });
-    }, 10000);
+    if (this.timezone(this.props)) {
+      this.startDateTimer();
+    }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.timezone(this.props) && !this.timezone(prevProps)) {
+      this.startDateTimer();
+    }
+  }
+
+  setDate = () => {
+    this.setState({ date: dateForTimezone(this.timezone(this.props)) });
+  };
+
+  timezone = props =>
+    props.data.primaryLocation ? props.data.primaryLocation.timezone : null;
+
+  startDateTimer = () => {
+    this.setDate();
+    setInterval(() => this.setDate, 10000);
+  };
+
   render() {
-    return (
-      <Query query={getTimezone}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <LoadingMessage />;
-          }
+    const { loading, error } = this.props;
+    if (loading) {
+      return <LoadingMessage />;
+    }
 
-          if (error) {
-            return <ErrorMessage message={error.message} />;
-          }
+    if (error) {
+      return <ErrorMessage message={error.message} />;
+    }
 
-          return <GreyText>{dateForTimezone(data.timezone)}</GreyText>;
-        }}
-      </Query>
-    );
+    return <GreyText>{this.state.date}</GreyText>;
   }
 }
 
-Date.propTypes = {
-  timezone: PropTypes.string.isRequired,
-};
-
-export default Date;
+export default graphql(getTimezone)(Date);
