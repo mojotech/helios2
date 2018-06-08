@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
+import Skycons from 'react-skycons';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
 import { parseDay } from '../lib/datetime';
@@ -28,6 +29,7 @@ const Item = styled.div`
 
 const Day = styled(WhiteText)`
   font-size: ${fontSizes.medium};
+  margin-top: ${spacing.m};
 `;
 
 const Temp = styled.div`
@@ -40,6 +42,10 @@ const Rain = styled.div`
   margin-top: ${spacing.s};
 `;
 
+const IconWrapper = styled.div`
+  width: 60px;
+`;
+
 const getDailyWeather = gql`
   {
     primaryLocation {
@@ -50,6 +56,7 @@ const getDailyWeather = gql`
             temperatureHigh
             time
             precipProbability
+            icon
           }
         }
       }
@@ -78,8 +85,21 @@ export default () => (
       return (
         <Wrapper>
           {take(4, dailyWeathers).map(
-            ({ time, temperatureLow, temperatureHigh, precipProbability }) => (
+            ({
+              time,
+              temperatureLow,
+              temperatureHigh,
+              precipProbability,
+              icon,
+            }) => (
               <Item key={time}>
+                <IconWrapper>
+                  <Skycons
+                    color="white"
+                    autoplay={false}
+                    icon={icon.toUpperCase().replace(/-/g, '_')}
+                  />
+                </IconWrapper>
                 <Day>{parseDay(time)}</Day>
                 <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
                 <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
