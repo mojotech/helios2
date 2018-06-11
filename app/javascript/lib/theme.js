@@ -21,7 +21,8 @@ export const fontSizes = {
   medium: '13px',
   large: '15px',
   xlarge: '18px',
-  xxlarge: '22px',
+  xxlarge: '20px',
+  xxxlarge: '22px',
   huge: '38px',
 };
 

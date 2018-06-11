@@ -31,7 +31,7 @@ const Time = styled.div`
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.xxlarge};
+  font-size: ${fontSizes.xxxlarge};
 `;
 
 const Precip = styled.div`
