@@ -9,6 +9,7 @@ import Bathroom from './bathroom';
 import { spacing, colors } from '../lib/theme';
 import Carousel from './carousel';
 import widgetShape from '../lib/widget-shape';
+import Guests from './guests';
 
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
@@ -32,6 +33,7 @@ export const FixedContent = ({ widgets, selectedWidget }) => (
       <Wifi />
       <Bathroom />
     </Row>
+    <Guests />
     <CarouselContainer>
       <Carousel widgets={widgets} selectedWidget={selectedWidget} />
     </CarouselContainer>
