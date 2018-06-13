@@ -2,6 +2,8 @@ export const colors = {
   black: '#2B2626',
   white: '#FFFFFF',
   grey: '#8C8989',
+  darkPink: '#FF80A7',
+  pink: '#FE6B6E',
 };
 
 export const spacing = {
@@ -19,7 +21,8 @@ export const fontSizes = {
   medium: '13px',
   large: '15px',
   xlarge: '18px',
-  xxlarge: '22px',
+  xxlarge: '20px',
+  xxxlarge: '22px',
   huge: '38px',
 };
 

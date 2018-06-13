@@ -4,6 +4,7 @@ import CurrentTemp from './current-temp';
 import HourlyTemps from './hourly-temps';
 import MinutelyWeather from './minutely-weather';
 import DailyWeather from './daily-weather';
+import SunriseSunset from './sunrise-sunset';
 import { Row } from './row';
 
 const CenteredRow = styled(Row)`
@@ -17,6 +18,7 @@ export default () => (
       <HourlyTemps />
     </CenteredRow>
     <MinutelyWeather />
+    <SunriseSunset />
     <DailyWeather />
   </div>
 );

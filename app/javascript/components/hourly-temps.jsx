@@ -6,7 +6,7 @@ import { take } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
-import { parseTime } from '../lib/datetime';
+import { parseHour } from '../lib/datetime';
 import rainIcon from '../../assets/images/raincloud.png';
 
 const LoadingMessage = () => <p>Loading...</p>;
@@ -31,7 +31,7 @@ const Time = styled.div`
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.xxlarge};
+  font-size: ${fontSizes.xxxlarge};
 `;
 
 const Precip = styled.div`
@@ -76,7 +76,7 @@ export default () => (
           {take(5, hourlyWeathers).map(
             ({ time, temperature, precipProbability }) => (
               <Item key={time}>
-                <Time>{parseTime(time)}</Time>
+                <Time>{parseHour(time)}</Time>
                 <Temp>{parseInt(temperature, 10)}°</Temp>
                 <Precip>
                   <img src={rainIcon} width="10" height="10" alt="" />
