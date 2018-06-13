@@ -11,7 +11,7 @@ Types::LocationType = GraphQL::ObjectType.define do
     resolve ->(obj, _, _) { obj.city_name }
   end
   field "isPrimary", !types.Boolean do
-    resolve ->(obj, _, _) { obj.is_primary? }
+    resolve ->(obj, _, _) { obj.primary? }
   end
   field "weather", Types::WeatherType
   field "wifiName", types.String do
