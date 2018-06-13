@@ -12,6 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2018_06_27_142450) do
 
+  create_table "events", force: :cascade do |t|
+    t.string "source"
+    t.string "external_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source", "external_id"], name: "index_events_on_source_and_external_id", unique: true
+  end
+
   create_table "locations", force: :cascade do |t|
     t.float "latitude", null: false
     t.float "longitude", null: false

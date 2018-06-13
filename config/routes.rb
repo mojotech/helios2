@@ -6,5 +6,9 @@ Rails.application.routes.draw do
   # rubocop:enable Style/IfUnlessModifier
   post "/graphql", to: "graphql#execute"
 
+  namespace :web_hooks do
+    post 'github', to: 'github#create', defaults: { format: :json }
+  end
+
   root to: 'pages#index'
 end
