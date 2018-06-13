@@ -5,9 +5,9 @@ import CurrentWeather from './current-weather';
 
 const Wrapper = styled.div`
   background: ${colors.black};
-  height: 100vh;
+  height: calc(100vh - 200px);
   padding: 100px;
-  width: 100vw;
+  width: calc(100vw - 200px);
 `;
 
 export const FullPanel = () => (
