@@ -12,7 +12,7 @@ class Location < ApplicationRecord
     ForecastIO.forecast(latitude, longitude)
   end
 
-  def is_primary?
+  def primary?
     city_name == ENV['PRIMARY_CITY_NAME']
   end
 
