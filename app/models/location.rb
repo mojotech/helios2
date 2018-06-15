@@ -9,7 +9,7 @@ class Location < ApplicationRecord
   end
 
   def weather
-    ForecastIO.forecast(latitude, longitude)
+    @weather ||= ForecastIO.forecast(latitude, longitude)
   end
 
   def is_primary?
