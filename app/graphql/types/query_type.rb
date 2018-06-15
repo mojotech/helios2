@@ -23,6 +23,10 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :primaryLocation, Types::LocationType do
     description "Location running the app"
-    resolve ->(_, _, _) { Location.primary }
+    resolve ->(_, _, _) {
+      Rails.cache.fetch('primary-location-response', expires_in: 2.minutes) do
+        Location.primary
+      end
+    }
   end
 end
