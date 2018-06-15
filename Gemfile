@@ -34,7 +34,7 @@ gem "dotenv-rails", "~> 2.4.0"
 gem "forecast_io"
 gem "foreman", "~> 0.84"
 gem 'graphiql-rails', group: :development
-gem "graphql", "~> 1.7"
+gem "graphql", "~> 1.8.3"
 
 # github API
 gem 'github_webhook', '~> 1.1'
