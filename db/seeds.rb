@@ -2,14 +2,16 @@ Location.create(
   latitude: 41.823989,
   longitude: -71.412834,
   city_name: 'Providence',
-  time_zone: 'America/New_York'
+  time_zone: 'America/New_York',
+  calendar_id: 'mojotech.com_0jq5jvv8ltsibg96cu9vojlpq0@group.calendar.google.com'
 )
 
 Location.create(
   latitude: 40.014986,
   longitude: -105.270546,
   city_name: 'Boulder',
-  time_zone: 'America/Denver'
+  time_zone: 'America/Denver',
+  calendar_id: 'mojotech.com_tfnj185c6eiqk7dfqrvpmjcs3s@group.calendar.google.com'
 )
 
 Location.create(

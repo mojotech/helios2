@@ -14,6 +14,9 @@ Types::LocationType = GraphQL::ObjectType.define do
     resolve ->(obj, _, _) { obj.primary? }
   end
   field "weather", Types::WeatherType
+  field "googleCal", Types::CalendarType do
+    resolve ->(obj, _, _) { obj.google_cal }
+  end
   field "wifiName", types.String do
     resolve ->(obj, _, _) { obj.wifi_name }
   end
