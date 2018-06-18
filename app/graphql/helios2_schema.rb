@@ -1,4 +1,4 @@
-Helios2Schema = GraphQL::Schema.define do
+class Helios2Schema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 end

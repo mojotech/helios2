@@ -1,18 +1,13 @@
-Types::CalendarTime = GraphQL::ObjectType.define do
-  name "CalendarTime"
-  field "dateTime", !Types::UnixDateTimeType do
-    resolve ->(obj, _, _) { obj.date_time }
-  end
+class Types::CalendarTime < Types::BaseObject
+  field :dateTime, Types::UnixDateTimeType, method: :date_time
 end
 
-Types::CalendarEvent = GraphQL::ObjectType.define do
-  name "CalendarEvent"
-  field "summary", !types.String
-  field "start", !Types::CalendarTime
-  field "id", !types.String
+class Types::CalendarEvent < Types::BaseObject
+  field :summary, String
+  field :start, Types::CalendarTime
+  field :id, String
 end
 
-Types::CalendarType = GraphQL::ObjectType.define do
-  name "Calendar"
-  field "items", !types[Types::CalendarEvent]
+class Types::CalendarType < Types::BaseObject
+  field :items, [Types::CalendarEvent]
 end

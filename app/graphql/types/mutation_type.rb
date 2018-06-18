@@ -1,11 +1,7 @@
-Types::MutationType = GraphQL::ObjectType.define do
-  name "Mutation"
+class Types::MutationType < Types::BaseObject
+  field :testField, String
 
-  # TODO: Remove me
-  field :testField, types.String do
-    description "An example field added by the generator"
-    resolve ->(_obj, _args, _ctx) {
-      "Hello World!"
-    }
+  def test_field
+    "Hello World!"
   end
 end
