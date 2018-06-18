@@ -5,6 +5,8 @@ class Event < ApplicationRecord
     slack_message: 'slack_message'
   }
 
+  scope :with_source, ->(source) { where(source: source) }
+  scope :created_after, ->(after) { where('created_at > ?', after) }
 
   scope :pull_requests, -> { where(source: :github_pull) }
   scope :commits, -> { where(source: :github_commit) }

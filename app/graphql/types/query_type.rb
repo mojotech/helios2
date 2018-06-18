@@ -21,6 +21,19 @@ class Types::QueryType < Types::BaseObject
     end
   end
 
+  field :events, Types::EventCollectionType do
+    description "MojoTech slack/github events"
+    argument :after, String, required: false
+    argument :type, Types::EventSourceType, required: false
+  end
+
+  def events(after: nil, type: nil)
+    events = Event.all
+    events = events.created_after(after) if after
+    events = events.with_source(type) if type
+    events
+  end
+
   field :primaryLocation, Types::LocationType do
     description "Location running the app"
   end
