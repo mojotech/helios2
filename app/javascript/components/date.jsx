@@ -22,11 +22,11 @@ const getTimezone = gql`
 
 export class Date extends React.Component {
   static propTypes = {
-    loading: PropTypes.bool,
-    error: PropTypes.shape({}),
+    data: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      error: PropTypes.shape({}),
+    }).isRequired,
   };
-
-  static defaultProps = { error: null, loading: false };
 
   state = { date: null };
 
@@ -55,7 +55,7 @@ export class Date extends React.Component {
   };
 
   render() {
-    const { loading, error } = this.props;
+    const { loading, error } = this.props.data;
     if (loading) {
       return <LoadingMessage />;
     }
