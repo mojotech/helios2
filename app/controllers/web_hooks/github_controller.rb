@@ -5,15 +5,23 @@ class WebHooks::GithubController < ApplicationController
 
   protected def github_pull_request(payload)
     pull_request = payload[:pull_request]
-    Event.pull_requests.with_external_id(pull_request[:id]).first_or_create
+    publish(Event.pull_requests.with_external_id(pull_request[:id]))
   end
 
   protected def github_push(payload)
     return unless payload[:ref] == 'refs/heads/master'
 
     payload[:commits].each do |commit|
-      Event.commits.with_external_id(commit[:id]).first_or_create
+      publish(Event.commits.with_external_id(commit[:id]))
     end
+  end
+
+  private def publish(event_scope)
+    event = event_scope.first_or_initialize
+    return unless event.new_record?
+
+    event.save!
+    Helios2Schema.subscriptions.trigger("eventPublished", {}, event)
   end
 
   private def webhook_secret(_payload)
