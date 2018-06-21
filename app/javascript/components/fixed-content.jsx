@@ -6,11 +6,18 @@ import Date from './date';
 import Times from './times';
 import Wifi from './wifi';
 import Bathroom from './bathroom';
-import { spacing } from '../lib/theme';
+import { spacing, colors } from '../lib/theme';
+import Carousel from './carousel';
 
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
   margin-bottom: ${spacing.xxl};
+`;
+
+const CarouselContainer = styled.div`
+  margin-top: ${spacing.xxl};
+  font-size: 13px;
+  color: ${colors.white};
 `;
 
 export const FixedContent = () => (
@@ -24,6 +31,9 @@ export const FixedContent = () => (
       <Wifi />
       <Bathroom />
     </Row>
+    <CarouselContainer>
+      <Carousel currentWidget="weather" />
+    </CarouselContainer>
   </div>
 );
 
