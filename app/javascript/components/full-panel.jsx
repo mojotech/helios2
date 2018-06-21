@@ -1,19 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import { colors } from '../lib/theme';
-import CurrentWeather from './current-weather';
+import PropTypes from 'prop-types';
+import Wrapper from './panel-wrapper';
 
-const Wrapper = styled.div`
-  background: ${colors.black};
-  height: calc(100vh - 200px);
-  padding: 100px;
-  width: calc(100vw - 200px);
-`;
-
-export const FullPanel = () => (
-  <Wrapper>
-    <CurrentWeather />
-  </Wrapper>
+export const FullPanel = ({ currentWidget }) => (
+  <Wrapper>{currentWidget}</Wrapper>
 );
+FullPanel.propTypes = { currentWidget: PropTypes.node.isRequired };
 
 export default FullPanel;

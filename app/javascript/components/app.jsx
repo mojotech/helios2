@@ -1,17 +1,13 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import FullPanel from './full-panel';
-import SidePanel from './side-panel';
+import WidgetController from './widget-controller';
 
 const client = new ApolloClient({});
 
 const App = () => (
   <ApolloProvider client={client}>
-    <React.Fragment>
-      <FullPanel />
-      <SidePanel />
-    </React.Fragment>
+    <WidgetController />
   </ApolloProvider>
 );
 export default App;

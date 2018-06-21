@@ -40,7 +40,7 @@ export class SemiCircle extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.timerID = setInterval(() => {
       this.setState({
         remainingTime: timeDiffInMinutes(
           this.props.sunset,
@@ -48,6 +48,10 @@ export class SemiCircle extends React.Component {
         ),
       });
     }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   render() {

@@ -8,6 +8,7 @@ import Wifi from './wifi';
 import Bathroom from './bathroom';
 import { spacing, colors } from '../lib/theme';
 import Carousel from './carousel';
+import widgetShape from '../lib/widget-shape';
 
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
@@ -20,7 +21,7 @@ const CarouselContainer = styled.div`
   color: ${colors.white};
 `;
 
-export const FixedContent = () => (
+export const FixedContent = ({ widgets, selectedWidget }) => (
   <div>
     <DateLogoRow>
       <Date />
@@ -32,9 +33,10 @@ export const FixedContent = () => (
       <Bathroom />
     </Row>
     <CarouselContainer>
-      <Carousel currentWidget="weather" />
+      <Carousel widgets={widgets} selectedWidget={selectedWidget} />
     </CarouselContainer>
   </div>
 );
+FixedContent.propTypes = widgetShape;
 
 export default FixedContent;
