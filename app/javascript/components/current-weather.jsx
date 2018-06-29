@@ -9,6 +9,13 @@ import { Row } from './row';
 import { colors, weights, fontSizes, spacing } from '../lib/theme';
 import { WhiteText } from './typography';
 
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+`;
+
 const CenteredRow = styled(Row)`
   align-items: center;
 `;
@@ -27,7 +34,7 @@ const SummaryText = styled(WhiteText)`
 `;
 
 export default () => (
-  <div>
+  <Column>
     <CenteredRow>
       <TempText>
         <CurrentTemp />
@@ -39,5 +46,5 @@ export default () => (
     </SummaryText>
     <SunriseSunset />
     <DailyWeather />
-  </div>
+  </Column>
 );
