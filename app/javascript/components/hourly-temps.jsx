@@ -32,6 +32,7 @@ const Time = styled.div`
 
 const Temp = styled.div`
   font-size: ${fontSizes.xxxlarge};
+  margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
@@ -40,6 +41,10 @@ const Precip = styled.div`
 
 const Percent = styled.span`
   font-size: ${fontSizes.tiny};
+`;
+
+const RainIcon = styled.img`
+  margin-right: ${spacing.s};
 `;
 
 const getHourlyWeather = gql`
@@ -79,7 +84,7 @@ export default () => (
                 <Time>{parseHour(time)}</Time>
                 <Temp>{parseInt(temperature, 10)}°</Temp>
                 <Precip>
-                  <img src={rainIcon} width="10" height="10" alt="" />
+                  <RainIcon src={rainIcon} width="10" height="10" alt="" />
                   {parseInt(precipProbability * 100, 10)}
                   <Percent>%</Percent>
                 </Precip>
