@@ -10,11 +10,11 @@ export const WhiteText = styled.div`
 `;
 
 export const WhiteTitle = styled(WhiteText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-bottom: ${spacing.xs};
 `;
 
 export const GreySubText = styled(GreyText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-bottom: ${spacing.xs};
 `;

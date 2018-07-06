@@ -28,12 +28,12 @@ const CenteredRow = styled(Row)`
 
 const TempText = styled.div`
   color: ${colors.white};
-  font-size: 70px;
+  font-size: ${fontSizes.huge};
   font-weight: ${weights.light};
 `;
 
 const SummaryText = styled(WhiteText)`
-  font-size: ${fontSizes.xlarge};
+  font-size: ${fontSizes.large};
   font-weight: ${weights.light};
   margin-top: ${spacing.xl};
   padding: 0 100px;

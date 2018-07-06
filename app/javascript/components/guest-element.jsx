@@ -11,12 +11,12 @@ const GuestObjectRow = styled(Row)`
 `;
 
 const MeetingTime = styled(GreySubText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.tiny};
   padding-left: 15px;
 `;
 
 const GuestInfo = styled(GreySubText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
 `;
 
 export const GuestElement = ({ summary, time }) => (

@@ -17,13 +17,13 @@ export const spacing = {
 };
 
 export const fontSizes = {
-  tiny: '11px',
-  medium: '13px',
-  large: '15px',
-  xlarge: '18px',
-  xxlarge: '20px',
-  xxxlarge: '22px',
-  huge: '38px',
+  micro: '10px',
+  tiny: '16px',
+  small: '20px',
+  medium: '24px',
+  large: '32px',
+  xlarge: '72px',
+  huge: '136px',
 };
 
 export const weights = {

@@ -27,20 +27,20 @@ const Item = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.tiny};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.xxxlarge};
+  font-size: ${fontSizes.large};
   margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.tiny};
 `;
 
 const Percent = styled.span`
-  font-size: ${fontSizes.tiny};
+  font-size: ${fontSizes.micro};
 `;
 
 const RainIcon = styled.img`

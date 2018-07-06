@@ -20,16 +20,17 @@ const TimeValue = styled(Row)`
   color: ${({ isPrimary }) => (isPrimary ? colors.white : colors.grey)};
 
   ${/* sc-sel */ HourMin} {
-    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.huge}`};
+    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.xlarge}`};
   }
 
   ${/* sc-sel */ AMPM} {
-    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.large}`};
+    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.small}`};
   }
 `;
 
 const City = styled(GreySubText)`
   margin-bottom: ${spacing.xs};
+  font-size: ${fontSizes.tiny};
 `;
 
 export class Time extends React.Component {

@@ -28,17 +28,17 @@ const Item = styled.div`
 `;
 
 const Day = styled(WhiteText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.m};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.m};
 `;
 
 const Rain = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.s};
 `;
 
