@@ -18,11 +18,11 @@ ErrorMessage.propTypes = {
 const Wrapper = styled(Row)`
   color: ${colors.grey};
   font-weight: ${weights.light};
-  margin-left: ${spacing.xl};
+  margin-left: ${spacing.xxxl};
 `;
 
 const Item = styled.div`
-  margin: 0 ${spacing.l};
+  margin: 0 ${spacing.xl};
   text-align: center;
   font-family: ${fonts.thin};
 `;

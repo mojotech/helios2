@@ -24,7 +24,7 @@ const Wrapper = styled(Row)`
 `;
 
 const Item = styled.div`
-  margin: 0 ${spacing.l};
+  margin-left: 100px;
 `;
 
 const Day = styled(WhiteText)`
