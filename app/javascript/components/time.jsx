@@ -20,18 +20,27 @@ const TimeValue = styled(Row)`
   color: ${({ isPrimary }) => (isPrimary ? colors.white : colors.grey)};
 
   ${/* sc-sel */ HourMin} {
-    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.xlarge}`};
+    ${({ isPrimary }) =>
+      isPrimary
+        ? `font-size: ${fontSizes.xlarge}`
+        : `font-size: ${fontSizes.small}`};
   }
 
   ${/* sc-sel */ AMPM} {
-    ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.small}`};
+    ${({ isPrimary }) =>
+      isPrimary
+        ? `font-size: ${fontSizes.medium}`
+        : `font-size: ${fontSizes.small}`};
   }
   font-family: ${({ isPrimary }) => (isPrimary ? fonts.thin : fonts.regular)};
 `;
 
 const City = styled(GreySubText)`
   margin-bottom: ${spacing.xs};
-  font-size: ${fontSizes.tiny};
+  ${({ isPrimary }) =>
+    isPrimary
+      ? `font-size: ${fontSizes.small}`
+      : `font-size: ${fontSizes.tiny}`};
 `;
 
 export class Time extends React.Component {
@@ -57,7 +66,7 @@ export class Time extends React.Component {
     const [time, ampm] = this.state.time.split(' ');
     return (
       <Wrapper>
-        <City>{cityName}</City>
+        <City {...{ isPrimary }}>{cityName}</City>
         <TimeValue {...{ isPrimary }}>
           <HourMin>{time}</HourMin>
           <AMPM>{ampm}</AMPM>
