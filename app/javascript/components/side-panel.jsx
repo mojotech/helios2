@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   right: 0;
   padding: ${spacing.xxxl};
   top: 0;
-  width: 400px;
+  width: 600px;
 `;
 
 export const SidePanel = ({ widgets, selectedWidget }) => (
