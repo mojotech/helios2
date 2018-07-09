@@ -5,7 +5,7 @@ import FullPanel from './full-panel';
 import SidePanel from './side-panel';
 import CurrentWeather from './current-weather';
 import Twitter from './twitter';
-import Numbers from './numbers';
+import Numbers from './widgets/numbers';
 import Live from './live-stream';
 import GuestsWidget from './guests-widget';
 import CurrentTemp from './current-temp';
@@ -47,9 +47,9 @@ const widgets = [
     children: 'Last tweeted 2 days ago.',
   },
   {
-    panel: <Numbers />,
+    panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
-    children: '112 commits this week.',
+    children: <Numbers.Carousel />,
   },
   {
     panel: <Live />,
