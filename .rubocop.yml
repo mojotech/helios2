@@ -55,3 +55,6 @@ Style/SymbolArray:
 
 Style/Lambda:
   Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
