@@ -29,4 +29,14 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
     }
   end
+
+  field :googleCal, Types::CalendarType do
+    description "Google Calendar response"
+    argument :calendarId, !types.String
+    resolve ->(_obj, args, _ctx) {
+      Rails.cache.fetch('google-cal-response', expires_in: 2.minutes) do
+        Clients::GoogleCal.new.get_events(args[:calendarId])
+      end
+    }
+  end
 end
