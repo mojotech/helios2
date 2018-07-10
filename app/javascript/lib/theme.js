@@ -33,4 +33,11 @@ export const weights = {
   extraBold: 800,
 };
 
+export const fonts = {
+  thin: 'GT America-Extended-Thin',
+  extended: 'GT America-Extended',
+  regular: 'GT America',
+  light: 'GT America Light',
+};
+
 export const leftPanelWidth = '827px';
