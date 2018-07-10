@@ -11,6 +11,7 @@ import {
   weights,
   fontSizes,
   spacing,
+  fonts,
   leftPanelWidth,
 } from '../lib/theme';
 import { WhiteText } from './typography';
@@ -30,14 +31,18 @@ const TempText = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.huge};
   font-weight: ${weights.light};
+  margin-right: ${spacing.xxxl};
+  font-family: ${fonts.thin};
 `;
 
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.large};
   font-weight: ${weights.light};
-  margin-top: ${spacing.xl};
-  padding: 0 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   width: ${leftPanelWidth};
+  text-align: center;
+  font-family: ${fonts.light};
 `;
 
 export default () => (
