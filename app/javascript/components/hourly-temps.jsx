@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing } from '../lib/theme';
+import { colors, fontSizes, weights, spacing, fonts } from '../lib/theme';
 import { Row } from './row';
 import { parseHour } from '../lib/datetime';
 import rainIcon from '../../assets/images/raincloud.png';
@@ -24,6 +24,7 @@ const Wrapper = styled(Row)`
 const Item = styled.div`
   margin: 0 ${spacing.l};
   text-align: center;
+  font-family: ${fonts.thin};
 `;
 
 const Time = styled.div`

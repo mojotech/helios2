@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GreySubText } from './typography';
-import { colors, fontSizes, spacing, weights } from '../lib/theme';
+import { colors, fontSizes, spacing, weights, fonts } from '../lib/theme';
 import { Row } from './row';
 import { timeForTimezone } from '../lib/datetime';
 
@@ -26,6 +26,7 @@ const TimeValue = styled(Row)`
   ${/* sc-sel */ AMPM} {
     ${({ isPrimary }) => isPrimary && `font-size: ${fontSizes.large}`};
   }
+  font-family: ${({ isPrimary }) => (isPrimary ? fonts.thin : fonts.regular)};
 `;
 
 const City = styled(GreySubText)`

@@ -10,6 +10,7 @@ import {
   colors,
   weights,
   fontSizes,
+  spacing,
   fonts,
   leftPanelWidth,
 } from '../lib/theme';
@@ -30,6 +31,8 @@ const TempText = styled.div`
   color: ${colors.white};
   font-size: 70px;
   font-weight: ${weights.light};
+  margin-right: ${spacing.xxxl};
+  font-family: ${fonts.thin};
 `;
 
 const SummaryText = styled(WhiteText)`
