@@ -82,7 +82,7 @@ export class SemiCircle extends React.Component {
       <svg width={width} height={height}>
         <defs>
           <radialGradient id="circleGradient">
-            <stop offset="50%" stopColor={colors.darkPink} />
+            <stop offset="5%" stopColor={colors.lightPink} />
             <stop offset="95%" stopColor={colors.black} />
           </radialGradient>
         </defs>
@@ -101,7 +101,7 @@ export class SemiCircle extends React.Component {
           stroke="url(#strokeGradient)"
           strokeWidth="1.6"
           fill="url(#circleGradient)"
-          fillOpacity="0.25"
+          fillOpacity="1"
         />
         <image
           x={((widthFloat - parseFloat(cityImageWidth)) / 2).toString()}

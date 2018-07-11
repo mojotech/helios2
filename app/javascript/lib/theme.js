@@ -1,9 +1,8 @@
 export const colors = {
-  darkGrey: '#2B2626',
   black: '#000000',
   white: '#FFFFFF',
   grey: '#8C8989',
-  darkPink: '#FF80A7',
+  lightPink: '#FFA7C2',
   pink: '#FE6B6E',
 };
 
