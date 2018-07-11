@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing, fonts } from '../lib/theme';
+import { colors, fontSizes, spacing, fonts } from '../lib/theme';
 import { Row } from './row';
 import { parseHour } from '../lib/datetime';
 import rainIcon from '../../assets/images/raincloud.png';
@@ -15,9 +15,16 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
+const opacities = {
+  0: '0.8',
+  1: '0.675',
+  2: '0.55',
+  3: '0.425',
+  4: '0.3',
+};
+
 const Wrapper = styled(Row)`
-  color: ${colors.grey};
-  font-weight: ${weights.light};
+  color: ${colors.white};
   margin-left: ${spacing.xxxl};
 `;
 
@@ -25,6 +32,7 @@ const Item = styled.div`
   margin: 0 ${spacing.xl};
   text-align: center;
   font-family: ${fonts.thin};
+  opacity: ${props => opacities[props.index]};
 `;
 
 const Time = styled.div`
@@ -80,8 +88,8 @@ export default () => (
       return (
         <Wrapper>
           {take(5, hourlyWeathers).map(
-            ({ time, temperature, precipProbability }) => (
-              <Item key={time}>
+            ({ time, temperature, precipProbability }, idx) => (
+              <Item key={time} index={idx}>
                 <Time>{parseHour(time)}</Time>
                 <Temp>{parseInt(temperature, 10)}°</Temp>
                 <Precip>
