@@ -4,11 +4,11 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import Skycons from 'react-skycons';
 import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { Row } from './row';
 import { parseDay } from '../lib/datetime';
 import { WhiteText } from './typography';
+import SkyIcon from './sky-icons';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -24,21 +24,21 @@ const Wrapper = styled(Row)`
 `;
 
 const Item = styled.div`
-  margin: 0 ${spacing.l};
+  margin-left: 100px;
 `;
 
 const Day = styled(WhiteText)`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.m};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.m};
 `;
 
 const Rain = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.s};
 `;
 
@@ -94,11 +94,7 @@ export default () => (
             }) => (
               <Item key={time}>
                 <IconWrapper>
-                  <Skycons
-                    color="white"
-                    autoplay={false}
-                    icon={icon.toUpperCase().replace(/-/g, '_')}
-                  />
+                  <SkyIcon icon={icon} />
                 </IconWrapper>
                 <Day>{parseDay(time)}</Day>
                 <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>

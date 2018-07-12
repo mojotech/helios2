@@ -54,7 +54,7 @@ export class WidgetController extends React.Component {
       this.setState({
         index: (this.state.index + 1) % widgets.length,
       });
-    }, 10000);
+    }, 30000);
   }
 
   render() {

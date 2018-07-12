@@ -31,11 +31,11 @@ const SunriseSunsetContainer = styled.div`
 `;
 
 const Text = styled(WhiteText)`
-  font-size: ${fontSizes.xxlarge};
+  font-size: ${fontSizes.small};
 `;
 
 const Time = styled.div`
-  font-size: ${fontSizes.xxlarge};
+  font-size: ${fontSizes.small};
   margin-top: ${spacing.m};
   color: ${colors.grey};
   font-weight: ${weights.light};

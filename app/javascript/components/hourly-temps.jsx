@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing } from '../lib/theme';
+import { colors, fontSizes, spacing, fonts } from '../lib/theme';
 import { Row } from './row';
 import { parseHour } from '../lib/datetime';
 import rainIcon from '../../assets/images/raincloud.png';
@@ -15,32 +15,41 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
+const opacities = {
+  0: '0.8',
+  1: '0.675',
+  2: '0.55',
+  3: '0.425',
+  4: '0.3',
+};
+
 const Wrapper = styled(Row)`
-  color: ${colors.grey};
-  font-weight: ${weights.light};
-  margin-left: ${spacing.xl};
+  color: ${colors.white};
+  margin-left: ${spacing.xxxl};
 `;
 
 const Item = styled.div`
-  margin: 0 ${spacing.l};
+  margin: 0 ${spacing.xl};
   text-align: center;
+  font-family: ${fonts.thin};
+  opacity: ${props => opacities[props.index]};
 `;
 
 const Time = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.tiny};
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.xxxlarge};
+  font-size: ${fontSizes.large};
   margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.tiny};
 `;
 
 const Percent = styled.span`
-  font-size: ${fontSizes.tiny};
+  font-size: ${fontSizes.micro};
 `;
 
 const RainIcon = styled.img`
@@ -79,8 +88,8 @@ export default () => (
       return (
         <Wrapper>
           {take(5, hourlyWeathers).map(
-            ({ time, temperature, precipProbability }) => (
-              <Item key={time}>
+            ({ time, temperature, precipProbability }, idx) => (
+              <Item key={time} index={idx}>
                 <Time>{parseHour(time)}</Time>
                 <Temp>{parseInt(temperature, 10)}°</Temp>
                 <Precip>

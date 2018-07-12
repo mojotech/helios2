@@ -12,7 +12,6 @@
     "react": "^16.3.2",
     "react-apollo": "^2.1.4",
     "react-dom": "^16.3.2",
-    "react-skycons": "^0.7.0",
     "styled-components": "^3.2.6",
     "styled-normalize": "^4.0.0"
   },
@@ -27,6 +26,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.9.1",
     "prettier": "^1.13.4",
+    "react-svg-loader": "^2.1.0",
     "require-yaml": "^0.0.1",
     "webpack-dev-server": "2.11.2"
   },

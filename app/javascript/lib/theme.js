@@ -1,8 +1,8 @@
 export const colors = {
-  black: '#2B2626',
+  black: '#000000',
   white: '#FFFFFF',
   grey: '#8C8989',
-  darkPink: '#FF80A7',
+  lightPink: '#FFA7C2',
   pink: '#FE6B6E',
 };
 
@@ -17,13 +17,13 @@ export const spacing = {
 };
 
 export const fontSizes = {
-  tiny: '11px',
-  medium: '13px',
-  large: '15px',
-  xlarge: '18px',
-  xxlarge: '20px',
-  xxxlarge: '22px',
-  huge: '38px',
+  micro: '10px',
+  tiny: '16px',
+  small: '20px',
+  medium: '24px',
+  large: '32px',
+  xlarge: '72px',
+  huge: '136px',
 };
 
 export const weights = {
@@ -31,6 +31,13 @@ export const weights = {
   regular: 500,
   bold: 700,
   extraBold: 800,
+};
+
+export const fonts = {
+  thin: 'GT America-Extended-Thin',
+  extended: 'GT America-Extended',
+  regular: 'GT America',
+  light: 'GT America Light',
 };
 
 export const leftPanelWidth = '827px';

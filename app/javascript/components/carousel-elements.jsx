@@ -1,23 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { colors, spacing } from '../lib/theme';
+import { colors, spacing, fontSizes } from '../lib/theme';
 
 const CurrentWidgetText = styled.div`
   margin-top: ${spacing.l};
-  font-size: 13px;
+  font-size: ${fontSizes.small};
   color: ${colors.white};
 `;
 
 const CurrentSubText = styled.div`
   color: ${colors.white};
-  font-size: 11px;
+  font-size: ${fontSizes.tiny};
   margin-top: ${spacing.s};
 `;
 
 const OtherWidgetText = styled.div`
   margin-top: ${spacing.l};
-  font-size: 13px;
+  font-size: ${fontSizes.small};
   color: ${colors.white};
   opacity: 0.5;
   margin-left: ${spacing.l};
@@ -25,22 +25,22 @@ const OtherWidgetText = styled.div`
 
 const OtherSubText = styled.div`
   color: ${colors.white};
-  font-size: 11px;
+  font-size: ${fontSizes.tiny};
   margin-top: ${spacing.s};
   opacity: 0.5;
   margin-left: ${spacing.l};
 `;
 
 export const CurrentWidgetBar = () => (
-  <svg width="400" height="4">
-    <rect width="400" height="1" fill={colors.white} />
-    <rect width="180" height="4" fill={colors.white} />
+  <svg width="568" height="4">
+    <rect width="568" height="1" fill={colors.white} />
+    <rect width="258" height="4" fill={colors.white} />
   </svg>
 );
 
 export const OtherWidgetBar = () => (
-  <svg width="400" height="4">
-    <rect width="400" height="1" fill={colors.white} opacity="0.2" />
+  <svg width="568" height="4">
+    <rect width="568" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 
