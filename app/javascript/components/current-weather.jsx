@@ -10,7 +10,7 @@ import {
   colors,
   weights,
   fontSizes,
-  fonts,
+  spacing,
   leftPanelWidth,
 } from '../lib/theme';
 import { WhiteText } from './typography';
@@ -35,11 +35,9 @@ const TempText = styled.div`
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.xlarge};
   font-weight: ${weights.light};
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: ${spacing.xl};
+  padding: 0 100px;
   width: ${leftPanelWidth};
-  text-align: center;
-  font-family: ${fonts.light};
 `;
 
 export default () => (
