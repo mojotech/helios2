@@ -6,7 +6,13 @@ import MinutelyWeather from './minutely-weather';
 import DailyWeather from './daily-weather';
 import SunriseSunset from './sunrise-sunset';
 import { Row } from './row';
-import { colors, weights, fontSizes, spacing } from '../lib/theme';
+import {
+  colors,
+  weights,
+  fontSizes,
+  spacing,
+  leftPanelWidth,
+} from '../lib/theme';
 import { WhiteText } from './typography';
 
 const Column = styled.div`
@@ -31,6 +37,7 @@ const SummaryText = styled(WhiteText)`
   font-weight: ${weights.light};
   margin-top: ${spacing.xl};
   padding: 0 100px;
+  width: ${leftPanelWidth};
 `;
 
 export default () => (
