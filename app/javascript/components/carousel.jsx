@@ -13,7 +13,11 @@ export const Carousel = ({ widgets, selectedWidget }) =>
   take(widgets.length - 1, widgets).map((widget, index) => (
     // eslint-disable-next-line react/no-array-index-key
     <WidgetContainer key={index}>
-      <Widget selected={widget === widgets[selectedWidget]} text={widget.text}>
+      <Widget
+        widgetId={index}
+        selected={index === selectedWidget}
+        text={widget.text}
+      >
         {widget.children}
       </Widget>
     </WidgetContainer>
