@@ -10,7 +10,7 @@ MRI 2.5.1
 
 - `bundle install`
 - `yarn install`
-- `cp .env.sample .env` -- fill in env vars where applicable
+- `cp .env.local.sample .env` -- fill in env vars where applicable
 
 ### Start it up
 
