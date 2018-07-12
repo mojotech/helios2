@@ -3,13 +3,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  colors,
-  fontSizes,
-  weights,
-  spacing,
-  leftPanelWidth,
-} from '../lib/theme';
+import { colors, fontSizes, weights, spacing } from '../lib/theme';
 import { parseTime, timeDiffInMinutes } from '../lib/datetime';
 import { WhiteText } from './typography';
 import SemiCircle from './semi-circle';
@@ -20,11 +14,12 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
+const containerWidth = '827px';
 const containerHeight = '344px';
 
 const SunriseSunsetContainer = styled.div`
   margin-top: ${spacing.xxl};
-  width: ${leftPanelWidth};
+  width: ${containerWidth};
   height: ${containerHeight};
   position: relative;
   top: 0px;
@@ -97,7 +92,7 @@ export default () => (
               new Date(sunriseTime),
             )}
             sunset={new Date(sunsetTime)}
-            width={leftPanelWidth}
+            width={containerWidth}
             height={containerHeight}
             timezone={officeTimezone}
           />

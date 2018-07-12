@@ -32,5 +32,3 @@ export const weights = {
   bold: 700,
   extraBold: 800,
 };
-
-export const leftPanelWidth = '827px';
