@@ -13,7 +13,7 @@ class Location < ApplicationRecord
   end
 
   def google_cal
-    @google_cal ||= Clients::GoogleCal.new.get_events(calendar_id)
+    @google_cal ||= Clients::GoogleCal.new.get_events(calendar_id) if calendar_id
   end
 
   def primary?
