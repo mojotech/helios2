@@ -7,6 +7,7 @@ const CurrentWidgetText = styled.div`
   margin-top: ${spacing.l};
   font-size: ${fontSizes.small};
   color: ${colors.white};
+  cursor: pointer;
 `;
 
 const CurrentSubText = styled.div`
@@ -21,6 +22,7 @@ const OtherWidgetText = styled.div`
   color: ${colors.white};
   opacity: 0.5;
   margin-left: ${spacing.l};
+  cursor: pointer;
 `;
 
 const OtherSubText = styled.div`
@@ -49,7 +51,9 @@ export const Widget = props => {
     return (
       <span>
         <CurrentWidgetBar />
-        <CurrentWidgetText>{props.text}</CurrentWidgetText>
+        <CurrentWidgetText id={`widget_${props.widgetId}`}>
+          {props.text}
+        </CurrentWidgetText>
         <CurrentSubText>{props.children}</CurrentSubText>
       </span>
     );
@@ -57,7 +61,9 @@ export const Widget = props => {
   return (
     <span>
       <OtherWidgetBar />
-      <OtherWidgetText>{props.text}</OtherWidgetText>
+      <OtherWidgetText id={`widget_${props.widgetId}`}>
+        {props.text}
+      </OtherWidgetText>
       <OtherSubText>{props.children}</OtherSubText>
     </span>
   );
@@ -67,4 +73,5 @@ Widget.propTypes = {
   selected: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  widgetId: PropTypes.number.isRequired,
 };
