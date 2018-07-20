@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { over, lensPath, inc } from 'ramda';
+import pluralize from 'pluralize';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -38,7 +39,10 @@ class SubscribedEvents extends React.Component {
   render() {
     const { githubPull, githubCommit } = this.props;
 
-    return `${githubCommit} commits and ${githubPull} pull requests this week.`;
+    const commitText = pluralize('commit', githubCommit);
+    const requestText = pluralize('request', githubPull);
+
+    return `${githubCommit} ${commitText} and ${githubPull} pull ${requestText} this week.`;
   }
 }
 SubscribedEvents.propTypes = {
