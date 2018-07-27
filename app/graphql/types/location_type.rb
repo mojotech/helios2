@@ -1,29 +1,15 @@
-Types::LocationType = GraphQL::ObjectType.define do
-  name "Location"
+class Types::LocationType < Types::BaseObject
+  graphql_name "Location"
 
-  field "id", !types.ID
-  field "latitude", !types.Float
-  field "longitude", !types.Float
-  field "timezone", !types.String do
-    resolve ->(obj, _, _) { obj.time_zone }
-  end
-  field "cityName", !types.String do
-    resolve ->(obj, _, _) { obj.city_name }
-  end
-  field "isPrimary", !types.Boolean do
-    resolve ->(obj, _, _) { obj.primary? }
-  end
+  field "id", ID
+  field "latitude", Float
+  field "longitude", Float
+  field "timezone", String, method: :time_zone
+  field "city_name", String
+  field "is_primary", Boolean, method: :primary?
   field "weather", Types::WeatherType
-  field "googleCal", Types::CalendarType do
-    resolve ->(obj, _, _) { obj.google_cal }
-  end
-  field "wifiName", types.String do
-    resolve ->(obj, _, _) { obj.wifi_name }
-  end
-  field "wifiPassword", types.String do
-    resolve ->(obj, _, _) { obj.wifi_password }
-  end
-  field "bathroomCode", types.String do
-    resolve ->(obj, _, _) { obj.bathroom_code }
-  end
+  field "googleCal", Types::CalendarType, method: :google_cal
+  field "wifi_name", String
+  field "wifi_password", String
+  field "bathroom_code", String
 end

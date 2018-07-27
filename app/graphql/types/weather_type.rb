@@ -1,135 +1,130 @@
-Types::UnixDateTimeType = GraphQL::ScalarType.define do
-  name 'UnixDateTime'
-
-  coerce_result ->(value, _ctx) { Time.at(value).iso8601 }
+class Types::WeatherField < Types::BaseField
+  def initialize(*args, **kwargs, &block)
+    kwargs.reverse_merge! hash_key: kwargs[:name]
+    super(*args, **kwargs, &block)
+  end
 end
 
-Types::WeatherDailyData = GraphQL::ObjectType.define do
-  name "WeatherDailyData"
+class Types::WeatherObject < Types::BaseObject
+  field_class Types::WeatherField
+end
 
+class Types::UnixDateTimeType < GraphQL::Schema::Scalar
+  def self.coerce_result(value, _ctx)
+    Time.at(value).iso8601
+  end
+end
+
+class Types::WeatherDailyDataType < Types::WeatherObject
   field :time, Types::UnixDateTimeType
-  field :summary, !types.String
-  field :icon, !types.String
+  field :summary, String
+  field :icon, String
   field :sunriseTime, Types::UnixDateTimeType
   field :sunsetTime, Types::UnixDateTimeType
-  field :moonPhase, !types.Float
-  field :precipIntensity, !types.Float
-  field :precipIntensityMax, !types.Float
+  field :moonPhase, Float
+  field :precipIntensity, Float
+  field :precipIntensityMax, Float
   field :precipIntensityMaxTime, Types::UnixDateTimeType
-  field :precipProbability, !types.Float
-  field :precipType, !types.String
-  field :temperatureHigh, !types.Float
+  field :precipProbability, Float
+  field :precipType, String
+  field :temperatureHigh, Float
   field :temperatureHighTime, Types::UnixDateTimeType
-  field :temperatureLow, !types.Float
-  field :apparentTemperatureHigh, !types.Float
-  field :apparentTemperatureLow, !types.Float
-  field :dewPoint, !types.Int
-  field :humidity, !types.Float
-  field :pressure, !types.Float
-  field :windSpeed, !types.Float
-  field :windGust, !types.Float
-  field :windBearing, !types.Int
-  field :cloudCover, !types.Float
-  field :uvIndex, !types.Int
-  field :ozone, !types.Float
-  field :temperatureMin, !types.Float
-  field :temperatureMax, !types.Float
-  field :apparentTemperatureMin, !types.Float
-  field :apparentTemperatureMax, !types.Float
+  field :temperatureLow, Float
+  field :apparentTemperatureHigh, Float
+  field :apparentTemperatureLow, Float
+  field :dewPoint, Int
+  field :humidity, Float
+  field :pressure, Float
+  field :windSpeed, Float
+  field :windGust, Float
+  field :windBearing, Int
+  field :cloudCover, Float
+  field :uvIndex, Int
+  field :ozone, Float
+  field :temperatureMin, Float
+  field :temperatureMax, Float
+  field :apparentTemperatureMin, Float
+  field :apparentTemperatureMax, Float
 end
 
-Types::WeatherHourlyData = GraphQL::ObjectType.define do
-  name "WeatherHourlyData"
-
+class Types::WeatherHourlyDataType < Types::WeatherObject
   field :time, Types::UnixDateTimeType
-  field :summary, !types.String
-  field :icon, !types.String
-  field :precipIntensity, !types.Float
-  field :precipProbability, !types.Float
-  field :precipType, !types.String
-  field :temperature, !types.Float
-  field :apparentTemperature, !types.Float
-  field :dewPoint, !types.Float
-  field :humidity, !types.Float
-  field :pressure, !types.Float
-  field :windSpeed, !types.Float
-  field :windGust, !types.Float
-  field :windBearing, !types.Int
-  field :cloudCover, !types.Float
-  field :uvIndex, !types.Int
-  field :visibility, !types.Int
-  field :ozone, !types.Float
+  field :summary, String
+  field :icon, String
+  field :precipIntensity, Float
+  field :precipProbability, Float
+  field :precipType, String
+  field :temperature, Float
+  field :apparentTemperature, Float
+  field :dewPoint, Float
+  field :humidity, Float
+  field :pressure, Float
+  field :windSpeed, Float
+  field :windGust, Float
+  field :windBearing, Int
+  field :cloudCover, Float
+  field :uvIndex, Int
+  field :visibility, Int
+  field :ozone, Float
 end
 
-Types::WeatherMinutelyData = GraphQL::ObjectType.define do
-  name "WeatherMinutelyData"
-
+class Types::WeatherMinutelyDataType < Types::WeatherObject
   field "time", Types::UnixDateTimeType
-  field "precipIntensity", !types.Float
-  field "precipIntensityError", !types.Float
-  field "precipProbability", !types.Float
-  field "precipType", !types.String
+  field "precipIntensity", Float
+  field "precipIntensityError", Float
+  field "precipProbability", Float
+  field "precipType", String
 end
 
-Types::WeatherDailyDetail = GraphQL::ObjectType.define do
-  name "WeatherDailyDetail"
-
-  field "summary", !types.String
-  field "icon", !types.String
-  field "data", !types[Types::WeatherDailyData]
+class Types::WeatherDailyDetailType < Types::WeatherObject
+  field "summary", String
+  field "icon", String
+  field "data", [Types::WeatherDailyDataType]
 end
 
-Types::WeatherHourlyDetail = GraphQL::ObjectType.define do
-  name "WeatherHourlyDetail"
-
-  field "summary", !types.String
-  field "icon", !types.String
-  field "data", !types[Types::WeatherHourlyData]
+class Types::WeatherHourlyDetailType < Types::WeatherObject
+  field "summary", String
+  field "icon", String
+  field "data", [Types::WeatherHourlyDataType]
 end
 
-Types::WeatherMinutelyDetail = GraphQL::ObjectType.define do
-  name "WeatherMinutelyDetail"
-
-  field "summary", !types.String
-  field "icon", !types.String
-  field "data", !types[Types::WeatherMinutelyData]
+class Types::WeatherMinutelyDetailType < Types::WeatherObject
+  field "summary", String
+  field "icon", String
+  field "data", [Types::WeatherMinutelyDataType]
 end
 
-Types::WeatherCurrentlyDetail = GraphQL::ObjectType.define do
-  name "WeatherCurrentDetail"
-
+class Types::WeatherCurrentlyDetailType < Types::WeatherObject
   field "time", Types::UnixDateTimeType
-  field "summary", !types.String
-  field "icon", !types.String
-  field "nearestStormDistance", !types.Int
-  field "nearestStormBearing", !types.Int
-  field "precipIntensity", !types.Int
-  field "precipProbability", !types.Int
-  field "temperature", !types.Float
-  field "apparentTemperature", !types.Float
-  field "dewPoint", !types.Float
-  field "humidity", !types.Float
-  field "pressure", !types.Float
-  field "windSpeed", !types.Float
-  field "windGust", !types.Float
-  field "windBearing", !types.Int
-  field "cloudCover", !types.Float
-  field "uvIndex", !types.Int
-  field "visibility", !types.Int
-  field "ozone", !types.Float
+  field "summary", String
+  field "icon", String
+  field "nearestStormDistance", Int
+  field "nearestStormBearing", Int
+  field "precipIntensity", Int
+  field "precipProbability", Int
+  field "temperature", Float
+  field "apparentTemperature", Float
+  field "dewPoint", Float
+  field "humidity", Float
+  field "pressure", Float
+  field "windSpeed", Float
+  field "windGust", Float
+  field "windBearing", Int
+  field "cloudCover", Float
+  field "uvIndex", Int
+  field "visibility", Int
+  field "ozone", Float
 end
 
-Types::WeatherType = GraphQL::ObjectType.define do
-  name "Weather"
-
-  field "latitude", !types.Float
-  field "longitude", !types.Float
-  field "timezone", !types.String
-  field "currently", !Types::WeatherCurrentlyDetail
-  field "minutely", !Types::WeatherMinutelyDetail
-  field "hourly", !Types::WeatherHourlyDetail
-  field "daily", !Types::WeatherDailyDetail
-  field "offset", !types.Int
+class Types::WeatherType < Types::WeatherObject
+  field "latitude", Float
+  field "longitude", Float
+  field "timezone", String
+  field "currently", Types::WeatherCurrentlyDetailType
+  field "minutely", Types::WeatherMinutelyDetailType
+  field "hourly", Types::WeatherHourlyDetailType
+  field "daily", Types::WeatherDailyDetailType
+  field "offset", Int
 
   # field "flags", # TODO: skipping this for now
 end

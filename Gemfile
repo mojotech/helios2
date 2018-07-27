@@ -7,6 +7,8 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+# ActionCable adapter
+gem 'redis'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
@@ -34,7 +36,10 @@ gem "dotenv-rails", "~> 2.4.0"
 gem "forecast_io"
 gem "foreman", "~> 0.84"
 gem 'graphiql-rails', group: :development
-gem "graphql", "~> 1.7"
+gem "graphql", "~> 1.8.3"
+
+# github API
+gem 'github_webhook', '~> 1.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

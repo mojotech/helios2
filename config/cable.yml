@@ -1,10 +1,15 @@
-development:
-  adapter: async
-
-test:
-  adapter: async
-
-production:
+default: &default
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+
+development:
+  <<: *default
+  channel_prefix: helios2_development
+
+test:
+  <<: *default
+  channel_prefix: helios2_test
+
+production:
+  <<: *default
   channel_prefix: helios2_production
