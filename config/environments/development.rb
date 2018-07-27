@@ -61,4 +61,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_controller.forgery_protection_origin_check = false
+
+  # allow LAN IPs access to the console
+  config.web_console.whitelisted_ips = %w(127.0.0.1 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16)
 end

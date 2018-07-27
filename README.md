@@ -6,6 +6,13 @@ This project is a Rails 5.2 app using webpacker and React.
 
 MRI 2.5.1
 
+### Installation options
+
+You can either install the deps directly on your box or you can use the Docker support.
+
+
+## Native
+
 ### Getting ready
 
 - `bundle install`
@@ -15,6 +22,19 @@ MRI 2.5.1
 ### Start it up
 
 - `foreman start -f Procfile.development`
+- http://localhost:5000
+
+## Docker
+
+### Getting Ready
+
+- Install Docker and docker-compose
+- `cp .env.local.sample .env` -- fill in env vars where applicable
+
+### Start it up
+
+- `docker-compose build`
+- `docker-compose up`
 - http://localhost:5000
 
 ### Designs

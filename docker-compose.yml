@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: bash -lc "(rm -rf tmp/pids/ || true) && yarn install && bundle install --path vendor/bundle && bin/rails db:migrate db:seed RAILS_ENV=development && bundle exec foreman start -f Procfile.development"
+    hostname: helios2-dev
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app:delegated
+      - /app/secure
+      - /app/tmp
+    ports:
+      - "5000:5000"
+      - "3035:3035"
+    depends_on:
+      - redis
+    environment:
+      - RAILS_ENV=development
+      - RACK_ENV=development
+      - REDIS_URL=redis://redis:6379/1
+  redis:
+    image: redis:4.0
