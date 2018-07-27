@@ -38,52 +38,47 @@ const getEvents = gql`
   }
 `;
 
-export class Guests extends React.Component {
-  static propTypes = {
-    data: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      error: PropTypes.shape({}),
-      primaryLocation: PropTypes.shape({}),
-    }).isRequired,
-  };
+const Guests = ({ data: { loading, error, primaryLocation } }) => {
+  const events = path(['googleCal', 'items'], primaryLocation);
 
-  render() {
-    const {
-      data: { loading, error, primaryLocation },
-    } = this.props;
-    const events = path(['googleCal', 'items'], primaryLocation);
+  if (loading) {
+    return <LoadingMessage />;
+  }
 
-    if (loading) {
-      return <LoadingMessage />;
-    }
+  if (error) {
+    return <ErrorMessage message={error.message} />;
+  }
 
-    if (error) {
-      return <ErrorMessage message={error.message} />;
-    }
-
-    if (isPresent(events)) {
-      return (
-        <div>
-          <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
-          {take(2, events).map(({ id, summary, start }) => (
-            <GuestElement
-              key={id}
-              summary={summary}
-              time={parseTime(start.dateTime).toUpperCase()}
-            />
-          ))}
-        </div>
-      );
-    }
-
+  if (isPresent(events)) {
     return (
       <div>
         <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
-        <GuestElement summary="No guests are scheduled" />
+        {take(2, events).map(({ id, summary, start }) => (
+          <GuestElement
+            key={id}
+            summary={summary}
+            time={parseTime(start.dateTime).toUpperCase()}
+          />
+        ))}
       </div>
     );
   }
-}
+
+  return (
+    <div>
+      <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
+      <GuestElement summary="No guests are scheduled" />
+    </div>
+  );
+};
+
+Guests.propTypes = {
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.shape({}),
+    primaryLocation: PropTypes.shape({}),
+  }).isRequired,
+};
 
 export default graphql(getEvents, {
   options: { pollInterval: 60000 },
