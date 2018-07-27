@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { take } from 'ramda';
+import { take, path } from 'ramda';
 import { WhiteTitle } from './typography';
 import { spacing } from '../lib/theme';
 import { parseTime } from '../lib/datetime';
@@ -47,14 +47,12 @@ export class Guests extends React.Component {
     }).isRequired,
   };
 
-  calendarEvents = props =>
-    props.data.primaryLocation
-      ? props.data.primaryLocation.googleCal.items
-      : null;
-
   render() {
-    const events = this.calendarEvents(this.props);
-    const { loading, error } = this.props.data;
+    const {
+      data: { loading, error, primaryLocation },
+    } = this.props;
+    const events = path(['googleCal', 'items'], primaryLocation);
+
     if (loading) {
       return <LoadingMessage />;
     }
@@ -62,6 +60,7 @@ export class Guests extends React.Component {
     if (error) {
       return <ErrorMessage message={error.message} />;
     }
+
     if (isPresent(events)) {
       return (
         <div>
