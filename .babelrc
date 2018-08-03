@@ -3,7 +3,7 @@
     [
       "env",
       {
-        "modules": false,
+        "modules": "commonjs",
         "targets": {
           "browsers": "> 1%",
           "uglify": true
