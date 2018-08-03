@@ -1,61 +1,33 @@
 import React from 'react';
-import styled from 'styled-components';
 import CurrentTemp from './current-temp';
 import HourlyTemps from './hourly-temps';
 import MinutelyWeather from './minutely-weather';
 import DailyWeather from './daily-weather';
 import SunriseSunset from './sunrise-sunset';
-import { Row } from './row';
-import {
-  colors,
-  weights,
-  fontSizes,
-  spacing,
-  fonts,
-  leftPanelWidth,
-} from '../lib/theme';
-import { WhiteText } from './typography';
+import { ExtendedTxt } from './typography';
+import { Flex } from 'grid-styled';
+import { fontSizes, spacing } from '../lib/theme';
+import { InnerBound } from './Layout';
+import styled from '../../../node_modules/styled-components';
 
-const Column = styled.div`
-  display: flex;
+const Column = styled(InnerBound)`
   flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-`;
-
-const CenteredRow = styled(Row)`
   align-items: center;
-`;
-
-const TempText = styled.div`
-  color: ${colors.white};
-  font-size: ${fontSizes.huge};
-  font-weight: ${weights.light};
-  margin-right: ${spacing.xxxl};
-  font-family: ${fonts.thin};
-`;
-
-const SummaryText = styled(WhiteText)`
-  font-size: ${fontSizes.large};
-  font-weight: ${weights.light};
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: ${leftPanelWidth};
-  text-align: center;
-  font-family: ${fonts.light};
+  justify-content: space-between;
+  height: 100%;
 `;
 
 export default () => (
   <Column>
-    <CenteredRow>
-      <TempText>
+    <Flex alignItems={'center'}>
+      <ExtendedTxt fontSize={fontSizes.huge} mr={spacing.xxl}>
         <CurrentTemp />
-      </TempText>
+      </ExtendedTxt>
       <HourlyTemps />
-    </CenteredRow>
-    <SummaryText>
+    </Flex>
+    <ExtendedTxt fontSize={fontSizes.large}>
       <MinutelyWeather />
-    </SummaryText>
+    </ExtendedTxt>
     <SunriseSunset />
     <DailyWeather />
   </Column>
