@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
-import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing } from '../lib/theme';
-import { Row } from './row';
+import { Box, Flex } from 'grid-styled';
+import { colors, spacing } from '../lib/theme';
 import { parseDay } from '../lib/datetime';
-import { WhiteText } from './typography';
+import { Text } from './typography';
 import SkyIcon from './sky-icons';
+import { InnerBound } from './Layout';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -16,35 +16,27 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-const Wrapper = styled(Row)`
-  color: ${colors.grey};
-  font-weight: ${weights.light};
-  margin-left: ${spacing.xl};
-  margin-top: ${spacing.xxl};
-`;
+const Day = ({ time }) => (
+  <Text mb={spacing.xl} color={colors.white}>
+    {time && parseDay(time)}
+  </Text>
+);
 
-const Item = styled.div`
-  margin-left: 100px;
-`;
+const Temp = ({ low, high }) => {
+  const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
+  const formatTempatures = (temperatureLow, temperatureHigh) =>
+    `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
 
-const Day = styled(WhiteText)`
-  font-size: ${fontSizes.small};
-  margin-top: ${spacing.m};
-`;
+  return (
+    <Text mb={spacing.s} color={colors.grey}>
+      {formatTempatures(low, high)}
+    </Text>
+  );
+};
 
-const Temp = styled.div`
-  font-size: ${fontSizes.small};
-  margin-top: ${spacing.m};
-`;
-
-const Rain = styled.div`
-  font-size: ${fontSizes.small};
-  margin-top: ${spacing.s};
-`;
-
-const IconWrapper = styled.div`
-  width: 60px;
-`;
+const Rain = ({ percip }) => (
+  <Text color={colors.grey}>Rain {parseInt(percip * 100, 10)}%</Text>
+);
 
 const getDailyWeather = gql`
   {
@@ -64,11 +56,6 @@ const getDailyWeather = gql`
   }
 `;
 
-const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
-
-const formatTempatures = (temperatureLow, temperatureHigh) =>
-  `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
-
 export default () => (
   <Query query={getDailyWeather}>
     {({ loading, error, data }) => {
@@ -83,26 +70,26 @@ export default () => (
       const { data: dailyWeathers } = data.primaryLocation.weather.daily;
 
       return (
-        <Wrapper>
+        <InnerBound justifyContent={'space-between'} px={'100px'}>
           {take(4, dailyWeathers).map(
             ({
               time,
+              precipProbability,
               temperatureLow,
               temperatureHigh,
-              precipProbability,
               icon,
             }) => (
-              <Item key={time}>
-                <IconWrapper>
+              <Box key={time}>
+                <Box width={'60x'}>
                   <SkyIcon icon={icon} />
-                </IconWrapper>
-                <Day>{parseDay(time)}</Day>
-                <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
-                <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
-              </Item>
+                </Box>
+                <Day time={time} />
+                <Temp low={temperatureLow} high={temperatureHigh} />
+                <Rain {...{ precipProbability }} />
+              </Box>
             ),
           )}
-        </Wrapper>
+        </InnerBound>
       );
     }}
   </Query>
