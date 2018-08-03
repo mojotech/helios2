@@ -126,7 +126,12 @@ export class WidgetController extends React.Component {
 
     return (
       // eslint-disable-next-line
-      <div onKeyDown={this.switchPages} onClick={this.handleClicks} tabIndex="0">
+      <div
+        onKeyDown={this.switchPages}
+        onClick={this.handleClicks}
+        // eslint-disable-next-line
+        tabIndex="0"
+      >
         <FullPanel currentWidget={currentWidget.panel} />
         <SidePanel widgets={widgets} selectedWidget={index} />
         <IconWrapper>
