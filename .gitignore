@@ -35,3 +35,8 @@ yarn-debug.log*
 .yarn-integrity
 
 .env*
+
+# Ignore docker related files
+/vendor
+/.cache
+/.yarnrc
