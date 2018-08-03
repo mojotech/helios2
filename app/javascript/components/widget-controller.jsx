@@ -3,22 +3,14 @@ import styled from 'styled-components';
 import { mathMod } from 'ramda';
 import FullPanel from './full-panel';
 import SidePanel from './side-panel';
-import CurrentWeather from './widgets/weather/current-weather';
 import Twitter from './twitter';
 import Numbers from './widgets/numbers';
+import Weather from './widgets/weather';
 import Live from './live-stream';
 import GuestsWidget from './guests-widget';
-import CurrentTemp from './widgets/weather/current-temp';
-import MinutelyWeather from './widgets/weather/minutely-weather';
 import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
 import { colors } from '../lib/theme';
-
-const weatherChildren = (
-  <div>
-    <CurrentTemp /> - <MinutelyWeather />
-  </div>
-);
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -37,9 +29,9 @@ const iconId = 'lock-icon';
 
 const widgets = [
   {
-    panel: <CurrentWeather />,
+    panel: <Weather.Panel />,
     text: 'Weather',
-    children: weatherChildren,
+    children: <Weather.Carousel />,
   },
   {
     panel: <Twitter />,
