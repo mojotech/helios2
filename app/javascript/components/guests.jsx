@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { take } from 'ramda';
+import { take, path } from 'ramda';
 import { WhiteTitle } from './typography';
 import { spacing } from '../lib/theme';
 import { parseTime } from '../lib/datetime';
@@ -38,53 +38,47 @@ const getEvents = gql`
   }
 `;
 
-export class Guests extends React.Component {
-  static propTypes = {
-    data: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      error: PropTypes.shape({}),
-      primaryLocation: PropTypes.shape({}),
-    }).isRequired,
-  };
+const Guests = ({ data: { loading, error, primaryLocation } }) => {
+  const events = path(['googleCal', 'items'], primaryLocation);
 
-  calendarEvents = props =>
-    props.data.primaryLocation
-      ? props.data.primaryLocation.googleCal.items
-      : null;
+  if (loading) {
+    return <LoadingMessage />;
+  }
 
-  render() {
-    const events = this.calendarEvents(this.props);
-    const { loading, error } = this.props.data;
-    if (loading) {
-      return <LoadingMessage />;
-    }
+  if (error) {
+    return <ErrorMessage message={error.message} />;
+  }
 
-    if (error) {
-      return <ErrorMessage message={error.message} />;
-    }
-    if (isPresent(events)) {
-      return (
-        <div>
-          <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
-          {take(2, events).map(({ id, summary, start }) => (
-            <GuestElement
-              key={id}
-              summary={summary}
-              time={parseTime(start.dateTime).toUpperCase()}
-            />
-          ))}
-        </div>
-      );
-    }
-
+  if (isPresent(events)) {
     return (
       <div>
         <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
-        <GuestElement summary="No guests are scheduled" />
+        {take(2, events).map(({ id, summary, start }) => (
+          <GuestElement
+            key={id}
+            summary={summary}
+            time={parseTime(start.dateTime).toUpperCase()}
+          />
+        ))}
       </div>
     );
   }
-}
+
+  return (
+    <div>
+      <TodaysGuestsText> Today&apos;s Guests</TodaysGuestsText>
+      <GuestElement summary="No guests are scheduled" />
+    </div>
+  );
+};
+
+Guests.propTypes = {
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.shape({}),
+    primaryLocation: PropTypes.shape({}),
+  }).isRequired,
+};
 
 export default graphql(getEvents, {
   options: { pollInterval: 60000 },
