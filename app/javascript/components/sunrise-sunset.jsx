@@ -3,16 +3,12 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  colors,
-  fontSizes,
-  weights,
-  spacing,
-  leftPanelWidth,
-} from '../lib/theme';
 import { parseTime, timeDiffInMinutes } from '../lib/datetime';
-import { WhiteText } from './typography';
-import SemiCircle from './semi-circle';
+import { Box } from 'grid-styled';
+import { Text } from './typography';
+import { InnerBound } from './Layout';
+import { SemiCircle } from './semi-circle';
+import { colors, spacing, leftPanelWidth } from '../lib/theme';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -20,41 +16,29 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-const containerHeight = '344px';
+const containerHeight = '350px';
 
 const SunriseSunsetContainer = styled.div`
-  margin-top: ${spacing.xxl};
-  width: ${leftPanelWidth};
-  height: ${containerHeight};
+  display: flex;
+  justify-content: center;
   position: relative;
-  top: 0px;
+  width: 100%;
 `;
 
-const Text = styled(WhiteText)`
-  font-size: ${fontSizes.small};
-`;
-
-const Time = styled.div`
-  font-size: ${fontSizes.small};
-  margin-top: ${spacing.m};
-  color: ${colors.grey};
-  font-weight: ${weights.light};
-  margin-top: ${spacing.s};
-`;
-
-const SunriseLabel = styled.div`
+const LabelRow = styled(Box)`
+  align-content: center;
+  bottom: 0;
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
   position: absolute;
-  top: 252px;
-  left: 14px;
+  width: 100%;
   z-index: 2;
 `;
 
-const SunsetLabel = styled.div`
-  position: absolute;
-  top: 252px;
-  left: 739px;
-  z-index: 2;
-`;
+const SunTime = ({ time }) => (
+  <Text color={colors.grey}>{parseTime(time)}</Text>
+);
 
 const getSunriseSunset = gql`
   {
@@ -90,26 +74,30 @@ export default () => (
       const officeTimezone = data.primaryLocation.timezone;
 
       return (
-        <SunriseSunsetContainer>
-          <SemiCircle
-            totalTime={timeDiffInMinutes(
-              new Date(sunsetTime),
-              new Date(sunriseTime),
-            )}
-            sunset={new Date(sunsetTime)}
-            width={leftPanelWidth}
-            height={containerHeight}
-            timezone={officeTimezone}
-          />
-          <SunriseLabel>
-            <Text> Sunrise </Text>
-            <Time>{parseTime(sunriseTime)}</Time>
-          </SunriseLabel>
-          <SunsetLabel>
-            <Text> Sunset </Text>
-            <Time>{parseTime(sunsetTime)}</Time>
-          </SunsetLabel>
-        </SunriseSunsetContainer>
+        <InnerBound mb={spacing.xl}>
+          <SunriseSunsetContainer>
+            <SemiCircle
+              totalTime={timeDiffInMinutes(
+                new Date(sunsetTime),
+                new Date(sunriseTime),
+              )}
+              sunset={new Date(sunsetTime)}
+              width={leftPanelWidth}
+              height={containerHeight}
+              timezone={officeTimezone}
+            />
+            <LabelRow>
+              <Box mx={spacing.xxl}>
+                <Text mb={spacing.m}>Sunrise</Text>
+                <SunTime time={sunriseTime} />
+              </Box>
+              <Box mx={spacing.xxl}>
+                <Text mb={spacing.m}>Sunset</Text>
+                <SunTime time={sunsetTime} />
+              </Box>
+            </LabelRow>
+          </SunriseSunsetContainer>
+        </InnerBound>
       );
     }}
   </Query>
