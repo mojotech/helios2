@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Flex } from 'grid-styled';
 import { mathMod } from 'ramda';
 import FullPanel from './full-panel';
 import SidePanel from './side-panel';
@@ -126,13 +127,17 @@ export class WidgetController extends React.Component {
 
     return (
       // eslint-disable-next-line
-      <div onKeyDown={this.switchPages} onClick={this.handleClicks} tabIndex="0">
+      <Flex
+        onKeyDown={this.switchPages}
+        onClick={this.handleClicks}
+        tabIndex="0"
+      >
         <FullPanel currentWidget={currentWidget.panel} />
         <SidePanel widgets={widgets} selectedWidget={index} />
         <IconWrapper>
           <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
         </IconWrapper>
-      </div>
+      </Flex>
     );
   }
 }
