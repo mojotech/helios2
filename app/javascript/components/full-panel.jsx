@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Wrapper from './panel-wrapper';
+import styled from 'styled-components';
+
+const PanelWrapper = styled.div`
+  height: 100vh;
+  flex: 8;
+`;
 
 export const FullPanel = ({ currentWidget }) => (
-  <Wrapper>{currentWidget}</Wrapper>
+  <PanelWrapper>{currentWidget}</PanelWrapper>
 );
 FullPanel.propTypes = { currentWidget: PropTypes.node.isRequired };
 
