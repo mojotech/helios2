@@ -24,7 +24,9 @@ export class Date extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      error: PropTypes.shape({}),
+      error: PropTypes.shape({
+        message: PropTypes.string.isRequired,
+      }),
     }).isRequired,
   };
 
