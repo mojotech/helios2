@@ -5,7 +5,7 @@ import HourlyTemps from './hourly-temps';
 import MinutelyWeather from './minutely-weather';
 import DailyWeather from './daily-weather';
 import SunriseSunset from './sunrise-sunset';
-import { Row } from './row';
+import { Row } from '../../row';
 import {
   colors,
   weights,
@@ -13,8 +13,8 @@ import {
   spacing,
   fonts,
   leftPanelWidth,
-} from '../lib/theme';
-import { WhiteText } from './typography';
+} from '../../../lib/theme';
+import { WhiteText } from '../../typography';
 
 const Column = styled.div`
   display: flex;

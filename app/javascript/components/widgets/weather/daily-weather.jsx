@@ -4,10 +4,10 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing } from '../lib/theme';
-import { Row } from './row';
-import { parseDay } from '../lib/datetime';
-import { WhiteText } from './typography';
+import { colors, fontSizes, weights, spacing } from '../../../lib/theme';
+import { parseDay } from '../../../lib/datetime';
+import { WhiteText } from '../../typography';
+import { Row } from '../../row';
 import SkyIcon from './sky-icons';
 
 const LoadingMessage = () => <p>Loading...</p>;

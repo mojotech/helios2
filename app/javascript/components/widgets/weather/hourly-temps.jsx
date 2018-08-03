@@ -4,10 +4,10 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing, fonts } from '../lib/theme';
-import { Row } from './row';
-import { parseHour } from '../lib/datetime';
-import rainIcon from '../../assets/images/raincloud.png';
+import { colors, fontSizes, spacing, fonts } from '../../../lib/theme';
+import { Row } from '../..//row';
+import { parseHour } from '../../../lib/datetime';
+import rainIcon from '../../../../assets/images/raincloud.png';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;

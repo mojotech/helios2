@@ -9,9 +9,9 @@ import {
   weights,
   spacing,
   leftPanelWidth,
-} from '../lib/theme';
-import { parseTime, timeDiffInMinutes } from '../lib/datetime';
-import { WhiteText } from './typography';
+} from '../../../lib/theme';
+import { parseTime, timeDiffInMinutes } from '../../../lib/datetime';
+import { WhiteText } from '../../typography';
 import SemiCircle from './semi-circle';
 
 const LoadingMessage = () => <p>Loading...</p>;
