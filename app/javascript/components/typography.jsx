@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { colors, fontSizes, spacing } from '../lib/theme';
+import system from 'system-components';
+import { colors, fontSizes, spacing, fonts } from '../lib/theme';
 
 export const GreyText = styled.div`
   color: ${colors.grey};
@@ -18,4 +19,21 @@ export const WhiteTitle = styled(WhiteText)`
 export const GreySubText = styled(GreyText)`
   font-size: ${fontSizes.small};
   margin-bottom: ${spacing.xs};
+`;
+
+export const Text = system(
+  'space',
+  'color',
+  props => ({
+    fontWeight: props.fontWeight,
+    fontSize: props.fontSize || fontSizes.small,
+  }),
+  {
+    is: 'p',
+    fontFamily: fonts.light,
+  },
+);
+
+export const ExtendedText = styled(Text)`
+  font-family: ${fonts.thin};
 `;
