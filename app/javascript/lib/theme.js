@@ -8,12 +8,16 @@ export const colors = {
 
 export const spacing = {
   xs: '2px',
-  s: '5px',
-  m: '10px',
-  l: '15px',
-  xl: '20px',
-  xxl: '30px',
-  xxxl: '40px',
+  s: '4px',
+  m: '8px',
+  l: '16px',
+  xl: '24px',
+  xxl: '32px',
+  xxxl: '48px',
+};
+
+export const bounds = {
+  medium: '880px',
 };
 
 export const fontSizes = {
