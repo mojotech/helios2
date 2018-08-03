@@ -75,7 +75,9 @@ const Guests = ({ data: { loading, error, primaryLocation } }) => {
 Guests.propTypes = {
   data: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
-    error: PropTypes.shape({}),
+    error: PropTypes.shape({
+      message: PropTypes.string.isRequired,
+    }),
     primaryLocation: PropTypes.shape({}),
   }).isRequired,
 };
