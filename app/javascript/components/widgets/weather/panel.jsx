@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import { path } from 'ramda';
 import styled from 'styled-components';
 import CurrentTemp from './current-temp';
 import HourlyTemps from './hourly-temps';
@@ -45,18 +49,62 @@ const SummaryText = styled(WhiteText)`
   font-family: ${fonts.light};
 `;
 
+const LoadingMessage = () => <p>Loading...</p>;
+const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
+
+const getPrimaryLocationWeather = gql`
+  {
+    primaryLocation {
+      ...SunriseSunsetLocation
+      weather {
+        ...CurrentTemp
+        ...HourlyWeather
+        ...MinutelyWeather
+        ...SunriseSunsetWeather
+        ...DailyWeather
+      }
+    }
+  }
+
+  ${CurrentTemp.fragments.weather}
+  ${HourlyTemps.fragments.weather}
+  ${MinutelyWeather.fragments.weather}
+  ${SunriseSunset.fragments.weather}
+  ${SunriseSunset.fragments.location}
+  ${DailyWeather.fragments.weather}
+`;
+
 export default () => (
-  <Column>
-    <CenteredRow>
-      <TempText>
-        <CurrentTemp />
-      </TempText>
-      <HourlyTemps />
-    </CenteredRow>
-    <SummaryText>
-      <MinutelyWeather />
-    </SummaryText>
-    <SunriseSunset />
-    <DailyWeather />
-  </Column>
+  <Query query={getPrimaryLocationWeather}>
+    {({ loading, error, data }) => {
+      if (loading) {
+        return <LoadingMessage />;
+      }
+
+      if (error) {
+        return <ErrorMessage message={error.message} />;
+      }
+
+      const location = path(['primaryLocation'], data);
+      const weather = path(['primaryLocation', 'weather'], data);
+      return (
+        <Column>
+          <CenteredRow>
+            <TempText>
+              <CurrentTemp {...{ weather }} />
+            </TempText>
+            <HourlyTemps {...{ weather }} />
+          </CenteredRow>
+          <SummaryText>
+            <MinutelyWeather {...{ weather }} />
+          </SummaryText>
+          <SunriseSunset {...{ location, weather }} />
+          <DailyWeather {...{ weather }} />
+        </Column>
+      );
+    }}
+  </Query>
 );

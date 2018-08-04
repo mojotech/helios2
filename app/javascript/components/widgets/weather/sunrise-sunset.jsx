@@ -1,5 +1,4 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -12,13 +11,8 @@ import {
 } from '../../../lib/theme';
 import { parseTime, timeDiffInMinutes } from '../../../lib/datetime';
 import { WhiteText } from '../../typography';
+import withFragment from '../../hocs/with-fragment';
 import SemiCircle from './semi-circle';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
 const containerHeight = '344px';
 
@@ -56,61 +50,65 @@ const SunsetLabel = styled.div`
   z-index: 2;
 `;
 
-const getSunriseSunset = gql`
-  {
-    primaryLocation {
-      timezone
-      weather {
-        daily {
-          data {
-            sunriseTime
-            sunsetTime
-          }
-        }
+const getSunriseSunsetLocation = gql`
+  fragment SunriseSunsetLocation on Location {
+    timezone
+  }
+`;
+
+const getSunriseSunsetWeather = gql`
+  fragment SunriseSunsetWeather on Weather {
+    daily {
+      data {
+        sunriseTime
+        sunsetTime
       }
     }
   }
 `;
 
-export default () => (
-  <Query query={getSunriseSunset}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+const SunriseSunset = ({ weather, location }) => {
+  const { sunriseTime, sunsetTime } = weather.daily.data[0];
+  const { timezone } = location;
 
-      if (error) {
-        return <ErrorMessage message={error.message} />;
-      }
+  return (
+    <SunriseSunsetContainer>
+      <SemiCircle
+        totalTime={timeDiffInMinutes(
+          new Date(sunsetTime),
+          new Date(sunriseTime),
+        )}
+        sunset={new Date(sunsetTime)}
+        width={leftPanelWidth}
+        height={containerHeight}
+        timezone={timezone}
+      />
+      <SunriseLabel>
+        <Text> Sunrise </Text>
+        <Time>{parseTime(sunriseTime)}</Time>
+      </SunriseLabel>
+      <SunsetLabel>
+        <Text> Sunset </Text>
+        <Time>{parseTime(sunsetTime)}</Time>
+      </SunsetLabel>
+    </SunriseSunsetContainer>
+  );
+};
 
-      const {
-        sunriseTime,
-        sunsetTime,
-      } = data.primaryLocation.weather.daily.data[0];
-      const officeTimezone = data.primaryLocation.timezone;
+SunriseSunset.propTypes = {
+  weather: PropTypes.shape({
+    daily: PropTypes.shape({
+      data: PropTypes.array.isRequired,
+    }).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    timezone: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
-      return (
-        <SunriseSunsetContainer>
-          <SemiCircle
-            totalTime={timeDiffInMinutes(
-              new Date(sunsetTime),
-              new Date(sunriseTime),
-            )}
-            sunset={new Date(sunsetTime)}
-            width={leftPanelWidth}
-            height={containerHeight}
-            timezone={officeTimezone}
-          />
-          <SunriseLabel>
-            <Text> Sunrise </Text>
-            <Time>{parseTime(sunriseTime)}</Time>
-          </SunriseLabel>
-          <SunsetLabel>
-            <Text> Sunset </Text>
-            <Time>{parseTime(sunsetTime)}</Time>
-          </SunsetLabel>
-        </SunriseSunsetContainer>
-      );
-    }}
-  </Query>
-);
+SunriseSunset.fragments = {
+  location: getSunriseSunsetLocation,
+  weather: getSunriseSunsetWeather,
+};
+
+export default withFragment(SunriseSunset);

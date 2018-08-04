@@ -1,42 +1,28 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import withFragment from '../../hocs/with-fragment';
 
 const getCurrentTemp = gql`
-  {
-    primaryLocation {
-      weather {
-        currently {
-          temperature
-        }
-      }
+  fragment CurrentTemp on Weather {
+    currently {
+      temperature
     }
   }
 `;
 
-export default () => (
-  <Query query={getCurrentTemp}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+const CurrentTemp = ({ weather }) =>
+  `${parseInt(weather.currently.temperature, 10)}°`;
 
-      if (error) {
-        return <ErrorMessage message={error.message} />;
-      }
+CurrentTemp.propTypes = {
+  weather: PropTypes.shape({
+    currently: PropTypes.shape({
+      temperature: PropTypes.number.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
-      return (
-        <span>
-          {parseInt(data.primaryLocation.weather.currently.temperature, 10)}°
-        </span>
-      );
-    }}
-  </Query>
-);
+CurrentTemp.fragments = {
+  weather: getCurrentTemp,
+};
+
+export default withFragment(CurrentTemp);

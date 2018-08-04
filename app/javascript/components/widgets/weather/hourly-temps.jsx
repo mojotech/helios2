@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
@@ -8,12 +7,7 @@ import { colors, fontSizes, spacing, fonts } from '../../../lib/theme';
 import { Row } from '../..//row';
 import { parseHour } from '../../../lib/datetime';
 import rainIcon from '../../../../assets/images/raincloud.png';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import withFragment from '../../hocs/with-fragment';
 
 const opacities = {
   0: '0.8',
@@ -57,51 +51,49 @@ const RainIcon = styled.img`
 `;
 
 const getHourlyWeather = gql`
-  {
-    primaryLocation {
-      weather {
-        hourly {
-          data {
-            temperature
-            time
-            precipProbability
-          }
-        }
+  fragment HourlyWeather on Weather {
+    hourly {
+      data {
+        temperature
+        time
+        precipProbability
       }
     }
   }
 `;
 
-export default () => (
-  <Query query={getHourlyWeather}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+const HourlyTemps = ({ weather }) => {
+  const { data: hourlyWeathers } = weather.hourly;
 
-      if (error) {
-        return <ErrorMessage message={error.message} />;
-      }
+  return (
+    <Wrapper>
+      {take(5, hourlyWeathers).map(
+        ({ time, temperature, precipProbability }, idx) => (
+          <Item key={time} index={idx}>
+            <Time>{parseHour(time)}</Time>
+            <Temp>{parseInt(temperature, 10)}°</Temp>
+            <Precip>
+              <RainIcon src={rainIcon} width="10" height="10" alt="" />
+              {parseInt(precipProbability * 100, 10)}
+              <Percent>%</Percent>
+            </Precip>
+          </Item>
+        ),
+      )}
+    </Wrapper>
+  );
+};
 
-      const { data: hourlyWeathers } = data.primaryLocation.weather.hourly;
+HourlyTemps.propTypes = {
+  weather: PropTypes.shape({
+    hourly: PropTypes.shape({
+      data: PropTypes.array.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
-      return (
-        <Wrapper>
-          {take(5, hourlyWeathers).map(
-            ({ time, temperature, precipProbability }, idx) => (
-              <Item key={time} index={idx}>
-                <Time>{parseHour(time)}</Time>
-                <Temp>{parseInt(temperature, 10)}°</Temp>
-                <Precip>
-                  <RainIcon src={rainIcon} width="10" height="10" alt="" />
-                  {parseInt(precipProbability * 100, 10)}
-                  <Percent>%</Percent>
-                </Precip>
-              </Item>
-            ),
-          )}
-        </Wrapper>
-      );
-    }}
-  </Query>
-);
+HourlyTemps.fragments = {
+  weather: getHourlyWeather,
+};
+
+export default withFragment(HourlyTemps);

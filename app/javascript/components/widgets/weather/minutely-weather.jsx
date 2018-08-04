@@ -1,39 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import withFragment from '../../hocs/with-fragment';
 
 const getMinutelyWeather = gql`
-  {
-    primaryLocation {
-      weather {
-        minutely {
-          summary
-        }
-      }
+  fragment MinutelyWeather on Weather {
+    minutely {
+      summary
     }
   }
 `;
 
-export default () => (
-  <Query query={getMinutelyWeather}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+const MinutelyWeather = ({ weather }) => {
+  const { summary } = weather.minutely;
+  return <span>{summary}</span>;
+};
 
-      if (error) {
-        return <ErrorMessage message={error.message} />;
-      }
+MinutelyWeather.propTypes = {
+  weather: PropTypes.shape({
+    minutely: PropTypes.shape({
+      summary: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
-      const { summary } = data.primaryLocation.weather.minutely;
-      return <span>{summary}</span>;
-    }}
-  </Query>
-);
+MinutelyWeather.fragments = {
+  weather: getMinutelyWeather,
+};
+
+export default withFragment(MinutelyWeather);

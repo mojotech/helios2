@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
@@ -9,12 +8,7 @@ import { parseDay } from '../../../lib/datetime';
 import { WhiteText } from '../../typography';
 import { Row } from '../../row';
 import SkyIcon from './sky-icons';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import withFragment from '../../hocs/with-fragment';
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};
@@ -47,18 +41,14 @@ const IconWrapper = styled.div`
 `;
 
 const getDailyWeather = gql`
-  {
-    primaryLocation {
-      weather {
-        daily {
-          data {
-            temperatureLow
-            temperatureHigh
-            time
-            precipProbability
-            icon
-          }
-        }
+  fragment DailyWeather on Weather {
+    daily {
+      data {
+        temperatureLow
+        temperatureHigh
+        time
+        precipProbability
+        icon
       }
     }
   }
@@ -69,41 +59,43 @@ const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
 const formatTempatures = (temperatureLow, temperatureHigh) =>
   `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
 
-export default () => (
-  <Query query={getDailyWeather}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+const DailyWeather = ({ weather }) => {
+  const { data: dailyWeathers } = weather.daily;
 
-      if (error) {
-        return <ErrorMessage message={error.message} />;
-      }
+  return (
+    <Wrapper>
+      {take(4, dailyWeathers).map(
+        ({
+          time,
+          temperatureLow,
+          temperatureHigh,
+          precipProbability,
+          icon,
+        }) => (
+          <Item key={time}>
+            <IconWrapper>
+              <SkyIcon icon={icon} />
+            </IconWrapper>
+            <Day>{parseDay(time)}</Day>
+            <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
+            <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
+          </Item>
+        ),
+      )}
+    </Wrapper>
+  );
+};
 
-      const { data: dailyWeathers } = data.primaryLocation.weather.daily;
+DailyWeather.propTypes = {
+  weather: PropTypes.shape({
+    daily: PropTypes.shape({
+      data: PropTypes.array.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
-      return (
-        <Wrapper>
-          {take(4, dailyWeathers).map(
-            ({
-              time,
-              temperatureLow,
-              temperatureHigh,
-              precipProbability,
-              icon,
-            }) => (
-              <Item key={time}>
-                <IconWrapper>
-                  <SkyIcon icon={icon} />
-                </IconWrapper>
-                <Day>{parseDay(time)}</Day>
-                <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
-                <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
-              </Item>
-            ),
-          )}
-        </Wrapper>
-      );
-    }}
-  </Query>
-);
+DailyWeather.fragments = {
+  weather: getDailyWeather,
+};
+
+export default withFragment(DailyWeather);
