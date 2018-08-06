@@ -4,9 +4,10 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing, fonts } from '../lib/theme';
-import { Row } from './row';
+import { fontSizes, spacing } from '../lib/theme';
 import { parseHour } from '../lib/datetime';
+import { Text, ExtendedTxt } from './typography';
+import { Box, Flex } from 'grid-styled';
 import rainIcon from '../../assets/images/raincloud.png';
 
 const LoadingMessage = () => <p>Loading...</p>;
@@ -23,38 +24,45 @@ const opacities = {
   4: '0.3',
 };
 
-const Wrapper = styled(Row)`
-  color: ${colors.white};
-  margin-left: ${spacing.xxxl};
-`;
-
-const Item = styled.div`
-  margin: 0 ${spacing.xl};
+const Item = styled(Box)`
   text-align: center;
-  font-family: ${fonts.thin};
   opacity: ${props => opacities[props.index]};
 `;
 
-const Time = styled.div`
-  font-size: ${fontSizes.tiny};
-`;
+const Time = ({ source }) => (
+  <Text mb={spacing.m} fontSize={fontSizes.tiny}>
+    {parseHour(source)}
+  </Text>
+);
 
-const Temp = styled.div`
-  font-size: ${fontSizes.large};
-  margin: ${spacing.xs} 0;
-`;
+const Temp = ({ source }) => (
+  <ExtendedTxt fontSize={fontSizes.large} mb={spacing.m}>
+    {parseInt(source, 10)}°
+  </ExtendedTxt>
+);
 
-const Precip = styled.div`
-  font-size: ${fontSizes.tiny};
-`;
+const Precipitation = ({ source, icon }) => {
+  const RainIcon = styled.img`
+    margin-right: ${spacing.m};
+  `;
 
-const Percent = styled.span`
-  font-size: ${fontSizes.micro};
-`;
-
-const RainIcon = styled.img`
-  margin-right: ${spacing.s};
-`;
+  return (
+    <Flex alignItems={'center'}>
+      <RainIcon
+        src={rainIcon}
+        width="10"
+        height="10"
+        alt="An icon representing the current percipitation"
+      />
+      <Text fontSize={fontSizes.small}>
+        {parseInt(source * 100, 10)}
+        <Text is={'sup'} fontSize={fontSizes.micro}>
+          %
+        </Text>
+      </Text>
+    </Flex>
+  );
+};
 
 const getHourlyWeather = gql`
   {
@@ -86,21 +94,17 @@ export default () => (
       const { data: hourlyWeathers } = data.primaryLocation.weather.hourly;
 
       return (
-        <Wrapper>
+        <Flex width={'100%'} justifyContent={'space-between'}>
           {take(5, hourlyWeathers).map(
             ({ time, temperature, precipProbability }, idx) => (
-              <Item key={time} index={idx}>
-                <Time>{parseHour(time)}</Time>
-                <Temp>{parseInt(temperature, 10)}°</Temp>
-                <Precip>
-                  <RainIcon src={rainIcon} width="10" height="10" alt="" />
-                  {parseInt(precipProbability * 100, 10)}
-                  <Percent>%</Percent>
-                </Precip>
+              <Item key={time} index={idx} mx={spacing.xl}>
+                <Time source={time} />
+                <Temp source={temperature} />
+                <Precipitation source={precipProbability} />
               </Item>
             ),
           )}
-        </Wrapper>
+        </Flex>
       );
     }}
   </Query>

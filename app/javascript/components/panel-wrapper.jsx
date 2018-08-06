@@ -3,9 +3,8 @@ import { colors } from '../lib/theme';
 
 export const Wrapper = styled.div`
   background: ${colors.black};
-  height: calc(100vh - 200px);
-  padding: 100px;
-  width: calc(100vw - 200px);
+  height: 100vh;
+  width: 100vw;
 `;
 
 export default Wrapper;

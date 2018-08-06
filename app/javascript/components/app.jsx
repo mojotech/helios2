@@ -8,6 +8,8 @@ import ActionCable from 'actioncable';
 import { getMainDefinition } from 'apollo-utilities';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import WidgetController from './widget-controller';
+import { injectGlobal } from 'styled-components';
+import { colors } from '../lib/theme';
 
 const cable = ActionCable.createConsumer('/cable');
 
@@ -37,4 +39,12 @@ const App = () => (
     <WidgetController />
   </ApolloProvider>
 );
+
+injectGlobal`
+html {
+  background: ${colors.black};
+  color: white;
+}
+`;
+
 export default App;
