@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cityImage from '../../assets/images/buildings.png';
-import { yValue, xValue } from '../lib/circle-math';
-import { timeDiffInMinutes, timeAndDateForTimezone } from '../lib/datetime';
-import { colors } from '../lib/theme';
+import cityImage from '../../../../assets/images/buildings.png';
+import { yValue, xValue } from '../../../lib/circle-math';
+import {
+  timeDiffInMinutes,
+  timeAndDateForTimezone,
+} from '../../../lib/datetime';
+import { colors } from '../../../lib/theme';
 
 export class SemiCircle extends React.Component {
   static propTypes = {

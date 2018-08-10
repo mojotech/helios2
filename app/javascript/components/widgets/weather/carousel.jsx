@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import { path } from 'ramda';
+import CurrentTemp from './current-temp';
+import MinutelyWeather from './minutely-weather';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -9,20 +12,22 @@ ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-const getCurrentTemp = gql`
+const getPrimaryLocationWeather = gql`
   {
     primaryLocation {
       weather {
-        currently {
-          temperature
-        }
+        ...CurrentTemp
+        ...MinutelyWeather
       }
     }
   }
+
+  ${CurrentTemp.fragments.weather}
+  ${MinutelyWeather.fragments.weather}
 `;
 
 export default () => (
-  <Query query={getCurrentTemp}>
+  <Query query={getPrimaryLocationWeather} pollInterval={120000}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -32,10 +37,12 @@ export default () => (
         return <ErrorMessage message={error.message} />;
       }
 
+      const weather = path(['primaryLocation', 'weather'], data);
       return (
-        <span>
-          {parseInt(data.primaryLocation.weather.currently.temperature, 10)}°
-        </span>
+        <div>
+          <CurrentTemp weather={weather} /> -
+          <MinutelyWeather weather={weather} />
+        </div>
       );
     }}
   </Query>

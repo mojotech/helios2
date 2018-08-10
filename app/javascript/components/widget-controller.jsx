@@ -3,22 +3,14 @@ import styled from 'styled-components';
 import { mathMod } from 'ramda';
 import FullPanel from './full-panel';
 import SidePanel from './side-panel';
-import CurrentWeather from './current-weather';
 import Twitter from './twitter';
 import Numbers from './widgets/numbers';
+import Weather from './widgets/weather';
 import Live from './live-stream';
 import GuestsWidget from './guests-widget';
-import CurrentTemp from './current-temp';
-import MinutelyWeather from './minutely-weather';
 import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
 import { colors } from '../lib/theme';
-
-const weatherChildren = (
-  <div>
-    <CurrentTemp /> - <MinutelyWeather />
-  </div>
-);
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -37,9 +29,9 @@ const iconId = 'lock-icon';
 
 const widgets = [
   {
-    panel: <CurrentWeather />,
+    panel: <Weather.Panel />,
     text: 'Weather',
-    children: weatherChildren,
+    children: <Weather.Carousel />,
   },
   {
     panel: <Twitter />,
@@ -126,7 +118,12 @@ export class WidgetController extends React.Component {
 
     return (
       // eslint-disable-next-line
-      <div onKeyDown={this.switchPages} onClick={this.handleClicks} tabIndex="0">
+      <div
+        onKeyDown={this.switchPages}
+        onClick={this.handleClicks}
+        // eslint-disable-next-line
+        tabIndex="0"
+      >
         <FullPanel currentWidget={currentWidget.panel} />
         <SidePanel widgets={widgets} selectedWidget={index} />
         <IconWrapper>
