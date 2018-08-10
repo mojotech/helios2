@@ -78,7 +78,7 @@ const getPrimaryLocationWeather = gql`
 `;
 
 export default () => (
-  <Query query={getPrimaryLocationWeather}>
+  <Query query={getPrimaryLocationWeather} pollInterval={120000}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
