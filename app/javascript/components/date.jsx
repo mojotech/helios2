@@ -51,7 +51,7 @@ export class Date extends React.Component {
 
   startDateTimer = () => {
     this.setDate();
-    setInterval(() => this.setDate, 10000);
+    setInterval(this.setDate, 10000);
   };
 
   render() {
