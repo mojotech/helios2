@@ -30,6 +30,8 @@ You can either install the deps directly on your box or you can use the Docker s
 
 - Install Docker and docker-compose
 - `cp .env.local.sample .env` -- fill in env vars where applicable
+ - Sign up for a free darksky API key: https://darksky.net/dev
+   Note: the free API key has a daily limit of 1000 requests
 
 ### Start it up
 
