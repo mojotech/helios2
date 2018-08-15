@@ -6,9 +6,7 @@ class Types::QueryType < Types::BaseObject
   end
 
   def weather(latitude:, longitude:)
-    Rails.cache.fetch('dark-sky-response', expires_in: 2.minutes) do
-      ForecastIO.forecast(latitude, longitude)
-    end
+    Clients::DarkskyClient.forecast(latitude, longitude)
   end
 
   field :locations, [Types::LocationType] do
