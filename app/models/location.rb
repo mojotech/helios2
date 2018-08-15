@@ -9,7 +9,7 @@ class Location < ApplicationRecord
   end
 
   def weather
-    @weather ||= ForecastIO.forecast(latitude, longitude)
+    Clients::DarkskyClient.forecast(latitude, longitude)
   end
 
   def google_cal
