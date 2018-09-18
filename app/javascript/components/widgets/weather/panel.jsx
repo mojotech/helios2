@@ -18,7 +18,7 @@ import {
   fonts,
   leftPanelWidth,
 } from '../../../lib/theme';
-import { WhiteText } from '../../typography';
+import { GreySubText, WhiteText } from '../../typography';
 
 const Column = styled.div`
   display: flex;
@@ -47,6 +47,12 @@ const SummaryText = styled(WhiteText)`
   width: ${leftPanelWidth};
   text-align: center;
   font-family: ${fonts.light};
+`;
+
+const Notice = styled(GreySubText)`
+  font-size: ${fontSizes.tiny};
+  text-align: center;
+  width: ${leftPanelWidth};
 `;
 
 const LoadingMessage = () => <p>Loading...</p>;
@@ -103,6 +109,7 @@ export default () => (
           </SummaryText>
           <SunriseSunset {...{ location, weather }} />
           <DailyWeather {...{ weather }} />
+          <Notice>Powered by Dark Sky</Notice>
         </Column>
       );
     }}
