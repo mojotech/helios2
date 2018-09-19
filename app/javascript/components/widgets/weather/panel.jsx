@@ -51,6 +51,7 @@ const SummaryText = styled(WhiteText)`
 
 const Notice = styled(GreySubText)`
   font-size: ${fontSizes.tiny};
+  margin-top: 120px;
   text-align: center;
   width: ${leftPanelWidth};
 `;
