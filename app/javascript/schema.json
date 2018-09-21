@@ -1991,13 +1991,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Calendar",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Calendar",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

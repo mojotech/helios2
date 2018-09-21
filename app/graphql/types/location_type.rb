@@ -8,7 +8,7 @@ class Types::LocationType < Types::BaseObject
   field "city_name", String
   field "is_primary", Boolean, method: :primary?
   field "weather", Types::WeatherType
-  field "googleCal", Types::CalendarType, method: :google_cal
+  field "googleCal", Types::CalendarType, method: :google_cal, null: true
   field "wifi_name", String
   field "wifi_password", String
   field "bathroom_code", String
