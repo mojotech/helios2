@@ -40,7 +40,8 @@ You can either install the deps directly on your box or you can use the Docker s
 - http://localhost:5000
 
 #### Spin up Rails Console
-- `docker-compose run web bundle exec rails console`
+- have the docker image running in one terminal tab (`docker-compose up`)
+- in a second tab run `docker-compose exec web bundle exec rails console`
   - if it gives any errors, try the following command:
     - `docker-compose run web bundle exec rake app:update:bin`
 
