@@ -45,6 +45,17 @@ You can either install the deps directly on your box or you can use the Docker s
   - if it gives any errors, try the following command:
     - `docker-compose run web bundle exec rake app:update:bin`
 
+### Production Start up
+
+- `export PATH=<node path>`
+- `export PATH=<rails path>`
+-  ```bash
+   RAILS_ENV=production \
+       SECRET_KEY_BASE=<some secret> \
+       RAILS_SERVE_STATIC_FILES=1 \
+       rails s
+   ```
+
 ### Designs
 
 https://app.zeplin.io/project/5ad8bfb98c928b070d6e1589
