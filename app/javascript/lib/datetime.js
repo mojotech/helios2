@@ -1,12 +1,12 @@
 export const timeForTimezone = timeZone =>
-  new Date().toLocaleString([], {
+  new Date().toLocaleString('en-US', {
     timeZone,
     hour: '2-digit',
     minute: '2-digit',
   });
 
 export const dateForTimezone = timeZone =>
-  new Date().toLocaleString([], {
+  new Date().toLocaleString('en-US', {
     timeZone,
     weekday: 'long',
     month: 'short',
@@ -16,14 +16,14 @@ export const dateForTimezone = timeZone =>
 
 export const timeAndDateForTimezone = timezone =>
   new Date(
-    new Date().toLocaleString([], {
+    new Date().toLocaleString('en-US', {
       timezone,
     }),
   );
 
 export const parseHour = datetime =>
   new Date(Date.parse(datetime))
-    .toLocaleString([], {
+    .toLocaleString('en-US', {
       hour: 'numeric',
       hour12: true,
     })
@@ -33,7 +33,7 @@ export const parseHour = datetime =>
 
 export const parseTime = datetime =>
   new Date(Date.parse(datetime))
-    .toLocaleString([], {
+    .toLocaleString('en-US', {
       hour: 'numeric',
       hour12: true,
       minute: 'numeric',
@@ -63,7 +63,7 @@ export const parseDay = datetime => {
   if (isTomorrow(datetime)) {
     return 'Tomorrow';
   }
-  return parseDatetime(datetime).toLocaleString([], {
+  return parseDatetime(datetime).toLocaleString('en-US', {
     weekday: 'long',
   });
 };
