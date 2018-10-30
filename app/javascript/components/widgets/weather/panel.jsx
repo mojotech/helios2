@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { path } from 'ramda';
+import { assocPath } from 'ramda';
 import styled from 'styled-components';
 import CurrentTemp from './current-temp';
 import HourlyTemps from './hourly-temps';
@@ -65,6 +65,8 @@ ErrorMessage.propTypes = {
 const getPrimaryLocationWeather = gql`
   {
     primaryLocation {
+      latitude
+      longitude
       ...SunriseSunsetLocation
       weather {
         ...CurrentTemp
@@ -84,9 +86,61 @@ const getPrimaryLocationWeather = gql`
   ${DailyWeather.fragments.weather}
 `;
 
+const subscribeWeatherPublished = gql`
+  subscription onWeatherPublished($latitude: Float!, $longitude: Float!) {
+    weatherPublished(latitude: $latitude, longitude: $longitude) {
+      ...CurrentTemp
+      ...HourlyWeather
+      ...MinutelyWeather
+      ...SunriseSunsetWeather
+      ...DailyWeather
+    }
+  }
+
+  ${CurrentTemp.fragments.weather}
+  ${HourlyTemps.fragments.weather}
+  ${MinutelyWeather.fragments.weather}
+  ${SunriseSunset.fragments.weather}
+  ${DailyWeather.fragments.weather}
+`;
+
+class SubscribedWeather extends React.Component {
+  componentDidMount() {
+    this.props.subscribeToPublishedEvents();
+  }
+
+  render() {
+    const { primaryLocation } = this.props;
+    const { weather } = primaryLocation;
+    return (
+      <Column>
+        <CenteredRow>
+          <TempText>
+            <CurrentTemp {...{ weather }} />
+          </TempText>
+          <HourlyTemps {...{ weather }} />
+        </CenteredRow>
+        <SummaryText>
+          <MinutelyWeather {...{ weather }} />
+        </SummaryText>
+        <SunriseSunset {...{ location: primaryLocation, weather }} />
+        <DailyWeather {...{ weather }} />
+        <Notice>Powered by Dark Sky</Notice>
+      </Column>
+    );
+  }
+}
+
+SubscribedWeather.propTypes = {
+  primaryLocation: PropTypes.shape({
+    weather: PropTypes.shape({}).isRequired,
+  }).isRequired,
+  subscribeToPublishedEvents: PropTypes.func.isRequired,
+};
+
 export default () => (
-  <Query query={getPrimaryLocationWeather} pollInterval={120000}>
-    {({ loading, error, data }) => {
+  <Query query={getPrimaryLocationWeather}>
+    {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
       }
@@ -95,23 +149,32 @@ export default () => (
         return <ErrorMessage message={error.message} />;
       }
 
-      const location = path(['primaryLocation'], data);
-      const weather = path(['primaryLocation', 'weather'], data);
       return (
-        <Column>
-          <CenteredRow>
-            <TempText>
-              <CurrentTemp {...{ weather }} />
-            </TempText>
-            <HourlyTemps {...{ weather }} />
-          </CenteredRow>
-          <SummaryText>
-            <MinutelyWeather {...{ weather }} />
-          </SummaryText>
-          <SunriseSunset {...{ location, weather }} />
-          <DailyWeather {...{ weather }} />
-          <Notice>Powered by Dark Sky</Notice>
-        </Column>
+        <SubscribedWeather
+          primaryLocation={data.primaryLocation}
+          subscribeToPublishedEvents={() =>
+            subscribeToMore({
+              document: subscribeWeatherPublished,
+              variables: {
+                latitude: data.primaryLocation.latitude,
+                longitude: data.primaryLocation.longitude,
+              },
+              updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data) {
+                  return prev;
+                }
+
+                const { weatherPublished } = subscriptionData.data;
+
+                return assocPath(
+                  ['primaryLocation', 'weather'],
+                  weatherPublished,
+                  prev,
+                );
+              },
+            })
+          }
+        />
       );
     }}
   </Query>

@@ -39,6 +39,10 @@ gem "graphql", "~> 1.8.3"
 # github API
 gem 'github_webhook', '~> 1.1'
 
+# jobs
+gem 'sidekiq'
+gem 'sidekiq-repeat'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
