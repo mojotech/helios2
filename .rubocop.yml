@@ -58,3 +58,8 @@ Style/Lambda:
 
 Style/EmptyMethod:
   Enabled: false
+
+Style/GlobalVars:
+  Enabled: true
+  AllowedVariables:
+    - '$redis'

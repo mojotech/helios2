@@ -14,7 +14,7 @@ class WeatherPollerWorker
   end
 
   def subscriptions
-    Redis.new.pubsub("channels", "helios2_*:graphql-event::weatherPublished:*")
+    $redis.pubsub("channels", "helios2_*:graphql-event::weatherPublished:*")
   end
 
   Location = Struct.new(:latitude, :longitude)
