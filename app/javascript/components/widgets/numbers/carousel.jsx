@@ -1,35 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
+import { getEventCounts, subscribeEventPublished } from './queries';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
 ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
-
-const subscribeEventPublished = gql`
-  subscription onEventPublished {
-    eventPublished {
-      source
-    }
-  }
-`;
-
-const getEventCounts = gql`
-  {
-    events {
-      count {
-        githubPull
-        githubCommit
-        slackMessage
-      }
-    }
-  }
-`;
 
 class SubscribedEvents extends React.Component {
   componentDidMount() {
