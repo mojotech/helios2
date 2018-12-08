@@ -1,7 +1,9 @@
 import React from 'react';
+import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 import FallingBlocks from './widgets/numbers/fallingblocks';
 import { withContext as withUnityContext } from './unity-context';
+import { getEventCounts } from './widgets/numbers/queries';
 
 const unity = ({ isVisible }) => (
   <div
@@ -14,7 +16,19 @@ const unity = ({ isVisible }) => (
       display: isVisible ? 'block' : 'none',
     }}
   >
-    <FallingBlocks />;
+    <Query query={getEventCounts}>
+      {({ loading, error, data }) => {
+        if (loading || error) {
+          return null;
+        }
+        const props = {
+          commit: data.events.count.githubCommit,
+          slack: data.events.count.slackMessage,
+          pr: data.events.count.githubPull,
+        };
+        return <FallingBlocks {...props} />;
+      }}
+    </Query>
   </div>
 );
 
