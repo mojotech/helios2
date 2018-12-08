@@ -1,37 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import numeral from 'numeral';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
+import { getEventCounts, subscribeEventPublished } from './queries';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
 ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
-
-const subscribeEventPublished = gql`
-  subscription onEventPublished {
-    eventPublished {
-      source
-    }
-  }
-`;
-
-const getEventCounts = gql`
-  query getEvents($after: String!) {
-    events(after: $after) {
-      count {
-        githubPull
-        githubCommit
-        slackMessage
-      }
-    }
-  }
-`;
 
 const STAT_FORMAT = '0,0';
 
