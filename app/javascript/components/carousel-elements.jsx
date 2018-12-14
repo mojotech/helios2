@@ -33,14 +33,7 @@ const OtherSubText = styled.div`
   margin-left: ${spacing.l};
 `;
 
-export const CurrentWidgetBar = () => (
-  <svg width="568" height="4">
-    <rect width="568" height="1" fill={colors.white} />
-    <rect width="258" height="4" fill={colors.white} />
-  </svg>
-);
-
-export const OtherWidgetBar = () => (
+export const WidgetBar = () => (
   <svg width="568" height="4">
     <rect width="568" height="1" fill={colors.white} opacity="0.2" />
   </svg>
@@ -50,7 +43,7 @@ export const Widget = props => {
   if (props.selected) {
     return (
       <span>
-        <CurrentWidgetBar />
+        <WidgetBar />
         <CurrentWidgetText id={`widget_${props.widgetId}`}>
           {props.text}
         </CurrentWidgetText>
@@ -60,7 +53,7 @@ export const Widget = props => {
   }
   return (
     <span>
-      <OtherWidgetBar />
+      <WidgetBar />
       <OtherWidgetText id={`widget_${props.widgetId}`}>
         {props.text}
       </OtherWidgetText>
