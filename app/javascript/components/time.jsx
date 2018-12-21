@@ -22,7 +22,9 @@ const TimeValue = styled(Row)`
   ${/* sc-sel */ HourMin} {
     ${({ isPrimary }) =>
       isPrimary
-        ? `font-size: ${fontSizes.xlarge}`
+        ? `font-size: ${fontSizes.xlarge};
+           position: relative;
+           top: 8px;`
         : `font-size: ${fontSizes.small}`};
   }
 
