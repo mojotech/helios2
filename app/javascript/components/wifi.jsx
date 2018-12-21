@@ -5,8 +5,11 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { spacing } from '../lib/theme';
 import { WhiteTitle, GreySubText } from './typography';
+import { Row } from './row';
 
-const Wrapper = styled.div`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-right: ${spacing.xxxl};
 `;
 
@@ -25,7 +28,7 @@ const getWifiInfo = gql`
 `;
 
 export const Wifi = () => (
-  <Wrapper>
+  <div>
     <Query query={getWifiInfo}>
       {({ loading, error, data }) => {
         if (loading) {
@@ -42,15 +45,20 @@ export const Wifi = () => (
         }
 
         return (
-          <div>
-            <WhiteTitle>Wifi</WhiteTitle>
-            <GreySubText>{wifiName}</GreySubText>
-            <GreySubText>{wifiPassword}</GreySubText>
-          </div>
+          <Row>
+            <Column>
+              <WhiteTitle>Wifi</WhiteTitle>
+              <GreySubText>{wifiName}</GreySubText>
+            </Column>
+            <Column>
+              <WhiteTitle>Wifi Password</WhiteTitle>
+              <GreySubText>{wifiPassword}</GreySubText>
+            </Column>
+          </Row>
         );
       }}
     </Query>
-  </Wrapper>
+  </div>
 );
 
 export default Wifi;
