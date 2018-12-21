@@ -41,15 +41,4 @@ class Types::QueryType < Types::BaseObject
       Location.primary
     end
   end
-
-  field :googleCal, Types::CalendarType do
-    description "Google Calendar response"
-    argument :calendarId, String, required: true
-  end
-
-  def google_cal
-    Rails.cache.fetch('google-cal-response', expires_in: 2.minutes) do
-      Clients::GoogleCal.new.get_events(args[:calendarId])
-    end
-  end
 end

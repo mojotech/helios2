@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_27_142450) do
+ActiveRecord::Schema.define(version: 2018_12_21_194808) do
 
   create_table "events", force: :cascade do |t|
     t.string "source"
@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 2018_06_27_142450) do
     t.string "time_zone", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "calendar_id"
   end
 
 end
