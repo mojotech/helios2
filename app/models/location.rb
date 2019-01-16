@@ -12,10 +12,6 @@ class Location < ApplicationRecord
     Clients::DarkskyClient.forecast(latitude, longitude)
   end
 
-  def google_cal
-    @google_cal ||= Clients::GoogleCal.new.get_events(calendar_id) if calendar_id
-  end
-
   def primary?
     city_name == ENV['PRIMARY_CITY_NAME']
   end

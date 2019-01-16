@@ -7,7 +7,6 @@ import Twitter from './twitter';
 import Numbers from './widgets/numbers';
 import Weather from './widgets/weather';
 import Live from './live-stream';
-import GuestsWidget from './guests-widget';
 import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
 import { colors } from '../lib/theme';
@@ -47,9 +46,6 @@ const widgets = [
     panel: <Live />,
     text: 'MojoTech Boulder',
     children: 'Live.',
-  },
-  {
-    panel: <GuestsWidget />,
   },
 ];
 
