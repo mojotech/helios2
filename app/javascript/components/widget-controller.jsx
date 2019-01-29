@@ -54,7 +54,7 @@ export class WidgetController extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      isLocked: false,
+      isLocked: true,
     };
   }
 
