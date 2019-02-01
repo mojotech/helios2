@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { mathMod } from 'ramda';
+import { mathMod, filter, includes, merge, find } from 'ramda';
 import FullPanel from './full-panel';
 import SidePanel from './side-panel';
 import Twitter from './twitter';
@@ -57,7 +57,7 @@ const getWidgets = gql`
     widgets {
       id
       text
-      is_active
+      isActive
     }
   }
 `;
@@ -128,8 +128,12 @@ export class WidgetController extends React.Component {
     return (
       <Query query={getWidgets}>
         {({ loading, error, data }) => {
-          console.log('error', error);
-          console.log('data', data);
+          if (data.widgets) {
+            const wids = data.widgets.map(wid => {
+              return merge(wid, find(w => w.text === wid.text, widgets));
+            });
+            console.log(wids);
+          }
           return (
             <div
               onKeyDown={this.switchPages}

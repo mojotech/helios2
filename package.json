@@ -42,7 +42,7 @@
     "react-svg-loader": "^2.1.0",
     "require-yaml": "^0.0.1",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": ">=3.1.1"
+    "webpack-dev-server": "2.11.2"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",

@@ -3,5 +3,5 @@ class Types::WidgetType < Types::BaseObject
 
   field "id", ID
   field "text", String
-  field "is_active", Boolean
+  field "isActive", Boolean
 end
