@@ -41,4 +41,14 @@ class Types::QueryType < Types::BaseObject
       Location.primary
     end
   end
+
+  field :widgets, [Types::WidgetType] do
+    description "Widgets"
+  end
+
+  def widgets
+    Rails.cache.fetch('widgets-response', expires_in: 15.minutes) do
+      Widget.all
+    end
+  end
 end

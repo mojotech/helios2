@@ -11,6 +11,9 @@ import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
 import { colors } from '../lib/theme';
 
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
 const IconWrapper = styled.div`
   position: absolute;
   left: 20px;
@@ -48,6 +51,16 @@ const widgets = [
     children: 'Live.',
   },
 ];
+
+const getWidgets = gql`
+  {
+    widgets {
+      id
+      text
+      is_active
+    }
+  }
+`;
 
 export class WidgetController extends React.Component {
   constructor(props) {
@@ -113,19 +126,26 @@ export class WidgetController extends React.Component {
     const icon = isLocked ? lockedIcon : unlockedIcon;
 
     return (
-      // eslint-disable-next-line
-      <div
-        onKeyDown={this.switchPages}
-        onClick={this.handleClicks}
-        // eslint-disable-next-line
-        tabIndex="0"
-      >
-        <FullPanel currentWidget={currentWidget.panel} />
-        <SidePanel widgets={widgets} selectedWidget={index} />
-        <IconWrapper>
-          <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
-        </IconWrapper>
-      </div>
+      <Query query={getWidgets}>
+        {({ loading, error, data }) => {
+          console.log('error', error);
+          console.log('data', data);
+          return (
+            <div
+              onKeyDown={this.switchPages}
+              onClick={this.handleClicks}
+              // eslint-disable-next-line
+              tabIndex="0"
+            >
+              <FullPanel currentWidget={currentWidget.panel} />
+              <SidePanel widgets={widgets} selectedWidget={index} />
+              <IconWrapper>
+                <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
+              </IconWrapper>
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_21_194808) do
+ActiveRecord::Schema.define(version: 2019_02_01_191631) do
 
   create_table "events", force: :cascade do |t|
     t.string "source"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 2018_12_21_194808) do
     t.float "longitude", null: false
     t.string "city_name", null: false
     t.string "time_zone", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.string "text"
+    t.boolean "is_active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
