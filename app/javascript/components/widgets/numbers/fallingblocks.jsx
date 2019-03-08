@@ -1,10 +1,16 @@
 import React from 'react';
 import { reduce } from 'ramda';
+import PropTypes from 'prop-types';
+import { withContext as withUnityContext } from '../../unity-context';
 /* global UnityLoader */
 
 const unityBlockNames = ['pr', 'commit', 'slack'];
 
 class FallingBlocks extends React.Component {
+  static propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +59,7 @@ class FallingBlocks extends React.Component {
 
   addBlocks = () => {
     const block = this.nextBlock();
-    if (this.state.unityReady && block) {
+    if (this.props.isVisible && this.state.unityReady && block) {
       this.setState({ [block]: this.state[block] - 1, done: false });
       this.fallingBlocks.SendMessage('background', 'addObject', block);
       this.timer = setTimeout(this.addBlocks, 200);
@@ -65,4 +71,4 @@ class FallingBlocks extends React.Component {
   }
 }
 
-export default FallingBlocks;
+export default withUnityContext(FallingBlocks);

@@ -10,6 +10,8 @@ import Live from './live-stream';
 import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
 import { colors } from '../lib/theme';
+import Unity from './unity';
+import { Provider as UnityProvider } from './unity-context';
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -55,6 +57,7 @@ export class WidgetController extends React.Component {
     this.state = {
       index: 0,
       isLocked: true,
+      unityVisible: false,
     };
   }
 
@@ -120,11 +123,19 @@ export class WidgetController extends React.Component {
         // eslint-disable-next-line
         tabIndex="0"
       >
-        <FullPanel currentWidget={currentWidget.panel} />
-        <SidePanel widgets={widgets} selectedWidget={index} />
-        <IconWrapper>
-          <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
-        </IconWrapper>
+        <UnityProvider
+          value={{
+            isVisible: this.state.unityVisible,
+            setVisible: unityVisible => this.setState({ unityVisible }),
+          }}
+        >
+          <Unity />
+          <FullPanel currentWidget={currentWidget.panel} />
+          <SidePanel widgets={widgets} selectedWidget={index} />
+          <IconWrapper>
+            <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
+          </IconWrapper>
+        </UnityProvider>
       </div>
     );
   }

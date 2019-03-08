@@ -1,6 +1,23 @@
 import React from 'react';
-import Wrapper from '../../panel-wrapper';
+import PropTypes from 'prop-types';
+import { withContext as withUhityContext } from '../../unity-context';
 
-export const Numbers = () => <Wrapper />;
+class Numbers extends React.Component {
+  static propTypes = {
+    setVisible: PropTypes.func.isRequired,
+  };
 
-export default Numbers;
+  componentDidMount() {
+    this.props.setVisible(true);
+  }
+
+  componentWillUnmount() {
+    this.props.setVisible(false);
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default withUhityContext(Numbers);
