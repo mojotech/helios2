@@ -14,7 +14,8 @@ export const xValue = (remainingTime, totalTime, width, circlePadding) => {
   const xEnd = width - circlePadding;
   if (remainingTime >= totalTime) {
     return xStart;
-  } else if (remainingTime <= 0) {
+  }
+  if (remainingTime <= 0) {
     return xEnd;
   }
   return ((xEnd - xStart) / totalTime) * (totalTime - remainingTime);

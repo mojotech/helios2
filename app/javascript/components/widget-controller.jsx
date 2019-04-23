@@ -66,14 +66,6 @@ export class WidgetController extends React.Component {
     this.setState(prevState => ({ isLocked: !prevState.isLocked }));
   };
 
-  startCarousel() {
-    setInterval(() => {
-      if (!this.state.isLocked) {
-        this.moveDown();
-      }
-    }, 30000);
-  }
-
   switchPages = ({ keyCode }) => {
     const upKey = 38;
     const downKey = 40;
@@ -99,12 +91,24 @@ export class WidgetController extends React.Component {
     }
   };
 
+  startCarousel() {
+    setInterval(() => {
+      if (!this.state.isLocked) {
+        this.moveDown();
+      }
+    }, 30000);
+  }
+
   moveUp() {
-    this.setState({ index: mathMod(this.state.index - 1, widgets.length) });
+    this.setState(({ index }) => ({
+      index: mathMod(index - 1, widgets.length),
+    }));
   }
 
   moveDown() {
-    this.setState({ index: (this.state.index + 1) % widgets.length });
+    this.setState(({ index }) => ({
+      index: (index + 1) % widgets.length,
+    }));
   }
 
   render() {
