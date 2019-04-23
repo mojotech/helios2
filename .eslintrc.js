@@ -13,6 +13,8 @@ module.exports = {
         schemaJson: require('./app/javascript/schema.json'),
       },
     ],
+    'react/jsx-one-expression-per-line': [0],
+    'react/destructuring-assignment': [0],
   },
   env: {
     browser: true,
