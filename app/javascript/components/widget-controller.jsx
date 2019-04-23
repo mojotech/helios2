@@ -100,11 +100,15 @@ export class WidgetController extends React.Component {
   };
 
   moveUp() {
-    this.setState({ index: mathMod(this.state.index - 1, widgets.length) });
+    this.setState(({ index }) => ({
+      index: mathMod(index - 1, widgets.length),
+    }));
   }
 
   moveDown() {
-    this.setState({ index: (this.state.index + 1) % widgets.length });
+    this.setState(({ index }) => ({
+      index: (index + 1) % widgets.length,
+    }));
   }
 
   render() {
