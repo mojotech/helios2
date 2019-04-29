@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
 import { colors, weights, fontSizes } from '../../../lib/theme';
+import FallingBlocks from './falling-blocks';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -97,6 +98,7 @@ const Numbers = () => (
       return (
         <Count>
           <SubscribedEvents {...count} />
+          <FallingBlocks />
         </Count>
       );
     }}
