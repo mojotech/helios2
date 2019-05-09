@@ -10,12 +10,17 @@ namespace :simulate do
     post_github_event('push', render_new_push_json(args[:count].to_i))
   end
 
-  def disable_authentication
+  desc "Simulates a new message on Slack"
+  task slack_message: :environment do
+    post_slack_event(render_new_slack_event_json)
+  end
+
+  def disable_github_authentication
     WebHooks::GithubController.skip_before_action :authenticate_github_request!
   end
 
   def post_github_event(event, params)
-    disable_authentication
+    disable_github_authentication
     session = ActionDispatch::Integration::Session.new(Rails.application)
     resp = session.post(
       "/web_hooks/github",
@@ -28,6 +33,17 @@ namespace :simulate do
     puts "Response: #{resp}"
   end
 
+  def post_slack_event(params)
+    ENV['SLACK_VERIFICATION_TOKEN'] = 'Sim-123456'
+    session = ActionDispatch::Integration::Session.new(Rails.application)
+    resp = session.post(
+      "/web_hooks/slack_event",
+      params: params,
+      headers: { 'Content-Type': 'application/json' }
+    )
+    puts "Slack message response: #{resp}"
+  end
+
   def render_new_pull_request_json
     count = Event.pull_requests.count
     Simulate.pull_request.render(number: count + 1, id: count + 1)
@@ -36,5 +52,10 @@ namespace :simulate do
   def render_new_push_json(commit_count = 3)
     hashes = Array.new(commit_count) { SecureRandom.uuid.split('-').join }
     Simulate.push.render(hashes: hashes)
+  end
+
+  def render_new_slack_event_json
+    hash = SecureRandom.uuid
+    Simulate.slack_event.render(event_id: "Sim-#{hash}")
   end
 end
