@@ -39,6 +39,9 @@ gem "graphql", "~> 1.8.3"
 # github API
 gem 'github_webhook', '~> 1.1'
 
+# slack API
+gem 'slack-ruby-client'
+
 # jobs
 gem 'sidekiq'
 gem 'sidekiq-repeat'

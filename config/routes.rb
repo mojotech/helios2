@@ -8,7 +8,12 @@ Rails.application.routes.draw do
 
   namespace :web_hooks do
     post 'github', to: 'github#create', defaults: { format: :json }
+    post 'slack_event', to: 'slack#create', defaults: { format: :json }
+
+    get 'new_slack_auth', to: 'slack_auth#new'
+    get 'create_slack_auth', to: 'slack_auth#create'
   end
 
   root to: 'pages#index'
+
 end
