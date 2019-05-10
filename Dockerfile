@@ -9,11 +9,12 @@ RUN useradd -ms /bin/bash -d /app app
 RUN mkdir /app/secure && chown app:app /app/secure
 RUN mkdir /app/tmp && chown app:app /app/tmp
 WORKDIR /app
+
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+RUN bundle install --jobs=4
+
 USER app
 RUN bundle config git.allow_insecure true
-COPY --chown=app vendor /app/vendor
-COPY --chown=app Gemfile /app/Gemfile
-COPY --chown=app Gemfile.lock /app/Gemfile.lock
-RUN bundle install --jobs=4 --path vendor/bundle
 RUN yarn install
 COPY --chown=app . /app

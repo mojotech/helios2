@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: .
-    command: bash -lc "(rm -rf tmp/pids/ || true) && yarn install && bundle install --path vendor/bundle && bin/rails db:migrate db:seed RAILS_ENV=development && bundle exec foreman start -f Procfile.development"
+    command: bash -lc "(rm -rf tmp/pids/ || true) && yarn install && bundle exec foreman start -f Procfile.development"
     hostname: helios2-dev
     tty: true
     stdin_open: true
