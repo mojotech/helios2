@@ -1,7 +1,6 @@
 FROM ruby:2.5.1
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash &&\
     apt-get update -qq && apt-get install -yq build-essential nodejs unzip &&\
-    gem install foreman &&\
     gem install bundler -v 1.16 &&\
     npm install -g yarn
 
