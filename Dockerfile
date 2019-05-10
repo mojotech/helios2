@@ -1,7 +1,7 @@
-FROM ruby:2.5.1
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get update -qq && apt-get install -yq build-essential nodejs unzip
 RUN gem install foreman
+FROM ruby:2.5.5
 # upgrade bundler to avoid https://github.com/bundler/bundler/issues/4576
 RUN gem install bundler -v 1.16
 RUN npm install -g yarn
