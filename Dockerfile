@@ -4,16 +4,16 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash &&\
     gem install bundler -v 1.16 &&\
     npm install -g yarn
 
-RUN useradd -ms /bin/bash -d /app app
-RUN mkdir /app/secure && chown app:app /app/secure
-RUN mkdir /app/tmp && chown app:app /app/tmp
-WORKDIR /app
+RUN useradd -ms /bin/bash -d /helios app
+RUN mkdir /helios/secure && chown app:app /helios/secure
+RUN mkdir /helios/tmp && chown app:app /helios/tmp
+WORKDIR /helios
 
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
+COPY Gemfile /helios/Gemfile
+COPY Gemfile.lock /helios/Gemfile.lock
 RUN bundle install --jobs=4
 
 USER app
 RUN bundle config git.allow_insecure true
 RUN yarn install
-COPY --chown=app . /app
+COPY --chown=app . /helios

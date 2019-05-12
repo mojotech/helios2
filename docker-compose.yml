@@ -7,9 +7,9 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - .:/app:delegated
-      - /app/secure
-      - /app/tmp
+      - .:/helios:delegated
+      - /helios/secure
+      - /helios/tmp
     ports:
       - "5000:5000"
       - "3035:3035"
