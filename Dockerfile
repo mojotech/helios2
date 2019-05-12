@@ -8,13 +8,12 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash &&\
     gem install bundler -v 1.16 &&\
     npm install -g yarn
 
+# Create developer user and its group, prepare project directories.
 RUN groupadd -g ${GROUP_ID} developers &&\
     useradd -l -u ${USER_ID} -g ${GROUP_ID} developer &&\
-    install -d -m 0755 -o developer -g developers /home/developer
-
-RUN mkdir /helios && chown developer:developers /helios
-RUN mkdir /helios/secure && chown developer:developers /helios/secure
-RUN mkdir /helios/tmp && chown developer:developers /helios/tmp
+    install -d -m 0755 -o developer -g developers /home/developer &&\
+    mkdir -p /helios/secure /helios/tmp &&\
+    chown -R developer:developers /helios
 
 WORKDIR /helios
 
