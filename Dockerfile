@@ -23,6 +23,5 @@ RUN bundle install --jobs=4
 
 USER developer
 
-RUN bundle config git.allow_insecure true
 RUN yarn install
 COPY --chown=developer:developers . /helios
