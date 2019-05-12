@@ -23,5 +23,8 @@ RUN bundle install --jobs=4
 
 USER developer
 
+COPY package.json /helios/package.json
+COPY yarn.lock /helios/yarn.lock
 RUN yarn install
+
 COPY --chown=developer:developers . /helios
