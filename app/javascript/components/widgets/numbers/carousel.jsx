@@ -37,17 +37,19 @@ class SubscribedEvents extends React.Component {
   }
 
   render() {
-    const { githubPull, githubCommit } = this.props;
+    const { githubPull, githubCommit, slackMessage } = this.props;
 
     const commitText = pluralize('commit', githubCommit);
     const requestText = pluralize('request', githubPull);
+    const messageText = pluralize('message', slackMessage);
 
-    return `${githubCommit} ${commitText} and ${githubPull} pull ${requestText} this week.`;
+    return `${githubCommit} ${commitText}, ${githubPull} pull ${requestText}, and ${slackMessage} Slack ${messageText} this week.`;
   }
 }
 SubscribedEvents.propTypes = {
   githubPull: PropTypes.number.isRequired,
   githubCommit: PropTypes.number.isRequired,
+  slackMessage: PropTypes.number.isRequired,
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
