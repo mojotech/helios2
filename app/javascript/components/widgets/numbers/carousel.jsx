@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
+import { getMostRecentDay } from '../../../lib/datetime';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -20,8 +21,8 @@ const subscribeEventPublished = gql`
 `;
 
 const getEventCounts = gql`
-  {
-    events {
+  query getEvents($after: String!) {
+    events(after: $after) {
       count {
         githubPull
         githubCommit
@@ -54,7 +55,10 @@ SubscribedEvents.propTypes = {
 };
 
 const Numbers = () => (
-  <Query query={getEventCounts}>
+  <Query
+    query={getEventCounts}
+    variables={{ after: getMostRecentDay('Monday') }}
+  >
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;

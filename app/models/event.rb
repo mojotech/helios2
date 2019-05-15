@@ -10,7 +10,7 @@ class Event < ApplicationRecord
 
   scope :pull_requests, -> { where(source: :github_pull) }
   scope :commits, -> { where(source: :github_commit) }
-  scope :slack_messages, -> {where(source: :slack_message)}
+  scope :slack_messages, -> { where(source: :slack_message) }
 
   scope :with_external_id, ->(external_id) { where(external_id: external_id) }
 end

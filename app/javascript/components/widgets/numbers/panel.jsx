@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
-import {
-  colors,
-  weights,
-  fontSizes,
-  spacing,
-  fonts,
-  leftPanelWidth,
-} from '../../../lib/theme';
+import { getMostRecentDay } from '../../../lib/datetime';
+import { colors, weights, fontSizes } from '../../../lib/theme';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -21,8 +14,8 @@ ErrorMessage.propTypes = {
 };
 
 const getEventCounts = gql`
-  {
-    events {
+  query getEvents($after: String!) {
+    events(after: $after) {
       count {
         githubPull
         githubCommit
@@ -40,7 +33,7 @@ const NumbersTitle = styled.div`
 const Count = styled.div`
   color: ${colors.white};
   weight: ${weights.bold};
-  font-size: ${fontSizes.huge};
+  font-size: ${fontSizes.xlarge};
 `;
 
 const CountLabel = styled.div`
@@ -52,7 +45,7 @@ const NumberWrapper = styled.div`
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
-  width: 5em;
+  width: 33vw;
 `;
 
 const SubscribedEvents = ({ githubPull, githubCommit, slackMessage }) => {
@@ -87,7 +80,10 @@ SubscribedEvents.propTypes = {
 };
 
 const Numbers = () => (
-  <Query query={getEventCounts}>
+  <Query
+    query={getEventCounts}
+    variables={{ after: getMostRecentDay('Monday') }}
+  >
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;

@@ -67,3 +67,24 @@ export const parseDay = datetime => {
     weekday: 'long',
   });
 };
+
+export const getWeekday = day => {
+  const weekDays = {
+    Sunday: 0,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+  };
+  return weekDays[day];
+};
+
+export const getMostRecentDay = (day, today = new Date()) => {
+  const d = getWeekday(day);
+  const offset = (today.getDay() + 7 - d) % 7;
+  return new Date(today.setDate(today.getDate() - offset))
+    .toISOString()
+    .slice(0, 10);
+};
