@@ -45,6 +45,11 @@ You can either install the deps directly on your box or you can use the Docker s
   - if it gives any errors, try the following command:
     - `docker-compose run web bundle exec rake app:update:bin`
 
+### Integrations
+There are a number of integrations used within the Helios app.
+A more detailed desctipition of these integrations including how to
+get started using them can be found [here](./INTEGRATIONS.md)
+
 ### Production Start up
 
 - `export PATH=<node path>`
