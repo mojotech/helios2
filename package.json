@@ -2,6 +2,9 @@
   "name": "helios2",
   "private": true,
   "dependencies": {
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "^4.0.0",
     "actioncable": "^5.2.0",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",
@@ -26,9 +29,6 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "^4.0.0",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^24.7.1",
     "eslint": "^5.16.0",
