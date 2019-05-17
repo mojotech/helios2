@@ -4,6 +4,8 @@ export const colors = {
   grey: '#8C8989',
   lightPink: '#FFA7C2',
   pink: '#FE6B6E',
+  teal: '#5fc19f',
+  yellow: '#fbd273',
 };
 
 export const spacing = {

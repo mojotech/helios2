@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
+import { getMostRecentDay } from '../../../lib/datetime';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
@@ -20,8 +21,8 @@ const subscribeEventPublished = gql`
 `;
 
 const getEventCounts = gql`
-  {
-    events {
+  query getEvents($after: String!) {
+    events(after: $after) {
       count {
         githubPull
         githubCommit
@@ -37,22 +38,27 @@ class SubscribedEvents extends React.Component {
   }
 
   render() {
-    const { githubPull, githubCommit } = this.props;
+    const { githubPull, githubCommit, slackMessage } = this.props;
 
     const commitText = pluralize('commit', githubCommit);
     const requestText = pluralize('request', githubPull);
+    const messageText = pluralize('message', slackMessage);
 
-    return `${githubCommit} ${commitText} and ${githubPull} pull ${requestText} this week.`;
+    return `${githubCommit} ${commitText}, ${githubPull} pull ${requestText}, and ${slackMessage} Slack ${messageText} this week.`;
   }
 }
 SubscribedEvents.propTypes = {
   githubPull: PropTypes.number.isRequired,
   githubCommit: PropTypes.number.isRequired,
+  slackMessage: PropTypes.number.isRequired,
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
 const Numbers = () => (
-  <Query query={getEventCounts}>
+  <Query
+    query={getEventCounts}
+    variables={{ after: getMostRecentDay('Monday') }}
+  >
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
