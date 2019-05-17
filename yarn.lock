@@ -8303,6 +8303,11 @@ restore-cursor@^2.0.0:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
 
+resurrect-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/resurrect-js/-/resurrect-js-1.0.1.tgz#6f0f6442bb60c2225e19dc46e972a1418d525342"
+  integrity sha1-bw9kQrtgwiJeGdxG6XKhQY1SU0I=
+
 ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
