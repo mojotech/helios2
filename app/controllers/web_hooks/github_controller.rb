@@ -3,6 +3,8 @@ class WebHooks::GithubController < ApplicationController
 
   protect_from_forgery with: :null_session
 
+  rescue_from NoMethodError, with: :handle_github_web_hook_exception
+
   protected def github_pull_request(payload)
     pull_request = payload[:pull_request]
     publish(Event.pull_requests.with_external_id(pull_request[:id]))
@@ -22,6 +24,12 @@ class WebHooks::GithubController < ApplicationController
 
     event.save!
     Helios2Schema.subscriptions.trigger("eventPublished", {}, event)
+  end
+
+  private def handle_github_web_hook_exception(exception)
+    raise exception unless exception.message =~ /^GithubWebhooksController#\w+ not implemented$/
+
+    head :ok, content_type: 'application/json'
   end
 
   private def webhook_secret(_payload)
