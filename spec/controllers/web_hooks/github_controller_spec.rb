@@ -17,6 +17,18 @@ RSpec.describe WebHooks::GithubController, type: :controller do
 end
 
 RSpec.describe 'github webhook requests', type: :request do
+  describe "POST :status" do
+    headers = {
+      'X-Github-Event': 'status',
+      'Content-Type': 'application/json'
+    }
+
+    it "completes successfully" do
+      post '/web_hooks/github', params: {}, headers: headers
+      expect(response.status).to equal(200)
+    end
+  end
+
   describe "POST :pull_request" do
     count = Event.pull_requests.count
     params = Simulate.pull_request.render(number: count + 1, id: count + 1).to_s
