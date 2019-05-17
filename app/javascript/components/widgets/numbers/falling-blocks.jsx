@@ -1,5 +1,5 @@
 import React from 'react';
-import { Engine, Render, World, Bodies } from 'matter-js';
+import { Engine, Render, World, Bodies, Sleeping } from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
@@ -36,6 +36,7 @@ class Scene extends React.Component {
     if (world) {
       const loadedWorld = this.res.resurrect(world);
       Engine.merge(this.engine, { world: loadedWorld });
+      this.engine.world.bodies.map(body => Sleeping.set(body, true));
     }
     this.addBlocks();
   }
