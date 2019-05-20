@@ -35,14 +35,14 @@ const CenteredRow = styled(Row)`
 const TempText = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.huge};
-  font-weight: ${weights.light};
+  font-weight: ${weights.regular};
   margin-right: ${spacing.xxxl};
-  font-family: ${fonts.thin};
+  font-family: ${fonts.extended};
 `;
 
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.large};
-  font-weight: ${weights.light};
+  font-weight: ${weights.regular};
   margin-top: 50px;
   margin-bottom: 50px;
   width: ${leftPanelWidth};
