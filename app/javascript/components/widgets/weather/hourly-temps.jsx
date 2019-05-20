@@ -73,7 +73,7 @@ const HourlyTemps = ({ weather }) => {
             <Time>{parseHour(time)}</Time>
             <Temp>{parseInt(temperature, 10)}°</Temp>
             <Precip>
-              <RainIcon src={rainIcon} width="10" height="10" alt="" />
+              <RainIcon src={rainIcon} width="16" height="16" alt="" />
               {parseInt(precipProbability * 100, 10)}
               <Percent>%</Percent>
             </Precip>
