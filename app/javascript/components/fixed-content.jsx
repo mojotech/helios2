@@ -13,6 +13,7 @@ import widgetShape from '../lib/widget-shape';
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
   margin-bottom: ${spacing.xxl};
+  margin-top: 13px;
 `;
 
 const CarouselContainer = styled.div`
