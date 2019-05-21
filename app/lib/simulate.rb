@@ -17,7 +17,11 @@ class Simulate
     Simulate.new('push-master.json.erb')
   end
 
-  def self.slack_event
+  def self.slack_message
     Simulate.new('slack-message.json.erb')
+  end
+
+  def self.slack_announcement
+    Simulate.new('slack-announcement.json.erb')
   end
 end

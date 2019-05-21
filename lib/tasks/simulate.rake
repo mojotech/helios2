@@ -12,7 +12,12 @@ namespace :simulate do
 
   desc "Simulates a new message on Slack"
   task slack_message: :environment do
-    post_slack_event(render_new_slack_event_json)
+    post_slack_event(render_new_slack_message_json)
+  end
+
+  desc "Simulates a new announcement on Slack"
+  task slack_announcement: :environment do
+    post_slack_event(render_new_slack_announcement_json)
   end
 
   def disable_github_authentication
@@ -41,7 +46,7 @@ namespace :simulate do
       params: params,
       headers: { 'Content-Type': 'application/json' }
     )
-    puts "Slack message response: #{resp}"
+    puts "Slack event response: #{resp}"
   end
 
   def render_new_pull_request_json
@@ -54,8 +59,15 @@ namespace :simulate do
     Simulate.push.render(hashes: hashes)
   end
 
-  def render_new_slack_event_json
-    hash = SecureRandom.uuid
-    Simulate.slack_event.render(event_id: "Sim-#{hash}")
+  def render_new_slack_message_json
+    Simulate.slack_message.render(event_id: "Sim-#{generate_hash}")
+  end
+
+  def render_new_slack_announcement_json
+    Simulate.slack_announcement.render(event_id: "Sim-#{generate_hash}")
+  end
+
+  def generate_hash
+    SecureRandom.uuid
   end
 end
