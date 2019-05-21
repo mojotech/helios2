@@ -27,7 +27,7 @@ const getLocations = gql`
   }
 `;
 
-export const Times = () => (
+export const TimeHero = () => (
   <Wrapper>
     <Query query={getLocations}>
       {({ loading, error, data }) => {
@@ -53,4 +53,4 @@ export const Times = () => (
   </Wrapper>
 );
 
-export default Times;
+export default TimeHero;
