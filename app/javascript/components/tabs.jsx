@@ -21,7 +21,6 @@ const OtherWidgetText = styled.div`
   font-size: ${fontSizes.small};
   color: ${colors.white};
   opacity: 0.5;
-  margin-left: ${spacing.l};
   cursor: pointer;
 `;
 
@@ -30,7 +29,6 @@ const OtherSubText = styled.div`
   font-size: ${fontSizes.tiny};
   margin-top: ${spacing.s};
   opacity: 0.5;
-  margin-left: ${spacing.l};
 `;
 
 export const TabBar = () => (
@@ -43,21 +41,21 @@ export const Tab = props => {
   if (props.selected) {
     return (
       <span>
-        <TabBar />
         <CurrentWidgetText id={`widget_${props.widgetId}`}>
           {props.text}
         </CurrentWidgetText>
         <CurrentSubText>{props.children}</CurrentSubText>
+        <TabBar />
       </span>
     );
   }
   return (
     <span>
-      <TabBar />
       <OtherWidgetText id={`widget_${props.widgetId}`}>
         {props.text}
       </OtherWidgetText>
       <OtherSubText>{props.children}</OtherSubText>
+      <TabBar />
     </span>
   );
 };
