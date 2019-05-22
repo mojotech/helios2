@@ -40,3 +40,5 @@ yarn-debug.log*
 /vendor
 /.cache
 /.yarnrc
+
+.DS_Store
