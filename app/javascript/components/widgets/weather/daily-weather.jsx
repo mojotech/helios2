@@ -7,7 +7,7 @@ import { colors, fontSizes, weights, spacing } from '../../../lib/theme';
 import { parseDay } from '../../../lib/datetime';
 import { WhiteText } from '../../typography';
 import { Row } from '../../row';
-import SkyIcon from './sky-icons';
+import { SmallSkyIcon } from './sky-icons';
 import withFragment from '../../hocs/with-fragment';
 
 const Wrapper = styled(Row)`
@@ -74,7 +74,7 @@ const DailyWeather = ({ weather }) => {
         }) => (
           <Item key={time}>
             <IconWrapper>
-              <SkyIcon icon={icon} />
+              <SmallSkyIcon icon={icon} />
             </IconWrapper>
             <Day>{parseDay(time)}</Day>
             <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>

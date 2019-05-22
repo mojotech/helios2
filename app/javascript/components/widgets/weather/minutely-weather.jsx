@@ -1,19 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 import withFragment from '../../hocs/with-fragment';
+import { SmallSkyIcon, LargeSkyIcon } from './sky-icons';
 
 const getMinutelyWeather = gql`
   fragment MinutelyWeather on Weather {
     minutely {
       summary
+      icon
     }
   }
 `;
 
-const MinutelyWeather = ({ weather }) => {
-  const { summary } = weather.minutely;
-  return <span>{summary}</span>;
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MinutelyWeather = ({ weather, useLargeIcon }) => {
+  const { summary, icon } = weather.minutely;
+  return (
+    <IconWrapper>
+      {useLargeIcon ? (
+        <LargeSkyIcon icon={icon} />
+      ) : (
+        <SmallSkyIcon icon={icon} />
+      )}
+      {summary}
+    </IconWrapper>
+  );
 };
 
 MinutelyWeather.propTypes = {
@@ -22,6 +40,11 @@ MinutelyWeather.propTypes = {
       summary: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  useLargeIcon: PropTypes.bool,
+};
+
+MinutelyWeather.defaultProps = {
+  useLargeIcon: false,
 };
 
 MinutelyWeather.fragments = {

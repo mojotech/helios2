@@ -12,23 +12,28 @@ import PartlyCloudyDayIcon from '../../../../assets/images/icons/icon-2-cloud-su
 import PartlyCloudyNightIcon from '../../../../assets/images/icons/icon-3-cloud-moon.svg';
 
 const iconMapping = {
-  'clear-day': <img src={ClearDayIcon} alt="clear-day" />,
-  'clear-night': <img src={ClearNightIcon} alt="clear-night" />,
-  rain: <img src={RainIcon} alt="rain" />,
-  snow: <img src={SnowIcon} alt="snow" />,
-  sleet: <img src={SleetIcon} alt="sleet" />,
-  wind: <img src={WindIcon} alt="wind" />,
-  fog: <img src={FogIcon} alt="fog" />,
-  cloudy: <img src={CloudyIcon} alt="cloudy" />,
-  'partly-cloudy-day': (
-    <img src={PartlyCloudyDayIcon} alt="partly-cloudy-day" />
-  ),
-  'partly-cloudy-night': (
-    <img src={PartlyCloudyNightIcon} alt="partly-cloudy-night" />
-  ),
+  'clear-day': ClearDayIcon,
+  'clear-night': ClearNightIcon,
+  rain: RainIcon,
+  snow: SnowIcon,
+  sleet: SleetIcon,
+  wind: WindIcon,
+  fog: FogIcon,
+  cloudy: CloudyIcon,
+  'partly-cloudy-day': PartlyCloudyDayIcon,
+  'partly-cloudy-night': PartlyCloudyNightIcon,
 };
 
-export const SkyIcon = ({ icon }) => iconMapping[icon];
+const SkyIcon = ({ width, height, icon }) => (
+  <img src={iconMapping[icon]} alt={icon} width={width} height={height} />
+);
+
+export const SmallSkyIcon = props => (
+  <SkyIcon width="32px" height="32px" {...props} />
+);
+export const LargeSkyIcon = props => (
+  <SkyIcon width="72px" height="72px" {...props} />
+);
 
 SkyIcon.propTypes = {
   icon: PropTypes.oneOf([
@@ -43,6 +48,8 @@ SkyIcon.propTypes = {
     'partly-cloudy-day',
     'partly-cloudy-night',
   ]).isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
 };
 
 export default SkyIcon;

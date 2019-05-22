@@ -116,7 +116,7 @@ class SubscribedWeather extends React.Component {
           <HourlyTemps {...{ weather }} />
         </CenteredRow>
         <SummaryText>
-          <MinutelyWeather {...{ weather }} />
+          <MinutelyWeather {...{ weather }} useLargeIcon />
         </SummaryText>
         <SunriseSunset {...{ location: primaryLocation, weather }} />
         <DailyWeather {...{ weather }} />
