@@ -6,6 +6,7 @@ import SidePanel from './side-panel';
 import Twitter from './twitter';
 import Numbers from './widgets/numbers';
 import Weather from './widgets/weather';
+import Guests from './widgets/guests';
 import Live from './live-stream';
 import lockedIcon from '../../assets/images/locked.svg';
 import unlockedIcon from '../../assets/images/unlocked.svg';
@@ -46,6 +47,11 @@ const widgets = [
     panel: <Live />,
     text: 'MojoTech Boulder',
     children: 'Live.',
+  },
+  {
+    panel: <Guests.Panel />,
+    text: "Today's guests",
+    children: <Guests.Carousel />,
   },
 ];
 
