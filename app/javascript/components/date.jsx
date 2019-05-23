@@ -4,13 +4,10 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { dateForTimezone } from 'lib/datetime';
 import { GreyText } from './typography';
-
-const LoadingMessage = () => <p>Loading...</p>;
-
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import {
+  LoadingMessage,
+  ErrorMessage,
+} from './widgets/messages/default-messages';
 
 const getTimezone = gql`
   {
@@ -61,7 +58,7 @@ export class Date extends React.Component {
     }
 
     if (error) {
-      return <ErrorMessage message={error.message} />;
+      return <ErrorMessage />;
     }
 
     return <GreyText>{this.state.date}</GreyText>;

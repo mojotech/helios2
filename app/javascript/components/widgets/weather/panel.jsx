@@ -9,6 +9,7 @@ import HourlyTemps from './hourly-temps';
 import MinutelyWeather from './minutely-weather';
 import DailyWeather from './daily-weather';
 import SunriseSunset from './sunrise-sunset';
+import { LoadingMessage, DisconnectedMessage } from '../messages/message';
 import { Row } from '../../row';
 import {
   colors,
@@ -55,12 +56,6 @@ const Notice = styled(GreySubText)`
   text-align: center;
   width: ${leftPanelWidth};
 `;
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
 const getPrimaryLocationWeather = gql`
   {
@@ -146,7 +141,7 @@ export default () => (
       }
 
       if (error) {
-        return <ErrorMessage message={error.message} />;
+        return <DisconnectedMessage />;
       }
 
       return (
