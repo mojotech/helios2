@@ -10,11 +10,11 @@ import rainIcon from '../../../../assets/images/raincloud.png';
 import withFragment from '../../hocs/with-fragment';
 
 const opacities = {
-  0: '0.8',
-  1: '0.675',
-  2: '0.55',
-  3: '0.425',
-  4: '0.3',
+  0: '1',
+  1: '0.9',
+  2: '0.8',
+  3: '0.7',
+  4: '0.6',
 };
 
 const Wrapper = styled(Row)`
