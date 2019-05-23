@@ -74,13 +74,15 @@ class SubscribedAnnouncements extends React.Component {
   }
 }
 SubscribedAnnouncements.propTypes = {
-  dayAnnouncements: PropTypes.shape({
-    message: PropTypes.string.isRequired,
-    people: PropTypes.string.isRequired,
-    company: PropTypes.string.isRequired,
-    publishOn: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  dayAnnouncements: PropTypes.arrayOf(
+    PropTypes.shape({
+      message: PropTypes.string.isRequired,
+      people: PropTypes.string.isRequired,
+      company: PropTypes.string.isRequired,
+      publishOn: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   subscribeToPublishedAnnouncements: PropTypes.func.isRequired,
 };
 
