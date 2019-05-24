@@ -17,6 +17,7 @@
     "graphql-ruby-client": "^1.4.0",
     "graphql-tag": "^2.9.2",
     "hoist-non-react-statics": "^3.0.1",
+    "numeral": "^2.0.6",
     "pluralize": "^7.0.0",
     "prop-types": "^15.6.1",
     "ramda": "^0.25.0",

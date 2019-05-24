@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import numeral from 'numeral';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
@@ -32,6 +33,8 @@ const getEventCounts = gql`
   }
 `;
 
+const STAT_FORMAT = '0,0';
+
 class SubscribedEvents extends React.Component {
   componentDidMount() {
     this.props.subscribeToPublishedEvents();
@@ -39,12 +42,15 @@ class SubscribedEvents extends React.Component {
 
   render() {
     const { githubPull, githubCommit, slackMessage } = this.props;
+    const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
+    const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
+    const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
 
     const commitText = pluralize('commit', githubCommit);
-    const requestText = pluralize('request', githubPull);
-    const messageText = pluralize('message', slackMessage);
+    const requestText = pluralize('pull request', githubPull);
+    const messageText = pluralize('Slack message', slackMessage);
 
-    return `${githubCommit} ${commitText}, ${githubPull} pull ${requestText}, and ${slackMessage} Slack ${messageText} this week.`;
+    return `${githubCommitCount} ${commitText}, ${githubPullCount} ${requestText}, and ${slackMessageCount} ${messageText} this week.`;
   }
 }
 SubscribedEvents.propTypes = {
