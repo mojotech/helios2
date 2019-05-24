@@ -8,6 +8,7 @@ import { getEventCounts } from './queries';
 import githubPull from '../../../../assets/images/pr.png';
 import githubCommit from '../../../../assets/images/commit.png';
 import slackMessage from '../../../../assets/images/slack.png';
+import { getMostRecentDay } from '../../../lib/datetime';
 import { withLocalMutation, withLocalState } from './ducks';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
@@ -210,7 +211,9 @@ class Scene extends React.Component {
 
 export default compose(
   withApollo,
-  graphql(getEventCounts),
+  graphql(getEventCounts, {
+    options: { variables: { after: getMostRecentDay('Monday') } },
+  }),
   withLocalState,
   withLocalMutation,
 )(Scene);
