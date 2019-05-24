@@ -1,30 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
 import { colors, weights, fontSizes } from '../../../lib/theme';
 import FallingBlocks from './falling-blocks';
+import { getEventCounts } from './queries';
 
 const LoadingMessage = () => <p>Loading...</p>;
 const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
 ErrorMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };
-
-const getEventCounts = gql`
-  query getEvents($after: String!) {
-    events(after: $after) {
-      count {
-        githubPull
-        githubCommit
-        slackMessage
-      }
-    }
-  }
-`;
 
 const NumbersTitle = styled.div`
   color: ${colors.white};
