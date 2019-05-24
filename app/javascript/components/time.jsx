@@ -58,9 +58,15 @@ export class Time extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.setState({ time: timeForTimezone(this.props.timezone) });
     }, 10000);
+  }
+
+  componentWillUnmount() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   render() {
