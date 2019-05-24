@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
+import numeral from 'numeral';
 import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
@@ -37,7 +38,13 @@ const NumberWrapper = styled.div`
   width: 33vw;
 `;
 
+const STAT_FORMAT = '0,0';
+
 const SubscribedEvents = ({ githubPull, githubCommit, slackMessage }) => {
+  const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
+  const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
+  const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
+
   const commitText = pluralize('Commit', githubCommit);
   const requestText = pluralize('request', githubPull);
   const messageText = pluralize('message', slackMessage);
@@ -47,15 +54,15 @@ const SubscribedEvents = ({ githubPull, githubCommit, slackMessage }) => {
       <NumbersTitle>This week at MojoTech</NumbersTitle>
       <NumberWrapper>
         <div>
-          <Count>{githubCommit}</Count>
+          <Count>{githubCommitCount}</Count>
           <CountLabel color={colors.pink}>{commitText}</CountLabel>
         </div>
         <div>
-          <Count>{githubPull}</Count>
+          <Count>{githubPullCount}</Count>
           <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
         </div>
         <div>
-          <Count>{slackMessage}</Count>
+          <Count>{slackMessageCount}</Count>
           <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
         </div>
       </NumberWrapper>
