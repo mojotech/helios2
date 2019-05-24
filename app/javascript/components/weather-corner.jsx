@@ -86,7 +86,7 @@ class WeatherCorner extends React.Component {
             </Precip>
           </TempText>
           <HourlyText>
-            <HourlyTemps {...{ weather }} />
+            <HourlyTemps {...{ weather }} hours={4} />
           </HourlyText>
         </Row>
       </Column>
