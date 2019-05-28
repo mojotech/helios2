@@ -30,6 +30,8 @@ const Column = styled.div`
 
 const CenteredRow = styled(Row)`
   align-items: center;
+  margin-left: 50px;
+  margn-top: ${spacing.m};
 `;
 
 const TempText = styled.div`
@@ -44,7 +46,6 @@ const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.large};
   font-weight: ${weights.regular};
   margin-top: 50px;
-  margin-bottom: 50px;
   width: ${leftPanelWidth};
   text-align: center;
   font-family: ${fonts.light};

@@ -14,7 +14,7 @@ const Wrapper = styled(Row)`
   color: ${colors.grey};
   font-weight: ${weights.light};
   margin-left: ${spacing.xl};
-  margin-top: ${spacing.xxl};
+  margin-top: 65px;
 `;
 
 const Item = styled.div`
