@@ -13,6 +13,8 @@
     "apollo-link-http": "^1.5.4",
     "apollo-utilities": "^1.0.16",
     "core-js": "2",
+    "date-fns": "^2.0.0-alpha.27",
+    "date-fns-tz": "^1.0.7",
     "graphql": "^0.13.2",
     "graphql-anywhere": "^4.1.15",
     "graphql-ruby-client": "^1.4.0",
