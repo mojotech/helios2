@@ -1,7 +1,9 @@
-### Integrations
+# Integrations
+
 As part of this application there are many integrations via widgets that are used.
 
 ## Dark Sky
+
 Dark Sky is the current weather API that we use when displaying weather data on the helios homepage.
 
 A key can be aquired here https://darksky.net/dev
