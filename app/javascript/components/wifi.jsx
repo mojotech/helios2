@@ -1,22 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { spacing } from '../lib/theme';
 import { WhiteTitle, GreySubText } from './typography';
 import { Row } from './row';
+import {
+  LoadingMessage,
+  ErrorMessage,
+} from './widgets/messages/default-messages';
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${spacing.xxxl};
 `;
-
-const LoadingMessage = () => <p>Loading...</p>;
-
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = { message: PropTypes.string.isRequired };
 
 const getWifiInfo = gql`
   {
@@ -36,7 +34,7 @@ export const Wifi = () => (
         }
 
         if (error) {
-          return <ErrorMessage message={error.message} />;
+          return <ErrorMessage />;
         }
 
         const { wifiName, wifiPassword } = data.primaryLocation;

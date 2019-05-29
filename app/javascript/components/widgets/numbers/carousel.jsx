@@ -6,12 +6,7 @@ import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
 import { getEventCounts, subscribeEventPublished } from './queries';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
 
 const STAT_FORMAT = '0,0';
 
@@ -51,7 +46,7 @@ const Numbers = () => (
       }
 
       if (error) {
-        return <ErrorMessage message={error.message} />;
+        return <ErrorMessage />;
       }
 
       const { count } = data.events;

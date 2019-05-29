@@ -5,12 +5,7 @@ import { Query } from 'react-apollo';
 import { assocPath } from 'ramda';
 import CurrentTemp from './current-temp';
 import MinutelyWeather from './minutely-weather';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
 
 const getPrimaryLocationWeather = gql`
   {
@@ -72,7 +67,7 @@ export default () => (
       }
 
       if (error) {
-        return <ErrorMessage message={error.message} />;
+        return <ErrorMessage />;
       }
 
       return (

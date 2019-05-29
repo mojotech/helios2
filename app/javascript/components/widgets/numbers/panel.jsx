@@ -4,15 +4,10 @@ import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getMostRecentDay } from '../../../lib/datetime';
+import { LoadingMessage, DisconnectedMessage } from '../messages/message';
 import { colors, weights, fontSizes } from '../../../lib/theme';
 import FallingBlocks from './falling-blocks';
 import { getEventCounts } from './queries';
-
-const LoadingMessage = () => <p>Loading...</p>;
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
 const NumbersTitle = styled.div`
   color: ${colors.white};
@@ -79,7 +74,7 @@ const Numbers = () => (
       }
 
       if (error) {
-        return <ErrorMessage message={error.message} />;
+        return <DisconnectedMessage />;
       }
 
       const { count } = data.events;

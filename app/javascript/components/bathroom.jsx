@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { WhiteTitle, GreySubText } from './typography';
-
-const LoadingMessage = () => <p>Loading...</p>;
-
-const ErrorMessage = ({ message }) => <p>Error: {message}</p>;
-ErrorMessage.propTypes = { message: PropTypes.string.isRequired };
+import {
+  LoadingMessage,
+  ErrorMessage,
+} from './widgets/messages/default-messages';
 
 const getBathroomCode = gql`
   {
@@ -25,7 +23,7 @@ export const Bathroom = () => (
       }
 
       if (error) {
-        return <ErrorMessage message={error.message} />;
+        return <ErrorMessage />;
       }
 
       const { bathroomCode } = data.primaryLocation;
