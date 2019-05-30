@@ -1,4 +1,4 @@
-import { format, isSameDay, differenceInMinutes, getDay } from 'date-fns';
+import { format, isSameDay, differenceInMinutes, startOfWeek } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
 export const timeForTimezone = (timezone, date = new Date()) =>
@@ -33,25 +33,5 @@ export const parseDay = datetime => {
   return format(new Date(datetime), 'EEEE');
 };
 
-export const getWeekday = day => {
-  const weekDays = {
-    Sunday: 0,
-    Monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
-  };
-  return weekDays[day];
-};
-
-export const getMostRecentDay = (day, today = new Date()) =>
-  format(
-    new Date(
-      today.setDate(
-        today.getDate() - ((getDay(today) + 7 - getWeekday(day)) % 7),
-      ),
-    ),
-    'yyyy-MM-dd',
-  );
+export const getStartOfWeek = () =>
+  startOfWeek(new Date(), { weekStartsOn: 1 }).toUTCString();

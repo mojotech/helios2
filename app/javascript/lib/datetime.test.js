@@ -8,7 +8,6 @@ import {
   isDateToday,
   isDateTomorrow,
   parseDay,
-  getMostRecentDay,
 } from './datetime';
 
 describe('#timeForTimezone', () => {
@@ -98,15 +97,5 @@ describe('#parseDay', () => {
     expect(parseDay(today)).toEqual('Today');
     expect(parseDay(tomorrow)).toEqual('Tomorrow');
     expect(parseDay(afterTomorrow)).toEqual(weekdayAfterTomorrow);
-  });
-});
-
-describe('#getMostRecentDay', () => {
-  const today = new Date('Monday May 13, 2019');
-  it('gets most recent Monday if today is Monday', () => {
-    expect(getMostRecentDay('Monday', today)).toEqual('2019-05-13');
-  });
-  it('gets most recent Tuesday if today is Monday', () => {
-    expect(getMostRecentDay('Tuesday', today)).toEqual('2019-05-07');
   });
 });
