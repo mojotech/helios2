@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import numeral from 'numeral';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
-import { getMostRecentDay } from '../../../lib/datetime';
+import { getStartOfWeek } from '../../../lib/datetime';
 import { getEventCounts, subscribeEventPublished } from './queries';
 import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
 
@@ -36,10 +36,7 @@ SubscribedEvents.propTypes = {
 };
 
 const Numbers = () => (
-  <Query
-    query={getEventCounts}
-    variables={{ after: getMostRecentDay('Monday') }}
-  >
+  <Query query={getEventCounts} variables={{ after: getStartOfWeek() }}>
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;

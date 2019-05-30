@@ -1,90 +1,37 @@
-export const timeForTimezone = timeZone =>
-  new Date().toLocaleString('en-US', {
-    timeZone,
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+import { format, isSameDay, differenceInMinutes, startOfWeek } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
-export const dateForTimezone = timeZone =>
-  new Date().toLocaleString('en-US', {
-    timeZone,
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+export const timeForTimezone = (timezone, date = new Date()) =>
+  format(utcToZonedTime(new Date(date), timezone), 'hh:mm aa');
 
-export const timeAndDateForTimezone = timezone =>
+export const dateForTimezone = (timezone, date = new Date()) =>
+  format(utcToZonedTime(new Date(date), timezone), 'EEEE, MMM dd, yyyy');
+
+export const timeAndDateForTimezone = (timezone, date = new Date()) =>
   new Date(
-    new Date().toLocaleString('en-US', {
-      timezone,
-    }),
+    format(utcToZonedTime(new Date(date), timezone), "yyyy-MM-dd'T'HH:mm:ss"),
   );
 
 export const parseHour = datetime =>
-  new Date(Date.parse(datetime))
-    .toLocaleString('en-US', {
-      hour: 'numeric',
-      hour12: true,
-    })
-    .split(' ')
-    .join('')
-    .toLowerCase();
+  format(new Date(datetime), 'haa').toLowerCase();
 
 export const parseTime = datetime =>
-  new Date(Date.parse(datetime))
-    .toLocaleString('en-US', {
-      hour: 'numeric',
-      hour12: true,
-      minute: 'numeric',
-    })
-    .toLowerCase();
+  format(new Date(datetime), 'h:mm aa').toLowerCase();
 
-export const timeDiffInMinutes = (date, other) => {
-  const difference = date.getTime() - other.getTime();
-  return Math.round(difference / 60000);
-};
+export const timeDiffInMinutes = (date, other) =>
+  differenceInMinutes(date, other);
 
-const parseDatetime = datetime => new Date(Date.parse(datetime));
+export const isDateToday = datetime =>
+  isSameDay(new Date(datetime), new Date());
 
-const isToday = datetime =>
-  parseDatetime(datetime).toDateString() === new Date().toDateString();
-
-const isTomorrow = datetime => {
-  const tomorrowDate = new Date();
-  tomorrowDate.setDate(new Date().getDate() + 1);
-  return parseDatetime(datetime).toDateString() === tomorrowDate.toDateString();
-};
+export const isDateTomorrow = datetime =>
+  isSameDay(new Date(datetime), new Date().setDate(new Date().getDate() + 1));
 
 export const parseDay = datetime => {
-  if (isToday(datetime)) {
-    return 'Today';
-  }
-  if (isTomorrow(datetime)) {
-    return 'Tomorrow';
-  }
-  return parseDatetime(datetime).toLocaleString('en-US', {
-    weekday: 'long',
-  });
+  if (isDateToday(datetime)) return 'Today';
+  if (isDateTomorrow(datetime)) return 'Tomorrow';
+  return format(new Date(datetime), 'EEEE');
 };
 
-export const getWeekday = day => {
-  const weekDays = {
-    Sunday: 0,
-    Monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
-  };
-  return weekDays[day];
-};
-
-export const getMostRecentDay = (day, today = new Date()) => {
-  const d = getWeekday(day);
-  const offset = (today.getDay() + 7 - d) % 7;
-  return new Date(today.setDate(today.getDate() - offset))
-    .toISOString()
-    .slice(0, 10);
-};
+export const getStartOfWeek = () =>
+  startOfWeek(new Date(), { weekStartsOn: 1 }).toUTCString();
