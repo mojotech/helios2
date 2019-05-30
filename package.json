@@ -48,6 +48,7 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-react-hooks": "^1.6.0",
     "jest": "24.8.0",
+    "jscodeshift": "^0.6.4",
     "prettier": "^1.18.2",
     "react-svg-loader": "^3.0.3",
     "require-yaml": "^0.0.1",
