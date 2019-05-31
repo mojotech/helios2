@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_21_194808) do
+ActiveRecord::Schema.define(version: 2019_05_31_061410) do
+
+  create_table "daily_event_summaries", force: :cascade do |t|
+    t.string "source", null: false
+    t.date "day", null: false
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "source"

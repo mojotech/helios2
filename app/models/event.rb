@@ -13,4 +13,6 @@ class Event < ApplicationRecord
   scope :slack_messages, -> { where(source: :slack_message) }
 
   scope :with_external_id, ->(external_id) { where(external_id: external_id) }
+
+  scope :before_beginning_of_week, -> { where('created_at < ?', Time.zone.today.beginning_of_week) }
 end
