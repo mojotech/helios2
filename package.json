@@ -57,7 +57,8 @@
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",
-    "test": "jest"
+    "test": "jest",
+    "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ "
   },
   "jest": {
     "verbose": true,
