@@ -1,5 +1,5 @@
-import Tab from './tab';
-import Panel from './panel';
+import Tab from '@numbers/tab';
+import Panel from '@numbers/panel';
 
 export default {
   Tab,

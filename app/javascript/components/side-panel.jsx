@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { spacing } from '../lib/theme';
-import FixedContent from './fixed-content';
-import widgetShape from '../lib/widget-shape';
+import { spacing } from '@lib/theme';
+import FixedContent from '@components/fixed-content';
+import widgetShape from '@lib/widget-shape';
 
 const Wrapper = styled.div`
   bottom: 0;

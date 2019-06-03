@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import { assocPath } from 'ramda';
-import CurrentTemp from './current-temp';
-import MinutelyWeather from './minutely-weather';
-import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
+import CurrentTemp from '@weather/current-temp';
+import MinutelyWeather from '@weather/minutely-weather';
+import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const SummaryTextWrapper = styled.div`
   display: flex;

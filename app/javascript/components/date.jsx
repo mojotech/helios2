@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { dateForTimezone } from 'lib/datetime';
-import { colors, fontSizes, spacing, fonts } from '../lib/theme';
-import {
-  LoadingMessage,
-  ErrorMessage,
-} from './widgets/messages/default-messages';
+import { dateForTimezone } from '@lib/datetime';
+import { colors, fontSizes, spacing, fonts } from '@lib/theme';
+import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const getTimezone = gql`
   {

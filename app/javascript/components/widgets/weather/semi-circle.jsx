@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cityImage from '../../../../assets/images/buildings.png';
-import { yValue, xValue } from '../../../lib/circle-math';
-import {
-  timeDiffInMinutes,
-  timeAndDateForTimezone,
-} from '../../../lib/datetime';
-import { colors } from '../../../lib/theme';
-import MoonPhase from './moon-phase';
+import cityImage from '@images/buildings.png';
+import { yValue, xValue } from '@lib/circle-math';
+import { timeDiffInMinutes, timeAndDateForTimezone } from '@lib/datetime';
+import { colors } from '@lib/theme';
+import MoonPhase from '@weather/moon-phase';
 
 const getPhaseType = phase => {
   if (phase === 0) return 'newMoon';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { colors } from '../../../lib/theme';
+import { colors } from '@lib/theme';
 
 const iconRender = (posX, posY, radius, phase) => {
   const shouldHideFront =

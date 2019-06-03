@@ -2,13 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { SpacedRow } from './row';
-import Time from './time';
-import { spacing } from '../lib/theme';
-import {
-  LoadingMessage,
-  ErrorMessage,
-} from './widgets/messages/default-messages';
+import { SpacedRow } from '@components/row';
+import Time from '@components/time';
+import { spacing } from '@lib/theme';
+import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const Wrapper = styled(SpacedRow)`
   align-items: flex-end;

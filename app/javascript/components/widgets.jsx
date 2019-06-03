@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { spacing } from '../lib/theme';
-import { Tab } from './tabs';
-import widgetShape from '../lib/widget-shape';
+import { spacing } from '@lib/theme';
+import { Tab } from '@components/tabs';
+import widgetShape from '@lib/widget-shape';
 
 const WidgetContainer = styled.div`
   margin-bottom: ${spacing.l};

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, spacing } from '../../../lib/theme';
-import { parseDay } from '../../../lib/datetime';
-import { WhiteText } from '../../typography';
-import { Row } from '../../row';
-import { SmallSkyIcon } from './sky-icons';
-import withFragment from '../../hocs/with-fragment';
+import { colors, fontSizes, weights, spacing } from '@lib/theme';
+import { parseDay } from '@lib/datetime';
+import { WhiteText } from '@components/typography';
+import { Row } from '@components/row';
+import { SmallSkyIcon } from '@weather/sky-icons';
+import withFragment from '@hocs/with-fragment';
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};

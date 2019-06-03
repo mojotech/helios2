@@ -4,12 +4,12 @@ import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
 import PropTypes from 'prop-types';
-import { getEventCounts } from './queries';
-import githubPull from '../../../../assets/images/pr.png';
-import githubCommit from '../../../../assets/images/commit.png';
-import slackMessage from '../../../../assets/images/slack.png';
-import { getStartOfWeek } from '../../../lib/datetime';
-import { withLocalMutation, withLocalState } from './ducks';
+import { getEventCounts } from '@numbers/queries';
+import githubPull from '@images/pr.png';
+import githubCommit from '@images/commit.png';
+import slackMessage from '@images/slack.png';
+import { getStartOfWeek } from '@lib/datetime';
+import { withLocalMutation, withLocalState } from '@numbers/ducks';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
 

@@ -4,13 +4,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { assocPath } from 'ramda';
 import styled from 'styled-components';
-import CurrentTemp from './current-temp';
-import HourlyTemps from './hourly-temps';
-import MinutelyWeather from './minutely-weather';
-import DailyWeather from './daily-weather';
-import SunriseSunset from './sunrise-sunset';
-import { LoadingMessage, DisconnectedMessage } from '../messages/message';
-import { Row } from '../../row';
+import CurrentTemp from '@weather/current-temp';
+import HourlyTemps from '@weather/hourly-temps';
+import MinutelyWeather from '@weather/minutely-weather';
+import DailyWeather from '@weather/daily-weather';
+import SunriseSunset from '@weather/sunrise-sunset';
+import { LoadingMessage, DisconnectedMessage } from '@messages/message';
+import { Row } from '@components/row';
 import {
   colors,
   weights,
@@ -18,8 +18,8 @@ import {
   spacing,
   fonts,
   leftPanelWidth,
-} from '../../../lib/theme';
-import { GreySubText, WhiteText } from '../../typography';
+} from '@lib/theme';
+import { GreySubText, WhiteText } from '@components/typography';
 
 const Column = styled.div`
   display: flex;

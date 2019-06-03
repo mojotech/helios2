@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { mathMod } from 'ramda';
-import FullPanel from './full-panel';
-import SidePanel from './side-panel';
-import Twitter from './twitter';
-import Numbers from './widgets/numbers';
-import Weather from './widgets/weather';
-import Guests from './widgets/guests';
-import Live from './live-stream';
-import lockedIcon from '../../assets/images/locked.svg';
-import unlockedIcon from '../../assets/images/unlocked.svg';
-import { colors } from '../lib/theme';
+import FullPanel from '@components/full-panel';
+import SidePanel from '@components/side-panel';
+import Twitter from '@components/twitter';
+import Numbers from '@widgets/numbers';
+import Weather from '@widgets/weather';
+import Guests from '@widgets/guests';
+import Live from '@components/live-stream';
+import lockedIcon from '@images/locked.svg';
+import unlockedIcon from '@images/unlocked.svg';
+import { colors } from '@lib/theme';
 
 const IconWrapper = styled.div`
   position: absolute;

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import withFragment from '../../hocs/with-fragment';
-import { SmallSkyIcon, LargeSkyIcon } from './sky-icons';
+import withFragment from '@hocs/with-fragment';
+import { SmallSkyIcon, LargeSkyIcon } from '@weather/sky-icons';
 
 const getMinutelyWeather = gql`
   fragment MinutelyWeather on Weather {
