@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing, fonts } from '../../../lib/theme';
+import { colors, fontSizes, spacing, fonts, weights } from '../../../lib/theme';
 import { Row } from '../../row';
 import { parseHour } from '../../../lib/datetime';
 import rainIcon from '../../../../assets/images/raincloud.png';
@@ -31,15 +31,20 @@ const Item = styled.div`
 
 const Time = styled.div`
   font-size: ${fontSizes.tiny};
+  font-family: ${fonts.regular};
+  font-weight: ${weights.regular};
+  letter-spacing: 1.4px;
 `;
 
 const Temp = styled.div`
   font-size: ${fontSizes.large};
+  font-family: ${fonts.extended};
   margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
   font-size: ${fontSizes.tiny};
+  font-family: ${fonts.regular};
 `;
 
 const Percent = styled.span`
