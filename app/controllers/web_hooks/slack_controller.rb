@@ -1,5 +1,6 @@
 class WebHooks::SlackController < ApplicationController
   protect_from_forgery with: :null_session
+
   def create
     halt 403, "Invalid Slack verification token: #{params[:token]}" if ENV['SLACK_VERIFICATION_TOKEN'] != params[:token]
     render plain: build_create_response
@@ -10,17 +11,27 @@ class WebHooks::SlackController < ApplicationController
     when 'url_verification'
       params[:challenge]
     when 'event_callback'
-      slack_event(params, params[:event][:type])
+      event = params[:event]
+      return "Skipping disallowed event #{event[:subtype]}" unless allow_event?(event)
+      result = slack_event(params, event[:type])
+      "Add Slack message event to db #{result}"
     else
       "Error"
     end
   end
 
-  protected def slack_event(event_callback, type)
-    if type == 'message'
-      "Add Slack message to db #{publish_event(Event.slack_messages.with_external_id(event_callback[:event_id]))}"
-    elsif type == 'app_mention'
-      "Add Slack announcement to db #{publish_announcement(event_callback)}"
+  def allow_event?(event)
+    subtypes = %w[file_comment file_mention file_share me_message message_replied thread_broadcast]
+    (event[:type] == 'message' || event[:type] == 'app_mention') &&
+      (event[:subtype].nil? || subtypes.include?(event[:subtype]))
+  end
+
+  protected def slack_event(params, type)
+    case type
+    when 'message'
+      "Add Slack message to db #{publish_event(Event.slack_messages.with_external_id(params[:event_id]))}"
+    when 'app_mention'
+      "Add Slack announcement to db #{publish_announcement(params)}"
     else 'Error'
     end
   end
