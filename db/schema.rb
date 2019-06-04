@@ -20,6 +20,18 @@ ActiveRecord::Schema.define(version: 2019_05_31_061410) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.datetime "publish_on", null: false
+    t.string "message"
+    t.string "people", null: false
+    t.string "company"
+    t.string "announcement_id", null: false
+    t.string "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_announcements_on_location_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "source"
     t.string "external_id"

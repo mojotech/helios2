@@ -10,4 +10,8 @@ class Types::SubscriptionType < Types::BaseObject
   end
 
   def weather_published(latitude:, longitude:); end
+
+  field :announcement_published, Types::AnnouncementType, description: "An announcement was published"
+
+  def announcement_published; end
 end

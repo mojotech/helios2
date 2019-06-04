@@ -18,6 +18,9 @@ export const parseHour = datetime =>
 export const parseTime = datetime =>
   format(new Date(datetime), 'h:mm aa').toLowerCase();
 
+export const parseDate = datetime =>
+  format(new Date(datetime), 'EEEE, MMM dd, yyyy');
+
 export const timeDiffInMinutes = (date, other) =>
   differenceInMinutes(date, other);
 

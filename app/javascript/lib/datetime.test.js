@@ -4,6 +4,7 @@ import {
   dateForTimezone,
   parseHour,
   parseTime,
+  parseDate,
   timeDiffInMinutes,
   isDateToday,
   isDateTomorrow,
@@ -44,6 +45,16 @@ describe('#parseTime', () => {
   it('parses the time in a datetime', () => {
     expect(parseTime(datetime)).toEqual('6:35 am');
     expect(parseTime(datetime)).toEqual('6:35 am');
+  });
+});
+
+describe('#parseDate', () => {
+  const datetime = utcToZonedTime(
+    new Date('2019-05-28T10:35:00.000Z'),
+    'America/New_York',
+  );
+  it('parses the date in a datetime', () => {
+    expect(parseDate(datetime)).toEqual('Tuesday, May 28, 2019');
   });
 });
 
