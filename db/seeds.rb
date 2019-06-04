@@ -25,3 +25,31 @@ Location.create(
   city_name: 'NYC',
   time_zone: 'America/New_York'
 )
+
+Widget.create(
+  name: "Guests",
+  enabled: false,
+  duration_seconds: 20,
+  position: 0
+)
+
+Widget.create(
+  name: "Weather",
+  enabled: true,
+  duration_seconds: 20,
+  position: 1
+)
+
+Widget.create(
+  name: "Twitter",
+  enabled: true,
+  duration_seconds: 20,
+  position: 2
+)
+
+Widget.create(
+  name: "Numbers",
+  enabled: true,
+  duration_seconds: 20,
+  position: 3
+)
