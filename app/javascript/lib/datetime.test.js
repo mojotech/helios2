@@ -12,9 +12,9 @@ import {
 
 describe('#timeForTimezone', () => {
   const timeZone = 'America/New_York';
-  const datetime = '2020-05-13T04:00:00.000Z';
+  const datetime = '2020-05-13T05:00:00.000Z';
   it('returns the hour, minute and period for a timestamp in a specific timezone', () => {
-    expect(timeForTimezone(timeZone, datetime)).toEqual('12:00 AM');
+    expect(timeForTimezone(timeZone, datetime)).toEqual('1:00 AM');
   });
 });
 

@@ -2,7 +2,7 @@ import { format, isSameDay, differenceInMinutes, startOfWeek } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
 export const timeForTimezone = (timezone, date = new Date()) =>
-  format(utcToZonedTime(new Date(date), timezone), 'hh:mm aa');
+  format(utcToZonedTime(new Date(date), timezone), 'h:mm aa');
 
 export const dateForTimezone = (timezone, date = new Date()) =>
   format(utcToZonedTime(new Date(date), timezone), 'EEEE, MMM dd, yyyy');
