@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing, fonts } from '../../../lib/theme';
+import { colors, fontSizes, spacing, fonts, weights } from '../../../lib/theme';
 import { Row } from '../../row';
 import { parseHour } from '../../../lib/datetime';
 import rainIcon from '../../../../assets/images/raincloud.png';
 import withFragment from '../../hocs/with-fragment';
 
 const opacities = {
-  0: '0.8',
-  1: '0.675',
-  2: '0.55',
-  3: '0.425',
-  4: '0.3',
+  0: '1',
+  1: '0.9',
+  2: '0.8',
+  3: '0.7',
+  4: '0.6',
 };
 
 const Wrapper = styled(Row)`
@@ -31,15 +31,20 @@ const Item = styled.div`
 
 const Time = styled.div`
   font-size: ${fontSizes.tiny};
+  font-family: ${fonts.regular};
+  font-weight: ${weights.regular};
+  letter-spacing: 1.4px;
 `;
 
 const Temp = styled.div`
   font-size: ${fontSizes.large};
+  font-family: ${fonts.extended};
   margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
   font-size: ${fontSizes.tiny};
+  font-family: ${fonts.regular};
 `;
 
 const Percent = styled.span`
@@ -73,7 +78,7 @@ const HourlyTemps = ({ weather }) => {
             <Time>{parseHour(time)}</Time>
             <Temp>{parseInt(temperature, 10)}°</Temp>
             <Precip>
-              <RainIcon src={rainIcon} width="10" height="10" alt="" />
+              <RainIcon src={rainIcon} width="16" height="16" alt="" />
               {parseInt(precipProbability * 100, 10)}
               <Percent>%</Percent>
             </Precip>

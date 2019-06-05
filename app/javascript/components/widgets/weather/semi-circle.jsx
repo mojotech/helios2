@@ -26,8 +26,8 @@ export class SemiCircle extends React.Component {
   static defaultProps = {
     paddingLeft: 30,
     paddingTop: 18.1,
-    cityImageHeight: '174px',
-    cityImageWidth: '393px',
+    cityImageHeight: '212px',
+    cityImageWidth: '479px',
     ballStartPadding: 50,
     ballRadius: '14.4px',
   };

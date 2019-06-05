@@ -30,21 +30,22 @@ const Column = styled.div`
 
 const CenteredRow = styled(Row)`
   align-items: center;
+  margin-left: 50px;
+  margn-top: ${spacing.m};
 `;
 
 const TempText = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.huge};
-  font-weight: ${weights.light};
+  font-weight: ${weights.regular};
   margin-right: ${spacing.xxxl};
-  font-family: ${fonts.thin};
+  font-family: ${fonts.extended};
 `;
 
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.large};
-  font-weight: ${weights.light};
+  font-weight: ${weights.regular};
   margin-top: 50px;
-  margin-bottom: 50px;
   width: ${leftPanelWidth};
   text-align: center;
   font-family: ${fonts.light};
@@ -116,7 +117,7 @@ class SubscribedWeather extends React.Component {
           <HourlyTemps {...{ weather }} />
         </CenteredRow>
         <SummaryText>
-          <MinutelyWeather {...{ weather }} />
+          <MinutelyWeather {...{ weather }} useLargeIcon />
         </SummaryText>
         <SunriseSunset {...{ location: primaryLocation, weather }} />
         <DailyWeather {...{ weather }} />

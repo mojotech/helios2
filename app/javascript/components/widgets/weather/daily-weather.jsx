@@ -7,14 +7,14 @@ import { colors, fontSizes, weights, spacing } from '../../../lib/theme';
 import { parseDay } from '../../../lib/datetime';
 import { WhiteText } from '../../typography';
 import { Row } from '../../row';
-import SkyIcon from './sky-icons';
+import { SmallSkyIcon } from './sky-icons';
 import withFragment from '../../hocs/with-fragment';
 
 const Wrapper = styled(Row)`
   color: ${colors.grey};
   font-weight: ${weights.light};
   margin-left: ${spacing.xl};
-  margin-top: ${spacing.xxl};
+  margin-top: 65px;
 `;
 
 const Item = styled.div`
@@ -74,7 +74,7 @@ const DailyWeather = ({ weather }) => {
         }) => (
           <Item key={time}>
             <IconWrapper>
-              <SkyIcon icon={icon} />
+              <SmallSkyIcon icon={icon} />
             </IconWrapper>
             <Day>{parseDay(time)}</Day>
             <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>

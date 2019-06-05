@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import { assocPath } from 'ramda';
 import CurrentTemp from './current-temp';
 import MinutelyWeather from './minutely-weather';
 import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
+
+const SummaryTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const getPrimaryLocationWeather = gql`
   {
@@ -44,10 +50,10 @@ class SubscribedWeather extends React.Component {
     const { primaryLocation } = this.props;
     const { weather } = primaryLocation;
     return (
-      <div>
+      <SummaryTextWrapper>
         <CurrentTemp weather={weather} /> -
-        <MinutelyWeather weather={weather} />
-      </div>
+        <MinutelyWeather weather={weather} useLargeIcon={false} />
+      </SummaryTextWrapper>
     );
   }
 }
