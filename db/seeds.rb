@@ -30,28 +30,32 @@ Widget.create(
   name: "Guests",
   enabled: false,
   duration_seconds: 20,
-  position: 0
+  position: 0,
+  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 )
 
 Widget.create(
   name: "Weather",
   enabled: true,
   duration_seconds: 20,
-  position: 1
+  position: 1,
+  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 )
 
 Widget.create(
   name: "Twitter",
-  enabled: true,
+  enabled: false,
   duration_seconds: 20,
-  position: 2
+  position: 2,
+  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 )
 
 Widget.create(
   name: "Numbers",
   enabled: true,
   duration_seconds: 20,
-  position: 3
+  position: 3,
+  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 )
 
 TrafficCam.create(

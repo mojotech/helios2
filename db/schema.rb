@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_23_182602) do
+ActiveRecord::Schema.define(version: 2019_08_23_192258) do
 
   create_table "announcements", force: :cascade do |t|
     t.datetime "publish_on", null: false
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 2019_08_23_182602) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_widgets_on_location_id"
   end
 
 end
