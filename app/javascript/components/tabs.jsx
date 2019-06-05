@@ -33,17 +33,17 @@ const OtherSubText = styled.div`
   margin-left: ${spacing.l};
 `;
 
-export const WidgetBar = () => (
+export const TabBar = () => (
   <svg width="568" height="4">
     <rect width="568" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 
-export const Widget = props => {
+export const Tab = props => {
   if (props.selected) {
     return (
       <span>
-        <WidgetBar />
+        <TabBar />
         <CurrentWidgetText id={`widget_${props.widgetId}`}>
           {props.text}
         </CurrentWidgetText>
@@ -53,7 +53,7 @@ export const Widget = props => {
   }
   return (
     <span>
-      <WidgetBar />
+      <TabBar />
       <OtherWidgetText id={`widget_${props.widgetId}`}>
         {props.text}
       </OtherWidgetText>
@@ -62,7 +62,7 @@ export const Widget = props => {
   );
 };
 
-Widget.propTypes = {
+Tab.propTypes = {
   selected: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
