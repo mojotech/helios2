@@ -10,15 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_31_061410) do
-
-  create_table "daily_event_summaries", force: :cascade do |t|
-    t.string "source", null: false
-    t.date "day", null: false
-    t.integer "count", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2019_06_04_172236) do
 
   create_table "announcements", force: :cascade do |t|
     t.datetime "publish_on", null: false
@@ -30,6 +22,14 @@ ActiveRecord::Schema.define(version: 2019_05_31_061410) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_announcements_on_location_id"
+  end
+
+  create_table "daily_event_summaries", force: :cascade do |t|
+    t.string "source", null: false
+    t.date "day", null: false
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -45,6 +45,15 @@ ActiveRecord::Schema.define(version: 2019_05_31_061410) do
     t.float "longitude", null: false
     t.string "city_name", null: false
     t.string "time_zone", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "enabled", null: false
+    t.integer "duration_seconds", null: false
+    t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
