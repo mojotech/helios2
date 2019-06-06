@@ -9,6 +9,7 @@ import githubPull from '@images/pr.png';
 import githubCommit from '@images/commit.png';
 import slackMessage from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
+import '@numbers/sleeping-blocks';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
