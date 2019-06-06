@@ -7,7 +7,7 @@ import Times from './times';
 import Wifi from './wifi';
 import Bathroom from './bathroom';
 import { spacing, colors } from '../lib/theme';
-import Carousel from './carousel';
+import Widgets from './widgets';
 import widgetShape from '../lib/widget-shape';
 
 const DateLogoRow = styled(SpacedRow)`
@@ -33,7 +33,7 @@ export const FixedContent = ({ widgets, selectedWidget }) => (
       <Bathroom />
     </Row>
     <CarouselContainer>
-      <Carousel widgets={widgets} selectedWidget={selectedWidget} />
+      <Widgets widgets={widgets} selectedWidget={selectedWidget} />
     </CarouselContainer>
   </div>
 );

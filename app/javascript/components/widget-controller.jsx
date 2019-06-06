@@ -31,7 +31,7 @@ const widgets = [
   {
     panel: <Weather.Panel />,
     text: 'Weather',
-    children: <Weather.Carousel />,
+    children: <Weather.Tab />,
   },
   {
     panel: <Twitter />,
@@ -41,7 +41,7 @@ const widgets = [
   {
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
-    children: <Numbers.Carousel />,
+    children: <Numbers.Tab />,
   },
   {
     panel: <Live />,
@@ -51,7 +51,7 @@ const widgets = [
   {
     panel: <Guests.Panel />,
     text: "Today's guests",
-    children: <Guests.Carousel />,
+    children: <Guests.Tab />,
   },
 ];
 

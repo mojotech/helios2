@@ -1,27 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { spacing } from '../lib/theme';
-import { Widget } from './carousel-elements';
+import { Tab } from './tabs';
 import widgetShape from '../lib/widget-shape';
 
 const WidgetContainer = styled.div`
   margin-bottom: ${spacing.l};
 `;
 
-export const Carousel = ({ widgets, selectedWidget }) =>
+export const Widgets = ({ widgets, selectedWidget }) =>
   widgets.map((widget, index) => (
     // eslint-disable-next-line react/no-array-index-key
     <WidgetContainer key={index}>
-      <Widget
+      <Tab
         widgetId={index}
         selected={index === selectedWidget}
         text={widget.text}
       >
         {widget.children}
-      </Widget>
+      </Tab>
     </WidgetContainer>
   ));
 
-Carousel.propTypes = widgetShape;
+Widgets.propTypes = widgetShape;
 
-export default Carousel;
+export default Widgets;

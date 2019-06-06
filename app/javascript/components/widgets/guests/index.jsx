@@ -1,7 +1,7 @@
-import Carousel from './carousel';
+import Tab from './tab';
 import Panel from './panel';
 
 export default {
-  Carousel,
+  Tab,
   Panel,
 };
