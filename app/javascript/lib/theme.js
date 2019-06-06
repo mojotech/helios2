@@ -6,6 +6,8 @@ export const colors = {
   pink: '#FE6B6E',
   teal: '#5fc19f',
   yellow: '#fbd273',
+  lightBlue: '#8096ff',
+  blue: '#6bd9fe',
 };
 
 export const spacing = {

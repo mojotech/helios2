@@ -7,6 +7,18 @@ import {
   timeAndDateForTimezone,
 } from '../../../lib/datetime';
 import { colors } from '../../../lib/theme';
+import MoonPhase from './moon-phase';
+
+const getPhaseType = phase => {
+  if (phase === 0) return 'newMoon';
+  if (phase > 0 && phase < 0.25) return 'waxCres';
+  if (phase === 0.25) return 'firstQuart';
+  if (phase > 0.25 && 0.5) return 'waxGib';
+  if (phase === 0.5) return 'fullMoon';
+  if (phase > 0.5 && phase < 0.75) return 'wanGib';
+  if (phase === 0.75) return 'thirdQuart';
+  return 'wanCres';
+};
 
 export class SemiCircle extends React.Component {
   static propTypes = {
@@ -21,6 +33,8 @@ export class SemiCircle extends React.Component {
     cityImageWidth: PropTypes.string,
     ballStartPadding: PropTypes.number,
     ballRadius: PropTypes.string,
+    nightMode: PropTypes.bool.isRequired,
+    moonPhase: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -68,6 +82,8 @@ export class SemiCircle extends React.Component {
       cityImageWidth,
       ballStartPadding,
       ballRadius,
+      nightMode,
+      moonPhase,
     } = this.props;
     const widthFloat = parseFloat(width);
     const heightFloat = parseFloat(height);
@@ -85,14 +101,20 @@ export class SemiCircle extends React.Component {
       <svg width={width} height={height}>
         <defs>
           <radialGradient id="circleGradient">
-            <stop offset="5%" stopColor={colors.lightPink} />
+            <stop
+              offset="5%"
+              stopColor={nightMode ? colors.lightBlue : colors.lightPink}
+            />
             <stop offset="95%" stopColor={colors.black} />
           </radialGradient>
         </defs>
         <defs>
           <linearGradient id="strokeGradient">
             <stop offset="2%" stopColor={colors.black} />
-            <stop offset="50%" stopColor={colors.pink} />
+            <stop
+              offset="50%"
+              stopColor={nightMode ? colors.blue : colors.pink}
+            />
             <stop offset="98%" stopColor={colors.black} />
           </linearGradient>
         </defs>
@@ -114,12 +136,38 @@ export class SemiCircle extends React.Component {
           xlinkHref={cityImage}
           position="absolute"
         />
-        <circle
-          cx={ballX.toString()}
-          cy={yValue(ballX, rxEllipse, ryEllipse, ellipseCenterX, heightFloat)}
-          r={ballRadius}
-          fill={colors.pink}
-        />
+        {nightMode ? (
+          <MoonPhase
+            posX={xValue(
+              remainingTime,
+              totalTime,
+              widthFloat,
+              ballStartPadding,
+            )}
+            posY={yValue(
+              ballX,
+              rxEllipse,
+              ryEllipse,
+              ellipseCenterX,
+              heightFloat,
+            )}
+            radius={ballRadius}
+            phase={getPhaseType(moonPhase)}
+          />
+        ) : (
+          <circle
+            cx={ballX.toString()}
+            cy={yValue(
+              ballX,
+              rxEllipse,
+              ryEllipse,
+              ellipseCenterX,
+              heightFloat,
+            )}
+            r={ballRadius}
+            fill={colors.pink}
+          />
+        )}
       </svg>
     );
   }

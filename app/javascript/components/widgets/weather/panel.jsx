@@ -69,6 +69,7 @@ const getPrimaryLocationWeather = gql`
         ...HourlyWeather
         ...MinutelyWeather
         ...DailyWeather
+        ...SunriseSunsetWeather
       }
     }
   }
@@ -78,6 +79,7 @@ const getPrimaryLocationWeather = gql`
   ${MinutelyWeather.fragments.weather}
   ${SunriseSunset.fragments.location}
   ${DailyWeather.fragments.weather}
+  ${SunriseSunset.fragments.weather}
 `;
 
 const subscribeWeatherPublished = gql`
@@ -88,6 +90,7 @@ const subscribeWeatherPublished = gql`
       ...MinutelyWeather
       ...DailyWeather
       ...SunriseSunsetLocation
+      ...SunriseSunsetWeather
     }
   }
 
@@ -96,6 +99,7 @@ const subscribeWeatherPublished = gql`
   ${MinutelyWeather.fragments.weather}
   ${DailyWeather.fragments.weather}
   ${SunriseSunset.fragments.location}
+  ${SunriseSunset.fragments.weather}
 `;
 
 class SubscribedWeather extends React.Component {

@@ -61,7 +61,17 @@ const getSunriseSunsetLocation = gql`
   }
 `;
 
-const SunriseSunset = ({ location }) => {
+const getSunriseSunsetWeather = gql`
+  fragment SunriseSunsetWeather on Weather {
+    daily {
+      data {
+        moonPhase
+      }
+    }
+  }
+`;
+
+const SunriseSunset = ({ location, weather }) => {
   const { timezone, solarcycles } = location;
   const currDate = new Date();
 
@@ -74,6 +84,8 @@ const SunriseSunset = ({ location }) => {
 
   const capitalize = replace(/^./, toUpper());
 
+  const isNight = beginTime.type === 'sunset';
+
   return (
     <SunriseSunsetContainer>
       <SemiCircle
@@ -85,6 +97,8 @@ const SunriseSunset = ({ location }) => {
         width={leftPanelWidth}
         height={containerHeight}
         timezone={timezone}
+        nightMode={isNight}
+        moonPhase={weather.daily.data[0].moonPhase}
       />
       <SunriseLabel>
         <Text>{capitalize(beginTime.type)}</Text>
@@ -108,10 +122,20 @@ SunriseSunset.propTypes = {
       }),
     ),
   }).isRequired,
+  weather: PropTypes.shape({
+    daily: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          moonPhase: PropTypes.number.isRequired,
+        }),
+      ),
+    }).isRequired,
+  }).isRequired,
 };
 
 SunriseSunset.fragments = {
   location: getSunriseSunsetLocation,
+  weather: getSunriseSunsetWeather,
 };
 
 export default withFragment(SunriseSunset);
