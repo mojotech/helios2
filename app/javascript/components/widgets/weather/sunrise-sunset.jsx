@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { take, takeLast, splitWhen } from 'ramda';
+import { take, takeLast, splitWhen, replace, toUpper } from 'ramda';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -72,6 +72,8 @@ const SunriseSunset = ({ location }) => {
   const beginTime = takeLast(1, beforeNow)[0];
   const endTime = take(1, afterNow)[0];
 
+  const capitalize = replace(/^./, toUpper());
+
   return (
     <SunriseSunsetContainer>
       <SemiCircle
@@ -85,11 +87,11 @@ const SunriseSunset = ({ location }) => {
         timezone={timezone}
       />
       <SunriseLabel>
-        <Text>Sunset</Text>
+        <Text>{capitalize(beginTime.type)}</Text>
         <Time>{parseTime(beginTime.time)}</Time>
       </SunriseLabel>
       <SunsetLabel>
-        <Text> Sunrise </Text>
+        <Text>{capitalize(endTime.type)} </Text>
         <Time>{parseTime(endTime.time)}</Time>
       </SunsetLabel>
     </SunriseSunsetContainer>
