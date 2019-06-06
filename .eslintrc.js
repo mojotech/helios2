@@ -1,7 +1,7 @@
 module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb', 'prettier'],
-  plugins: ['prettier', 'import', 'graphql'],
+  plugins: ['prettier', 'import', 'graphql', 'react-hooks'],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-indent': [0],
@@ -15,6 +15,7 @@ module.exports = {
     ],
     'react/jsx-one-expression-per-line': [0],
     'react/destructuring-assignment': [0],
+    'react-hooks/rules-of-hooks': 'error',
   },
   env: {
     browser: true,
