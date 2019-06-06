@@ -33,4 +33,6 @@ class Location < ApplicationRecord
   def bathroom_code
     ENV['BATHROOM_CODE']
   end
+
+  has_many :solarcycles
 end
