@@ -13,7 +13,7 @@ class WebHooks::SlackController < ApplicationController
     when 'event_callback'
       event = params[:event]
       return "Skipping disallowed event #{event[:subtype]}" unless allow_event?(event)
-      result = slack_event(params, event[:type])
+      result = slack_event(event, event[:type])
       "Add Slack message event to db #{result}"
     else
       "Error"
@@ -26,12 +26,12 @@ class WebHooks::SlackController < ApplicationController
       (event[:subtype].nil? || subtypes.include?(event[:subtype]))
   end
 
-  protected def slack_event(params, type)
+  protected def slack_event(event, type)
     case type
     when 'message'
-      "Add Slack message to db #{publish_event(Event.slack_messages.with_external_id(params[:event_id]))}"
+      "Add Slack message to db #{publish_event(Event.slack_messages.with_external_id(event[:event_ts]))}"
     when 'app_mention'
-      "Add Slack announcement to db #{publish_announcement(params)}"
+      "Add Slack announcement to db #{publish_announcement(event)}"
     else 'Error'
     end
   end
@@ -44,21 +44,45 @@ class WebHooks::SlackController < ApplicationController
     Helios2Schema.subscriptions.trigger("eventPublished", {}, event)
   end
 
-  private def publish_announcement(event_callback)
-    announcement = Announcement.create!(parse_announcement(event_callback))
+  private def publish_announcement(event)
+    announcement = Announcement.create!(parse_announcement(event))
     Helios2Schema.subscriptions.trigger("announcementPublished", {}, announcement)
+    send_slack_message(event[:channel], event[:user], 'The announcement was saved :rocket:')
+  rescue StandardError
+    send_slack_message(event[:channel], event[:user],
+      'I couldn\'t understand that... Try something like this:
+      `@Helios guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence`')
   end
 
-  private def parse_announcement(event_callback)
-    # Ex: "guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence"
-    type, content = event_callback[:event][:text].split(/: /)
-
+  private def parse_announcement(event)
+    # Ex: "<@UXXXXXXX> guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence"
+    if (match = event[:text].match(/(^<\S+>) (\S+) (.*)$/))
+      _bot_id, type, content = match.captures
+    end
     case type
-    when 'guests'
+    when 'guests:'
       announcement = handle_guests_command(content)
-      announcement[:announcement_id] = event_callback[:event_id]
+      announcement[:announcement_id] = event[:event_ts]
       announcement
     end
+  end
+
+  def send_slack_message(channel, user, message)
+    require 'net/http'
+    require 'uri'
+    require 'json'
+
+    uri = URI.parse(ENV['SLACK_WEBHOOK_URL'])
+
+    header = { 'Content-Type': 'application/json' }
+    text = { 'text': "<@#{user}> #{message}", 'channel': channel.to_s }
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(uri.request_uri, header)
+    request.body = text.to_json
+
+    http.request(request)
   end
 
   def handle_guests_command(content)
