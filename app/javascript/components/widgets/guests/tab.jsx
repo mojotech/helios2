@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { sortBy, prop, append, lensPath, set } from 'ramda';
 import styled from 'styled-components';
 import icon from '../../../../assets/images/icons/icon-calendar.svg';
-import { parseTime, isDateToday } from '../../../lib/datetime';
+import { parseTime, isInFutureToday } from '../../../lib/datetime';
 import { LoadingMessage, DisconnectedMessage } from '../messages/message';
 
 const subscribeAnnouncementPublished = gql`
@@ -109,7 +109,7 @@ const Guests = () => (
                 }
                 const { announcementPublished } = subscriptionData.data;
 
-                if (isDateToday(announcementPublished.publishOn)) {
+                if (isInFutureToday(announcementPublished.publishOn)) {
                   return set(
                     lensPath(['primaryLocation', 'dayAnnouncements']),
 
@@ -121,7 +121,6 @@ const Guests = () => (
                     prev,
                   );
                 }
-
                 return prev;
               },
             })
