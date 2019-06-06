@@ -68,7 +68,6 @@ const getPrimaryLocationWeather = gql`
         ...CurrentTemp
         ...HourlyWeather
         ...MinutelyWeather
-        ...SunriseSunsetWeather
         ...DailyWeather
       }
     }
@@ -77,7 +76,6 @@ const getPrimaryLocationWeather = gql`
   ${CurrentTemp.fragments.weather}
   ${HourlyTemps.fragments.weather}
   ${MinutelyWeather.fragments.weather}
-  ${SunriseSunset.fragments.weather}
   ${SunriseSunset.fragments.location}
   ${DailyWeather.fragments.weather}
 `;
@@ -88,16 +86,16 @@ const subscribeWeatherPublished = gql`
       ...CurrentTemp
       ...HourlyWeather
       ...MinutelyWeather
-      ...SunriseSunsetWeather
       ...DailyWeather
+      ...SunriseSunsetLocation
     }
   }
 
   ${CurrentTemp.fragments.weather}
   ${HourlyTemps.fragments.weather}
   ${MinutelyWeather.fragments.weather}
-  ${SunriseSunset.fragments.weather}
   ${DailyWeather.fragments.weather}
+  ${SunriseSunset.fragments.location}
 `;
 
 class SubscribedWeather extends React.Component {
@@ -135,7 +133,7 @@ SubscribedWeather.propTypes = {
 };
 
 export default () => (
-  <Query query={getPrimaryLocationWeather}>
+  <Query query={getPrimaryLocationWeather} fetchPolicy="cache-and-network">
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;

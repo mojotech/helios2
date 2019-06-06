@@ -1,5 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
+import { take, takeLast, splitWhen } from 'ramda';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -53,62 +54,62 @@ const SunsetLabel = styled.div`
 const getSunriseSunsetLocation = gql`
   fragment SunriseSunsetLocation on Location {
     timezone
-  }
-`;
-
-const getSunriseSunsetWeather = gql`
-  fragment SunriseSunsetWeather on Weather {
-    daily {
-      data {
-        sunriseTime
-        sunsetTime
-      }
+    solarcycles {
+      type
+      time
     }
   }
 `;
 
-const SunriseSunset = ({ weather, location }) => {
-  const { sunriseTime, sunsetTime } = weather.daily.data[0];
-  const { timezone } = location;
+const SunriseSunset = ({ location }) => {
+  const { timezone, solarcycles } = location;
+  const currDate = new Date();
+
+  const [beforeNow, afterNow] = splitWhen(
+    cycle => new Date(cycle.time).getTime() - currDate.getTime() > 0,
+    solarcycles,
+  );
+  const beginTime = takeLast(1, beforeNow)[0];
+  const endTime = take(1, afterNow)[0];
 
   return (
     <SunriseSunsetContainer>
       <SemiCircle
         totalTime={timeDiffInMinutes(
-          new Date(sunsetTime),
-          new Date(sunriseTime),
+          new Date(endTime.time),
+          new Date(beginTime.time),
         )}
-        sunset={new Date(sunsetTime)}
+        endTime={new Date(endTime.time)}
         width={leftPanelWidth}
         height={containerHeight}
         timezone={timezone}
       />
       <SunriseLabel>
-        <Text> Sunrise </Text>
-        <Time>{parseTime(sunriseTime)}</Time>
+        <Text>Sunset</Text>
+        <Time>{parseTime(beginTime.time)}</Time>
       </SunriseLabel>
       <SunsetLabel>
-        <Text> Sunset </Text>
-        <Time>{parseTime(sunsetTime)}</Time>
+        <Text> Sunrise </Text>
+        <Time>{parseTime(endTime.time)}</Time>
       </SunsetLabel>
     </SunriseSunsetContainer>
   );
 };
 
 SunriseSunset.propTypes = {
-  weather: PropTypes.shape({
-    daily: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-    }).isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     timezone: PropTypes.string.isRequired,
+    solarcycles: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        time: PropTypes.string.isRequired,
+      }),
+    ),
   }).isRequired,
 };
 
 SunriseSunset.fragments = {
   location: getSunriseSunsetLocation,
-  weather: getSunriseSunsetWeather,
 };
 
 export default withFragment(SunriseSunset);

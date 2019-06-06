@@ -11,7 +11,7 @@ import { colors } from '../../../lib/theme';
 export class SemiCircle extends React.Component {
   static propTypes = {
     totalTime: PropTypes.number.isRequired,
-    sunset: PropTypes.instanceOf(Date).isRequired,
+    endTime: PropTypes.instanceOf(Date).isRequired,
     width: PropTypes.string.isRequired,
     height: PropTypes.string.isRequired,
     timezone: PropTypes.string.isRequired,
@@ -36,7 +36,7 @@ export class SemiCircle extends React.Component {
     super(props);
     this.state = {
       remainingTime: timeDiffInMinutes(
-        this.props.sunset,
+        this.props.endTime,
         timeAndDateForTimezone(this.props.timezone),
       ),
     };
@@ -46,7 +46,7 @@ export class SemiCircle extends React.Component {
     this.timerID = setInterval(() => {
       this.setState({
         remainingTime: timeDiffInMinutes(
-          this.props.sunset,
+          this.props.endTime,
           timeAndDateForTimezone(this.props.timezone),
         ),
       });
