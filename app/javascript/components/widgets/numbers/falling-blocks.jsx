@@ -13,6 +13,10 @@ import '@numbers/sleeping-blocks';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
+const wallWidth = 50;
+
+// Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
+const padding = 50;
 
 class Scene extends React.Component {
   static propTypes = {
@@ -75,7 +79,6 @@ class Scene extends React.Component {
       },
     });
 
-    const wallWidth = 50;
     this.engine.world.gravity.y = 0.5;
     World.add(this.engine.world, [
       /**
@@ -99,7 +102,7 @@ class Scene extends React.Component {
         wallWidth / 2,
         this.state.height / 2,
         wallWidth,
-        this.state.height,
+        this.state.height + padding,
         {
           isStatic: true,
           render: {
@@ -111,7 +114,7 @@ class Scene extends React.Component {
         this.state.width - wallWidth / 2,
         this.state.height / 2,
         wallWidth,
-        this.state.height,
+        this.state.height + padding,
         {
           isStatic: true,
           render: {
@@ -150,16 +153,19 @@ class Scene extends React.Component {
 
   addBlocks = () => {
     const block = this.nextBlock();
+    const randomPositionBetweenWalls =
+      (this.state.width - wallWidth) * Math.random() + wallWidth;
     if (!block) {
       return;
     }
     this.setState(state => ({ [block]: state[block] + 1 }));
     // add circles to the world,
-    // Add some .5 'wiggle' to the x position so circles don't fall
-    // directly on top of each other.
+    // randomly pick a point from one wall edge to the other
+    // so that they don't fall directly on top of each other.
     World.add(
       this.engine.world,
-      Bodies.polygon(this.state.width / 2 + (Math.random() - 0.5), -50, 8, 8, {
+      // eslint-disable-next-line prettier/prettier
+      Bodies.polygon(randomPositionBetweenWalls, -10, 8, 8, {
         restitution: 0.25,
         friction: 0.8,
         render: {
