@@ -49,7 +49,7 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "jest": "24.8.0",
     "prettier": "^1.18.2",
-    "react-svg-loader": "^2.1.0",
+    "react-svg-loader": "^3.0.3",
     "require-yaml": "^0.0.1",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": ">=3.1.1"
