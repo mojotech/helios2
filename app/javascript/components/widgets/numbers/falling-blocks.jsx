@@ -76,7 +76,7 @@ class Scene extends React.Component {
     });
 
     const wallWidth = 50;
-
+    this.engine.world.gravity.y = 0.5;
     World.add(this.engine.world, [
       /**
        * In matter-js, rectangles are placed centered at the position specified,
@@ -159,13 +159,12 @@ class Scene extends React.Component {
     // directly on top of each other.
     World.add(
       this.engine.world,
-      Bodies.circle(this.state.width / 2 + (Math.random() - 0.5), -50, 17, {
-        restitution: 0.7,
+      Bodies.circle(this.state.width / 2 + (Math.random() - 0.5), -50, 8, {
+        restitution: 0.25,
+        friction: 0.8,
         render: {
           sprite: {
             texture: blockTypes[block],
-            xScale: 0.07,
-            yScale: 0.07,
           },
         },
       }),
