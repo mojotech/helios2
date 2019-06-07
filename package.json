@@ -2,7 +2,7 @@
   "name": "helios2",
   "private": true,
   "dependencies": {
-    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@rails/webpacker": "^4.0.0",
     "actioncable": "^5.2.0",
@@ -33,10 +33,10 @@
     "styled-normalize": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "^24.7.1",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^2.9.0",
