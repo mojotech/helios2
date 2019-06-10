@@ -9,6 +9,8 @@ class Types::LocationType < Types::BaseObject
   field "is_primary", Boolean, method: :primary?
   field "weather", Types::WeatherType
   field "day_announcements", [Types::AnnouncementType]
+  field "widgets", Types::WidgetCollectionType
+
   field "wifi_name", String
   field "wifi_password", String
   field "bathroom_code", String
