@@ -39,6 +39,16 @@ enum EventSource {
   slackMessage
 }
 
+type GuestsWidget implements Widget {
+  # MojoTech announcements today
+  dayAnnouncements: [Announcement!]!
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+}
+
 type Location {
   bathroomCode: String!
   cityName: String!
@@ -50,6 +60,7 @@ type Location {
   timezone: String!
   trafficCams: [TrafficCam!]!
   weather: Weather!
+  widgets: WidgetCollection!
   wifiName: String!
   wifiPassword: String!
 }
@@ -65,6 +76,17 @@ type MojoTweet {
 
 type Mutation {
   testField: String!
+}
+
+type NumbersWidget implements Widget {
+  durationSeconds: Int!
+
+  # MojoTech slack/github events
+  events(after: String, type: EventSource): EventCollection!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
 }
 
 type Query {
@@ -117,6 +139,17 @@ type TweetUser {
   avatar: String!
   handle: String!
   name: String!
+}
+
+type TwitterWidget implements Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+
+  # Tweets from MojoTech
+  tweets: [MojoTweet!]!
 }
 
 scalar UTCDateTime
@@ -234,4 +267,29 @@ type WeatherMinutelyDetail {
   data: [WeatherMinutelyData!]!
   icon: String!
   summary: String!
+}
+
+type WeatherWidget implements Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+
+  # Weather response from Dark Sky
+  weather: Weather!
+}
+
+# A single tab or panel of Helios
+interface Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+}
+
+type WidgetCollection {
+  enabled: [Widget!]!
+  next(currentWidgetId: Int): Widget!
 }
