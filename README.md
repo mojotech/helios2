@@ -10,7 +10,6 @@ MRI 2.5.1
 
 You can either install the deps directly on your box or you can use the Docker support.
 
-
 ## Native
 
 ### Getting ready
@@ -30,8 +29,8 @@ You can either install the deps directly on your box or you can use the Docker s
 
 - Install Docker and docker-compose
 - `cp .env.local.sample .env` -- fill in env vars where applicable
- - Sign up for a free darksky API key: https://darksky.net/dev
-   Note: the free API key has a daily limit of 1000 requests
+- Sign up for a free darksky API key: https://darksky.net/dev
+  Note: the free API key has a daily limit of 1000 requests
 
 ### Start it up
 
@@ -40,12 +39,14 @@ You can either install the deps directly on your box or you can use the Docker s
 - http://localhost:5000
 
 #### Spin up Rails Console
+
 - have the docker image running in one terminal tab (`docker-compose up`)
 - in a second tab run `docker-compose exec web bundle exec rails console`
   - if it gives any errors, try the following command:
     - `docker-compose run web bundle exec rake app:update:bin`
 
 ### Integrations
+
 There are a number of integrations used within the Helios app.
 A more detailed desctipition of these integrations including how to
 get started using them can be found [here](./INTEGRATIONS.md)
@@ -54,12 +55,12 @@ get started using them can be found [here](./INTEGRATIONS.md)
 
 - `export PATH=<node path>`
 - `export PATH=<rails path>`
--  ```bash
-   RAILS_ENV=production \
-       SECRET_KEY_BASE=<some secret> \
-       RAILS_SERVE_STATIC_FILES=1 \
-       rails s
-   ```
+- ```bash
+  RAILS_ENV=production \
+      SECRET_KEY_BASE=<some secret> \
+      RAILS_SERVE_STATIC_FILES=1 \
+      rails s
+  ```
 
 ### Designs
 
