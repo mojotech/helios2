@@ -159,7 +159,7 @@ class Scene extends React.Component {
     // directly on top of each other.
     World.add(
       this.engine.world,
-      Bodies.circle(this.state.width / 2 + (Math.random() - 0.5), -50, 8, {
+      Bodies.polygon(this.state.width / 2 + (Math.random() - 0.5), -50, 8, 8, {
         restitution: 0.25,
         friction: 0.8,
         render: {
