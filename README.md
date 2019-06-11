@@ -17,6 +17,16 @@ You can either install the deps directly on your box or you can use the Docker s
 - `bundle install`
 - `yarn install`
 - `cp .env.local.sample .env` -- fill in env vars where applicable
+- Configure Redis:
+
+  ```shell
+  brew install redis
+  redis-cli CONFIG SET dir/tmp/
+  redis-cli CONFIG SET dbfilename temp.rdb
+  redis-server &
+  redis-cli ping  # Should respond with PONG
+  rake db:setup
+  ```
 
 ### Start it up
 
