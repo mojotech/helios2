@@ -76,4 +76,4 @@ get started using them can be found [here](./INTEGRATIONS.md)
 
 https://app.zeplin.io/project/5ad8bfb98c928b070d6e1589
 
-![screen shot 2018-06-13 at 7 49 27 am](https://user-images.githubusercontent.com/2212806/41349620-6dca83e4-6ede-11e8-9913-ccec4fad09d2.png)
+![Screen Shot 2019-06-11 at 4 53 05 PM](https://user-images.githubusercontent.com/30034042/59306010-670ef900-8c69-11e9-9d7e-0257dc363dac.png)
