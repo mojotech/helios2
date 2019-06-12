@@ -1,14 +1,4 @@
 class Types::QueryType < Types::BaseObject
-  field :weather, Types::WeatherType do
-    description "Weather response from Dark Sky"
-    argument :latitude, Float, required: true
-    argument :longitude, Float, required: true
-  end
-
-  def weather(latitude:, longitude:)
-    Clients::DarkskyClient.forecast(latitude, longitude)
-  end
-
   field :locations, [Types::LocationType] do
     description "MojoTech office locations"
   end
