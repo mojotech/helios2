@@ -5,6 +5,7 @@ import Date from '@components/date';
 import Logo from '@components/logo';
 import { SpacedRow } from '@components/row';
 import TimeHero from '@components/time-hero';
+import WeatherCorner from '@components/weather-corner';
 
 const DateLogoRow = styled(SpacedRow)`
   margin-top: 13px;
@@ -48,7 +49,7 @@ const WeatherTopCorner = () => {
       <IconWrapper>
         <Logo />
       </IconWrapper>
-      <TimeHero />
+      <WeatherCorner />
     </div>
   );
 };
