@@ -11,7 +11,7 @@ class Location < ApplicationRecord
   end
 
   def weather
-    Clients::DarkskyClient.forecast(latitude, longitude)
+    Clients::DarkskyClient.forecast(self)
   end
 
   def day_announcements
@@ -34,5 +34,5 @@ class Location < ApplicationRecord
     ENV['BATHROOM_CODE']
   end
 
-  has_many :solarcycles
+  has_many :solarcycles, dependent: :destroy
 end

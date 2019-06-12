@@ -13,7 +13,15 @@ describe Helios2Schema do
   let(:variables) { {} }
 
   before {
+    Location.delete_all
+    Location.create!(
+      latitude: 40.7127,
+      longitude: -74.0059,
+      city_name: 'Providence',
+      time_zone: 'America/New_York'
+    )
     allow(ForecastIO).to receive(:forecast) { WeatherHelpers.darksky_response }
+    allow(ENV).to receive(:[]).with('PRIMARY_CITY_NAME') { 'Providence' }
   }
 
   let(:result) {
@@ -29,22 +37,22 @@ describe Helios2Schema do
   describe "a weather query" do
     # provide a query string for `result`
     let(:query_string) {
-      %|
+      %(
 {
-  weather(latitude: 40.7127, longitude: -74.0059) {
-    currently {
-      summary
-      temperature
-      time
+  primaryLocation{
+    weather{
+      currently{
+        summary
+      }
     }
   }
 }
-      |
+      )
     }
 
     context "from anonymous" do
       it "will consume a DarkSky response and return data" do
-        expect(result["data"]["weather"]["currently"]["summary"]).to eq("Partly Cloudy")
+        expect(result["data"]["primaryLocation"]["weather"]["currently"]["summary"]).to eq("Partly Cloudy")
       end
     end
   end

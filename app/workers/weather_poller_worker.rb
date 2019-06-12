@@ -9,7 +9,7 @@ class WeatherPollerWorker
     logger.info "Running weather poll"
 
     locations.each do |location|
-      poll(location.latitude, location.longitude)
+      poll(location)
     end
   end
 
@@ -17,24 +17,28 @@ class WeatherPollerWorker
     $redis.pubsub("channels", "helios2_*:graphql-event::weatherPublished:*")
   end
 
-  Location = Struct.new(:latitude, :longitude)
+  LocationParams = Struct.new(:latitude, :longitude)
 
   PARSE_LOCATION = /latitude:(?<latitude>.+):longitude:(?<longitude>.+)$/
 
   def locations
     subscriptions.map do |subscription|
       captures = PARSE_LOCATION.match(subscription).named_captures
-      Location.new(*captures.values)
+      LocationParams.new(*captures.values)
     end.uniq
   end
 
-  def poll(latitude, longitude)
-    logger.info "Polling #{latitude} #{longitude}"
+  def poll(location)
+    logger.info "Polling #{location.latitude} #{location.longitude}"
+    location_record = Location.where(latitude: location.latitude, longitude: location.longitude).first
+    get_forecast(location_record, location)
+  end
 
-    data = Clients::DarkskyClient.forecast(latitude, longitude)
+  def get_forecast(record, location)
+    data = Clients::DarkskyClient.forecast(record)
     Helios2Schema.subscriptions.trigger(
       "weatherPublished",
-      { latitude: latitude.to_f, longitude: longitude.to_f },
+      { latitude: location.latitude.to_f, longitude: location.longitude.to_f },
       data
     )
   end

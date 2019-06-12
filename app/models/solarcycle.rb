@@ -1,3 +1,4 @@
 class Solarcycle < ApplicationRecord
-    belongs_to :location
+  self.inheritance_column = :_type_disabled
+  belongs_to :location
 end
