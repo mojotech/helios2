@@ -10,25 +10,12 @@ const CurrentWidgetText = styled.div`
   cursor: pointer;
 `;
 
-const CurrentSubText = styled.div`
-  color: ${colors.white};
-  font-size: ${fontSizes.tiny};
-  margin-top: ${spacing.s};
-`;
-
 const OtherWidgetText = styled.div`
   margin-top: ${spacing.l};
   font-size: ${fontSizes.small};
   color: ${colors.white};
   opacity: 0.5;
   cursor: pointer;
-`;
-
-const OtherSubText = styled.div`
-  color: ${colors.white};
-  font-size: ${fontSizes.tiny};
-  margin-top: ${spacing.s};
-  opacity: 0.5;
 `;
 
 export const TabBar = () => (
@@ -44,7 +31,6 @@ export const Tab = props => {
         <CurrentWidgetText id={`widget_${props.widgetId}`}>
           {props.text}
         </CurrentWidgetText>
-        <CurrentSubText>{props.children}</CurrentSubText>
         <TabBar />
       </span>
     );
@@ -54,7 +40,6 @@ export const Tab = props => {
       <OtherWidgetText id={`widget_${props.widgetId}`}>
         {props.text}
       </OtherWidgetText>
-      <OtherSubText>{props.children}</OtherSubText>
       <TabBar />
     </span>
   );
@@ -63,6 +48,5 @@ export const Tab = props => {
 Tab.propTypes = {
   selected: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   widgetId: PropTypes.number.isRequired,
 };

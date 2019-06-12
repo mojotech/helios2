@@ -16,9 +16,7 @@ export const Widgets = ({ widgets, selectedWidget }) =>
         widgetId={index}
         selected={index === selectedWidget}
         text={widget.text}
-      >
-        {widget.children}
-      </Tab>
+      />
     </WidgetContainer>
   ));
 
