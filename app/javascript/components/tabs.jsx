@@ -1,17 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { colors, spacing, fontSizes } from '../lib/theme';
+import { colors, fontSizes } from '../lib/theme';
 
 const CurrentWidgetText = styled.div`
-  margin-top: ${spacing.l};
+  margin-top: 19px;
+  margin-bottom: 19px;
   font-size: ${fontSizes.small};
   color: ${colors.white};
   cursor: pointer;
 `;
 
 const OtherWidgetText = styled.div`
-  margin-top: ${spacing.l};
+  margin-top: 19px;
+  margin-bottom: 19px;
   font-size: ${fontSizes.small};
   color: ${colors.white};
   opacity: 0.5;
