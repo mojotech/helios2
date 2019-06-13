@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import withFragment from '../../hocs/with-fragment';
+import withFragment from '@hocs/with-fragment';
 
 const getCurrentTemp = gql`
   fragment CurrentTemp on Weather {

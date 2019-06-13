@@ -2,11 +2,8 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { WhiteSubTitle, WhiteTitleLarge } from './typography';
-import {
-  LoadingMessage,
-  ErrorMessage,
-} from './widgets/messages/default-messages';
+import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
+import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const getBathroomCode = gql`
   {

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { take } from 'ramda';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing, fonts, weights } from '../../../lib/theme';
-import { Row } from '../../row';
-import { parseHour } from '../../../lib/datetime';
-import rainIcon from '../../../../assets/images/raincloud.png';
-import withFragment from '../../hocs/with-fragment';
+import { colors, fontSizes, spacing, fonts, weights } from '@lib/theme';
+import { Row } from '@components/row';
+import { parseHour } from '@lib/datetime';
+import rainIcon from '@images/raincloud.png';
+import withFragment from '@hocs/with-fragment';
 
 const opacities = {
   0: '1',

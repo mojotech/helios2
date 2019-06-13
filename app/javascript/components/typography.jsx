@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, fontSizes, spacing } from '../lib/theme';
+import { colors, fontSizes, spacing } from '@lib/theme';
 
 export const GreyText = styled.div`
   color: ${colors.grey};

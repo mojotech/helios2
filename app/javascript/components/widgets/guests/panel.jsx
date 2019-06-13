@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { parseDate } from '../../../lib/datetime';
-import { colors, weights, fontSizes, spacing } from '../../../lib/theme';
-import { LoadingMessage, DisconnectedMessage } from '../messages/message';
+import { parseDate } from '@lib/datetime';
+import { colors, weights, fontSizes, spacing } from '@lib/theme';
+import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 
 const getPrimaryLocationAnnouncements = gql`
   {

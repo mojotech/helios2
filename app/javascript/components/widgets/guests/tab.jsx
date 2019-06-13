@@ -4,9 +4,9 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { sortBy, prop, append, lensPath, set, filter } from 'ramda';
 import styled from 'styled-components';
-import icon from '../../../../assets/images/icons/icon-calendar.svg';
-import { parseTime, isInFutureToday } from '../../../lib/datetime';
-import { LoadingMessage, DisconnectedMessage } from '../messages/message';
+import icon from '@icons/icon-calendar.svg';
+import { parseTime, isInFutureToday } from '@lib/datetime';
+import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 
 const subscribeAnnouncementPublished = gql`
   subscription onAnnouncementPublished {

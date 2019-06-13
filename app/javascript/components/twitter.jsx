@@ -1,5 +1,5 @@
 import React from 'react';
-import Wrapper from './panel-wrapper';
+import Wrapper from '@components/panel-wrapper';
 
 export const Twitter = () => <Wrapper />;
 

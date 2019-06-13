@@ -9,11 +9,11 @@ import {
   weights,
   spacing,
   leftPanelWidth,
-} from '../../../lib/theme';
-import { parseTime, timeDiffInMinutes } from '../../../lib/datetime';
-import { WhiteText } from '../../typography';
-import withFragment from '../../hocs/with-fragment';
-import SemiCircle from './semi-circle';
+} from '@lib/theme';
+import { parseTime, timeDiffInMinutes } from '@lib/datetime';
+import { WhiteText } from '@components/typography';
+import withFragment from '@hocs/with-fragment';
+import SemiCircle from '@weather/semi-circle';
 
 const containerHeight = '344px';
 

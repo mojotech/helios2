@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { colors, fontSizes } from '../lib/theme';
+import { colors, fontSizes } from '@lib/theme';
 
 const CurrentWidgetText = styled.div`
   margin-top: 19px;

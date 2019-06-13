@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from './logo';
-import { SpacedRow, Row } from './row';
-import Date from './date';
-import TimeHero from './time-hero';
-import Wifi from './wifi';
-import Bathroom from './bathroom';
-import { spacing, colors } from '../lib/theme';
-import Widgets from './widgets';
-import widgetShape from '../lib/widget-shape';
+import Logo from '@components/logo';
+import { SpacedRow, Row } from '@components/row';
+import Date from '@components/date';
+import TimeHero from '@components/time-hero';
+import Wifi from '@components/wifi';
+import Bathroom from '@components/bathroom';
+import { spacing, colors } from '@lib/theme';
+import Widgets from '@components/widgets';
+import widgetShape from '@lib/widget-shape';
 
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;

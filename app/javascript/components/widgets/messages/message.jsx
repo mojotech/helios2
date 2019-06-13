@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { GreySubText } from '../../typography';
-import { fontSizes, leftPanelWidth } from '../../../lib/theme';
-import sunMoon from '../../../../assets/images/sunmoon.png';
+import { GreySubText } from '@components/typography';
+import { fontSizes, leftPanelWidth } from '@lib/theme';
+import sunMoon from '@images/sunmoon.png';
 
 export const LoadingMessage = () => <Message message="Loading..." />;
 export const DisconnectedMessage = () => (

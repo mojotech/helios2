@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fontSizes, weights, fonts } from '../lib/theme';
-import { Row } from './row';
-import { timeForTimezone } from '../lib/datetime';
+import { colors, fontSizes, weights, fonts } from '@lib/theme';
+import { Row } from '@components/row';
+import { timeForTimezone } from '@lib/datetime';
 
 const Wrapper = styled.div`
   font-size: ${fontSizes.medium};

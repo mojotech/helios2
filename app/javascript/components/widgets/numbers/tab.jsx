@@ -4,9 +4,9 @@ import { Query } from 'react-apollo';
 import numeral from 'numeral';
 import { over, lensPath, inc } from 'ramda';
 import pluralize from 'pluralize';
-import { getStartOfWeek } from '../../../lib/datetime';
-import { getEventCounts, subscribeEventPublished } from './queries';
-import { LoadingMessage, ErrorMessage } from '../messages/default-messages';
+import { getStartOfWeek } from '@lib/datetime';
+import { getEventCounts, subscribeEventPublished } from '@numbers/queries';
+import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const STAT_FORMAT = '0,0';
 

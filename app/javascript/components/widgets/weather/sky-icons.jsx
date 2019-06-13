@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ClearDayIcon from '../../../../assets/images/icons/icon-29-sun.svg';
-import ClearNightIcon from '../../../../assets/images/icons/icon-28-moon.svg';
-import RainIcon from '../../../../assets/images/icons/icon-4-cloud-rain.svg';
-import SnowIcon from '../../../../assets/images/icons/icon-17-cloud-snowflakes.svg';
-import SleetIcon from '../../../../assets/images/icons/icon-7-cloud-snow.svg';
-import WindIcon from '../../../../assets/images/icons/icon-43-wind.svg';
-import FogIcon from '../../../../assets/images/icons/icon-24-cloud-fog.svg';
-import CloudyIcon from '../../../../assets/images/icons/icon-1-cloud.svg';
-import PartlyCloudyDayIcon from '../../../../assets/images/icons/icon-2-cloud-sun.svg';
-import PartlyCloudyNightIcon from '../../../../assets/images/icons/icon-3-cloud-moon.svg';
+import ClearDayIcon from '@icons/icon-29-sun.svg';
+import ClearNightIcon from '@icons/icon-28-moon.svg';
+import RainIcon from '@icons/icon-4-cloud-rain.svg';
+import SnowIcon from '@icons/icon-17-cloud-snowflakes.svg';
+import SleetIcon from '@icons/icon-7-cloud-snow.svg';
+import WindIcon from '@icons/icon-43-wind.svg';
+import FogIcon from '@icons/icon-24-cloud-fog.svg';
+import CloudyIcon from '@icons/icon-1-cloud.svg';
+import PartlyCloudyDayIcon from '@icons/icon-2-cloud-sun.svg';
+import PartlyCloudyNightIcon from '@icons/icon-3-cloud-moon.svg';
 
 const iconMapping = {
   'clear-day': ClearDayIcon,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Wrapper from './panel-wrapper';
+import Wrapper from '@components/panel-wrapper';
 
 export const FullPanel = ({ currentWidget }) => (
   <Wrapper>{currentWidget}</Wrapper>

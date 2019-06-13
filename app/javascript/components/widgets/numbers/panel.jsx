@@ -4,11 +4,11 @@ import { Query } from 'react-apollo';
 import numeral from 'numeral';
 import styled from 'styled-components';
 import pluralize from 'pluralize';
-import { getStartOfWeek } from '../../../lib/datetime';
-import { LoadingMessage, DisconnectedMessage } from '../messages/message';
-import { colors, weights, fontSizes } from '../../../lib/theme';
-import FallingBlocks from './falling-blocks';
-import { getEventCounts } from './queries';
+import { getStartOfWeek } from '@lib/datetime';
+import { LoadingMessage, DisconnectedMessage } from '@messages/message';
+import { colors, weights, fontSizes } from '@lib/theme';
+import FallingBlocks from '@numbers/falling-blocks';
+import { getEventCounts } from '@numbers/queries';
 
 const NumbersTitle = styled.div`
   color: ${colors.white};

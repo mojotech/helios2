@@ -11,8 +11,8 @@ import ActionCable from 'actioncable';
 import { getMainDefinition } from 'apollo-utilities';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { persistCache } from 'apollo-cache-persist';
-import WidgetController from './widget-controller';
-import helioSchema from '../schema.json';
+import WidgetController from '@components/widget-controller';
+import helioSchema from '@javascript/schema.json';
 
 const cable = ActionCable.createConsumer('/cable');
 
