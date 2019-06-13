@@ -2,11 +2,13 @@ namespace :simulate do
   desc "Simulates opening a new pull request on github"
   task pull_request: :environment do
     post_github_event('pull_request', render_new_pull_request_json)
+    disable_github_authentication
   end
 
   desc "Simulates a new commit on github"
   task :commit, [:count] => :environment do |_t, args|
     args.with_defaults(count: 1)
+    disable_github_authentication
     post_github_event('push', render_new_push_json(args[:count].to_i))
   end
 
@@ -25,7 +27,6 @@ namespace :simulate do
   end
 
   def post_github_event(event, params)
-    disable_github_authentication
     session = ActionDispatch::Integration::Session.new(Rails.application)
     resp = session.post(
       "/web_hooks/github",
