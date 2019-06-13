@@ -1,18 +1,23 @@
 namespace :simulate do
   desc "Simulates opening a new pull request on github"
-  task pull_request: :environment do
+  task :pull_request, [:count] => :environment do |_t, args|
     post_github_event('pull_request', render_new_pull_request_json)
+    disable_github_authentication
+    args.with_defaults(count: 1)
+    args[:count].to_i.times { post_github_event('pull_request', render_new_pull_request_json) }
   end
 
   desc "Simulates a new commit on github"
   task :commit, [:count] => :environment do |_t, args|
     args.with_defaults(count: 1)
+    disable_github_authentication
     post_github_event('push', render_new_push_json(args[:count].to_i))
   end
 
   desc "Simulates a new message on Slack"
-  task slack_message: :environment do
-    post_slack_event(render_new_slack_message_json)
+  task :slack_message, [:count] => :environment do |_t, args|
+    args.with_defaults(count: 1)
+    args[:count].to_i.times { post_slack_event(render_new_slack_message_json) }
   end
 
   desc "Simulates a new announcement on Slack"
@@ -25,7 +30,6 @@ namespace :simulate do
   end
 
   def post_github_event(event, params)
-    disable_github_authentication
     session = ActionDispatch::Integration::Session.new(Rails.application)
     resp = session.post(
       "/web_hooks/github",
