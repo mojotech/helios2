@@ -39,6 +39,12 @@ export class Date extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
   setDate = () => {
     this.setState({ date: dateForTimezone(this.timezone(this.props)) });
   };
@@ -48,7 +54,7 @@ export class Date extends React.Component {
 
   startDateTimer = () => {
     this.setDate();
-    setInterval(this.setDate, 10000);
+    this.intervalId = setInterval(this.setDate, 10000);
   };
 
   render() {
