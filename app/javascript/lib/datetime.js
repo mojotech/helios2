@@ -1,4 +1,10 @@
-import { format, isSameDay, differenceInMinutes, startOfWeek } from 'date-fns';
+import {
+  format,
+  isSameDay,
+  isAfter,
+  differenceInMinutes,
+  startOfWeek,
+} from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
 export const timeForTimezone = (timezone, date = new Date()) =>
@@ -24,11 +30,17 @@ export const parseDate = datetime =>
 export const timeDiffInMinutes = (date, other) =>
   differenceInMinutes(date, other);
 
-export const isDateToday = datetime =>
-  isSameDay(new Date(datetime), new Date());
+export const isDateToday = (datetime, today = new Date()) =>
+  isSameDay(new Date(datetime), new Date(today));
 
 export const isDateTomorrow = datetime =>
   isSameDay(new Date(datetime), new Date().setDate(new Date().getDate() + 1));
+
+export const isDateInFuture = (datetime, datetimeToCompare = new Date()) =>
+  isAfter(new Date(datetime), new Date(datetimeToCompare));
+
+export const isInFutureToday = (datetime, today = new Date()) =>
+  isDateToday(datetime, today) && isDateInFuture(datetime, today);
 
 export const parseDay = datetime => {
   if (isDateToday(datetime)) return 'Today';

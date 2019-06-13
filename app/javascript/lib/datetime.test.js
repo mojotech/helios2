@@ -8,6 +8,8 @@ import {
   timeDiffInMinutes,
   isDateToday,
   isDateTomorrow,
+  isDateInFuture,
+  isInFutureToday,
   parseDay,
 } from './datetime';
 
@@ -83,6 +85,28 @@ describe('#isDateTomorrow', () => {
   it('returns true if the given date is tomorrow', () => {
     expect(isDateTomorrow(today)).toEqual(false);
     expect(isDateTomorrow(tomorrow)).toEqual(true);
+  });
+});
+
+describe('#isDateInFuture', () => {
+  const before = new Date(2014, 6, 2, 12, 20, 0);
+  const after = new Date(2016, 6, 2, 12, 20, 0);
+  it('returns true if the first date is after the second', () => {
+    expect(isDateInFuture(after, before)).toEqual(true);
+  });
+});
+
+describe('#isDateInFuture', () => {
+  const now = new Date(2016, 6, 2, 12, 20, 0);
+  const todayFuture = new Date(2016, 6, 2, 14, 20, 0);
+  const todayPast = new Date(2016, 6, 2, 9, 20, 0);
+  const tomorrow = new Date(2016, 6, 3, 12, 20, 0);
+  const yesterday = new Date(2016, 6, 1, 12, 20, 0);
+  it('returns true if date is in future and is today', () => {
+    expect(isInFutureToday(todayFuture, now)).toEqual(true);
+    expect(isInFutureToday(todayPast, now)).toEqual(false);
+    expect(isInFutureToday(tomorrow, now)).toEqual(false);
+    expect(isInFutureToday(yesterday, now)).toEqual(false);
   });
 });
 

@@ -35,3 +35,4 @@ The Slack Helios App should be subscribed to all `message` Workspace Events in t
 ### Announcements
 
 The Slack Helios Bot should be subscribed to the `app_mention` Bot Event.
+For the bot to send messages back, the _Incoming Webhooks_ App should be installed from the [Slack App Directory](https://mojotech.slack.com/apps). The `Webhook URL` provided by this app should be supplied to the `SLACK_WEBHOOK_URL` environment variable.

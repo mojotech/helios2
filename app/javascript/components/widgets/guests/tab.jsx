@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { sortBy, prop, append, lensPath, set } from 'ramda';
+import { sortBy, prop, append, lensPath, set, filter } from 'ramda';
 import styled from 'styled-components';
 import icon from '../../../../assets/images/icons/icon-calendar.svg';
-import { parseTime, isDateToday } from '../../../lib/datetime';
+import { parseTime, isInFutureToday } from '../../../lib/datetime';
 import { LoadingMessage, DisconnectedMessage } from '../messages/message';
 
 const subscribeAnnouncementPublished = gql`
@@ -109,7 +109,7 @@ const Guests = () => (
                 }
                 const { announcementPublished } = subscriptionData.data;
 
-                if (isDateToday(announcementPublished.publishOn)) {
+                if (isInFutureToday(announcementPublished.publishOn)) {
                   return set(
                     lensPath(['primaryLocation', 'dayAnnouncements']),
 
@@ -122,7 +122,12 @@ const Guests = () => (
                   );
                 }
 
-                return prev;
+                const isFutureToday = item => isInFutureToday(item.publishOn);
+                return set(
+                  lensPath(['primaryLocation', 'dayAnnouncements']),
+                  filter(isFutureToday, prev.primaryLocation.dayAnnouncements),
+                  prev,
+                );
               },
             })
           }
