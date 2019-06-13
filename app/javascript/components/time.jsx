@@ -1,54 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { GreySubText } from './typography';
-import { colors, fontSizes, spacing, weights, fonts } from '../lib/theme';
+import { colors, fontSizes, weights, fonts } from '../lib/theme';
 import { Row } from './row';
 import { timeForTimezone } from '../lib/datetime';
 
 const Wrapper = styled.div`
   font-size: ${fontSizes.medium};
-  font-weight: ${weights.light};
 `;
 
-const HourMin = styled.div``;
+const HourMin = styled.div`
+  font-size: ${fontSizes.xlarge};
+  font-family: ${fonts.extended};
+  font-weight: ${weights.regular};
+  position: relative;
+  top: 8px;
+`;
 
-const AMPM = styled.div``;
+const AMPM = styled.div`
+  font-size: ${fontSizes.medium};
+  font-family: ${fonts.extended};
+  margin-left: 11px;
+`;
 
 const TimeValue = styled(Row)`
   align-items: flex-end;
-  color: ${({ isPrimary }) => (isPrimary ? colors.white : colors.grey)};
-
-  ${/* sc-sel */ HourMin} {
-    ${({ isPrimary }) =>
-      isPrimary
-        ? `font-size: ${fontSizes.xlarge};
-           position: relative;
-           top: 8px;`
-        : `font-size: ${fontSizes.small}`};
-  }
-
-  ${/* sc-sel */ AMPM} {
-    ${({ isPrimary }) =>
-      isPrimary
-        ? `font-size: ${fontSizes.medium}`
-        : `font-size: ${fontSizes.small}`};
-  }
-  font-family: ${({ isPrimary }) => (isPrimary ? fonts.thin : fonts.regular)};
-`;
-
-const City = styled(GreySubText)`
-  margin-bottom: ${spacing.xs};
-  ${({ isPrimary }) =>
-    isPrimary
-      ? `font-size: ${fontSizes.small}`
-      : `font-size: ${fontSizes.tiny}`};
+  color: ${colors.white};
+  font-family: ${fonts.extended};
+  font-weight: ${weights.regular};
 `;
 
 export class Time extends React.Component {
   static propTypes = {
-    isPrimary: PropTypes.bool.isRequired,
-    cityName: PropTypes.string.isRequired,
     timezone: PropTypes.string.isRequired,
   };
 
@@ -70,12 +53,10 @@ export class Time extends React.Component {
   }
 
   render() {
-    const { cityName, isPrimary } = this.props;
     const [time, ampm] = this.state.time.split(' ');
     return (
       <Wrapper>
-        <City {...{ isPrimary }}>{cityName}</City>
-        <TimeValue {...{ isPrimary }}>
+        <TimeValue>
           <HourMin>{time}</HourMin>
           <AMPM>{ampm}</AMPM>
         </TimeValue>

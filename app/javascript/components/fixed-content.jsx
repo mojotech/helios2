@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Logo from './logo';
 import { SpacedRow, Row } from './row';
 import Date from './date';
-import Times from './times';
+import TimeHero from './time-hero';
 import Wifi from './wifi';
 import Bathroom from './bathroom';
 import { spacing, colors } from '../lib/theme';
@@ -13,6 +13,7 @@ import widgetShape from '../lib/widget-shape';
 const DateLogoRow = styled(SpacedRow)`
   align-items: center;
   margin-bottom: ${spacing.xxl};
+  margin-top: 13px;
 `;
 
 const CarouselContainer = styled.div`
@@ -27,7 +28,7 @@ export const FixedContent = ({ widgets, selectedWidget }) => (
       <Date />
       <Logo />
     </DateLogoRow>
-    <Times />
+    <TimeHero />
     <Row>
       <Wifi />
       <Bathroom />

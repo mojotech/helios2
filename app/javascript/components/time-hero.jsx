@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { sort, prop, descend } from 'ramda';
 import { SpacedRow } from './row';
 import Time from './time';
 import { spacing } from '../lib/theme';
@@ -16,20 +15,17 @@ const Wrapper = styled(SpacedRow)`
   margin-bottom: ${spacing.xxl};
 `;
 
-const getLocations = gql`
+const getLocation = gql`
   {
-    locations {
-      id
-      cityName
-      isPrimary
+    primaryLocation {
       timezone
     }
   }
 `;
 
-export const Times = () => (
+export const TimeHero = () => (
   <Wrapper>
-    <Query query={getLocations}>
+    <Query query={getLocation}>
       {({ loading, error, data }) => {
         if (loading) {
           return <LoadingMessage />;
@@ -39,18 +35,10 @@ export const Times = () => (
           return <ErrorMessage />;
         }
 
-        const locations = sort(descend(prop('isPrimary')), data.locations);
-
-        return (
-          <React.Fragment>
-            {locations.map(({ id, isPrimary, cityName, timezone }) => (
-              <Time key={id} {...{ isPrimary, cityName, timezone }} />
-            ))}
-          </React.Fragment>
-        );
+        return <Time timezone={data.primaryLocation.timezone} />;
       }}
     </Query>
   </Wrapper>
 );
 
-export default Times;
+export default TimeHero;

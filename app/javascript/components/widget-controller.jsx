@@ -14,8 +14,8 @@ import { colors } from '../lib/theme';
 
 const IconWrapper = styled.div`
   position: absolute;
-  left: 20px;
-  top: 20px;
+  right: 704px;
+  top: 95px;
 `;
 
 const Icon = styled.button`

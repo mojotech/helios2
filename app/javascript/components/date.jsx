@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 import { dateForTimezone } from 'lib/datetime';
-import { GreyText } from './typography';
+import { colors, fontSizes, spacing, fonts } from '../lib/theme';
 import {
   LoadingMessage,
   ErrorMessage,
@@ -15,6 +16,13 @@ const getTimezone = gql`
       timezone
     }
   }
+`;
+export const DateText = styled.div`
+  color: ${colors.white};
+  font-size: ${fontSizes.medium};
+  font-family: ${fonts.light};
+  margin-bottom: ${spacing.xxxl};
+  margin-top: ${spacing.xxxl};
 `;
 
 export class Date extends React.Component {
@@ -67,7 +75,7 @@ export class Date extends React.Component {
       return <ErrorMessage />;
     }
 
-    return <GreyText>{this.state.date}</GreyText>;
+    return <DateText>{this.state.date}</DateText>;
   }
 }
 

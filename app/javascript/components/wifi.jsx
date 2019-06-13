@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { spacing } from '../lib/theme';
-import { WhiteTitle, GreySubText } from './typography';
+import { WhiteSubTitle, WhiteTitleLarge } from './typography';
 import { Row } from './row';
 import {
   LoadingMessage,
@@ -13,7 +12,9 @@ import {
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: ${spacing.xxxl};
+  margin-right: 119px;
+  margin-bottom: 50px;
+  margin-top: 100px;
 `;
 
 const getWifiInfo = gql`
@@ -45,12 +46,9 @@ export const Wifi = () => (
         return (
           <Row>
             <Column>
-              <WhiteTitle>Wifi</WhiteTitle>
-              <GreySubText>{wifiName}</GreySubText>
-            </Column>
-            <Column>
-              <WhiteTitle>Wifi Password</WhiteTitle>
-              <GreySubText>{wifiPassword}</GreySubText>
+              <WhiteSubTitle>WIFI</WhiteSubTitle>
+              <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
+              <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
             </Column>
           </Row>
         );

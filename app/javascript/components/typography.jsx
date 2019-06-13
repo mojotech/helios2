@@ -19,3 +19,15 @@ export const GreySubText = styled(GreyText)`
   font-size: ${fontSizes.small};
   margin-bottom: ${spacing.xs};
 `;
+
+export const WhiteSubTitle = styled(WhiteText)`
+  font-size: ${fontSizes.small};
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: ${spacing.l};
+`;
+
+export const WhiteTitleLarge = styled(WhiteText)`
+  font-size: ${fontSizes.large};
+  margin-bottom: ${spacing.m};
+`;

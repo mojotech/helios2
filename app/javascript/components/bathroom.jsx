@@ -1,7 +1,8 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { WhiteTitle, GreySubText } from './typography';
+import styled from 'styled-components';
+import { WhiteSubTitle, WhiteTitleLarge } from './typography';
 import {
   LoadingMessage,
   ErrorMessage,
@@ -13,6 +14,12 @@ const getBathroomCode = gql`
       bathroomCode
     }
   }
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
 `;
 
 export const Bathroom = () => (
@@ -32,10 +39,10 @@ export const Bathroom = () => (
       }
 
       return (
-        <div>
-          <WhiteTitle>Bathroom Code</WhiteTitle>
-          <GreySubText>{bathroomCode}</GreySubText>
-        </div>
+        <Column>
+          <WhiteSubTitle>BATHROOM CODE</WhiteSubTitle>
+          <WhiteTitleLarge>{bathroomCode}</WhiteTitleLarge>
+        </Column>
       );
     }}
   </Query>
