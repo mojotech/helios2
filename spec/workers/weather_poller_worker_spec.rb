@@ -1,10 +1,30 @@
 require 'rails_helper'
+
+TESTDATA =
+  {
+    "daily" => {
+      "data" => [
+        {
+          "sunsetTime" => 1_559_625_180,
+          "sunriseTime" => 1_559_679_420
+        }
+      ]
+    }
+  }.freeze
+
 RSpec.describe WeatherPollerWorker, type: :worker do
   before {
-    allow(ForecastIO).to receive(:forecast) { "" }
+    Location.delete_all
+    Location.create!(
+      latitude: 41.823989,
+      longitude: -71.412834,
+      city_name: 'Providence',
+      time_zone: 'America/New_York'
+    )
+    allow(ForecastIO).to receive(:forecast) { TESTDATA }
     allow_any_instance_of(Redis).to(
       receive(:pubsub) {
-        ["helios2_development:graphql-event::weatherPublished:latitude:41.823979:longitude:-71.412834"]
+        ["helios2_development:graphql-event::weatherPublished:latitude:41.823989:longitude:-71.412834"]
       }
     )
   }
@@ -12,7 +32,7 @@ RSpec.describe WeatherPollerWorker, type: :worker do
   describe "a poller" do
     it "will query uniq locations from redis " do
       expect(WeatherPollerWorker.new.locations).to(
-        eq([WeatherPollerWorker::Location.new("41.823979", "-71.412834")])
+        eq([WeatherPollerWorker::LocationParams.new("41.823989", "-71.412834")])
       )
     end
 
@@ -20,17 +40,17 @@ RSpec.describe WeatherPollerWorker, type: :worker do
       expect(Helios2Schema.subscriptions).to(
         receive(:trigger).with(
           "weatherPublished",
-          { latitude: 41.823979, longitude: -71.412834 },
-          ""
+          { latitude: 41.823989, longitude: -71.412834 },
+          TESTDATA
         )
       )
-      WeatherPollerWorker.new.poll("41.823979", "-71.412834")
+      WeatherPollerWorker.new.poll(WeatherPollerWorker::LocationParams.new("41.823989", "-71.412834"))
     end
 
     it "will perform a poll for every location" do
       worker = WeatherPollerWorker.new
       expect(worker).to(
-        receive(:poll).with("41.823979", "-71.412834")
+        receive(:poll).with(WeatherPollerWorker::LocationParams.new("41.823989", "-71.412834"))
       )
       worker.perform
     end

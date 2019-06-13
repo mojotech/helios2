@@ -1,0 +1,184 @@
+type Event {
+  createdAt: String!
+  externalId: String!
+  id: ID!
+  source: EventSource!
+}
+
+type EventCollection {
+  all: [Event!]!
+  count: EventCount!
+}
+
+type EventCount {
+  githubCommit: Int!
+  githubPull: Int!
+  slackMessage: Int!
+}
+
+enum EventSource {
+  # Github commit
+  githubCommit
+
+  # Github pull request
+  githubPull
+
+  # Slack message
+  slackMessage
+}
+
+type Location {
+  bathroomCode: String!
+  cityName: String!
+  id: ID!
+  isPrimary: Boolean!
+  latitude: Float!
+  longitude: Float!
+  solarcycles: [SolarCycle!]!
+  timezone: String!
+  weather: Weather!
+  wifiName: String!
+  wifiPassword: String!
+}
+
+type Mutation {
+  testField: String!
+}
+
+type Query {
+  # MojoTech slack/github events
+  events(after: String, type: EventSource): EventCollection!
+
+  # MojoTech office locations
+  locations: [Location!]!
+
+  # Location running the app
+  primaryLocation: Location!
+}
+
+type SolarCycle {
+  time: String!
+  type: String!
+}
+
+type Subscription {
+  # An event was published to the API
+  eventPublished: Event!
+
+  # Latest weather data retrieved
+  weatherPublished(latitude: Float!, longitude: Float!): Weather!
+}
+
+scalar UnixDateTime
+
+type Weather {
+  currently: WeatherCurrentlyDetail!
+  daily: WeatherDailyDetail!
+  hourly: WeatherHourlyDetail!
+  latitude: Float!
+  longitude: Float!
+  minutely: WeatherMinutelyDetail!
+  offset: Int!
+  timezone: String!
+}
+
+type WeatherCurrentlyDetail {
+  apparentTemperature: Float!
+  cloudCover: Float!
+  dewPoint: Float!
+  humidity: Float!
+  icon: String!
+  nearestStormBearing: Int!
+  nearestStormDistance: Int!
+  ozone: Float!
+  precipIntensity: Int!
+  precipProbability: Int!
+  pressure: Float!
+  summary: String!
+  temperature: Float!
+  time: UnixDateTime!
+  uvIndex: Int!
+  visibility: Int!
+  windBearing: Int!
+  windGust: Float!
+  windSpeed: Float!
+}
+
+type WeatherDailyData {
+  apparentTemperatureHigh: Float!
+  apparentTemperatureLow: Float!
+  apparentTemperatureMax: Float!
+  apparentTemperatureMin: Float!
+  cloudCover: Float!
+  dewPoint: Int!
+  humidity: Float!
+  icon: String!
+  moonPhase: Float!
+  ozone: Float!
+  precipIntensity: Float!
+  precipIntensityMax: Float!
+  precipIntensityMaxTime: UnixDateTime!
+  precipProbability: Float!
+  precipType: String!
+  pressure: Float!
+  summary: String!
+  sunriseTime: UnixDateTime!
+  sunsetTime: UnixDateTime!
+  temperatureHigh: Float!
+  temperatureHighTime: UnixDateTime!
+  temperatureLow: Float!
+  temperatureMax: Float!
+  temperatureMin: Float!
+  time: UnixDateTime!
+  uvIndex: Int!
+  windBearing: Int!
+  windGust: Float!
+  windSpeed: Float!
+}
+
+type WeatherDailyDetail {
+  data: [WeatherDailyData!]!
+  icon: String!
+  summary: String!
+}
+
+type WeatherHourlyData {
+  apparentTemperature: Float!
+  cloudCover: Float!
+  dewPoint: Float!
+  humidity: Float!
+  icon: String!
+  ozone: Float!
+  precipIntensity: Float!
+  precipProbability: Float!
+  precipType: String!
+  pressure: Float!
+  summary: String!
+  temperature: Float!
+  time: UnixDateTime!
+  uvIndex: Int!
+  visibility: Int!
+  windBearing: Int!
+  windGust: Float!
+  windSpeed: Float!
+}
+
+type WeatherHourlyDetail {
+  data: [WeatherHourlyData!]!
+  icon: String!
+  summary: String!
+}
+
+type WeatherMinutelyData {
+  precipIntensity: Float!
+  precipIntensityError: Float!
+  precipProbability: Float!
+  precipType: String!
+  time: UnixDateTime!
+}
+
+type WeatherMinutelyDetail {
+  data: [WeatherMinutelyData!]!
+  icon: String!
+  summary: String!
+}

@@ -9,12 +9,6 @@ class Types::WeatherObject < Types::BaseObject
   field_class Types::WeatherField
 end
 
-class Types::UnixDateTimeType < GraphQL::Schema::Scalar
-  def self.coerce_result(value, _ctx)
-    Time.at(value).iso8601
-  end
-end
-
 class Types::WeatherDailyDataType < Types::WeatherObject
   field :time, Types::UnixDateTimeType
   field :summary, String
