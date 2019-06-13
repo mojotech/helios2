@@ -27,7 +27,7 @@ class Types::QueryType < Types::BaseObject
 
   def events(after: nil, type: nil)
     events = Event.all
-    events = events.created_after(after) if after
+    events = events.created_after(Date.parse(after)) if after
     events = events.with_source(type) if type
     events
   end
