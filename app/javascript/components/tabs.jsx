@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { colors, fontSizes } from '@lib/theme';
+import { CurrentTabBar, OtherTabBar } from '@components/tab-bar';
 
-const CurrentWidgetText = styled.div`
+const CurrentTabText = styled.div`
   margin-top: 19px;
   margin-bottom: 19px;
   font-size: ${fontSizes.small};
@@ -11,7 +12,7 @@ const CurrentWidgetText = styled.div`
   cursor: pointer;
 `;
 
-const OtherWidgetText = styled.div`
+const OtherTabText = styled.div`
   margin-top: 19px;
   margin-bottom: 19px;
   font-size: ${fontSizes.small};
@@ -20,35 +21,40 @@ const OtherWidgetText = styled.div`
   cursor: pointer;
 `;
 
-export const TabBar = () => (
-  <svg width="568" height="4">
-    <rect width="568" height="1" fill={colors.white} opacity="0.2" />
-  </svg>
-);
+export class Tab extends React.Component {
+  static propTypes = {
+    selected: PropTypes.bool.isRequired,
+    text: PropTypes.string.isRequired,
+    widgetId: PropTypes.number.isRequired,
+  };
 
-export const Tab = props => {
-  if (props.selected) {
-    return (
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const isSelected = this.props.selected;
+    const widgetBar = isSelected ? (
       <span>
-        <CurrentWidgetText id={`widget_${props.widgetId}`}>
-          {props.text}
-        </CurrentWidgetText>
-        <TabBar />
+        <CurrentTabText id={`widget_${this.props.widgetId}`}>
+          {this.props.text}
+        </CurrentTabText>
+        <CurrentTabBar
+          time={this.state.timeBarProgress}
+          max={this.state.maxTime}
+        />
+      </span>
+    ) : (
+      <span>
+        <OtherTabText id={`widget_${this.props.widgetId}`}>
+          {this.props.text}
+        </OtherTabText>
+        <OtherTabBar />
       </span>
     );
+    return <div>{widgetBar}</div>;
   }
-  return (
-    <span>
-      <OtherWidgetText id={`widget_${props.widgetId}`}>
-        {props.text}
-      </OtherWidgetText>
-      <TabBar />
-    </span>
-  );
-};
+}
 
-Tab.propTypes = {
-  selected: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  widgetId: PropTypes.number.isRequired,
-};
+export default Tab;
