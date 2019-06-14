@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { colors, fontSizes } from '@lib/theme';
 import { CurrentTabBar, OtherTabBar } from '@components/tab-bar';
 
+const SPACEBAR = 32;
+
 const CurrentTabText = styled.div`
   margin-top: 19px;
   margin-bottom: 19px;
@@ -19,6 +21,10 @@ const OtherTabText = styled.div`
   color: ${colors.white};
   opacity: 0.5;
   cursor: pointer;
+`;
+
+const TabButton = styled.div`
+  outline: none;
 `;
 
 export class Tab extends React.Component {
@@ -38,6 +44,7 @@ export class Tab extends React.Component {
       maxTime: totalTime,
     };
     this.timeRemaining = totalTime;
+    this.isPaused = false;
   }
 
   componentDidMount() {
@@ -55,6 +62,7 @@ export class Tab extends React.Component {
         clearInterval(this.intervalId);
         this.intervalId = null;
         this.timeRemaining = this.state.maxTime;
+        this.setPause(false);
       }
     }
   }
@@ -64,20 +72,37 @@ export class Tab extends React.Component {
     this.intervalId = undefined;
   }
 
+  setPause(isPaused) {
+    this.isPaused = isPaused;
+  }
+
+  handleKeyPress = ({ keyCode }) => {
+    if (keyCode === SPACEBAR) this.togglePause();
+  };
+
   timer() {
     const max = this.state.maxTime;
     this.intervalId = setInterval(() => {
       if (this.props.selected) {
-        this.timeRemaining -= 50;
-        if (this.state.timeBarProgress <= 0) {
+        if (!this.isPaused) {
+          this.timeRemaining -= 50;
+        } else {
+          this.timeRemaining = max;
+        }
+        if (this.timeRemaining <= 0) {
           this.timeRemaining = max;
           this.props.tabDown();
         }
       } else {
         this.timeRemaining = max;
+        this.setPause(false);
       }
       this.setState({ timeBarProgress: this.timeRemaining });
     }, 50);
+  }
+
+  togglePause() {
+    this.isPaused = !this.isPaused;
   }
 
   render() {
@@ -100,7 +125,11 @@ export class Tab extends React.Component {
         <OtherTabBar />
       </span>
     );
-    return <div>{widgetBar}</div>;
+    return (
+      <TabButton onKeyDown={this.handleKeyPress} tabIndex="0">
+        {widgetBar}
+      </TabButton>
+    );
   }
 }
 
