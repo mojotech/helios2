@@ -3,11 +3,9 @@ import styled from 'styled-components';
 import { mathMod } from 'ramda';
 import FullPanel from '@components/full-panel';
 import SidePanel from '@components/side-panel';
-import Twitter from '@components/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Guests from '@widgets/guests';
-import Live from '@components/live-stream';
 import lockedIcon from '@images/locked.svg';
 import unlockedIcon from '@images/unlocked.svg';
 import { colors } from '@lib/theme';
@@ -34,17 +32,8 @@ const widgets = [
     text: 'Weather',
   },
   {
-    panel: <Twitter />,
-    text: '@MojoTech',
-    children: 'Last tweeted 2 days ago.',
-  },
-  {
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
-  },
-  {
-    panel: <Live />,
-    text: 'MojoTech Boulder',
   },
   {
     panel: <Guests.Panel />,
