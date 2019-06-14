@@ -25,6 +25,7 @@ const Icon = styled.button`
   background-color: ${colors.black};
 `;
 
+const SWITCH_INTERVAL = 20000;
 const iconId = 'lock-icon';
 
 const widgets = [
@@ -56,12 +57,8 @@ export class WidgetController extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      isLocked: true,
+      isLocked: false,
     };
-  }
-
-  componentDidMount() {
-    this.startCarousel();
   }
 
   switchLock = () => {
@@ -93,25 +90,17 @@ export class WidgetController extends React.Component {
     }
   };
 
-  startCarousel() {
-    setInterval(() => {
-      if (!this.state.isLocked) {
-        this.moveDown();
-      }
-    }, 30000);
-  }
-
-  moveUp() {
-    this.setState(({ index }) => ({
-      index: mathMod(index - 1, widgets.length),
-    }));
-  }
-
-  moveDown() {
+  moveDown = () => {
     this.setState(({ index }) => ({
       index: (index + 1) % widgets.length,
     }));
-  }
+  };
+
+  moveUp = () => {
+    this.setState(({ index }) => ({
+      index: mathMod(index - 1, widgets.length),
+    }));
+  };
 
   render() {
     const { index, isLocked } = this.state;
@@ -127,7 +116,12 @@ export class WidgetController extends React.Component {
         tabIndex="0"
       >
         <FullPanel currentWidget={currentWidget.panel} />
-        <SidePanel widgets={widgets} selectedWidget={index} />
+        <SidePanel
+          widgets={widgets}
+          selectedWidget={index}
+          totalTime={SWITCH_INTERVAL}
+          tabDown={this.moveDown}
+        />
         <IconWrapper>
           <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
         </IconWrapper>

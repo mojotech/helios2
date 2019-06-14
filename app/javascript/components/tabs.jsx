@@ -26,11 +26,58 @@ export class Tab extends React.Component {
     selected: PropTypes.bool.isRequired,
     text: PropTypes.string.isRequired,
     widgetId: PropTypes.number.isRequired,
+    totalTime: PropTypes.number.isRequired,
+    tabDown: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {};
+    const { totalTime } = props;
+    this.state = {
+      timeBarProgress: totalTime,
+      maxTime: totalTime,
+    };
+    this.timeRemaining = totalTime;
+  }
+
+  componentDidMount() {
+    if (this.props.selected) {
+      this.timer();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const isSelected = this.props.selected;
+    if (isSelected !== prevProps.selected) {
+      if (isSelected && !this.intervalId) {
+        this.timer();
+      } else if (!isSelected) {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        this.timeRemaining = this.state.maxTime;
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
+  }
+
+  timer() {
+    const max = this.state.maxTime;
+    this.intervalId = setInterval(() => {
+      if (this.props.selected) {
+        this.timeRemaining -= 50;
+        if (this.state.timeBarProgress <= 0) {
+          this.timeRemaining = max;
+          this.props.tabDown();
+        }
+      } else {
+        this.timeRemaining = max;
+      }
+      this.setState({ timeBarProgress: this.timeRemaining });
+    }, 50);
   }
 
   render() {
