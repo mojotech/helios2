@@ -51,16 +51,6 @@ const SunsetLabel = styled.div`
   z-index: 2;
 `;
 
-const getSunriseSunsetLocation = gql`
-  fragment SunriseSunsetLocation on Location {
-    timezone
-    solarcycles {
-      type
-      time
-    }
-  }
-`;
-
 const getSunriseSunsetWeather = gql`
   fragment SunriseSunsetWeather on Weather {
     daily {
@@ -68,11 +58,22 @@ const getSunriseSunsetWeather = gql`
         moonPhase
       }
     }
+    solarcycles {
+      type
+      time
+    }
+  }
+`;
+
+const getSunriseSunsetLocation = gql`
+  fragment SunriseSunsetLocation on Location {
+    timezone
   }
 `;
 
 const SunriseSunset = ({ location, weather }) => {
-  const { timezone, solarcycles } = location;
+  const { timezone } = location;
+  const { solarcycles } = weather;
   const currDate = new Date();
 
   const [beforeNow, afterNow] = splitWhen(
@@ -134,8 +135,8 @@ SunriseSunset.propTypes = {
 };
 
 SunriseSunset.fragments = {
-  location: getSunriseSunsetLocation,
   weather: getSunriseSunsetWeather,
+  location: getSunriseSunsetLocation,
 };
 
 export default withFragment(SunriseSunset);

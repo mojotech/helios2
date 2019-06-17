@@ -41,7 +41,7 @@ RSpec.describe WeatherPollerWorker, type: :worker do
         receive(:trigger).with(
           "weatherPublished",
           { latitude: 41.823989, longitude: -71.412834 },
-          TESTDATA
+          hash_including(TESTDATA)
         )
       )
       WeatherPollerWorker.new.poll(WeatherPollerWorker::LocationParams.new("41.823989", "-71.412834"))

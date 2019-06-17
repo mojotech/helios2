@@ -31,11 +31,11 @@ class WeatherPollerWorker
   def poll(location)
     logger.info "Polling #{location.latitude} #{location.longitude}"
     location_record = Location.where(latitude: location.latitude, longitude: location.longitude).first
-    get_forecast(location_record, location)
+    get_forecast(location_record)
   end
 
-  def get_forecast(record, location)
-    data = Clients::DarkskyClient.forecast(record)
+  def get_forecast(location)
+    data = location.weather
     Helios2Schema.subscriptions.trigger(
       "weatherPublished",
       { latitude: location.latitude.to_f, longitude: location.longitude.to_f },

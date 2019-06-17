@@ -1,3 +1,13 @@
+type Announcement {
+  announcementId: String!
+  company: String!
+  id: ID!
+  locationId: String!
+  message: String!
+  people: String!
+  publishOn: UTCDateTime!
+}
+
 type Event {
   createdAt: String!
   externalId: String!
@@ -30,11 +40,11 @@ enum EventSource {
 type Location {
   bathroomCode: String!
   cityName: String!
+  dayAnnouncements: [Announcement!]!
   id: ID!
   isPrimary: Boolean!
   latitude: Float!
   longitude: Float!
-  solarcycles: [SolarCycle!]!
   timezone: String!
   weather: Weather!
   wifiName: String!
@@ -62,12 +72,17 @@ type SolarCycle {
 }
 
 type Subscription {
+  # An announcement was published
+  announcementPublished: Announcement!
+
   # An event was published to the API
   eventPublished: Event!
 
   # Latest weather data retrieved
   weatherPublished(latitude: Float!, longitude: Float!): Weather!
 }
+
+scalar UTCDateTime
 
 scalar UnixDateTime
 
@@ -79,6 +94,7 @@ type Weather {
   longitude: Float!
   minutely: WeatherMinutelyDetail!
   offset: Int!
+  solarcycles: [SolarCycle!]!
   timezone: String!
 }
 

@@ -5,13 +5,17 @@ class Location < ApplicationRecord
   validates :time_zone, presence: true
 
   has_many :announcements, inverse_of: :location, dependent: :destroy
+  has_many :solarcycles, dependent: :destroy
 
   def self.primary(city_name = ENV['PRIMARY_CITY_NAME'])
     find_by(city_name: city_name)
   end
 
   def weather
-    Clients::DarkskyClient.forecast(self)
+    response = Clients::DarkskyClient.forecast(self).dup
+    response['solarcycles'] = solarcycles
+    response.freeze
+    response
   end
 
   def day_announcements
@@ -33,6 +37,4 @@ class Location < ApplicationRecord
   def bathroom_code
     ENV['BATHROOM_CODE']
   end
-
-  has_many :solarcycles, dependent: :destroy
 end
