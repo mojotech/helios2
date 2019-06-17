@@ -27,5 +27,6 @@ RSpec.describe Solarcycle, type: :model do
   it "should have a weather response" do
     weather = Location.first.weather
     expect(weather).to_not be_nil
+    expect(weather['solarcycles']).to be_a(Array)
   end
 end
