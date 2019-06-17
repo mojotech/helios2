@@ -49,15 +49,6 @@ ActiveRecord::Schema.define(version: 2019_06_04_172236) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "widgets", force: :cascade do |t|
-    t.string "name", null: false
-    t.boolean "enabled", null: false
-    t.integer "duration_seconds", null: false
-    t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end 
-    
   create_table "solarcycles", force: :cascade do |t|
     t.string "type", null: false
     t.string "time", null: false
@@ -65,6 +56,15 @@ ActiveRecord::Schema.define(version: 2019_06_04_172236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_solarcycles_on_location_id"
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "enabled", null: false
+    t.integer "duration_seconds", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

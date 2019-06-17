@@ -89,7 +89,6 @@ const subscribeWeatherPublished = gql`
       ...HourlyWeather
       ...MinutelyWeather
       ...DailyWeather
-      ...SunriseSunsetLocation
       ...SunriseSunsetWeather
     }
   }
@@ -98,7 +97,6 @@ const subscribeWeatherPublished = gql`
   ${HourlyTemps.fragments.weather}
   ${MinutelyWeather.fragments.weather}
   ${DailyWeather.fragments.weather}
-  ${SunriseSunset.fragments.location}
   ${SunriseSunset.fragments.weather}
 `;
 

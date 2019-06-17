@@ -119,6 +119,7 @@ class Types::WeatherType < Types::WeatherObject
   field "hourly", Types::WeatherHourlyDetailType
   field "daily", Types::WeatherDailyDetailType
   field "offset", Int
+  field "solarcycles", [Types::SolarcycleType]
 
   # field "flags", # TODO: skipping this for now
 end
