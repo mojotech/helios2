@@ -13,7 +13,7 @@ class Location < ApplicationRecord
 
   def weather
     response = Clients::DarkskyClient.forecast(self).dup
-    response['solarcycles'] = solarcycles
+    response['solarcycles'] = solarcycles.after_beginning_of_yesterday.to_a
     response.freeze
     response
   end
