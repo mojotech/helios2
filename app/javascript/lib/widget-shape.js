@@ -5,7 +5,6 @@ export const widgetShape = {
     PropTypes.shape({
       panel: PropTypes.node.isRequired,
       text: PropTypes.string,
-      children: PropTypes.node,
     }),
   ).isRequired,
   selectedWidget: PropTypes.number.isRequired,

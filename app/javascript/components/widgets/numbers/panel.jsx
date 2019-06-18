@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import numeral from 'numeral';
+import { over, lensPath, inc } from 'ramda';
 import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getStartOfWeek } from '@lib/datetime';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import { colors, weights, fontSizes } from '@lib/theme';
 import FallingBlocks from '@numbers/falling-blocks';
-import { getEventCounts } from '@numbers/queries';
+import { getEventCounts, subscribeEventPublished } from '@numbers/queries';
 
 const NumbersTitle = styled.div`
   color: ${colors.white};
@@ -35,44 +36,52 @@ const NumberWrapper = styled.div`
 
 const STAT_FORMAT = '0,0';
 
-const SubscribedEvents = ({ githubPull, githubCommit, slackMessage }) => {
-  const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
-  const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
-  const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
+class SubscribedEvents extends React.Component {
+  componentDidMount() {
+    this.props.subscribeToPublishedEvents();
+  }
 
-  const commitText = pluralize('Commit', githubCommit);
-  const requestText = pluralize('request', githubPull);
-  const messageText = pluralize('message', slackMessage);
+  render() {
+    const { githubPull, githubCommit, slackMessage } = this.props;
+    const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
+    const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
+    const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
 
-  return (
-    <div>
-      <NumbersTitle>This week at MojoTech</NumbersTitle>
-      <NumberWrapper>
-        <div>
-          <Count>{githubCommitCount}</Count>
-          <CountLabel color={colors.pink}>{commitText}</CountLabel>
-        </div>
-        <div>
-          <Count>{githubPullCount}</Count>
-          <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
-        </div>
-        <div>
-          <Count>{slackMessageCount}</Count>
-          <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
-        </div>
-      </NumberWrapper>
-    </div>
-  );
-};
+    const commitText = pluralize('Commit', githubCommit);
+    const requestText = pluralize('request', githubPull);
+    const messageText = pluralize('message', slackMessage);
+
+    return (
+      <div>
+        <NumbersTitle>This week at MojoTech</NumbersTitle>
+        <NumberWrapper>
+          <div>
+            <Count>{githubCommitCount}</Count>
+            <CountLabel color={colors.pink}>{commitText}</CountLabel>
+          </div>
+          <div>
+            <Count>{githubPullCount}</Count>
+            <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
+          </div>
+          <div>
+            <Count>{slackMessageCount}</Count>
+            <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
+          </div>
+        </NumberWrapper>
+      </div>
+    );
+  }
+}
 SubscribedEvents.propTypes = {
   githubPull: PropTypes.number.isRequired,
   githubCommit: PropTypes.number.isRequired,
   slackMessage: PropTypes.number.isRequired,
+  subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
 const Numbers = () => (
   <Query query={getEventCounts} variables={{ after: getStartOfWeek() }}>
-    {({ loading, error, data }) => {
+    {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
       }
@@ -84,7 +93,23 @@ const Numbers = () => (
       const { count } = data.events;
       return (
         <Count>
-          <SubscribedEvents {...count} />
+          <SubscribedEvents
+            {...count}
+            subscribeToPublishedEvents={() =>
+              subscribeToMore({
+                document: subscribeEventPublished,
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    return prev;
+                  }
+
+                  const { source } = subscriptionData.data.eventPublished;
+
+                  return over(lensPath(['events', 'count', source]), inc, prev);
+                },
+              })
+            }
+          />
           <FallingBlocks />
         </Count>
       );
