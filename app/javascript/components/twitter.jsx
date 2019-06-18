@@ -1,6 +1,3 @@
-import React from 'react';
-import Wrapper from '@components/panel-wrapper';
-
-export const Twitter = () => <Wrapper />;
+export const Twitter = () => null;
 
 export default Twitter;
