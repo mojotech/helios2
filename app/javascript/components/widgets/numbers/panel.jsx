@@ -35,35 +35,38 @@ const NumberWrapper = styled.div`
 
 const STAT_FORMAT = '0,0';
 
-const SubscribedEvents = ({ githubPull, githubCommit, slackMessage }) => {
-  const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
-  const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
-  const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
+class SubscribedEvents extends React.Component {
+  render() {
+    const { githubPull, githubCommit, slackMessage } = this.props;
+    const githubPullCount = numeral(githubPull).format(STAT_FORMAT);
+    const githubCommitCount = numeral(githubCommit).format(STAT_FORMAT);
+    const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
 
-  const commitText = pluralize('Commit', githubCommit);
-  const requestText = pluralize('request', githubPull);
-  const messageText = pluralize('message', slackMessage);
+    const commitText = pluralize('Commit', githubCommit);
+    const requestText = pluralize('request', githubPull);
+    const messageText = pluralize('message', slackMessage);
 
-  return (
-    <div>
-      <NumbersTitle>This week at MojoTech</NumbersTitle>
-      <NumberWrapper>
-        <div>
-          <Count>{githubCommitCount}</Count>
-          <CountLabel color={colors.pink}>{commitText}</CountLabel>
-        </div>
-        <div>
-          <Count>{githubPullCount}</Count>
-          <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
-        </div>
-        <div>
-          <Count>{slackMessageCount}</Count>
-          <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
-        </div>
-      </NumberWrapper>
-    </div>
-  );
-};
+    return (
+      <div>
+        <NumbersTitle>This week at MojoTech</NumbersTitle>
+        <NumberWrapper>
+          <div>
+            <Count>{githubCommitCount}</Count>
+            <CountLabel color={colors.pink}>{commitText}</CountLabel>
+          </div>
+          <div>
+            <Count>{githubPullCount}</Count>
+            <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
+          </div>
+          <div>
+            <Count>{slackMessageCount}</Count>
+            <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
+          </div>
+        </NumberWrapper>
+      </div>
+    );
+  }
+}
 SubscribedEvents.propTypes = {
   githubPull: PropTypes.number.isRequired,
   githubCommit: PropTypes.number.isRequired,
