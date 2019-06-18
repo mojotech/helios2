@@ -19,9 +19,6 @@ const MessageDisplay = styled(GreySubText)`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 100px
-  margin-bottom: 500px
-  height: 100%;
 `;
 
 const Message = ({ width, height, message, imageWidth, imageHeight }) => {
