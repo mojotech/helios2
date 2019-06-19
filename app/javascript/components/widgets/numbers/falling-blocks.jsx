@@ -155,26 +155,25 @@ class Scene extends React.Component {
     const block = this.nextBlock();
     const randomPositionBetweenWalls =
       (this.state.width - wallWidth) * Math.random() + wallWidth;
-    if (!block) {
-      return;
-    }
-    this.setState(state => ({ [block]: state[block] + 1 }));
     // add circles to the world,
     // randomly pick a point from one wall edge to the other
     // so that they don't fall directly on top of each other.
-    World.add(
-      this.engine.world,
-      // eslint-disable-next-line prettier/prettier
-      Bodies.polygon(randomPositionBetweenWalls, -10, 8, 8, {
-        restitution: 0.25,
-        friction: 0.8,
-        render: {
-          sprite: {
-            texture: blockTypes[block],
+    if (block) {
+      this.setState(state => ({ [block]: state[block] + 1 }));
+      World.add(
+        this.engine.world,
+        // eslint-disable-next-line prettier/prettier
+        Bodies.polygon(randomPositionBetweenWalls, -10, 8, 8, {
+          restitution: 0.25,
+          friction: 0.8,
+          render: {
+            sprite: {
+              texture: blockTypes[block],
+            },
           },
-        },
-      }),
-    );
+        }),
+      );
+    }
     this.timer = setTimeout(this.addBlocks, 200);
   };
 
