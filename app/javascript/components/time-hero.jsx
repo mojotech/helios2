@@ -8,8 +8,9 @@ import { spacing } from '@lib/theme';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const Wrapper = styled(SpacedRow)`
+  margin-top: ${spacing.m};
   align-items: flex-end;
-  margin-bottom: ${spacing.xxl};
+  margin-bottom: 44px;
 `;
 
 const getLocation = gql`

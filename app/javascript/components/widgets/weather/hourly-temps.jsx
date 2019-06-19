@@ -19,7 +19,6 @@ const opacities = {
 
 const Wrapper = styled(Row)`
   color: ${colors.white};
-  margin-left: ${spacing.xxxl};
   margin-top: 15px;
 `;
 
