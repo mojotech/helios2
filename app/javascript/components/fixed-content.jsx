@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Logo from '@components/logo';
 import { SpacedRow, Row } from '@components/row';
 import Date from '@components/date';
-import TimeHero from '@components/time-hero';
+import AdamsFace from '@components/adams-face';
 import Wifi from '@components/wifi';
 import Bathroom from '@components/bathroom';
 import { spacing, colors } from '@lib/theme';
@@ -28,7 +28,7 @@ export const FixedContent = ({ widgets, selectedWidget }) => (
       <Date />
       <Logo />
     </DateLogoRow>
-    <TimeHero />
+    <AdamsFace />
     <Row>
       <Wifi />
       <Bathroom />
