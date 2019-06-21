@@ -31,7 +31,6 @@ const Column = styled.div`
 const CenteredRow = styled(Row)`
   align-items: center;
   margin-left: 50px;
-  margn-top: ${spacing.m};
 `;
 
 const TempText = styled.div`
@@ -45,7 +44,6 @@ const TempText = styled.div`
 const SummaryText = styled(WhiteText)`
   font-size: ${fontSizes.large};
   font-weight: ${weights.regular};
-  margin-top: 50px;
   width: ${leftPanelWidth};
   text-align: center;
   font-family: ${fonts.light};
@@ -53,7 +51,6 @@ const SummaryText = styled(WhiteText)`
 
 const Notice = styled(GreySubText)`
   font-size: ${fontSizes.tiny};
-  margin-top: 80px;
   text-align: center;
   width: ${leftPanelWidth};
 `;

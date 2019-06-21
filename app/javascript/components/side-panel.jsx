@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   padding: ${spacing.xxxl};
   top: 0;
   width: 600px;
+  overflow: hidden;
 `;
 
 export const SidePanel = ({ widgets, selectedWidget }) => (

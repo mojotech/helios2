@@ -18,7 +18,6 @@ import SemiCircle from '@weather/semi-circle';
 const containerHeight = '344px';
 
 const SunriseSunsetContainer = styled.div`
-  margin-top: ${spacing.xxl};
   width: ${leftPanelWidth};
   height: ${containerHeight};
   position: relative;
