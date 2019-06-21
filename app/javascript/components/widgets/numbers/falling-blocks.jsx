@@ -1,5 +1,14 @@
 import React from 'react';
-import { Engine, Render, World, Bodies, Composite } from 'matter-js';
+import {
+  Engine,
+  Render,
+  World,
+  Bodies,
+  Composite,
+  Events,
+  Body,
+  Sleeping,
+} from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
@@ -9,7 +18,6 @@ import githubPull from '@images/pr.png';
 import githubCommit from '@images/commit.png';
 import slackMessage from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
-import '@numbers/sleeping-blocks';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 import { width } from '@components/side-panel';
 
@@ -18,6 +26,25 @@ const wallWidth = 50;
 
 // Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
 const padding = 50;
+
+// This is an increase from 0.08 to allow the blocks to go to sleep easier. At 0.08 the blocks would have a tendency to get stuck
+// and not go to sleep especially at lower framerates, where the quality of the simulation drops. Making sure that all the blocks
+// go to sleep is imperitive to a good framerate, so this is set high to reduce the possibility of the blocks getting stuck as much as possible.
+// eslint-disable-next-line no-underscore-dangle
+Sleeping._motionSleepThreshold = 0.5;
+
+const setInvisible = body => {
+  if (body.render.visible) {
+    // eslint-disable-next-line no-param-reassign
+    body.render.visible = false;
+  }
+};
+
+const setStatic = body => {
+  if (!body.isStatic) {
+    Body.setStatic(body, true);
+  }
+};
 
 class Scene extends React.Component {
   static propTypes = {
@@ -33,6 +60,7 @@ class Scene extends React.Component {
       ...currentState,
     };
     this.scene = React.createRef();
+    this.overlay = React.createRef();
     this.timer = null;
     this.res = new Resurrect({ prefix: '$', cleanup: true });
   }
@@ -44,10 +72,23 @@ class Scene extends React.Component {
       const loadedWorld = this.res.resurrect(world);
       Engine.merge(this.engine, { world: loadedWorld });
     }
+    Composite.allBodies(this.engine.world)
+      .filter(body => !body.isStatic)
+      .forEach(block => this.sleepStartEvent(block));
+    this.prepareOverlay();
     this.addBlocks();
   }
 
   componentWillUnmount() {
+    const allBodies = Composite.allBodies(this.engine.world);
+    allBodies
+      .filter(body => body.isOnOverlay)
+      .forEach(body => {
+        // eslint-disable-next-line no-param-reassign
+        body.isOnOverlay = false;
+        return body.isOnOverlay;
+      });
+
     clearTimeout(this.timer);
     this.save();
     if (this.engine.world) {
@@ -77,6 +118,7 @@ class Scene extends React.Component {
         height: window.innerHeight,
         background: 'transparent',
         wireframes: false,
+        showSleeping: false,
       },
     });
 
@@ -144,6 +186,15 @@ class Scene extends React.Component {
     'count',
   ]);
 
+  sleepStartEvent = block => {
+    Events.on(block, 'sleepStart', () => {
+      setInvisible(block);
+      setStatic(block);
+      this.addToOverlay(block);
+      Events.off(block, 'sleepStart');
+    });
+  };
+
   nextBlock = () => {
     const counts = this.getCountsFromProps(this.props);
     const blockKeys = keys(blockTypes).filter(
@@ -161,23 +212,50 @@ class Scene extends React.Component {
     // randomly pick a point from one wall edge to the other
     // so that they don't fall directly on top of each other.
     if (block) {
-      this.setState(state => ({ [block]: state[block] + 1 }));
-      World.add(
-        this.engine.world,
-        // eslint-disable-next-line prettier/prettier
-        Bodies.polygon(randomDist, -10, 8, 8, {
-          restitution: 0.25,
-          friction: 0.8,
-          render: {
-            sprite: {
-              texture: blockTypes[block],
-            },
+      const newBlock = Bodies.polygon(randomDist, -10, 8, 8, {
+        restitution: 0.25,
+        friction: 0.8,
+        render: {
+          sprite: {
+            texture: blockTypes[block],
           },
-        }),
-      );
+        },
+      });
+
+      this.setState(state => ({ [block]: state[block] + 1 }));
+
+      World.add(this.engine.world, newBlock);
+
+      this.sleepStartEvent(newBlock);
     }
     this.timer = setTimeout(this.addBlocks, 200);
   };
+
+  addToOverlay(body) {
+    if (!body || !body.render.sprite.texture || body.isOnOverlay) {
+      return;
+    }
+    const ctx = this.overlay.current.getContext('2d');
+    const { texture, xOffset, yOffset } = body.render.sprite;
+    ctx.translate(body.position.x, body.position.y);
+    ctx.rotate(body.angle);
+
+    const img = new Image();
+    img.src = texture;
+    ctx.drawImage(img, img.width * -xOffset, img.height * -yOffset);
+
+    ctx.rotate(-body.angle);
+    ctx.translate(-body.position.x, -body.position.y);
+    // eslint-disable-next-line no-param-reassign
+    body.isOnOverlay = true;
+  }
+
+  prepareOverlay() {
+    const allBodies = Composite.allBodies(this.engine.world);
+    allBodies
+      .filter(body => body.isStatic)
+      .forEach(body => this.addToOverlay(body));
+  }
 
   save() {
     // eslint-disable-next-line no-shadow
@@ -192,6 +270,10 @@ class Scene extends React.Component {
 
   serialise(object) {
     return this.res.stringify(object, (key, value) => {
+      // serialise fails if it attempts to work on an event, so we need to avoid them
+      if (key === 'events') {
+        return null;
+      }
       // limit precision of floats
       if (!/^#/.exec(key) && typeof value === 'number') {
         const fixed = parseFloat(value.toFixed(3));
@@ -206,14 +288,26 @@ class Scene extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-        }}
-        ref={this.scene}
-      />
+      <>
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+          }}
+          ref={this.scene}
+        />
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+          }}
+          ref={this.overlay}
+        />
+      </>
     );
   }
 }
