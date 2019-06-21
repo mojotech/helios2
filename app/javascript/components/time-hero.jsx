@@ -20,7 +20,7 @@ const getLocation = gql`
   }
 `;
 
-export const AdamsFace = () => (
+export const TimeHero = () => (
   <Wrapper>
     <Query query={getLocation}>
       {({ loading, error, data }) => {
@@ -38,4 +38,4 @@ export const AdamsFace = () => (
   </Wrapper>
 );
 
-export default AdamsFace;
+export default TimeHero;
