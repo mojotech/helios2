@@ -1,5 +1,5 @@
 import React from 'react';
-import { Engine, Render, World, Bodies, Composite } from 'matter-js';
+import { Engine, Render, World, Bodies, Composite, Sleeping } from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
@@ -9,7 +9,7 @@ import githubPull from '@images/pr.png';
 import githubCommit from '@images/commit.png';
 import slackMessage from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
-import '@numbers/sleeping-blocks';
+import freezeOnSleep from '@numbers/sleeping-blocks';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
@@ -23,6 +23,8 @@ class Scene extends React.Component {
     mutation: PropTypes.func.isRequired,
   };
 
+  imageCache = {};
+
   constructor(props) {
     super(props);
     const { world, ...currentState } = this.getLocalState(props);
@@ -32,6 +34,8 @@ class Scene extends React.Component {
       ...currentState,
     };
     this.scene = React.createRef();
+    this.overlay = React.createRef();
+    Sleeping.update = freezeOnSleep(b => this.addToOverlay(b));
     this.timer = null;
     this.res = new Resurrect({ prefix: '$', cleanup: true });
   }
@@ -43,6 +47,9 @@ class Scene extends React.Component {
       const loadedWorld = this.res.resurrect(world);
       Engine.merge(this.engine, { world: loadedWorld });
     }
+    Composite.allBodies(this.engine.world)
+      .filter(body => body.isStatic && body.render.sprite.texture)
+      .map(b => this.addToOverlay(b));
     this.addBlocks();
   }
 
@@ -143,6 +150,40 @@ class Scene extends React.Component {
     'count',
   ]);
 
+  getTexture(imagePath) {
+    let image = this.imageCache[imagePath];
+
+    if (image) {
+      return image;
+    }
+    image = new Image();
+    this.imageCache[imagePath] = image;
+    image.src = imagePath;
+
+    return image;
+  }
+
+  addToOverlay = body => {
+    if (!body || !body.render.sprite.texture) {
+      return;
+    }
+    const ctx = this.overlay.current.getContext('2d');
+    const { texture } = body.render.sprite;
+    const { sprite } = body.render;
+    ctx.translate(body.position.x, body.position.y);
+    ctx.rotate(body.angle);
+
+    const img = this.getTexture(texture);
+    ctx.drawImage(
+      img,
+      img.width * -sprite.xOffset,
+      img.height * -sprite.yOffset,
+    );
+
+    ctx.rotate(-body.angle);
+    ctx.translate(-body.position.x, -body.position.y);
+  };
+
   nextBlock = () => {
     const counts = this.getCountsFromProps(this.props);
     const blockKeys = keys(blockTypes).filter(
@@ -204,14 +245,26 @@ class Scene extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-        }}
-        ref={this.scene}
-      />
+      <React.Fragment>
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+          }}
+          ref={this.scene}
+        />
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+          }}
+          ref={this.overlay}
+        />
+      </React.Fragment>
     );
   }
 }

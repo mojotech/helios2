@@ -27,19 +27,17 @@ Sleeping._motionSleepThreshold = 0.5;
 
 // Taken from Sleeping.js which is a part of Matter.js
 // https://github.com/liabru/matter-js/blob/2ec247b7af1c6b5da6ee05c73274ed5822c73503/src/core/Sleeping.js#L25
-Sleeping.update = function freezeOnSleep(bodies, timeScale) {
+export function freezeOnSleep(bodies, timeScale, addToOverlay) {
   const timeFactor = timeScale * timeScale * timeScale;
 
   // update bodies sleeping status
   for (let i = 0; i < bodies.length; i += 1) {
     const body = bodies[i];
-    const motion =
-      body.speed * body.speed + body.angularSpeed * body.angularSpeed;
 
     // wake up bodies if they have a force applied
-    if (body.force.x !== 0 || body.force.y !== 0) {
-      Sleeping.set(body, false);
-    } else {
+    if (body.force.x === 0 && body.force.y === 0) {
+      const motion =
+        body.speed * body.speed + body.angularSpeed * body.angularSpeed;
       const minMotion = Math.min(body.motion, motion);
       const maxMotion = Math.max(body.motion, motion);
 
@@ -55,13 +53,18 @@ Sleeping.update = function freezeOnSleep(bodies, timeScale) {
       ) {
         body.sleepCounter += 1;
 
-        if (body.sleepCounter >= body.sleepThreshold) {
+        if (body.sleepCounter >= body.sleepThreshold && body.render.visible) {
           // Bodies here set to static instead of being put to sleep
           Body.setStatic(body, true);
+          body.render.visible = false;
+          addToOverlay(body);
         }
       } else if (body.sleepCounter > 0) {
         body.sleepCounter -= 1;
       }
     }
   }
-};
+}
+
+export default addToOverlay => (bodies, timeScale) =>
+  freezeOnSleep(bodies, timeScale, addToOverlay);
