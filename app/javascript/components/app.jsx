@@ -58,6 +58,11 @@ persistCache({
 const client = new ApolloClient({
   link,
   cache,
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'network-only',
+    },
+  },
 });
 
 const App = () => (

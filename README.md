@@ -77,3 +77,7 @@ get started using them can be found [here](./INTEGRATIONS.md)
 https://app.zeplin.io/project/5ad8bfb98c928b070d6e1589
 
 ![Screen Shot 2019-06-11 at 4 53 05 PM](https://user-images.githubusercontent.com/30034042/59306010-670ef900-8c69-11e9-9d7e-0257dc363dac.png)
+
+### GraphqQL fetch caching
+
+We have switched our client's default fetchPolicy to network-only, preferring to have a loading state prior to fetching the most up to date data.
