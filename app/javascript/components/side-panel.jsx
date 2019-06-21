@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   top: 0;
   width: 600px;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
 export const SidePanel = ({ widgets, selectedWidget }) => (
