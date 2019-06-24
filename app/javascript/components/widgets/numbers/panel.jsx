@@ -10,6 +10,9 @@ import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import { colors, weights, fontSizes, fonts, spacing } from '@lib/theme';
 import FallingBlocks from '@numbers/falling-blocks';
 import { getEventCounts, subscribeEventPublished } from '@numbers/queries';
+import githubPullImage from '@assets/images/displayPR.png';
+import githubCommitImage from '@assets/images/displayCommit.png';
+import slackMessageImage from '@assets/images/displaySlack.png';
 
 const NumbersTitle = styled.div`
   color: ${colors.white};
@@ -40,6 +43,42 @@ const NumberWrapper = styled.div`
   width: 50vw;
 `;
 
+const IconTextWrapper = styled.div`
+  display: flex;
+  justify-content: left;
+`;
+
+const BlockIcon = styled.img`
+  margin-right: ${spacing.m};
+  margin-top: 8px;
+`;
+
+const CountSummary = ({ count, image, width, height, color, text }) => {
+  return (
+    <div>
+      <Count>{count}</Count>
+      <IconTextWrapper>
+        <BlockIcon src={image} width={width} height={height} alt="" />
+        <CountLabel color={color}>{text}</CountLabel>
+      </IconTextWrapper>
+    </div>
+  );
+};
+
+CountSummary.propTypes = {
+  count: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+};
+
+CountSummary.defaultProps = {
+  width: '24px',
+  height: '24px',
+};
+
 const STAT_FORMAT = '0,0';
 
 class SubscribedEvents extends React.Component {
@@ -56,23 +95,28 @@ class SubscribedEvents extends React.Component {
     const commitText = pluralize('Commit', githubCommit);
     const requestText = pluralize('request', githubPull);
     const messageText = pluralize('message', slackMessage);
-
     return (
       <div>
         <NumbersTitle>This week at MojoTech</NumbersTitle>
         <NumberWrapper>
-          <div>
-            <Count>{githubCommitCount}</Count>
-            <CountLabel color={colors.pink}>{commitText}</CountLabel>
-          </div>
-          <div>
-            <Count>{githubPullCount}</Count>
-            <CountLabel color={colors.yellow}>Pull {requestText}</CountLabel>
-          </div>
-          <div>
-            <Count>{slackMessageCount}</Count>
-            <CountLabel color={colors.teal}>Slack {messageText}</CountLabel>
-          </div>
+          <CountSummary
+            count={githubCommitCount}
+            image={githubCommitImage}
+            color={colors.pink}
+            text={commitText}
+          />
+          <CountSummary
+            count={githubPullCount}
+            image={githubPullImage}
+            color={colors.yellow}
+            text={requestText}
+          />
+          <CountSummary
+            count={slackMessageCount}
+            image={slackMessageImage}
+            color={colors.teal}
+            text={messageText}
+          />
         </NumberWrapper>
       </div>
     );
