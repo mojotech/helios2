@@ -7,31 +7,37 @@ import styled from 'styled-components';
 import pluralize from 'pluralize';
 import { getStartOfWeek } from '@lib/datetime';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
-import { colors, weights, fontSizes } from '@lib/theme';
+import { colors, weights, fontSizes, fonts, spacing } from '@lib/theme';
 import FallingBlocks from '@numbers/falling-blocks';
 import { getEventCounts, subscribeEventPublished } from '@numbers/queries';
 
 const NumbersTitle = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.medium};
+  font-family: ${fonts.regular};
+  margin-bottom: ${spacing.xxl};
+  margin-left: 75px;
 `;
 
 const Count = styled.div`
   color: ${colors.white};
-  weight: ${weights.bold};
-  font-size: ${fontSizes.xlarge};
+  weight: ${weights.regular};
+  font-size: 96px;
+  font-family: ${fonts.extended};
 `;
 
 const CountLabel = styled.div`
-  font-size: ${fontSizes.medium};
+  font-size: ${fontSizes.large};
   color: ${props => props.color};
+  font-family: ${fonts.regular};
 `;
 
 const NumberWrapper = styled.div`
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
-  width: 33vw;
+  margin-left: 75px;
+  width: 50vw;
 `;
 
 const STAT_FORMAT = '0,0';
