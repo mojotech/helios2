@@ -42,6 +42,7 @@ class Scene extends React.Component {
       width: window.innerWidth,
       ...currentState,
     };
+    Sleeping.update = freezeOnSleep();
     this.scene = React.createRef();
     this.overlay = React.createRef();
     this.timer = null;
@@ -62,6 +63,8 @@ class Scene extends React.Component {
       this.engine,
       'beforeUpdate',
       compose(b => this.setBodiesStaticIfSleeping(b)),
+      b => this.copyStaticBodiesToUnderlay(b),
+      b => this.hideStaticBodies(b),
     );
     this.addBlocks();
   }
@@ -183,26 +186,12 @@ class Scene extends React.Component {
     return image;
   }
 
-  addToOverlay(body) {
-    if (!body || !body.render.sprite.texture || body.onOverlay) {
-      return;
-    }
-    const ctx = this.overlay.current.getContext('2d');
-    const { texture } = body.render.sprite;
-    const { sprite } = body.render;
-    ctx.translate(body.position.x, body.position.y);
-    ctx.rotate(body.angle);
-
-    const img = this.getTexture(texture);
-    ctx.drawImage(
-      img,
-      img.width * -sprite.xOffset,
-      img.height * -sprite.yOffset,
-    );
-
-    ctx.rotate(-body.angle);
-    ctx.translate(-body.position.x, -body.position.y);
-    body.onOverlay = true;
+  setBodiesStaticIfSleeping() {
+    const allBodies = Composite.allBodies(this.engine.world);
+    const staticBodies = allBodies
+      .filter(b => b.isSleeping)
+      .map(b => Body.setStatic(b, true));
+    return staticBodies;
   }
 
   nextBlock = () => {
@@ -238,24 +227,6 @@ class Scene extends React.Component {
     }
     this.timer = setTimeout(this.addBlocks, 1);
   };
-  /*
-        b => this.copyStaticBodiesToUnderlay(b),
-        b => this.hideStaticBodies(b),
-  */
-
-  setBodiesStaticIfSleeping() {
-    const allBodies = Composite.allBodies(this.engine.world);
-    const staticBodies = [];
-    for (let i = 0; i < allBodies.length; i += 1) {
-      if (allBodies[i].isSleeping) {
-        Body.setStatic(allBodies[i], true);
-        allBodies[i].render.visible = false;
-        this.addToOverlay(allBodies[i]);
-        // staticBodies.push(allBodies[i]);
-      }
-    }
-    return staticBodies;
-  }
 
   // eslint-disable-next-line class-methods-use-this
   hideStaticBodies(...staticBodies) {
@@ -266,10 +237,31 @@ class Scene extends React.Component {
     return sBodies;
   }
 
-  copyStaticBodiesToUnderlay(...staticBodies) {
-    for (let i = 0; i < staticBodies.length; i += 1) {
-      this.addToOverlay(staticBodies[i]);
+  addToOverlay(body) {
+    if (!body || !body.render.sprite.texture || body.onOverlay) {
+      return;
     }
+    const ctx = this.overlay.current.getContext('2d');
+    const { texture } = body.render.sprite;
+    const { sprite } = body.render;
+    ctx.translate(body.position.x, body.position.y);
+    ctx.rotate(body.angle);
+
+    const img = this.getTexture(texture);
+    ctx.drawImage(
+      img,
+      img.width * -sprite.xOffset,
+      img.height * -sprite.yOffset,
+    );
+
+    ctx.rotate(-body.angle);
+    ctx.translate(-body.position.x, -body.position.y);
+    const b = body;
+    b.onOverlay = true;
+  }
+
+  copyStaticBodiesToUnderlay(...staticBodies) {
+    staticBodies.map(b => this.addToOverlay(b));
   }
 
   save() {

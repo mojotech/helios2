@@ -27,7 +27,7 @@ Sleeping._motionSleepThreshold = 0.5;
 
 // Taken from Sleeping.js which is a part of Matter.js
 // https://github.com/liabru/matter-js/blob/2ec247b7af1c6b5da6ee05c73274ed5822c73503/src/core/Sleeping.js#L25
-export function freezeOnSleep(bodies, timeScale, addToOverlay) {
+export function freezeOnSleep(bodies, timeScale) {
   const timeFactor = timeScale * timeScale * timeScale;
 
   // update bodies sleeping status
