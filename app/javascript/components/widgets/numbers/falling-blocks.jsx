@@ -11,6 +11,7 @@ import slackMessage from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
 import '@numbers/sleeping-blocks';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
+import { width } from '@components/side-panel';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
 const wallWidth = 50;
@@ -153,8 +154,9 @@ class Scene extends React.Component {
 
   addBlocks = () => {
     const block = this.nextBlock();
-    const randomPositionBetweenWalls =
-      (this.state.width - wallWidth) * Math.random() + wallWidth;
+    const widthBetweenWalls = this.state.width - wallWidth - width;
+    const randomDist =
+      (widthBetweenWalls * (Math.random() + Math.random())) / 2;
     // add circles to the world,
     // randomly pick a point from one wall edge to the other
     // so that they don't fall directly on top of each other.
@@ -163,7 +165,7 @@ class Scene extends React.Component {
       World.add(
         this.engine.world,
         // eslint-disable-next-line prettier/prettier
-        Bodies.polygon(randomPositionBetweenWalls, -10, 8, 8, {
+        Bodies.polygon(randomDist, -10, 8, 8, {
           restitution: 0.25,
           friction: 0.8,
           render: {
