@@ -1,5 +1,14 @@
 import React from 'react';
-import { Engine, Render, World, Bodies, Composite, Sleeping } from 'matter-js';
+import {
+  Engine,
+  Render,
+  World,
+  Bodies,
+  Composite,
+  Sleeping,
+  Events,
+  Body,
+} from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
@@ -35,7 +44,6 @@ class Scene extends React.Component {
     };
     this.scene = React.createRef();
     this.overlay = React.createRef();
-    Sleeping.update = freezeOnSleep(b => this.addToOverlay(b));
     this.timer = null;
     this.res = new Resurrect({ prefix: '$', cleanup: true });
   }
@@ -50,10 +58,21 @@ class Scene extends React.Component {
     Composite.allBodies(this.engine.world)
       .filter(body => body.isStatic && body.render.sprite.texture)
       .map(b => this.addToOverlay(b));
+    Events.on(
+      this.engine,
+      'beforeUpdate',
+      compose(b => this.setBodiesStaticIfSleeping(b)),
+    );
     this.addBlocks();
   }
 
   componentWillUnmount() {
+    const allBodies = Composite.allBodies(this.engine.world);
+    for (let i = 0; i < allBodies.length; i += 1) {
+      if (allBodies[i].onOverlay) {
+        allBodies[i].onOverlay = false;
+      }
+    }
     clearTimeout(this.timer);
     this.save();
     if (this.engine.world) {
@@ -83,6 +102,7 @@ class Scene extends React.Component {
         height: window.innerHeight,
         background: 'transparent',
         wireframes: false,
+        showSleeping: false,
       },
     });
 
@@ -163,8 +183,8 @@ class Scene extends React.Component {
     return image;
   }
 
-  addToOverlay = body => {
-    if (!body || !body.render.sprite.texture) {
+  addToOverlay(body) {
+    if (!body || !body.render.sprite.texture || body.onOverlay) {
       return;
     }
     const ctx = this.overlay.current.getContext('2d');
@@ -182,7 +202,8 @@ class Scene extends React.Component {
 
     ctx.rotate(-body.angle);
     ctx.translate(-body.position.x, -body.position.y);
-  };
+    body.onOverlay = true;
+  }
 
   nextBlock = () => {
     const counts = this.getCountsFromProps(this.props);
@@ -215,8 +236,41 @@ class Scene extends React.Component {
         }),
       );
     }
-    this.timer = setTimeout(this.addBlocks, 200);
+    this.timer = setTimeout(this.addBlocks, 1);
   };
+  /*
+        b => this.copyStaticBodiesToUnderlay(b),
+        b => this.hideStaticBodies(b),
+  */
+
+  setBodiesStaticIfSleeping() {
+    const allBodies = Composite.allBodies(this.engine.world);
+    const staticBodies = [];
+    for (let i = 0; i < allBodies.length; i += 1) {
+      if (allBodies[i].isSleeping) {
+        Body.setStatic(allBodies[i], true);
+        allBodies[i].render.visible = false;
+        this.addToOverlay(allBodies[i]);
+        // staticBodies.push(allBodies[i]);
+      }
+    }
+    return staticBodies;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  hideStaticBodies(...staticBodies) {
+    const sBodies = staticBodies;
+    for (let i = 0; i < sBodies.length; i += 1) {
+      sBodies[i].render.visible = false;
+    }
+    return sBodies;
+  }
+
+  copyStaticBodiesToUnderlay(...staticBodies) {
+    for (let i = 0; i < staticBodies.length; i += 1) {
+      this.addToOverlay(staticBodies[i]);
+    }
+  }
 
   save() {
     // eslint-disable-next-line no-shadow

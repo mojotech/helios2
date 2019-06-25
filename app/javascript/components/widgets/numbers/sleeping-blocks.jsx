@@ -55,9 +55,10 @@ export function freezeOnSleep(bodies, timeScale, addToOverlay) {
 
         if (body.sleepCounter >= body.sleepThreshold && body.render.visible) {
           // Bodies here set to static instead of being put to sleep
-          Body.setStatic(body, true);
-          body.render.visible = false;
-          addToOverlay(body);
+          Sleeping.set(body, true);
+          //Body.setStatic(body, true);
+          //body.render.visible = false;
+          //addToOverlay(body);
         }
       } else if (body.sleepCounter > 0) {
         body.sleepCounter -= 1;
