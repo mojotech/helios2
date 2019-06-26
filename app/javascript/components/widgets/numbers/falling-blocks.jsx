@@ -112,7 +112,7 @@ class Scene extends React.Component {
         },
       ),
       Bodies.rectangle(
-        this.state.width - wallWidth / 2,
+        this.state.width - wallWidth / 2 - width,
         this.state.height / 2,
         wallWidth,
         this.state.height + padding,
