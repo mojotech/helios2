@@ -23,7 +23,6 @@ import { width } from '@components/side-panel';
 
 const blockTypes = { githubPull, githubCommit, slackMessage };
 const wallWidth = 50;
-
 // Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
 const padding = 50;
 
@@ -45,11 +44,25 @@ const setStatic = body => {
     Body.setStatic(body, true);
   }
 };
+const imageCache = {};
+
+const getImageFromCache = imagePath => {
+  if (imageCache[imagePath]) {
+    return imageCache[imagePath];
+  }
+  const image = new Image();
+  imageCache[imagePath] = image;
+  image.src = imagePath;
+
+  return image;
+};
 
 class Scene extends React.Component {
   static propTypes = {
     mutation: PropTypes.func.isRequired,
   };
+
+  imageCache = {};
 
   constructor(props) {
     super(props);
@@ -240,8 +253,7 @@ class Scene extends React.Component {
     ctx.translate(body.position.x, body.position.y);
     ctx.rotate(body.angle);
 
-    const img = new Image();
-    img.src = texture;
+    const img = getImageFromCache(texture);
     ctx.drawImage(img, img.width * -xOffset, img.height * -yOffset);
 
     ctx.rotate(-body.angle);
