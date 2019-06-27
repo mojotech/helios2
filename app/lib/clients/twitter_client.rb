@@ -40,7 +40,8 @@ class Clients::TwitterClient
     # API gets count amt, then filters out rts and replies
     # This guarantees there will always be a tweet
     latest = client
-             .user_timeline('mojotech', count: 5, include_rts: false, exclude_replies: true, tweet_mode: 'extended')
+             .user_timeline('mojotech', count: 5, include_rts: true,
+                                        exclude_replies: false, tweet_mode: 'extended')
              .first
 
     tweet_text = latest.attrs[:full_text]

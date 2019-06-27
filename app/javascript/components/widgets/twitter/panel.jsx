@@ -71,17 +71,11 @@ const Twitter = ({ tweets }) => {
     link,
   } = latestTweet;
 
-  const noContent = media === null && link === null;
-
   return (
     <PanelWrapper>
       <TweetWrapper>
         <TwitterProfile dateCreated={parseMonthDate(createdAt)} />
-        <TweetBody
-          text={text}
-          mediaUrl={noContent ? undefined : media}
-          linkUrl={noContent ? undefined : link}
-        />
+        <TweetBody text={text} mediaUrl={media} linkUrl={link} />
         <TweetStats favorites={favoriteCount} retweets={retweetCount} />
       </TweetWrapper>
       <PreviousWrapper>
@@ -106,7 +100,7 @@ Twitter.propTypes = {
 };
 
 export default () => (
-  <Query query={getMojoTweets} fetchPolicy="cache-and-network">
+  <Query query={getMojoTweets}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
