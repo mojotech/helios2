@@ -15,9 +15,14 @@ const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
-export const SidePanel = ({ widgets, selectedWidget }) => (
+export const SidePanel = ({ widgets, selectedWidget, totalTime, tabDown }) => (
   <Wrapper>
-    <FixedContent widgets={widgets} selectedWidget={selectedWidget} />
+    <FixedContent
+      widgets={widgets}
+      selectedWidget={selectedWidget}
+      totalTime={totalTime}
+      tabDown={tabDown}
+    />
   </Wrapper>
 );
 
