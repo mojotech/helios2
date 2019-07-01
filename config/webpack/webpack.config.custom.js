@@ -24,6 +24,10 @@ module.exports = {
         __dirname,
         '../../app/javascript/components/widgets/weather',
       ),
+      '@twitter': path.resolve(
+        __dirname,
+        '../../app/javascript/components/widgets/twitter',
+      ),
       '@hocs': path.resolve(__dirname, '../../app/javascript/components/hocs'),
       '@assets': path.resolve(__dirname, '../../app/assets'),
       '@images': path.resolve(__dirname, '../../app/assets/images'),

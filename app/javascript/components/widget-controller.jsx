@@ -2,6 +2,7 @@ import React from 'react';
 import { mathMod } from 'ramda';
 import FullPanel from '@components/full-panel';
 import SidePanel from '@components/side-panel';
+import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Guests from '@widgets/guests';
@@ -12,6 +13,11 @@ const widgets = [
   {
     panel: <Weather.Panel />,
     text: 'Weather',
+  },
+  {
+    panel: <Twitter.Panel />,
+    text: '@MojoTech',
+    children: 'Last tweeted 2 days ago.',
   },
   {
     panel: <Numbers.Panel />,
