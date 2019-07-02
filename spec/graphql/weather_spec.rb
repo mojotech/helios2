@@ -31,6 +31,7 @@ describe Helios2Schema do
       variables: variables
     )
     raise res["errors"].to_s if res["errors"]
+
     res
   }
 
