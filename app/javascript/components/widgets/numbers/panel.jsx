@@ -93,8 +93,8 @@ class SubscribedEvents extends React.Component {
     const slackMessageCount = numeral(slackMessage).format(STAT_FORMAT);
 
     const commitText = pluralize('Commit', githubCommit);
-    const requestText = pluralize('request', githubPull);
-    const messageText = pluralize('message', slackMessage);
+    const requestText = pluralize('Request', githubPull);
+    const messageText = pluralize('Message', slackMessage);
     return (
       <div>
         <NumbersTitle>This week at MojoTech</NumbersTitle>
@@ -109,13 +109,13 @@ class SubscribedEvents extends React.Component {
             count={githubPullCount}
             image={githubPullImage}
             color={colors.yellow}
-            text={requestText}
+            text={`Pull ${requestText}`}
           />
           <CountSummary
             count={slackMessageCount}
             image={slackMessageImage}
             color={colors.teal}
-            text={messageText}
+            text={`Slack ${messageText}`}
           />
         </NumberWrapper>
       </div>
