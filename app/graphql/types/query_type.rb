@@ -9,6 +9,14 @@ class Types::QueryType < Types::BaseObject
     end
   end
 
+  field :tweets, [Types::TweetType] do
+    description "Tweets from MojoTech"
+  end
+
+  def tweets
+    [Clients::TwitterClient.latest_tweet]
+  end
+
   field :events, Types::EventCollectionType do
     description "MojoTech slack/github events"
     argument :after, String, required: false

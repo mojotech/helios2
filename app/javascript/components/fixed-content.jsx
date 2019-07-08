@@ -22,7 +22,12 @@ const CarouselContainer = styled.div`
   color: ${colors.white};
 `;
 
-export const FixedContent = ({ widgets, selectedWidget }) => (
+export const FixedContent = ({
+  widgets,
+  selectedWidget,
+  totalTime,
+  tabDown,
+}) => (
   <div>
     <DateLogoRow>
       <Date />
@@ -34,7 +39,12 @@ export const FixedContent = ({ widgets, selectedWidget }) => (
       <Bathroom />
     </Row>
     <CarouselContainer>
-      <Widgets widgets={widgets} selectedWidget={selectedWidget} />
+      <Widgets
+        widgets={widgets}
+        selectedWidget={selectedWidget}
+        totalTime={totalTime}
+        tabDown={tabDown}
+      />
     </CarouselContainer>
   </div>
 );

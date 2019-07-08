@@ -1,31 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import { mathMod } from 'ramda';
 import FullPanel from '@components/full-panel';
 import SidePanel from '@components/side-panel';
-import Twitter from '@components/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Guests from '@widgets/guests';
-import Live from '@components/live-stream';
-import lockedIcon from '@images/locked.svg';
-import unlockedIcon from '@images/unlocked.svg';
-import { colors } from '@lib/theme';
 
-const IconWrapper = styled.div`
-  position: absolute;
-  right: 704px;
-  top: 95px;
-`;
-
-const Icon = styled.button`
-  height: 21px;
-  width: 16px;
-  border-style: none;
-  background-color: ${colors.black};
-`;
-
-const iconId = 'lock-icon';
+const SWITCH_INTERVAL = 20000;
 
 const widgets = [
   {
@@ -33,17 +14,8 @@ const widgets = [
     text: 'Weather',
   },
   {
-    panel: <Twitter />,
-    text: '@MojoTech',
-    children: 'Last tweeted 2 days ago.',
-  },
-  {
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
-  },
-  {
-    panel: <Live />,
-    text: 'MojoTech Boulder',
   },
   {
     panel: <Guests.Panel />,
@@ -56,17 +28,8 @@ export class WidgetController extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      isLocked: true,
     };
   }
-
-  componentDidMount() {
-    this.startCarousel();
-  }
-
-  switchLock = () => {
-    this.setState(prevState => ({ isLocked: !prevState.isLocked }));
-  };
 
   switchPages = ({ keyCode }) => {
     const upKey = 38;
@@ -85,38 +48,27 @@ export class WidgetController extends React.Component {
 
   handleClicks = ({ target }) => {
     const targetId = target.id;
-    if (targetId === iconId) {
-      this.switchLock();
-    } else if (targetId.startsWith('widget_')) {
+    if (targetId.startsWith('widget_')) {
       const widgetId = parseInt(targetId.replace('widget_', ''), 10);
       this.switchToPage(widgetId);
     }
   };
 
-  startCarousel() {
-    setInterval(() => {
-      if (!this.state.isLocked) {
-        this.moveDown();
-      }
-    }, 30000);
-  }
-
-  moveUp() {
-    this.setState(({ index }) => ({
-      index: mathMod(index - 1, widgets.length),
-    }));
-  }
-
-  moveDown() {
+  moveDown = () => {
     this.setState(({ index }) => ({
       index: (index + 1) % widgets.length,
     }));
-  }
+  };
+
+  moveUp = () => {
+    this.setState(({ index }) => ({
+      index: mathMod(index - 1, widgets.length),
+    }));
+  };
 
   render() {
-    const { index, isLocked } = this.state;
+    const { index } = this.state;
     const currentWidget = widgets[index];
-    const icon = isLocked ? lockedIcon : unlockedIcon;
 
     return (
       // eslint-disable-next-line
@@ -127,10 +79,12 @@ export class WidgetController extends React.Component {
         tabIndex="0"
       >
         <FullPanel currentWidget={currentWidget.panel} />
-        <SidePanel widgets={widgets} selectedWidget={index} />
-        <IconWrapper>
-          <Icon style={{ backgroundImage: `url(${icon})` }} id={iconId} />
-        </IconWrapper>
+        <SidePanel
+          widgets={widgets}
+          selectedWidget={index}
+          totalTime={SWITCH_INTERVAL}
+          tabDown={this.moveDown}
+        />
       </div>
     );
   }
