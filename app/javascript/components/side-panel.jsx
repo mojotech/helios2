@@ -4,13 +4,15 @@ import { spacing } from '@lib/theme';
 import FixedContent from '@components/fixed-content';
 import widgetShape from '@lib/widget-shape';
 
+export const width = 600;
+
 const Wrapper = styled.div`
   bottom: 0;
   position: absolute;
   right: 0;
   padding: ${spacing.xxxl};
   top: 0;
-  width: 600px;
+  width: ${width}px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.7);
 `;
