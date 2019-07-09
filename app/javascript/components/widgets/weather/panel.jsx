@@ -132,7 +132,7 @@ SubscribedWeather.propTypes = {
 };
 
 export default () => (
-  <Query query={getPrimaryLocationWeather} fetchPolicy="cache-and-network">
+  <Query query={getPrimaryLocationWeather}>
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
