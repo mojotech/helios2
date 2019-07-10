@@ -20,6 +20,7 @@ const opacities = {
 const Wrapper = styled(Row)`
   color: ${colors.white};
   margin-left: ${spacing.xxxl};
+  margin-top: 15px;
 `;
 
 const Item = styled.div`
@@ -30,25 +31,25 @@ const Item = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: ${fontSizes.tiny};
+  font-size: ${fontSizes.small};
   font-family: ${fonts.regular};
   font-weight: ${weights.regular};
   letter-spacing: 1.4px;
 `;
 
 const Temp = styled.div`
-  font-size: ${fontSizes.large};
+  font-size: 48px;
   font-family: ${fonts.extended};
   margin: ${spacing.xs} 0;
 `;
 
 const Precip = styled.div`
-  font-size: ${fontSizes.tiny};
+  font-size: ${fontSizes.small};
   font-family: ${fonts.regular};
 `;
 
 const Percent = styled.span`
-  font-size: ${fontSizes.micro};
+  font-size: ${fontSizes.tiny};
 `;
 
 const RainIcon = styled.img`
@@ -78,7 +79,7 @@ const HourlyTemps = ({ weather }) => {
             <Time>{parseHour(time)}</Time>
             <Temp>{parseInt(temperature, 10)}°</Temp>
             <Precip>
-              <RainIcon src={rainIcon} width="16" height="16" alt="" />
+              <RainIcon src={rainIcon} width="20" height="20" alt="" />
               {parseInt(precipProbability * 100, 10)}
               <Percent>%</Percent>
             </Precip>
