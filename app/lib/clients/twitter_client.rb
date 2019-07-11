@@ -11,13 +11,7 @@ class Clients::TwitterClient
     client
   end
 
-  TwitterQuery = Struct.new(:created_at, :text, :favorite_count, :retweet_count, :reply_count)
-
-  def self.reply_count(id, client)
-    replies = client.search("to:mojotech", since_id: id, include_entities: true)
-                    .select { |res| res.in_reply_to_status_id == id }
-    replies.count
-  end
+  TwitterQuery = Struct.new(:created_at, :text, :favorite_count, :retweet_count)
 
   def self.remove_hyperlinks(text)
     links = text.split(/\s|\n/).select { |word| word.include? "http" }
@@ -39,7 +33,7 @@ class Clients::TwitterClient
     tweet_text = latest.attrs[:full_text]
 
     query = TwitterQuery.new(latest.created_at, remove_hyperlinks(tweet_text), latest.favorite_count,
-      latest.retweet_count, reply_count(latest.id, client))
+      latest.retweet_count)
 
     query
   end

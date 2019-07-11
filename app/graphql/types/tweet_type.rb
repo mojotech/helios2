@@ -5,5 +5,4 @@ class Types::TweetType < Types::BaseObject
   field "text", String
   field "retweet_count", Integer
   field "favorite_count", Integer
-  field "reply_count", Integer
 end
