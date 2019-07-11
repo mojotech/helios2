@@ -1058,6 +1058,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
+"@microlink/react@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@microlink/react/-/react-4.0.1.tgz#3d98c30d24abead327c8731f2757667699553711"
+  integrity sha512-6CAAk4M4vFj+Cpbazw9zIlEpGk2drEjULK/eGjeg/Zhf0ZxTcaMUIYJAYyj6wYr183Wde5to6jFXgfa+8ptD1g==
+  dependencies:
+    nanoclamp "~1.2.11"
+
 "@rails/webpacker@^4.0.7":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-4.0.7.tgz#268571bf974e78ce57eca9fa478f5bd97fd5182c"
@@ -6203,6 +6210,11 @@ nan@^2.13.2:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
+
+nanoclamp@~1.2.11:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/nanoclamp/-/nanoclamp-1.2.11.tgz#2dc868fad1e31e0e02a0920bc4373c6ff2e74134"
+  integrity sha512-V/g1GXe7mwjR3JiZbs46HJz9gjk2/+uS+HbaxvxuAHwWVGuZx6fkEb+UfIscQ5ZtavYO584W14p+Y0E2RrM9Ag==
 
 nanomatch@^1.2.9:
   version "1.2.13"

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
-import Wrapper from '@components/panel-wrapper';
 import styled from 'styled-components';
 import { colors, fontSizes } from '@lib/theme';
 import { parseMonthDate } from '@lib/datetime';
@@ -18,16 +17,20 @@ const getMojoTweets = gql`
       text
       favoriteCount
       retweetCount
+      media
+      link
     }
   }
 `;
 
 const TweetWrapper = styled.div`
   display: flex;
-  flex-wrap: no-wrap;
+  flex-wrap: wrap;
   justify-content: space-between;
   flex-direction: column;
   width: 45vw;
+  padding-left: 100px;
+  break-inside: avoid;
 `;
 
 const TweetDivider = styled.div`
@@ -42,28 +45,50 @@ const TweetDivider = styled.div`
   font-size: ${fontSizes.small};
 `;
 
+const PanelWrapper = styled.div`
+  overflow: hidden;
+`;
+
+const PreviousWrapper = styled.div`
+  margin-left: 100px;
+  break-inside: avoid;
+`;
+
 export const TabBar = () => (
-  <svg width="840" height="4">
-    <rect width="840" height="1" fill={colors.white} opacity="0.2" />
+  <svg width="960" height="4">
+    <rect width="960" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 
 const Twitter = ({ tweets }) => {
   const latestTweet = tweets[0];
-  const { createdAt, text, favoriteCount, retweetCount } = latestTweet;
+  const {
+    createdAt,
+    text,
+    favoriteCount,
+    retweetCount,
+    media,
+    link,
+  } = latestTweet;
+
+  const noContent = media === null && link === null;
 
   return (
-    <Wrapper>
+    <PanelWrapper>
       <TweetWrapper>
         <TwitterProfile dateCreated={parseMonthDate(createdAt)} />
-        <TweetBody text={text} />
+        <TweetBody
+          text={text}
+          mediaUrl={noContent ? undefined : media}
+          linkUrl={noContent ? undefined : link}
+        />
         <TweetStats favorites={favoriteCount} retweets={retweetCount} />
       </TweetWrapper>
-      <div>
+      <PreviousWrapper>
         <TweetDivider>Previous Tweets</TweetDivider>
-        <TabBar style={{ paddingLeft: '100px' }} />
-      </div>
-    </Wrapper>
+        <TabBar />
+      </PreviousWrapper>
+    </PanelWrapper>
   );
 };
 
@@ -74,6 +99,8 @@ Twitter.propTypes = {
       text: PropTypes.string.isRequired,
       favoriteCount: PropTypes.number.isRequired,
       retweetCount: PropTypes.number.isRequired,
+      media: PropTypes.string,
+      link: PropTypes.string,
     }),
   ).isRequired,
 };
