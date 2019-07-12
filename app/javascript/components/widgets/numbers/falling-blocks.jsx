@@ -83,7 +83,17 @@ class Scene extends React.Component {
     const { world } = this.getLocalState(this.props);
     if (world) {
       const loadedWorld = this.res.resurrect(world);
-      Engine.merge(this.engine, { world: loadedWorld });
+      const counts = this.getCountsFromProps(this.props);
+
+      if (
+        this.state.githubCommit <= counts.githubCommit &&
+        this.state.githubPull <= counts.githubPull &&
+        this.state.slackMessage <= counts.slackMessage
+      ) {
+        Engine.merge(this.engine, { world: loadedWorld });
+      } else {
+        this.setState({ githubCommit: 0, githubPull: 0, slackMessage: 0 });
+      }
     }
     Composite.allBodies(this.engine.world)
       .filter(body => !body.isStatic)
