@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { fontSizes } from '../../../lib/theme';
+import Highlighter from 'react-highlight-words';
+import { getMentionsAndTags } from '@lib/util';
+import { fontSizes, colors } from '../../../lib/theme';
 
 const TweetText = styled.div`
   color: #959292;
@@ -9,8 +11,21 @@ const TweetText = styled.div`
   margin-bottom: 29px;
 `;
 
+const highlighterStyle = {
+  backgroundColor: 'transparent',
+  color: `${colors.white}`,
+};
+
 const TweetBody = ({ text }) => {
-  return <TweetText>{text}</TweetText>;
+  return (
+    <TweetText>
+      <Highlighter
+        highlightStyle={highlighterStyle}
+        searchWords={getMentionsAndTags(text)}
+        textToHighlight={text}
+      />
+    </TweetText>
+  );
 };
 
 TweetBody.propTypes = {
