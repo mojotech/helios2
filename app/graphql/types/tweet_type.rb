@@ -5,5 +5,6 @@ class Types::TweetType < Types::BaseObject
   field "text", String
   field "retweet_count", Integer
   field "favorite_count", Integer
-  field "reply_count", Integer
+  field "media", String, null: true
+  field "link", String, null: true
 end

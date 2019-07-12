@@ -11,12 +11,18 @@ class Clients::TwitterClient
     client
   end
 
-  TwitterQuery = Struct.new(:created_at, :text, :favorite_count, :retweet_count, :reply_count)
+  TwitterQuery = Struct.new(:created_at, :text, :favorite_count, :retweet_count, :media, :link)
 
-  def self.reply_count(id, client)
-    replies = client.search("to:mojotech", since_id: id, include_entities: true)
-                    .select { |res| res.in_reply_to_status_id == id }
-    replies.count
+  def self.get_media(latest)
+    latest.attrs[:extended_entities][:media].first[:media_url]
+  rescue StandardError
+    nil
+  end
+
+  def self.get_link(latest)
+    latest.instance_variable_get(:@attrs)[:entities][:urls].first[:expanded_url]
+  rescue StandardError
+    nil
   end
 
   def self.remove_hyperlinks(text)
@@ -30,6 +36,7 @@ class Clients::TwitterClient
 
   def self.latest_tweet
     client = authenticate
+
     # API gets count amt, then filters out rts and replies
     # This guarantees there will always be a tweet
     latest = client
@@ -39,8 +46,7 @@ class Clients::TwitterClient
     tweet_text = latest.attrs[:full_text]
 
     query = TwitterQuery.new(latest.created_at, remove_hyperlinks(tweet_text), latest.favorite_count,
-      latest.retweet_count, reply_count(latest.id, client))
-
+      latest.retweet_count, get_media(latest), get_link(latest))
     query
   end
 end

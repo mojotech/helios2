@@ -27,6 +27,8 @@ export const parseTime = datetime =>
 export const parseDate = datetime =>
   format(new Date(datetime), 'EEEE, MMM dd, yyyy');
 
+export const parseMonthDate = datetime => format(new Date(datetime), 'MMM dd');
+
 export const timeDiffInMinutes = (date, other) =>
   differenceInMinutes(date, other);
 
