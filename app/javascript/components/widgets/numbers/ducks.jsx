@@ -2,6 +2,8 @@
 import React from 'react';
 import { withQuery } from 'react-apollo';
 import gql from 'graphql-tag';
+import { inflateSync, deflateSync } from 'zlib';
+import { pathOr } from 'ramda';
 
 export const withLocalMutation = WrappedComponent => props => (
   <WrappedComponent
@@ -14,6 +16,9 @@ export const withLocalMutation = WrappedComponent => props => (
             fallingBlocksState: {
               __typename: 'FallingBlocksState',
               ...variables,
+              world: deflateSync(Buffer.from(variables.world)).toString(
+                'base64',
+              ),
             },
           },
         });
@@ -34,7 +39,27 @@ export const withLocalState = withQuery(
     }
   `,
   {
-    props: ({ data }) => ({ localState: data.fallingBlocksState }),
+    props: ({ data }) => {
+      const nullState = {
+        githubPull: 0,
+        githubCommit: 0,
+        slackMessage: 0,
+      };
+      const compressedWorld = pathOr(
+        null,
+        ['fallingBlocksState', 'world'],
+        data,
+      );
+      return {
+        localState: {
+          ...nullState,
+          ...data.fallingBlocksState,
+          world:
+            compressedWorld &&
+            inflateSync(Buffer.from(compressedWorld, 'base64')).toString(),
+        },
+      };
+    },
     options: {
       fetchPolicy: 'cache-first',
     },
