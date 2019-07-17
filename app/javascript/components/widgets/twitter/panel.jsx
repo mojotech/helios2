@@ -85,8 +85,8 @@ const RetweetWrapper = styled.div`
 `;
 
 export const TabBar = () => (
-  <svg width="960" height="4">
-    <rect width="960" height="1" fill={colors.white} opacity="0.2" />
+  <svg width="1020" height="4">
+    <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 

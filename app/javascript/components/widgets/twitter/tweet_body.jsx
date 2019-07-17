@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Microlink from '@microlink/react';
 import styled from 'styled-components';
-import { TweetText, TweetMedia, Text } from './tweet_content';
-import { colors, fontSizes } from '../../../lib/theme';
+import { TweetText, TweetMedia, Text, MediaWrapper } from './tweet_content';
+import { colors, fonts, fontSizes } from '../../../lib/theme';
 
 const LinkText = styled(Text)`
   color: ${colors.white};
@@ -10,7 +11,18 @@ const LinkText = styled(Text)`
   font-size: ${fontSizes.medium};
 `;
 
-const BothMediaTypes = ({ displayText, mediaUrl, linkUrl }) => (
+const quoteStyle = {
+  fontFamily: `${fonts.regular}`,
+  height: '192px',
+  color: `${colors.white}`,
+  backgroundColor: `${colors.black}`,
+  borderRadius: '6px',
+  borderCollapse: 'separate',
+  border: 'solid 1px #333333',
+  paddingLeft: `24px`,
+};
+
+export const BothMediaTypes = ({ displayText, mediaUrl, linkUrl }) => (
   <>
     <div>
       <TweetText text={displayText} />
@@ -41,6 +53,20 @@ OneMediaType.propTypes = {
   linkUrl: PropTypes.string.isRequired,
 };
 
+export const QuoteTweet = ({ displayText, linkUrl }) => (
+  <React.Fragment>
+    <TweetText text={displayText} />
+    <MediaWrapper>
+      <Microlink url={linkUrl} style={quoteStyle} size="small" />
+    </MediaWrapper>
+  </React.Fragment>
+);
+
+QuoteTweet.propTypes = {
+  displayText: PropTypes.string.isRequired,
+  linkUrl: PropTypes.string.isRequired,
+};
+
 const removeRetweetSymbol = text => {
   return text.substr(text.indexOf(' ') + 1);
 };
@@ -48,8 +74,11 @@ const removeRetweetSymbol = text => {
 const TweetBody = ({ text, media: { image, link }, status }) => {
   // Twitter auto-adds the letters 'RT ' before each retweet
   const displayText = status === 'retweet' ? removeRetweetSymbol(text) : text;
+  if (status === 'quote') {
+    return <QuoteTweet displayText={displayText} linkUrl={link} />;
+  }
   if (image === null && link === null) {
-    return <TweetText text={displayText} />;
+    return <TweetText text={text} />;
   }
   if (image !== null && link !== null) {
     return (

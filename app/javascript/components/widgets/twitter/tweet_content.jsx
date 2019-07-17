@@ -6,7 +6,7 @@ import Microlink from '@microlink/react';
 import { getMentionsAndTags } from '@lib/util';
 import { colors, fonts, fontSizes } from '../../../lib/theme';
 
-const MediaWrapper = styled.div`
+export const MediaWrapper = styled.div`
   display: block;
   width: auto;
   height: auto;
