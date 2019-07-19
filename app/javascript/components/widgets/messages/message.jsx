@@ -9,6 +9,12 @@ export const LoadingMessage = () => <Message message="Loading..." />;
 export const DisconnectedMessage = () => (
   <Message message="Looks like we're disconnected" />
 );
+export const WeatherLoadingMessage = () => (
+  <Message imageWidth="0" message="Loading the weather..." />
+);
+export const WeatherDisconnectedMessage = () => (
+  <Message imageWidth="0" message="We can't display the weather right now." />
+);
 
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};

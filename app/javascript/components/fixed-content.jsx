@@ -1,20 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '@components/logo';
-import { SpacedRow, Row } from '@components/row';
-import Date from '@components/date';
-import TimeHero from '@components/time-hero';
+import { Row } from '@components/row';
 import Wifi from '@components/wifi';
 import Bathroom from '@components/bathroom';
 import { spacing, colors } from '@lib/theme';
 import Widgets from '@components/widgets';
 import widgetShape from '@lib/widget-shape';
-
-const DateLogoRow = styled(SpacedRow)`
-  align-items: center;
-  margin-bottom: ${spacing.xxl};
-  margin-top: 13px;
-`;
 
 const CarouselContainer = styled.div`
   margin-top: ${spacing.xxl};
@@ -29,11 +20,6 @@ export const FixedContent = ({
   tabDown,
 }) => (
   <div>
-    <DateLogoRow>
-      <Date />
-      <Logo />
-    </DateLogoRow>
-    <TimeHero />
     <Row>
       <Wifi />
       <Bathroom />

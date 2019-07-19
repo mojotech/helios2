@@ -12,15 +12,18 @@ const widgets = [
   {
     panel: <Weather.Panel />,
     text: 'Weather',
+    showTime: true,
   },
   {
     panel: <Twitter.Panel />,
     text: '@MojoTech',
     children: 'Last tweeted 2 days ago.',
+    showTime: false,
   },
   {
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
+    showTime: false,
   },
 ];
 
