@@ -8,6 +8,7 @@ import {
   Events,
   Body,
   Sleeping,
+  Runner,
 } from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
@@ -125,9 +126,7 @@ class Scene extends React.Component {
 
     clearTimeout(this.timer);
     this.save();
-    if (this.engine.world) {
-      Composite.clear(this.engine.world);
-    }
+    this.teardownWorld();
   }
 
   /**
@@ -201,7 +200,7 @@ class Scene extends React.Component {
       ),
     ]);
 
-    Engine.run(this.engine);
+    this.runner = Engine.run(this.engine);
 
     Render.run(this.renderMatter);
   }
@@ -219,6 +218,15 @@ class Scene extends React.Component {
     'events',
     'count',
   ]);
+
+  teardownWorld = () => {
+    Render.stop(this.renderMatter);
+    Runner.stop(this.runner);
+    Engine.clear(this.engine);
+    this.renderMatter = null;
+    this.runner = null;
+    this.enginer = null;
+  };
 
   sleepStartEvent = block => {
     Events.on(block, 'sleepStart', () => {
