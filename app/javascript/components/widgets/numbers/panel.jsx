@@ -96,7 +96,7 @@ class SubscribedEvents extends React.Component {
     const requestText = pluralize('Request', githubPull);
     const messageText = pluralize('Message', slackMessage);
     return (
-      <div>
+      <div style={{ zIndex: 1, position: 'relative' }}>
         <NumbersTitle>This week at MojoTech</NumbersTitle>
         <NumberWrapper>
           <CountSummary
@@ -142,26 +142,32 @@ const Numbers = () => (
 
       const { count } = data.events;
       return (
-        <Count>
-          <SubscribedEvents
-            {...count}
-            subscribeToPublishedEvents={() =>
-              subscribeToMore({
-                document: subscribeEventPublished,
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) {
-                    return prev;
-                  }
+        <>
+          <Count>
+            <SubscribedEvents
+              {...count}
+              subscribeToPublishedEvents={() =>
+                subscribeToMore({
+                  document: subscribeEventPublished,
+                  updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) {
+                      return prev;
+                    }
 
-                  const { source } = subscriptionData.data.eventPublished;
+                    const { source } = subscriptionData.data.eventPublished;
 
-                  return over(lensPath(['events', 'count', source]), inc, prev);
-                },
-              })
-            }
-          />
+                    return over(
+                      lensPath(['events', 'count', source]),
+                      inc,
+                      prev,
+                    );
+                  },
+                })
+              }
+            />
+          </Count>
           <FallingBlocks />
-        </Count>
+        </>
       );
     }}
   </Query>
