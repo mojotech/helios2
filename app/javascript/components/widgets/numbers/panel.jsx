@@ -14,6 +14,11 @@ import githubPullImage from '@assets/images/displayPR.png';
 import githubCommitImage from '@assets/images/displayCommit.png';
 import slackMessageImage from '@assets/images/displaySlack.png';
 
+const Overlay = styled.div`
+  z-index: 1;
+  position: relative;
+`;
+
 const NumbersTitle = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.medium};
@@ -96,7 +101,7 @@ class SubscribedEvents extends React.Component {
     const requestText = pluralize('Request', githubPull);
     const messageText = pluralize('Message', slackMessage);
     return (
-      <div>
+      <Overlay>
         <NumbersTitle>This week at MojoTech</NumbersTitle>
         <NumberWrapper>
           <CountSummary
@@ -118,7 +123,7 @@ class SubscribedEvents extends React.Component {
             text={`Slack ${messageText}`}
           />
         </NumberWrapper>
-      </div>
+      </Overlay>
     );
   }
 }
@@ -142,26 +147,32 @@ const Numbers = () => (
 
       const { count } = data.events;
       return (
-        <Count>
-          <SubscribedEvents
-            {...count}
-            subscribeToPublishedEvents={() =>
-              subscribeToMore({
-                document: subscribeEventPublished,
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) {
-                    return prev;
-                  }
+        <>
+          <Count>
+            <SubscribedEvents
+              {...count}
+              subscribeToPublishedEvents={() =>
+                subscribeToMore({
+                  document: subscribeEventPublished,
+                  updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) {
+                      return prev;
+                    }
 
-                  const { source } = subscriptionData.data.eventPublished;
+                    const { source } = subscriptionData.data.eventPublished;
 
-                  return over(lensPath(['events', 'count', source]), inc, prev);
-                },
-              })
-            }
-          />
+                    return over(
+                      lensPath(['events', 'count', source]),
+                      inc,
+                      prev,
+                    );
+                  },
+                })
+              }
+            />
+          </Count>
           <FallingBlocks />
-        </Count>
+        </>
       );
     }}
   </Query>
