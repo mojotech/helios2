@@ -64,6 +64,9 @@ const getImageFromCache = imagePath => {
 class Scene extends React.Component {
   static propTypes = {
     mutation: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
   };
 
   imageCache = {};
@@ -88,11 +91,15 @@ class Scene extends React.Component {
     if (world) {
       const loadedWorld = this.res.resurrect(world);
       const counts = this.getCountsFromProps(this.props);
+      const {
+        data: { loading },
+      } = this.props;
 
       if (
-        this.state.githubCommit <= counts.githubCommit &&
-        this.state.githubPull <= counts.githubPull &&
-        this.state.slackMessage <= counts.slackMessage
+        loading ||
+        (this.state.githubCommit <= counts.githubCommit &&
+          this.state.githubPull <= counts.githubPull &&
+          this.state.slackMessage <= counts.slackMessage)
       ) {
         Engine.merge(this.engine, { world: loadedWorld });
       } else {
