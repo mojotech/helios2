@@ -14,14 +14,18 @@ import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
 import PropTypes from 'prop-types';
 import { getEventCounts } from '@numbers/queries';
-import githubPull from '@images/pr.png';
-import githubCommit from '@images/commit.png';
-import slackMessage from '@images/slack.png';
+import githubPullIcon from '@images/pr.png';
+import githubCommitIcon from '@images/commit.png';
+import slackMessageIcon from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 import { width } from '@components/side-panel';
 
-const blockTypes = { githubPull, githubCommit, slackMessage };
+const blockTypes = {
+  githubPull: githubPullIcon,
+  githubCommit: githubCommitIcon,
+  slackMessage: slackMessageIcon,
+};
 const wallWidth = 50;
 // Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
 const padding = 50;
@@ -280,7 +284,6 @@ class Scene extends React.Component {
   }
 
   save() {
-    // eslint-disable-next-line no-shadow
     const { githubPull, githubCommit, slackMessage } = this.state;
     this.props.mutation({
       githubPull,
