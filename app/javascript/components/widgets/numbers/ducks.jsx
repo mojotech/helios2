@@ -35,5 +35,8 @@ export const withLocalState = withQuery(
   `,
   {
     props: ({ data }) => ({ localState: data.fallingBlocksState }),
+    options: {
+      fetchPolicy: 'cache-first',
+    },
   },
 );

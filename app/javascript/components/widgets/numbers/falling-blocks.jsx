@@ -8,20 +8,25 @@ import {
   Events,
   Body,
   Sleeping,
+  Runner,
 } from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
 import { pathOr, keys, compose } from 'ramda';
 import Resurrect from 'resurrect-js';
 import PropTypes from 'prop-types';
 import { getEventCounts } from '@numbers/queries';
-import githubPull from '@images/pr.png';
-import githubCommit from '@images/commit.png';
-import slackMessage from '@images/slack.png';
+import githubPullIcon from '@images/pr.png';
+import githubCommitIcon from '@images/commit.png';
+import slackMessageIcon from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 import { width } from '@components/side-panel';
 
-const blockTypes = { githubPull, githubCommit, slackMessage };
+const blockTypes = {
+  githubPull: githubPullIcon,
+  githubCommit: githubCommitIcon,
+  slackMessage: slackMessageIcon,
+};
 const wallWidth = 50;
 // Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
 const padding = 50;
@@ -60,6 +65,9 @@ const getImageFromCache = imagePath => {
 class Scene extends React.Component {
   static propTypes = {
     mutation: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
   };
 
   imageCache = {};
@@ -84,11 +92,15 @@ class Scene extends React.Component {
     if (world) {
       const loadedWorld = this.res.resurrect(world);
       const counts = this.getCountsFromProps(this.props);
+      const {
+        data: { loading },
+      } = this.props;
 
       if (
-        this.state.githubCommit <= counts.githubCommit &&
-        this.state.githubPull <= counts.githubPull &&
-        this.state.slackMessage <= counts.slackMessage
+        loading ||
+        (this.state.githubCommit <= counts.githubCommit &&
+          this.state.githubPull <= counts.githubPull &&
+          this.state.slackMessage <= counts.slackMessage)
       ) {
         Engine.merge(this.engine, { world: loadedWorld });
       } else {
@@ -114,9 +126,7 @@ class Scene extends React.Component {
 
     clearTimeout(this.timer);
     this.save();
-    if (this.engine.world) {
-      Composite.clear(this.engine.world);
-    }
+    this.teardownWorld();
   }
 
   /**
@@ -190,7 +200,7 @@ class Scene extends React.Component {
       ),
     ]);
 
-    Engine.run(this.engine);
+    this.runner = Engine.run(this.engine);
 
     Render.run(this.renderMatter);
   }
@@ -208,6 +218,15 @@ class Scene extends React.Component {
     'events',
     'count',
   ]);
+
+  teardownWorld = () => {
+    Render.stop(this.renderMatter);
+    Runner.stop(this.runner);
+    Engine.clear(this.engine);
+    this.renderMatter = null;
+    this.runner = null;
+    this.enginer = null;
+  };
 
   sleepStartEvent = block => {
     Events.on(block, 'sleepStart', () => {
@@ -280,7 +299,6 @@ class Scene extends React.Component {
   }
 
   save() {
-    // eslint-disable-next-line no-shadow
     const { githubPull, githubCommit, slackMessage } = this.state;
     this.props.mutation({
       githubPull,
