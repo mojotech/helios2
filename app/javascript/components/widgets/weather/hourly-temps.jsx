@@ -19,7 +19,6 @@ const opacities = {
 
 const Wrapper = styled(Row)`
   color: ${colors.white};
-  margin-left: ${spacing.xxxl};
   margin-top: 15px;
 `;
 
@@ -68,12 +67,11 @@ const getHourlyWeather = gql`
   }
 `;
 
-const HourlyTemps = ({ weather }) => {
+const HourlyTemps = ({ weather, hours }) => {
   const { data: hourlyWeathers } = weather.hourly;
-
   return (
     <Wrapper>
-      {take(5, hourlyWeathers).map(
+      {take(hours, hourlyWeathers).map(
         ({ time, temperature, precipProbability }, idx) => (
           <Item key={time} index={idx}>
             <Time>{parseHour(time)}</Time>
@@ -96,6 +94,11 @@ HourlyTemps.propTypes = {
       data: PropTypes.array.isRequired,
     }).isRequired,
   }).isRequired,
+  hours: PropTypes.number,
+};
+
+HourlyTemps.defaultProps = {
+  hours: 5,
 };
 
 HourlyTemps.fragments = {

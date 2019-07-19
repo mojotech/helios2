@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { spacing } from '@lib/theme';
 import FixedContent from '@components/fixed-content';
 import widgetShape from '@lib/widget-shape';
+import TopCorner from '@components/top-corner-controller';
 
 export const width = 600;
 
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
 
 export const SidePanel = ({ widgets, selectedWidget, totalTime, tabDown }) => (
   <Wrapper>
+    <TopCorner showTime={widgets[selectedWidget].showTime} />
     <FixedContent
       widgets={widgets}
       selectedWidget={selectedWidget}

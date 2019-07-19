@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { assocPath } from 'ramda';
 import styled from 'styled-components';
 import CurrentTemp from '@weather/current-temp';
 import HourlyTemps from '@weather/hourly-temps';
 import MinutelyWeather from '@weather/minutely-weather';
 import DailyWeather from '@weather/daily-weather';
 import SunriseSunset from '@weather/sunrise-sunset';
+import WeatherQuery from '@components/get-weather-query';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import { Row } from '@components/row';
 import {
@@ -20,6 +18,23 @@ import {
   leftPanelWidth,
 } from '@lib/theme';
 import { GreySubText, WhiteText } from '@components/typography';
+import gql from 'graphql-tag';
+
+const PanelWeather = gql`
+  fragment PanelWeather on Weather {
+    ...CurrentTemp
+    ...HourlyWeather
+    ...MinutelyWeather
+    ...DailyWeather
+    ...SunriseSunsetWeather
+  }
+
+  ${CurrentTemp.fragments.weather}
+  ${HourlyTemps.fragments.weather}
+  ${MinutelyWeather.fragments.weather}
+  ${DailyWeather.fragments.weather}
+  ${SunriseSunset.fragments.weather}
+`;
 
 const Column = styled.div`
   display: flex;
@@ -53,48 +68,6 @@ const Notice = styled(GreySubText)`
   font-size: ${fontSizes.tiny};
   text-align: center;
   width: ${leftPanelWidth};
-`;
-
-const getPrimaryLocationWeather = gql`
-  {
-    primaryLocation {
-      latitude
-      longitude
-      ...SunriseSunsetLocation
-      weather {
-        ...CurrentTemp
-        ...HourlyWeather
-        ...MinutelyWeather
-        ...DailyWeather
-        ...SunriseSunsetWeather
-      }
-    }
-  }
-
-  ${CurrentTemp.fragments.weather}
-  ${HourlyTemps.fragments.weather}
-  ${MinutelyWeather.fragments.weather}
-  ${SunriseSunset.fragments.location}
-  ${DailyWeather.fragments.weather}
-  ${SunriseSunset.fragments.weather}
-`;
-
-const subscribeWeatherPublished = gql`
-  subscription onWeatherPublished($latitude: Float!, $longitude: Float!) {
-    weatherPublished(latitude: $latitude, longitude: $longitude) {
-      ...CurrentTemp
-      ...HourlyWeather
-      ...MinutelyWeather
-      ...DailyWeather
-      ...SunriseSunsetWeather
-    }
-  }
-
-  ${CurrentTemp.fragments.weather}
-  ${HourlyTemps.fragments.weather}
-  ${MinutelyWeather.fragments.weather}
-  ${DailyWeather.fragments.weather}
-  ${SunriseSunset.fragments.weather}
 `;
 
 class SubscribedWeather extends React.Component {
@@ -131,44 +104,14 @@ SubscribedWeather.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-export default () => (
-  <Query query={getPrimaryLocationWeather}>
-    {({ loading, error, data, subscribeToMore }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
-
-      if (error) {
-        return <DisconnectedMessage />;
-      }
-
-      return (
-        <SubscribedWeather
-          primaryLocation={data.primaryLocation}
-          subscribeToPublishedEvents={() =>
-            subscribeToMore({
-              document: subscribeWeatherPublished,
-              variables: {
-                latitude: data.primaryLocation.latitude,
-                longitude: data.primaryLocation.longitude,
-              },
-              updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) {
-                  return prev;
-                }
-
-                const { weatherPublished } = subscriptionData.data;
-
-                return assocPath(
-                  ['primaryLocation', 'weather'],
-                  weatherPublished,
-                  prev,
-                );
-              },
-            })
-          }
-        />
-      );
-    }}
-  </Query>
+const getWeatherQuery = () => (
+  <WeatherQuery
+    Subscription={SubscribedWeather}
+    LoadingMessage={LoadingMessage}
+    DisconnectedMessage={DisconnectedMessage}
+    WeatherFrag={PanelWeather}
+    queryName="PanelWeather"
+  />
 );
+
+export default getWeatherQuery;
