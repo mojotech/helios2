@@ -52,14 +52,18 @@ const setStatic = body => {
 const imageCache = {};
 
 const getImageFromCache = imagePath => {
-  if (imageCache[imagePath]) {
-    return imageCache[imagePath];
-  }
-  const image = new Image();
-  imageCache[imagePath] = image;
+  const image = imageCache[imagePath] || new Image();
   image.src = imagePath;
+  imageCache[imagePath] = image;
 
-  return image;
+  if (image.width === 0) {
+    return new Promise((resolve, reject) => {
+      image.addEventListener('load', () => resolve(image));
+      image.addEventListener('error', () => reject(image));
+    });
+  }
+
+  return Promise.resolve(image);
 };
 
 class Scene extends React.Component {
@@ -277,16 +281,24 @@ class Scene extends React.Component {
     if (!body || !body.render.sprite.texture || body.isOnOverlay) {
       return;
     }
-    const ctx = this.overlay.current.getContext('2d');
     const { texture, xOffset, yOffset } = body.render.sprite;
-    ctx.translate(body.position.x, body.position.y);
-    ctx.rotate(body.angle);
+    getImageFromCache(texture)
+      .then(img => {
+        const ctx = this.overlay.current.getContext('2d');
 
-    const img = getImageFromCache(texture);
-    ctx.drawImage(img, img.width * -xOffset, img.height * -yOffset);
+        ctx.translate(body.position.x, body.position.y);
+        ctx.rotate(body.angle);
 
-    ctx.rotate(-body.angle);
-    ctx.translate(-body.position.x, -body.position.y);
+        ctx.drawImage(img, img.width * -xOffset, img.height * -yOffset);
+
+        ctx.rotate(-body.angle);
+        ctx.translate(-body.position.x, -body.position.y);
+      })
+      .catch(img => {
+        // eslint-disable-next-line no-console
+        console.error(`Failed loading ${img.src}`);
+      });
+
     // eslint-disable-next-line no-param-reassign
     body.isOnOverlay = true;
   }
