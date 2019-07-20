@@ -3,7 +3,6 @@ import React from 'react';
 import { withQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 import { inflateSync, deflateSync } from 'zlib';
-import { pathOr } from 'ramda';
 
 export const withLocalMutation = WrappedComponent => props => (
   <WrappedComponent
@@ -27,6 +26,39 @@ export const withLocalMutation = WrappedComponent => props => (
   />
 );
 
+export const nullState = {
+  githubPull: 0,
+  githubCommit: 0,
+  slackMessage: 0,
+  world: null,
+};
+
+export const getState = ({
+  fallingBlocksState: {
+    githubCommit = 0,
+    githubPull = 0,
+    slackMessage = 0,
+    world = null,
+  } = {},
+} = {}) => {
+  if (!world) {
+    return nullState;
+  }
+
+  try {
+    return {
+      githubCommit,
+      githubPull,
+      slackMessage,
+      world: inflateSync(Buffer.from(world, 'base64')).toString(),
+    };
+  } catch (ex) {
+    // eslint-disable-next-line no-console
+    console.warn(`Failed to inflate world: ${ex}`);
+    return nullState;
+  }
+};
+
 export const withLocalState = withQuery(
   gql`
     {
@@ -39,27 +71,7 @@ export const withLocalState = withQuery(
     }
   `,
   {
-    props: ({ data }) => {
-      const nullState = {
-        githubPull: 0,
-        githubCommit: 0,
-        slackMessage: 0,
-      };
-      const compressedWorld = pathOr(
-        null,
-        ['fallingBlocksState', 'world'],
-        data,
-      );
-      return {
-        localState: {
-          ...nullState,
-          ...data.fallingBlocksState,
-          world:
-            compressedWorld &&
-            inflateSync(Buffer.from(compressedWorld, 'base64')).toString(),
-        },
-      };
-    },
+    props: ({ data }) => ({ localState: getState(data) }),
     options: {
       fetchPolicy: 'cache-first',
     },
