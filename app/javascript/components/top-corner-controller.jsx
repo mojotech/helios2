@@ -19,6 +19,11 @@ const IconWrapper = styled.div`
   top: 80px;
 `;
 
+const TimeSpacing = styled.div`
+  margin-top: 30px;
+  margin-right: 10px;
+`;
+
 const TopCorner = ({ showTime }) => {
   if (showTime) {
     return <TimeTopCorner />;
@@ -35,7 +40,7 @@ const TimeTopCorner = () => {
       <IconWrapper>
         <Logo />
       </IconWrapper>
-      <TimeHero />
+      <TimeHero isLarge />
     </div>
   );
 };
@@ -44,6 +49,9 @@ const WeatherTopCorner = () => {
   return (
     <div>
       <DateLogoRow>
+        <TimeSpacing>
+          <TimeHero isLarge={false} />
+        </TimeSpacing>
         <Date />
       </DateLogoRow>
       <IconWrapper>
