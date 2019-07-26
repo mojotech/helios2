@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -21,7 +22,7 @@ const getLocation = gql`
   }
 `;
 
-export const TimeHero = () => (
+export const TimeHero = ({ isLarge }) => (
   <Wrapper>
     <Query query={getLocation}>
       {({ loading, error, data }) => {
@@ -33,10 +34,20 @@ export const TimeHero = () => (
           return <ErrorMessage />;
         }
 
-        return <Time timezone={data.primaryLocation.timezone} />;
+        return (
+          <Time timezone={data.primaryLocation.timezone} isLarge={isLarge} />
+        );
       }}
     </Query>
   </Wrapper>
 );
+
+TimeHero.propTypes = {
+  isLarge: PropTypes.bool,
+};
+
+TimeHero.defaultProps = {
+  isLarge: true,
+};
 
 export default TimeHero;

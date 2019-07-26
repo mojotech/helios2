@@ -30,9 +30,25 @@ const TimeValue = styled(Row)`
   font-weight: ${weights.regular};
 `;
 
+const SmallHourMin = styled.div`
+  font-size: ${fontSizes.medium};
+  font-family: ${fonts.regular};
+  font-weight: ${weights.regular};
+  position: relative;
+`;
+
+const SmallAMPM = styled.div`
+  font-size: ${fontSizes.medium};
+  font-family: ${fonts.regular};
+  font-weight: ${weights.regular};
+  position: relative;
+  margin-left: 2px;
+`;
+
 export class Time extends React.Component {
   static propTypes = {
     timezone: PropTypes.string.isRequired,
+    isLarge: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -56,10 +72,17 @@ export class Time extends React.Component {
     const [time, ampm] = this.state.time.split(' ');
     return (
       <Wrapper>
-        <TimeValue>
-          <HourMin>{time}</HourMin>
-          <AMPM>{ampm}</AMPM>
-        </TimeValue>
+        {this.props.isLarge ? (
+          <TimeValue>
+            <HourMin>{time}</HourMin>
+            <AMPM>{ampm}</AMPM>
+          </TimeValue>
+        ) : (
+          <TimeValue>
+            <SmallHourMin>{time}</SmallHourMin>
+            <SmallAMPM>{ampm.toLowerCase()}, </SmallAMPM>
+          </TimeValue>
+        )}
       </Wrapper>
     );
   }
