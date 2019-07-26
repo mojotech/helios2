@@ -10,10 +10,10 @@ export const DisconnectedMessage = () => (
   <Message message="Looks like we're disconnected" />
 );
 export const WeatherLoadingMessage = () => (
-  <Message imageWidth="0" message="Loading the weather..." />
+  <WeatherMessage message="Loading the weather..." />
 );
 export const WeatherDisconnectedMessage = () => (
-  <Message imageWidth="0" message="We can't display the weather right now." />
+  <WeatherMessage message="We can't display the weather right now." />
 );
 
 const MessageDisplay = styled(GreySubText)`
@@ -27,42 +27,35 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const Message = ({ width, height, message, imageWidth, imageHeight }) => {
-  const widthFloat = parseFloat(width);
-  const heightFloat = parseFloat(height);
+const SunMoon = styled.img`
+  width: 100px;
+  height: 100px;
+  align-self: center;
+`;
 
-  const svgWidth = width;
-  const svgHeight = height;
+const Message = ({ message }) => {
   return (
     <Column>
-      <svg width={svgWidth} height={svgHeight}>
-        <image
-          x={((widthFloat - parseFloat(imageWidth)) / 2).toString()}
-          y={(heightFloat - parseFloat(imageHeight) + 1).toString()}
-          width={imageWidth}
-          height={imageHeight}
-          xlinkHref={sunMoon}
-          position="absolute"
-        />
-      </svg>
+      <SunMoon src={sunMoon} />
+      <MessageDisplay>{message}</MessageDisplay>
+    </Column>
+  );
+};
+
+const WeatherMessage = ({ message }) => {
+  return (
+    <Column>
       <MessageDisplay>{message}</MessageDisplay>
     </Column>
   );
 };
 
 Message.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
   message: PropTypes.string.isRequired,
-  imageHeight: PropTypes.string,
-  imageWidth: PropTypes.string,
 };
 
-Message.defaultProps = {
-  width: leftPanelWidth,
-  height: '344px',
-  imageHeight: '100px',
-  imageWidth: '100px',
+WeatherMessage.propTypes = {
+  message: PropTypes.string.isRequired,
 };
 
 export default Message;
