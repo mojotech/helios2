@@ -25,7 +25,7 @@ describe('#dateForTimezone', () => {
   const timeZone = 'America/New_York';
   const datetime = '2020-04-13T04:00:00.000Z';
   it('returns weekday, month, day, year for a timestamp in a specific timezone', () => {
-    expect(dateForTimezone(timeZone, datetime)).toEqual('Monday, Apr 13, 2020');
+    expect(dateForTimezone(timeZone, datetime)).toEqual('Monday Apr 13, 2020');
   });
 });
 

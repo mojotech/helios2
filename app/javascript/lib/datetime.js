@@ -11,7 +11,7 @@ export const timeForTimezone = (timezone, date = new Date()) =>
   format(utcToZonedTime(new Date(date), timezone), 'h:mm aa');
 
 export const dateForTimezone = (timezone, date = new Date()) =>
-  format(utcToZonedTime(new Date(date), timezone), 'EEEE, MMM dd, yyyy');
+  format(utcToZonedTime(new Date(date), timezone), 'EEEE MMM dd, yyyy');
 
 export const timeAndDateForTimezone = (timezone, date = new Date()) =>
   new Date(
