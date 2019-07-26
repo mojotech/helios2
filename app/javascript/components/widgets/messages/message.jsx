@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { GreySubText } from '@components/typography';
-import { fontSizes, leftPanelWidth } from '@lib/theme';
+import { fontSizes, sidePanelWidth } from '@lib/theme';
 import sunMoon from '@images/sunmoon.png';
 
 export const LoadingMessage = () => <Message message="Loading..." />;
@@ -19,12 +19,19 @@ export const WeatherDisconnectedMessage = () => (
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};
   text-align: center;
-  width: ${leftPanelWidth};
+`;
+
+const SidePanelSpacing = styled.div`
+  height: 136px;
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(50vh - 200px);
+  margin-right: ${sidePanelWidth}px;
 `;
 
 const SunMoon = styled.img`
@@ -44,9 +51,9 @@ const Message = ({ message }) => {
 
 const WeatherMessage = ({ message }) => {
   return (
-    <Column>
+    <SidePanelSpacing>
       <MessageDisplay>{message}</MessageDisplay>
-    </Column>
+    </SidePanelSpacing>
   );
 };
 
