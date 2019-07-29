@@ -41,33 +41,24 @@ OneMediaType.propTypes = {
   linkUrl: PropTypes.string.isRequired,
 };
 
-const TweetBody = ({ text, mediaUrl, linkUrl }) => {
-  if (mediaUrl === null && linkUrl === null) {
+const TweetBody = ({ text, media: { image, link } }) => {
+  if (image === null && link === null) {
     return <TweetText text={text} />;
   }
-  if (mediaUrl !== null && linkUrl !== null) {
+  if (image !== null && link !== null) {
     return (
-      <BothMediaTypes
-        displayText={text}
-        mediaUrl={mediaUrl}
-        linkUrl={linkUrl}
-      />
+      <BothMediaTypes displayText={text} mediaUrl={image} linkUrl={link} />
     );
   }
-  return (
-    <OneMediaType displayText={text} mediaUrl={mediaUrl} linkUrl={linkUrl} />
-  );
-};
-
-TweetBody.defaultProps = {
-  mediaUrl: null,
-  linkUrl: null,
+  return <OneMediaType displayText={text} mediaUrl={image} linkUrl={link} />;
 };
 
 TweetBody.propTypes = {
   text: PropTypes.string.isRequired,
-  mediaUrl: PropTypes.string,
-  linkUrl: PropTypes.string,
+  media: PropTypes.shape({
+    image: PropTypes.string,
+    link: PropTypes.string,
+  }).isRequired,
 };
 
 export default TweetBody;

@@ -46,11 +46,15 @@ describe Helios2Schema do
 {
   tweets{
     createdAt
-    favoriteCount
-    retweetCount
     text
-    link
-    media
+    interactions{
+      favoriteCount
+      retweetCount
+    }
+    media{
+      image
+      link
+    }
   }
 }
       )
@@ -66,10 +70,10 @@ describe Helios2Schema do
         latest = result["data"]["tweets"].first
         expect(latest["createdAt"]).to eq("2019-06-28 18:01:35 UTC")
         expect(latest["text"]).to eq("Spending the afternoon with our friends at @HumaneBoulder! ")
-        expect(latest["favoriteCount"]).to eq(0)
-        expect(latest["retweetCount"]).to eq(0)
-        expect(latest["media"]).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
-        expect(latest["link"]).to eq(nil)
+        expect(latest["interactions"]["favoriteCount"]).to eq(0)
+        expect(latest["interactions"]["retweetCount"]).to eq(0)
+        expect(latest["media"]["image"]).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
+        expect(latest["media"]["link"]).to eq(nil)
       end
     end
   end

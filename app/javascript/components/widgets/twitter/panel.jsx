@@ -15,10 +15,14 @@ const getMojoTweets = gql`
     tweets {
       createdAt
       text
-      favoriteCount
-      retweetCount
-      media
-      link
+      interactions {
+        favoriteCount
+        retweetCount
+      }
+      media {
+        image
+        link
+      }
     }
   }
 `;
@@ -62,21 +66,14 @@ export const TabBar = () => (
 
 const Twitter = ({ tweets }) => {
   const latestTweet = tweets[0];
-  const {
-    createdAt,
-    text,
-    favoriteCount,
-    retweetCount,
-    media,
-    link,
-  } = latestTweet;
+  const { createdAt, text, interactions, media } = latestTweet;
 
   return (
     <PanelWrapper>
       <TweetWrapper>
         <TwitterProfile dateCreated={parseMonthDate(createdAt)} />
-        <TweetBody text={text} mediaUrl={media} linkUrl={link} />
-        <TweetStats favorites={favoriteCount} retweets={retweetCount} />
+        <TweetBody text={text} media={media} />
+        <TweetStats interactions={interactions} />
       </TweetWrapper>
       <PreviousWrapper>
         <TweetDivider>Previous Tweets</TweetDivider>
@@ -91,10 +88,14 @@ Twitter.propTypes = {
     PropTypes.shape({
       createdAt: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-      favoriteCount: PropTypes.number.isRequired,
-      retweetCount: PropTypes.number.isRequired,
-      media: PropTypes.string,
-      link: PropTypes.string,
+      interactions: PropTypes.shape({
+        favoriteCount: PropTypes.number.isRequired,
+        retweetCount: PropTypes.number.isRequired,
+      }).isRequired,
+      media: PropTypes.shape({
+        image: PropTypes.string,
+        link: PropTypes.string,
+      }),
     }),
   ).isRequired,
 };
