@@ -31,6 +31,9 @@ const SkyIcon = ({ width, height, icon }) => (
 export const SmallSkyIcon = props => (
   <SkyIcon width="32px" height="32px" {...props} />
 );
+export const MediumSkyIcon = props => (
+  <SkyIcon width="55px" height="55px" {...props} />
+);
 export const LargeSkyIcon = props => (
   <SkyIcon width="72px" height="72px" {...props} />
 );
