@@ -4,7 +4,7 @@ class Clients::CreateTweet
 
   InteractionQuery = Struct.new(:favorite_count, :retweet_count)
 
-  MediaQuery = Struct.new(:image, :link)
+  MediaQuery = Struct.new(:images, :link)
 
   UserQuery = Struct.new(:name, :handle, :avatar)
 
@@ -15,12 +15,15 @@ class Clients::CreateTweet
   def created_at
     @tweet.created_at
   end
+
   def media
-    MediaQuery.new(image, link)
+    MediaQuery.new(images, link)
   end
 
-  def image
-    @tweet.attrs[:extended_entities][:media].first[:media_url]
+  def images
+    @tweet.attrs[:extended_entities][:media].map { |item|
+      item[:media_url]
+    }
   rescue StandardError
     nil
   end
@@ -45,7 +48,7 @@ class Clients::CreateTweet
     clean_text
   end
 
- def status
+  def status
     if @tweet.attrs[:retweeted]
       "retweet"
     elsif @tweet.attrs[:is_quote_status]
@@ -60,7 +63,7 @@ class Clients::CreateTweet
              @tweet.attrs[:retweeted_status][:user]
            else
              @tweet.attrs[:user]
-    end
+           end
     # removing '_normal' from url given returns orginal sized picture
     large_profile_image_url = user[:profile_image_url].remove("_normal")
     UserQuery.new(user[:name], user[:screen_name], large_profile_image_url)

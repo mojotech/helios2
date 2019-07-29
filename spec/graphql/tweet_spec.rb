@@ -68,7 +68,7 @@ describe Helios2Schema do
       retweetCount
     }
     media{
-      image
+      images
       link
     }
     user{
@@ -102,7 +102,7 @@ describe Helios2Schema do
 
       it 'will return valid media data' do
         media = result["data"]["tweets"].first["media"]
-        expect(media["image"]).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
+        expect(media["images"].first).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
         expect(media["link"]).to eq(nil)
       end
 

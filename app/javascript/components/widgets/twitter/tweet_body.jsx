@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Microlink from '@microlink/react';
 import styled from 'styled-components';
-import { TweetText, TweetMedia, Text, MediaWrapper } from './tweet_content';
+import {
+  TweetText,
+  TweetMedia,
+  Text,
+  MediaWrapper,
+} from '@twitter/tweet_content';
 import { colors, fonts, fontSizes } from '../../../lib/theme';
 
 const LinkText = styled(Text)`
@@ -22,82 +27,96 @@ const quoteStyle = {
   paddingLeft: `24px`,
 };
 
-export const BothMediaTypes = ({ displayText, mediaUrl, linkUrl }) => (
+export const BothMediaTypes = ({ displayText, images, linkUrl }) => (
   <>
     <div>
       <TweetText text={displayText} />
       <LinkText>{linkUrl}</LinkText>
     </div>
-    <TweetMedia mediaUrl={mediaUrl} linkUrl={undefined} />
+    <TweetMedia images={images} linkUrl={undefined} />
   </>
 );
 
-BothMediaTypes.propTypes = {
-  displayText: PropTypes.string.isRequired,
-  mediaUrl: PropTypes.string.isRequired,
-  linkUrl: PropTypes.string.isRequired,
+BothMediaTypes.defaultProps = {
+  images: null,
+  linkUrl: null,
 };
 
-const OneMediaType = ({ displayText, mediaUrl, linkUrl }) => (
+BothMediaTypes.propTypes = {
+  displayText: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string),
+  linkUrl: PropTypes.string,
+};
+
+const OneMediaType = ({ displayText, images, linkUrl }) => (
   <>
     <div>
       <TweetText text={displayText} />
     </div>
-    <TweetMedia mediaUrl={mediaUrl} linkUrl={linkUrl} />
+    <TweetMedia images={images} linkUrl={linkUrl} />
   </>
 );
 
+OneMediaType.defaultProps = {
+  images: null,
+  linkUrl: null,
+};
+
 OneMediaType.propTypes = {
   displayText: PropTypes.string.isRequired,
-  mediaUrl: PropTypes.string.isRequired,
-  linkUrl: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string),
+  linkUrl: PropTypes.string,
 };
 
 export const QuoteTweet = ({ displayText, linkUrl }) => (
-  <React.Fragment>
+  <>
     <TweetText text={displayText} />
     <MediaWrapper>
       <Microlink url={linkUrl} style={quoteStyle} size="small" />
     </MediaWrapper>
-  </React.Fragment>
+  </>
 );
+
+QuoteTweet.defaultProps = {
+  linkUrl: null,
+};
 
 QuoteTweet.propTypes = {
   displayText: PropTypes.string.isRequired,
-  linkUrl: PropTypes.string.isRequired,
+  linkUrl: PropTypes.string,
 };
 
 const removeRetweetSymbol = text => {
   return text.substr(text.indexOf(' ') + 1);
 };
 
-const TweetBody = ({ text, media: { image, link }, status }) => {
+const TweetBody = ({ text, media: { images, link }, status }) => {
   // Twitter auto-adds the letters 'RT ' before each retweet
   const displayText = status === 'retweet' ? removeRetweetSymbol(text) : text;
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
-  if (image === null && link === null) {
+  if (images === null && link === null) {
     return <TweetText text={text} />;
   }
-  if (image !== null && link !== null) {
+  if (images !== null && link !== null) {
     return (
       <BothMediaTypes
         displayText={displayText}
-        mediaUrl={image}
+        images={images}
         linkUrl={link}
       />
     );
   }
   return (
-    <OneMediaType displayText={displayText} mediaUrl={image} linkUrl={link} />
+    <OneMediaType displayText={displayText} images={images} linkUrl={link} />
   );
 };
 
 TweetBody.propTypes = {
   text: PropTypes.string.isRequired,
   media: PropTypes.shape({
-    image: PropTypes.string,
+    images: PropTypes.arrayOf(PropTypes.string),
     link: PropTypes.string,
   }).isRequired,
   status: PropTypes.string.isRequired,

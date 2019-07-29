@@ -16,7 +16,7 @@ end
 class Types::MediaType < Types::BaseObject
   graphql_name "TweetMedia"
 
-  field "image", String, null: true
+  field "images", [String], null: true
   field "link", String, null: true
 end
 

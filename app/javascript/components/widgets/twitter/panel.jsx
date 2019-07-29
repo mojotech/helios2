@@ -22,7 +22,7 @@ const getMojoTweets = gql`
         retweetCount
       }
       media {
-        image
+        images
         link
       }
       user {
@@ -124,7 +124,7 @@ Twitter.propTypes = {
         retweetCount: PropTypes.number.isRequired,
       }).isRequired,
       media: PropTypes.shape({
-        image: PropTypes.string,
+        images: PropTypes.arrayOf(PropTypes.string),
         link: PropTypes.string,
       }),
       user: PropTypes.shape({
