@@ -19,14 +19,14 @@ const IconWrapper = styled.div`
   top: 80px;
 `;
 
-const TopCorner = ({ showTime }) => {
-  if (showTime) {
-    return <TimeTopCorner />;
-  }
-  return <WeatherTopCorner />;
-};
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 100px;
+`;
 
-const TimeTopCorner = () => {
+const TopCorner = ({ showWeather }) => {
   return (
     <div>
       <DateLogoRow>
@@ -35,26 +35,15 @@ const TimeTopCorner = () => {
       <IconWrapper>
         <Logo />
       </IconWrapper>
-      <TimeHero />
-    </div>
-  );
-};
-
-const WeatherTopCorner = () => {
-  return (
-    <div>
-      <DateLogoRow>
-        <Date />
-      </DateLogoRow>
-      <IconWrapper>
-        <Logo />
-      </IconWrapper>
-      <WeatherCorner />
+      <Row>
+        <TimeHero />
+        {showWeather && <WeatherCorner />}
+      </Row>
     </div>
   );
 };
 
 TopCorner.propTypes = {
-  showTime: PropTypes.bool.isRequired,
+  showWeather: PropTypes.bool.isRequired,
 };
 export default TopCorner;
