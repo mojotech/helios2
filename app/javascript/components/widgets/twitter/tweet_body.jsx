@@ -41,16 +41,28 @@ OneMediaType.propTypes = {
   linkUrl: PropTypes.string.isRequired,
 };
 
-const TweetBody = ({ text, media: { image, link } }) => {
+const removeRetweetSymbol = text => {
+  return text.substr(text.indexOf(' ') + 1);
+};
+
+const TweetBody = ({ text, media: { image, link }, status }) => {
+  // Twitter auto-adds the letters 'RT ' before each retweet
+  const displayText = status === 'retweet' ? removeRetweetSymbol(text) : text;
   if (image === null && link === null) {
-    return <TweetText text={text} />;
+    return <TweetText text={displayText} />;
   }
   if (image !== null && link !== null) {
     return (
-      <BothMediaTypes displayText={text} mediaUrl={image} linkUrl={link} />
+      <BothMediaTypes
+        displayText={displayText}
+        mediaUrl={image}
+        linkUrl={link}
+      />
     );
   }
-  return <OneMediaType displayText={text} mediaUrl={image} linkUrl={link} />;
+  return (
+    <OneMediaType displayText={displayText} mediaUrl={image} linkUrl={link} />
+  );
 };
 
 TweetBody.propTypes = {
@@ -59,6 +71,7 @@ TweetBody.propTypes = {
     image: PropTypes.string,
     link: PropTypes.string,
   }).isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default TweetBody;

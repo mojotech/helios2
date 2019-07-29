@@ -9,10 +9,12 @@ import { parseMonthDate } from '@lib/datetime';
 import TwitterProfile from '@twitter/tweet_profile';
 import TweetStats from '@twitter/tweet_stats';
 import TweetBody from '@twitter/tweet_body';
+import retweetIcon from '@icons/icon-retweet.svg';
 
 const getMojoTweets = gql`
   query getTweets {
     tweets {
+      status
       createdAt
       text
       interactions {
@@ -63,6 +65,25 @@ const PreviousWrapper = styled.div`
   break-inside: avoid;
 `;
 
+const RetweetBanner = styled.div`
+  font-size: ${fontSizes.small};
+  color: ${colors.white};
+  opacity: 0.5;
+  margin-left: 32px;
+  position: absolute;
+`;
+
+const RetweetWrapper = styled.div`
+  display: ${props => (props.displayStyle === 'retweet' ? 'flex' : 'none')};
+  flex-wrap: no-wrap;
+  justify-content: flex-start;
+  width: 18vw;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  padding-left: 100px;
+`;
+
 export const TabBar = () => (
   <svg width="960" height="4">
     <rect width="960" height="1" fill={colors.white} opacity="0.2" />
@@ -71,13 +92,18 @@ export const TabBar = () => (
 
 const Twitter = ({ tweets }) => {
   const latestTweet = tweets[0];
-  const { createdAt, text, interactions, media, user } = latestTweet;
+  const { status, createdAt, text, interactions, media, user } = latestTweet;
 
   return (
     <PanelWrapper>
+      <RetweetWrapper displayStyle={status}>
+        <img src={retweetIcon} alt="retweeted" />
+        <RetweetBanner>MojoTech Retweeted</RetweetBanner>
+      </RetweetWrapper>
+
       <TweetWrapper>
-        <TwitterProfile dateCreated={parseMonthDate(createdAt)} user={user}/>
-        <TweetBody text={text} media={media} />
+        <TwitterProfile dateCreated={parseMonthDate(createdAt)} user={user} />
+        <TweetBody text={text} media={media} status={status} />
         <TweetStats interactions={interactions} />
       </TweetWrapper>
       <PreviousWrapper>
