@@ -23,6 +23,11 @@ const getMojoTweets = gql`
         image
         link
       }
+      user {
+        name
+        handle
+        avatar
+      }
     }
   }
 `;
@@ -66,12 +71,12 @@ export const TabBar = () => (
 
 const Twitter = ({ tweets }) => {
   const latestTweet = tweets[0];
-  const { createdAt, text, interactions, media } = latestTweet;
+  const { createdAt, text, interactions, media, user } = latestTweet;
 
   return (
     <PanelWrapper>
       <TweetWrapper>
-        <TwitterProfile dateCreated={parseMonthDate(createdAt)} />
+        <TwitterProfile dateCreated={parseMonthDate(createdAt)} user={user}/>
         <TweetBody text={text} media={media} />
         <TweetStats interactions={interactions} />
       </TweetWrapper>
@@ -96,6 +101,11 @@ Twitter.propTypes = {
         image: PropTypes.string,
         link: PropTypes.string,
       }),
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        handle: PropTypes.string.isRequired,
+        avatar: PropTypes.string.isRequired,
+      }).isRequired,
     }),
   ).isRequired,
 };

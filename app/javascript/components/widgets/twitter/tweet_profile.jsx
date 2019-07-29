@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import twitterIcon from '@images/twitter-mojo.svg';
 import { fontSizes, colors, spacing } from '@lib/theme';
 
 const ProfileWrapper = styled.div`
@@ -40,6 +39,9 @@ const ProfileSeparator = styled(ProfileSub)`
 
 const ProfileIcon = styled.img`
   margin-right: 24px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
 `;
 
 const SubHeader = styled.div`
@@ -47,14 +49,14 @@ const SubHeader = styled.div`
   flex-direction: row;
 `;
 
-const TwitterProfile = ({ dateCreated }) => {
+const TwitterProfile = ({ dateCreated, user: { name, handle, avatar } }) => {
   return (
     <ProfileWrapper>
-      <ProfileIcon src={twitterIcon} alt="twitter profile" />
+      <ProfileIcon src={avatar} alt="twitter profile" />
       <ProfileInfoWrapper>
-        <ProfileHeader>MojoTech</ProfileHeader>
+        <ProfileHeader>{name}</ProfileHeader>
         <SubHeader>
-          <ProfileSub>@MojoTech</ProfileSub>
+          <ProfileSub>{`@${handle}`}</ProfileSub>
           <ProfileSeparator> • </ProfileSeparator>
           <ProfileSub>{dateCreated}</ProfileSub>
         </SubHeader>
@@ -65,6 +67,11 @@ const TwitterProfile = ({ dateCreated }) => {
 
 TwitterProfile.propTypes = {
   dateCreated: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    handle: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default TwitterProfile;
