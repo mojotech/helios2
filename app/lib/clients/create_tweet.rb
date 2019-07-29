@@ -1,12 +1,12 @@
 # Polls weather for subscribed locations
 class Clients::CreateTweet
-  delegate :text, :media, :interactions, :created_at, to: :@tweet
+  delegate :text, :media, :interactions, :status, :user, :created_at, to: :@tweet
 
   InteractionQuery = Struct.new(:favorite_count, :retweet_count)
 
   MediaQuery = Struct.new(:image, :link)
 
-  TwitterQuery = Struct.new(:created_at, :text, :interactions, :media)
+  UserQuery = Struct.new(:name, :handle, :avatar)
 
   def initialize(tweet)
     @tweet = tweet
@@ -43,5 +43,26 @@ class Clients::CreateTweet
       clean_text = clean_text.gsub(l, "")
     end
     clean_text
+  end
+
+ def status
+    if @tweet.attrs[:retweeted]
+      "retweet"
+    elsif @tweet.attrs[:is_quote_status]
+      "quote"
+    else
+      "normal"
+    end
+  end
+
+  def user
+    user = if status == "retweet"
+             @tweet.attrs[:retweeted_status][:user]
+           else
+             @tweet.attrs[:user]
+    end
+    # removing '_normal' from url given returns orginal sized picture
+    large_profile_image_url = user[:profile_image_url].remove("_normal")
+    UserQuery.new(user[:name], user[:screen_name], large_profile_image_url)
   end
 end

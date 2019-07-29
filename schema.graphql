@@ -55,7 +55,9 @@ type MojoTweet {
   createdAt: String!
   interactions: TweetInteraction!
   media: TweetMedia
+  status: String!
   text: String!
+  user: TweetUser!
 }
 
 type Mutation {
@@ -100,6 +102,12 @@ type TweetInteraction {
 type TweetMedia {
   image: String
   link: String
+}
+
+type TweetUser {
+  avatar: String!
+  handle: String!
+  name: String!
 }
 
 scalar UTCDateTime
