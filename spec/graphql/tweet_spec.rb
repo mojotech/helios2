@@ -90,7 +90,7 @@ describe Helios2Schema do
       it 'will return a query with valid data' do
         latest = result["data"]["tweets"].first
         expect(latest["status"]).to eq("normal")
-        expect(latest["createdAt"]).to eq("2019-06-28 18:01:35 UTC")
+        expect(latest["createdAt"]).to eq("2019-06-28T18:01:35Z")
         expect(latest["text"]).to eq("Spending the afternoon with our friends at @HumaneBoulder! ")
       end
 
