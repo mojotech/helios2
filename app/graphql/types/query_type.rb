@@ -14,7 +14,7 @@ class Types::QueryType < Types::BaseObject
   end
 
   def tweets
-    [Clients::TwitterClient.latest_tweet]
+    Clients::TwitterClient.latest_tweets
   end
 
   field :events, Types::EventCollectionType do
