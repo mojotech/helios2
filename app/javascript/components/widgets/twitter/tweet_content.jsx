@@ -17,8 +17,9 @@ export const MediaWrapper = styled.div`
 
 export const Text = styled.div`
   color: #959292;
-  font-size: ${fontSizes.large};
-  margin-bottom: 29px;
+  font-size: ${props =>
+    props.primary ? `${fontSizes.large}` : `${fontSizes.small}`};
+  margin-bottom: ${props => (props.primary ? '29px' : `${spacing.xl}`)};
 `;
 
 const TwitterImage = styled.img`
@@ -57,18 +58,27 @@ const linkStyle = {
   border: 'solid 1px #333333',
 };
 
-export const TweetText = ({ text }) => (
-  <Text>
-    <Highlighter
-      highlightStyle={highlighterStyle}
-      searchWords={getMentionsAndTags(text)}
-      textToHighlight={text}
-    />
+export const TweetText = ({ text, isPrimary }) => (
+  <Text primary={isPrimary}>
+    {isPrimary ? (
+      <Highlighter
+        highlightStyle={highlighterStyle}
+        searchWords={getMentionsAndTags(text)}
+        textToHighlight={text}
+      />
+    ) : (
+      text
+    )}
   </Text>
 );
 
+TweetText.defaultProps = {
+  isPrimary: true,
+};
+
 TweetText.propTypes = {
   text: PropTypes.string.isRequired,
+  isPrimary: PropTypes.bool,
 };
 
 const imageLayout = images => {
