@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import Highlighter from 'react-highlight-words';
 import Microlink from '@microlink/react';
 import { getMentionsAndTags } from '@lib/util';
-import { colors, fonts, fontSizes } from '../../../lib/theme';
+import { colors, fonts, fontSizes, spacing } from '../../../lib/theme';
 
-const MediaWrapper = styled.div`
+export const MediaWrapper = styled.div`
   display: block;
   width: auto;
   height: auto;
@@ -15,20 +15,30 @@ const MediaWrapper = styled.div`
   margin-bottom: 29px;
 `;
 
-const MediaImage = styled.img`
-  display: ${props => props.mediaDisplay};
-  width: auto;
-  height: auto;
-  max-width: auto;
-  max-height: 487px;
-  border-radius: 6px;
-  border-collapse: separate;
-`;
-
 export const Text = styled.div`
   color: #959292;
   font-size: ${fontSizes.large};
   margin-bottom: 29px;
+`;
+
+const TwitterImage = styled.img`
+  height: ${props => (props.oneImg ? '487px' : 'auto')};
+  width: auto;
+`;
+
+const ImageGrid = styled.div`
+  display: inline-grid;
+  height: 487px;
+  width: 100%;
+  grid-gap: ${spacing.s};
+  grid-template-columns: auto auto;
+  overflow: hidden;
+  border-radius: 6px;
+`;
+
+const ImageWrapper = styled.div`
+  grid-row: ${props => (props.main ? ' 1 / 3' : 'auto')};
+  overflow: hidden;
 `;
 
 const highlighterStyle = {
@@ -61,14 +71,25 @@ TweetText.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export const TweetMedia = ({ mediaUrl, linkUrl }) => {
+const imageLayout = images => {
+  return images.map(image => {
+    const isMain = image === images[0] && images.length === 3;
+    return (
+      <ImageWrapper main={isMain}>
+        <TwitterImage
+          src={image}
+          alt="twitterMedia"
+          oneImg={images.length === 1}
+        />
+      </ImageWrapper>
+    );
+  });
+};
+
+export const TweetMedia = ({ images, linkUrl }) => {
   return (
     <MediaWrapper>
-      <MediaImage
-        src={mediaUrl}
-        alt="twitter"
-        mediaDisplay={mediaUrl !== null ? 'block' : 'none'}
-      />
+      {images !== null && <ImageGrid>{imageLayout(images)}</ImageGrid>}
       {linkUrl !== null && (
         <Microlink url={linkUrl} style={linkStyle} size="large" />
       )}
@@ -77,11 +98,11 @@ export const TweetMedia = ({ mediaUrl, linkUrl }) => {
 };
 
 TweetMedia.defaultProps = {
-  mediaUrl: null,
+  images: null,
   linkUrl: null,
 };
 
 TweetMedia.propTypes = {
-  mediaUrl: PropTypes.string,
+  images: PropTypes.arrayOf(PropTypes.string),
   linkUrl: PropTypes.string,
 };

@@ -51,6 +51,15 @@ type Location {
   wifiPassword: String!
 }
 
+type MojoTweet {
+  createdAt: String!
+  interactions: TweetInteraction!
+  media: TweetMedia
+  status: String!
+  text: String!
+  user: TweetUser!
+}
+
 type Mutation {
   testField: String!
 }
@@ -64,6 +73,9 @@ type Query {
 
   # Location running the app
   primaryLocation: Location!
+
+  # Tweets from MojoTech
+  tweets: [MojoTweet!]!
 }
 
 type SolarCycle {
@@ -80,6 +92,22 @@ type Subscription {
 
   # Latest weather data retrieved
   weatherPublished(latitude: Float!, longitude: Float!): Weather!
+}
+
+type TweetInteraction {
+  favoriteCount: Int!
+  retweetCount: Int!
+}
+
+type TweetMedia {
+  images: [String!]
+  link: String
+}
+
+type TweetUser {
+  avatar: String!
+  handle: String!
+  name: String!
 }
 
 scalar UTCDateTime

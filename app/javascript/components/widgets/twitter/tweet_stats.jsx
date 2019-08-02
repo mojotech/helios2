@@ -40,16 +40,20 @@ StatsIcon.propTypes = {
   count: PropTypes.number.isRequired,
 };
 
-const TweetStats = ({ favorites, retweets }) => (
-  <InteractionWrapper>
-    <StatsIcon icon={retweetIcon} count={retweets} />
-    <StatsIcon icon={likeIcon} count={favorites} />
-  </InteractionWrapper>
-);
+const TweetStats = ({ interactions: { favoriteCount, retweetCount } }) => {
+  return (
+    <InteractionWrapper>
+      <StatsIcon icon={retweetIcon} count={retweetCount} />
+      <StatsIcon icon={likeIcon} count={favoriteCount} />
+    </InteractionWrapper>
+  );
+};
 
 TweetStats.propTypes = {
-  favorites: PropTypes.number.isRequired,
-  retweets: PropTypes.number.isRequired,
+  interactions: PropTypes.shape({
+    favoriteCount: PropTypes.number.isRequired,
+    retweetCount: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default TweetStats;

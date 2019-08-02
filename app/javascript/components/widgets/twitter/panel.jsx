@@ -9,16 +9,27 @@ import { parseMonthDate } from '@lib/datetime';
 import TwitterProfile from '@twitter/tweet_profile';
 import TweetStats from '@twitter/tweet_stats';
 import TweetBody from '@twitter/tweet_body';
+import retweetIcon from '@icons/icon-retweet.svg';
 
 const getMojoTweets = gql`
   query getTweets {
     tweets {
+      status
       createdAt
       text
-      favoriteCount
-      retweetCount
-      media
-      link
+      interactions {
+        favoriteCount
+        retweetCount
+      }
+      media {
+        images
+        link
+      }
+      user {
+        name
+        handle
+        avatar
+      }
     }
   }
 `;
@@ -54,35 +65,46 @@ const PreviousWrapper = styled.div`
   break-inside: avoid;
 `;
 
+const RetweetBanner = styled.div`
+  font-size: ${fontSizes.small};
+  color: ${colors.white};
+  opacity: 0.5;
+  margin-left: 32px;
+  position: absolute;
+`;
+
+const RetweetWrapper = styled.div`
+  display: ${props => (props.displayStyle === 'retweet' ? 'flex' : 'none')};
+  flex-wrap: no-wrap;
+  justify-content: flex-start;
+  width: 18vw;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  padding-left: 100px;
+`;
+
 export const TabBar = () => (
-  <svg width="960" height="4">
-    <rect width="960" height="1" fill={colors.white} opacity="0.2" />
+  <svg width="1020" height="4">
+    <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 
 const Twitter = ({ tweets }) => {
   const latestTweet = tweets[0];
-  const {
-    createdAt,
-    text,
-    favoriteCount,
-    retweetCount,
-    media,
-    link,
-  } = latestTweet;
-
-  const noContent = media === null && link === null;
+  const { status, createdAt, text, interactions, media, user } = latestTweet;
 
   return (
     <PanelWrapper>
+      <RetweetWrapper displayStyle={status}>
+        <img src={retweetIcon} alt="retweeted" />
+        <RetweetBanner>MojoTech Retweeted</RetweetBanner>
+      </RetweetWrapper>
+
       <TweetWrapper>
-        <TwitterProfile dateCreated={parseMonthDate(createdAt)} />
-        <TweetBody
-          text={text}
-          mediaUrl={noContent ? undefined : media}
-          linkUrl={noContent ? undefined : link}
-        />
-        <TweetStats favorites={favoriteCount} retweets={retweetCount} />
+        <TwitterProfile dateCreated={parseMonthDate(createdAt)} user={user} />
+        <TweetBody text={text} media={media} status={status} />
+        <TweetStats interactions={interactions} />
       </TweetWrapper>
       <PreviousWrapper>
         <TweetDivider>Previous Tweets</TweetDivider>
@@ -97,16 +119,25 @@ Twitter.propTypes = {
     PropTypes.shape({
       createdAt: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-      favoriteCount: PropTypes.number.isRequired,
-      retweetCount: PropTypes.number.isRequired,
-      media: PropTypes.string,
-      link: PropTypes.string,
+      interactions: PropTypes.shape({
+        favoriteCount: PropTypes.number.isRequired,
+        retweetCount: PropTypes.number.isRequired,
+      }).isRequired,
+      media: PropTypes.shape({
+        images: PropTypes.arrayOf(PropTypes.string),
+        link: PropTypes.string,
+      }),
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        handle: PropTypes.string.isRequired,
+        avatar: PropTypes.string.isRequired,
+      }).isRequired,
     }),
   ).isRequired,
 };
 
 export default () => (
-  <Query query={getMojoTweets} fetchPolicy="cache-and-network">
+  <Query query={getMojoTweets}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
