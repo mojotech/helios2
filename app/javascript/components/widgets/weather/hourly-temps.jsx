@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { compose, pathOr, take } from 'ramda';
+import { compose, pathOr, slice } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, spacing, fonts, weights } from '@lib/theme';
 import { Row } from '@components/row';
@@ -69,7 +69,7 @@ const getHourlyWeather = gql`
 
 const HourlyTemps = ({ weather, hours }) => {
   const hourlyWeathers = compose(
-    take(hours),
+    slice(1, hours + 1),
     pathOr([], ['hourly', 'data']),
   )(weather);
   return (
