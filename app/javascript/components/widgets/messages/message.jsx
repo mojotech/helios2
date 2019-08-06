@@ -9,12 +9,8 @@ export const LoadingMessage = () => <Message message="Loading..." />;
 export const DisconnectedMessage = () => (
   <Message message="Looks like we're disconnected" />
 );
-export const WeatherLoadingMessage = () => (
-  <WeatherMessage message="Loading the weather..." />
-);
-export const WeatherDisconnectedMessage = () => (
-  <WeatherMessage message="We can't display the weather right now." />
-);
+export const WeatherLoadingMessage = () => <WeatherMessage />;
+export const WeatherDisconnectedMessage = () => <WeatherMessage />;
 
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};
@@ -49,20 +45,11 @@ const Message = ({ message }) => {
   );
 };
 
-const WeatherMessage = ({ message }) => {
-  return (
-    <SidePanelSpacing>
-      <MessageDisplay>{message}</MessageDisplay>
-    </SidePanelSpacing>
-  );
+const WeatherMessage = () => {
+  return <SidePanelSpacing />;
 };
 
 Message.propTypes = {
   message: PropTypes.string.isRequired,
 };
-
-WeatherMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-};
-
 export default Message;
