@@ -36,68 +36,59 @@ export const BothMediaTypes = ({ displayText, images, linkUrl }) => (
     <TweetMedia images={images} linkUrl={undefined} />
   </>
 );
-
 BothMediaTypes.defaultProps = {
   images: null,
   linkUrl: null,
 };
-
 BothMediaTypes.propTypes = {
   displayText: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.string),
   linkUrl: PropTypes.string,
 };
-
 const OneMediaType = ({ displayText, images, linkUrl }) => (
   <>
     <div>
-      <TweetText text={displayText} />
+      <TweetText text={displayText} isPrimary />
     </div>
     <TweetMedia images={images} linkUrl={linkUrl} />
   </>
 );
-
 OneMediaType.defaultProps = {
   images: null,
   linkUrl: null,
 };
-
 OneMediaType.propTypes = {
   displayText: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.string),
   linkUrl: PropTypes.string,
 };
-
 export const QuoteTweet = ({ displayText, linkUrl }) => (
   <>
-    <TweetText text={displayText} />
+    <TweetText text={displayText} isPrimary />
     <MediaWrapper>
       <Microlink url={linkUrl} style={quoteStyle} size="small" />
     </MediaWrapper>
   </>
 );
-
 QuoteTweet.defaultProps = {
   linkUrl: null,
 };
-
 QuoteTweet.propTypes = {
   displayText: PropTypes.string.isRequired,
   linkUrl: PropTypes.string,
 };
-
 const removeRetweetSymbol = text => {
   return text.substr(text.indexOf(' ') + 1);
 };
 
-const TweetBody = ({ text, media: { images, link }, status }) => {
+const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
   // Twitter auto-adds the letters 'RT ' before each retweet
   const displayText = status === 'retweet' ? removeRetweetSymbol(text) : text;
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
-  if (images === null && link === null) {
-    return <TweetText text={text} />;
+  if ((images === null && link === null) || !isPrimary) {
+    return <TweetText text={text} isPrimary={isPrimary} />;
   }
   if (images !== null && link !== null) {
     return (
@@ -120,6 +111,7 @@ TweetBody.propTypes = {
     link: PropTypes.string,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default TweetBody;

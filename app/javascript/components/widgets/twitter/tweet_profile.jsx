@@ -10,7 +10,15 @@ const ProfileWrapper = styled.div`
   width: 18vw;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: 48px;
+  margin-bottom: ${props => (props.primary ? '48px' : `${spacing.xl}`)};
+`;
+
+const ProfileIcon = styled.img`
+  border-radius: 50%;
+  height: ${props => (props.primary ? '80px' : '56px')};
+  width: ${props => (props.primary ? '80px' : '56px')};
+  margin-right: 24px;
+  opacity: ${props => (props.primary ? '1' : '0.5')};
 `;
 
 const ProfileInfoWrapper = styled.div`
@@ -22,14 +30,17 @@ const ProfileInfoWrapper = styled.div`
 
 const ProfileHeader = styled.div`
   color: ${colors.white}
-  font-size: ${fontSizes.large}
+  font-size: ${props =>
+    props.primary ? `${fontSizes.large}` : `${fontSizes.small}`}
   margin-bottom: ${spacing.s}
+  opacity: ${props => (props.primary ? '1' : '0.5')};
 `;
 
 const ProfileSub = styled.div`
   color: ${colors.white}
   opacity: 0.5
-  font-size: ${fontSizes.small}
+  font-size: ${props =>
+    props.primary ? `${fontSizes.small}` : `${fontSizes.tiny}`}
 `;
 
 const ProfileSeparator = styled(ProfileSub)`
@@ -37,28 +48,25 @@ const ProfileSeparator = styled(ProfileSub)`
   padding-right: 15px;
 `;
 
-const ProfileIcon = styled.img`
-  margin-right: 24px;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-`;
-
 const SubHeader = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-const TwitterProfile = ({ dateCreated, user: { name, handle, avatar } }) => {
+const TwitterProfile = ({
+  dateCreated,
+  user: { name, handle, avatar },
+  isPrimary,
+}) => {
   return (
-    <ProfileWrapper>
-      <ProfileIcon src={avatar} alt="twitter profile" />
+    <ProfileWrapper primary={isPrimary}>
+      <ProfileIcon src={avatar} alt="twitter profile" primary={isPrimary} />
       <ProfileInfoWrapper>
-        <ProfileHeader>{name}</ProfileHeader>
+        <ProfileHeader primary={isPrimary}>{name}</ProfileHeader>
         <SubHeader>
-          <ProfileSub>{`@${handle}`}</ProfileSub>
-          <ProfileSeparator> • </ProfileSeparator>
-          <ProfileSub>{dateCreated}</ProfileSub>
+          <ProfileSub primary={isPrimary}>{`@${handle}`}</ProfileSub>
+          <ProfileSeparator primary={isPrimary}> • </ProfileSeparator>
+          <ProfileSub primary={isPrimary}>{dateCreated}</ProfileSub>
         </SubHeader>
       </ProfileInfoWrapper>
     </ProfileWrapper>
@@ -72,6 +80,7 @@ TwitterProfile.propTypes = {
     handle: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
   }).isRequired,
+  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default TwitterProfile;
