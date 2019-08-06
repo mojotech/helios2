@@ -8,5 +8,5 @@ class Types::EventType < Types::BaseObject
   field "id", ID
   field "external_id", String
   field "source", Types::EventSourceType
-  field "created_at", String
+  field "created_at", Types::DateTimeType
 end

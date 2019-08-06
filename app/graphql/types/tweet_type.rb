@@ -24,7 +24,7 @@ class Types::TweetType < Types::BaseObject
   graphql_name "MojoTweet"
 
   field "status", String
-  field "created_at", String
+  field "created_at", Types::DateTimeType
   field "text", String
   field "interactions", Types::InteractionType
   field "media", Types::MediaType, null: true

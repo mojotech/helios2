@@ -8,8 +8,10 @@ type Announcement {
   publishOn: UTCDateTime!
 }
 
+scalar DateTime
+
 type Event {
-  createdAt: String!
+  createdAt: DateTime!
   externalId: String!
   id: ID!
   source: EventSource!
@@ -52,7 +54,7 @@ type Location {
 }
 
 type MojoTweet {
-  createdAt: String!
+  createdAt: DateTime!
   interactions: TweetInteraction!
   media: TweetMedia
   status: String!
