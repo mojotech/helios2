@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { take } from 'ramda';
+import { slice } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, spacing, fonts, weights } from '@lib/theme';
 import { Row } from '@components/row';
@@ -71,7 +71,7 @@ const HourlyTemps = ({ weather, hours }) => {
   const { data: hourlyWeathers } = weather.hourly;
   return (
     <Wrapper>
-      {take(hours, hourlyWeathers).map(
+      {slice(1, hours + 1, hourlyWeathers).map(
         ({ time, temperature, precipProbability }, idx) => (
           <Item key={time} index={idx}>
             <Time>{parseHour(time)}</Time>
