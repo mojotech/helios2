@@ -8,13 +8,12 @@ class Clients::TwitterClient
     config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
   end
 
-  def self.latest_tweet
+  def self.latest_tweets
     # API gets count amt, then filters out rts and replies
     # This guarantees there will always be a tweet
-    latest = @client
-             .user_timeline('mojotech', count: 5, include_rts: true,
-                                        exclude_replies: false, tweet_mode: 'extended')
-             .first
-    Clients::CreateTweet.new(latest)
+    feed = @client
+           .user_timeline('mojotech', count: 5, include_rts: true,
+                                      exclude_replies: false, tweet_mode: 'extended')
+    feed.map { |t| Clients::CreateTweet.new(t) }
   end
 end

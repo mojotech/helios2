@@ -4,12 +4,9 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import styled from 'styled-components';
-import { colors, fontSizes } from '@lib/theme';
-import { parseMonthDate } from '@lib/datetime';
-import TwitterProfile from '@twitter/tweet_profile';
-import TweetStats from '@twitter/tweet_stats';
-import TweetBody from '@twitter/tweet_body';
-import retweetIcon from '@icons/icon-retweet.svg';
+import { colors, fontSizes, spacing } from '@lib/theme';
+import Tweet from '@twitter/tweet';
+import { takeLast, splitAt } from 'ramda';
 
 const getMojoTweets = gql`
   query getTweets {
@@ -34,16 +31,6 @@ const getMojoTweets = gql`
   }
 `;
 
-const TweetWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  flex-direction: column;
-  width: 45vw;
-  padding-left: 100px;
-  break-inside: avoid;
-`;
-
 const TweetDivider = styled.div`
   margin-top: 81px;
   color: #959292;
@@ -65,50 +52,26 @@ const PreviousWrapper = styled.div`
   break-inside: avoid;
 `;
 
-const RetweetBanner = styled.div`
-  font-size: ${fontSizes.small};
-  color: ${colors.white};
-  opacity: 0.5;
-  margin-left: 32px;
-  position: absolute;
-`;
-
-const RetweetWrapper = styled.div`
-  display: ${props => (props.displayStyle === 'retweet' ? 'flex' : 'none')};
-  flex-wrap: no-wrap;
-  justify-content: flex-start;
-  width: 18vw;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 24px;
-  padding-left: 100px;
-`;
-
 export const TabBar = () => (
-  <svg width="1020" height="4">
+  <svg width="1020" height="4" style={{ marginBottom: `${spacing.xxxl}` }}>
     <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
   </svg>
 );
 
 const Twitter = ({ tweets }) => {
-  const latestTweet = tweets[0];
-  const { status, createdAt, text, interactions, media, user } = latestTweet;
-
+  const previous = takeLast(1, splitAt(1, tweets))[0];
   return (
     <PanelWrapper>
-      <RetweetWrapper displayStyle={status}>
-        <img src={retweetIcon} alt="retweeted" />
-        <RetweetBanner>MojoTech Retweeted</RetweetBanner>
-      </RetweetWrapper>
-
-      <TweetWrapper>
-        <TwitterProfile dateCreated={parseMonthDate(createdAt)} user={user} />
-        <TweetBody text={text} media={media} status={status} />
-        <TweetStats interactions={interactions} />
-      </TweetWrapper>
+      <Tweet tweet={tweets[0]} isPrimary />
       <PreviousWrapper>
         <TweetDivider>Previous Tweets</TweetDivider>
         <TabBar />
+        {previous.map(tweet => (
+          <React.Fragment key={tweet.createdAt}>
+            <Tweet tweet={tweet} isPrimary={false} />
+            <TabBar />
+          </React.Fragment>
+        ))}
       </PreviousWrapper>
     </PanelWrapper>
   );
