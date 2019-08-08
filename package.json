@@ -21,6 +21,7 @@
     "graphql-ruby-client": "^1.6.4",
     "graphql-tag": "^2.9.2",
     "hoist-non-react-statics": "^3.0.1",
+    "html-entities": "^1.2.1",
     "matter-js": "^0.14.2",
     "numeral": "^2.0.6",
     "pluralize": "^8.0.0",

@@ -8,6 +8,7 @@ import {
   Text,
   MediaWrapper,
 } from '@twitter/tweet_content';
+import { AllHtmlEntities as Entities } from 'html-entities';
 import { colors, fonts, fontSizes } from '../../../lib/theme';
 
 const LinkText = styled(Text)`
@@ -79,17 +80,27 @@ QuoteTweet.propTypes = {
 };
 
 const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
+  const displayText = new Entities().decode(text);
+
   // Twitter auto-adds the letters 'RT ' before each retweet
   if (status === 'quote') {
-    return <QuoteTweet displayText={text} linkUrl={link} />;
+    return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
   if ((images === null && link === null) || !isPrimary) {
-    return <TweetText text={text} isPrimary={isPrimary} />;
+    return <TweetText text={displayText} isPrimary={isPrimary} />;
   }
   if (images !== null && link !== null) {
-    return <BothMediaTypes displayText={text} images={images} linkUrl={link} />;
+    return (
+      <BothMediaTypes
+        displayText={displayText}
+        images={images}
+        linkUrl={link}
+      />
+    );
   }
-  return <OneMediaType displayText={text} images={images} linkUrl={link} />;
+  return (
+    <OneMediaType displayText={displayText} images={images} linkUrl={link} />
+  );
 };
 
 TweetBody.propTypes = {
