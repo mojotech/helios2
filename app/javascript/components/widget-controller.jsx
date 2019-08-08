@@ -6,6 +6,7 @@ import SidePanel from '@components/side-panel';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
+import Traffic from '@widgets/traffic';
 
 const SWITCH_INTERVAL = 20000;
 
@@ -28,6 +29,11 @@ const widgets = [
   {
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
+    showWeather: true,
+  },
+  {
+    panel: <Traffic.Panel />,
+    text: 'Traffic',
     showWeather: true,
   },
 ];
