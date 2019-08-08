@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { take } from 'ramda';
+import { compose, pathOr, slice } from 'ramda';
 import styled from 'styled-components';
 import { colors, fontSizes, spacing, fonts, weights } from '@lib/theme';
 import { Row } from '@components/row';
@@ -68,22 +68,23 @@ const getHourlyWeather = gql`
 `;
 
 const HourlyTemps = ({ weather, hours }) => {
-  const { data: hourlyWeathers } = weather.hourly;
+  const hourlyWeathers = compose(
+    slice(1, hours + 1),
+    pathOr([], ['hourly', 'data']),
+  )(weather);
   return (
     <Wrapper>
-      {take(hours, hourlyWeathers).map(
-        ({ time, temperature, precipProbability }, idx) => (
-          <Item key={time} index={idx}>
-            <Time>{parseHour(time)}</Time>
-            <Temp>{parseInt(temperature, 10)}°</Temp>
-            <Precip>
-              <RainIcon src={rainIcon} width="20" height="20" alt="" />
-              {parseInt(precipProbability * 100, 10)}
-              <Percent>%</Percent>
-            </Precip>
-          </Item>
-        ),
-      )}
+      {hourlyWeathers.map(({ time, temperature, precipProbability }, idx) => (
+        <Item key={time} index={idx}>
+          <Time>{parseHour(time)}</Time>
+          <Temp>{parseInt(temperature, 10)}°</Temp>
+          <Precip>
+            <RainIcon src={rainIcon} width="20" height="20" alt="" />
+            {parseInt(precipProbability * 100, 10)}
+            <Percent>%</Percent>
+          </Precip>
+        </Item>
+      ))}
     </Wrapper>
   );
 };
