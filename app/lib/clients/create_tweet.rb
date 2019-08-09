@@ -12,6 +12,16 @@ class Clients::CreateTweet
     @tweet = tweet
   end
 
+  def attributes
+    if status == 'retweet'
+      @tweet.attrs[:retweeted_status]
+    elsif status == 'quote'
+      @tweet.attrs[:quoted_status]
+    else
+      @tweet.attrs
+    end
+  end
+
   def created_at
     @tweet.created_at
   end
@@ -21,7 +31,7 @@ class Clients::CreateTweet
   end
 
   def images
-    @tweet.attrs[:extended_entities][:media].map { |item|
+    attributes[:extended_entities][:media].map { |item|
       item[:media_url]
     }
   rescue StandardError
@@ -29,17 +39,17 @@ class Clients::CreateTweet
   end
 
   def link
-    @tweet.attrs[:entities][:urls].first[:expanded_url]
+    attributes[:entities][:urls].first[:expanded_url]
   rescue StandardError
     nil
   end
 
   def interactions
-    InteractionQuery.new(@tweet.favorite_count, @tweet.retweet_count)
+    InteractionQuery.new(attributes[:favorite_count], attributes[:retweet_count])
   end
 
   def text
-    text = @tweet.attrs[:full_text]
+    text = attributes[:full_text]
     links = text.split(/\s|\n/).select { |word| word.include? "http" }
     clean_text = text
     links.each do |l|
@@ -49,9 +59,9 @@ class Clients::CreateTweet
   end
 
   def status
-    if @tweet.attrs[:retweeted]
+    if @tweet.attrs[:retweeted_status]
       "retweet"
-    elsif @tweet.attrs[:is_quote_status]
+    elsif @tweet.attrs[:quoted_status]
       "quote"
     else
       "normal"
@@ -59,11 +69,7 @@ class Clients::CreateTweet
   end
 
   def user
-    user = if status == "retweet"
-             @tweet.attrs[:retweeted_status][:user]
-           else
-             @tweet.attrs[:user]
-           end
+    user = attributes[:user]
     # removing '_normal' from url given returns orginal sized picture
     large_profile_image_url = user[:profile_image_url].remove("_normal")
     UserQuery.new(user[:name], user[:screen_name], large_profile_image_url)

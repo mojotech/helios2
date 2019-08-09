@@ -24,7 +24,6 @@ const RetweetBanner = styled.div`
   color: ${colors.white};
   opacity: 0.5;
   margin-left: 32px;
-  position: absolute;
 `;
 
 const RetweetWrapper = styled.div`

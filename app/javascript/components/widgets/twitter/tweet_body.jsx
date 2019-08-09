@@ -8,6 +8,7 @@ import {
   Text,
   MediaWrapper,
 } from '@twitter/tweet_content';
+import { AllHtmlEntities as Entities } from 'html-entities';
 import { colors, fonts, fontSizes } from '../../../lib/theme';
 
 const LinkText = styled(Text)`
@@ -77,18 +78,16 @@ QuoteTweet.propTypes = {
   displayText: PropTypes.string.isRequired,
   linkUrl: PropTypes.string,
 };
-const removeRetweetSymbol = text => {
-  return text.substr(text.indexOf(' ') + 1);
-};
 
 const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
+  const displayText = new Entities().decode(text);
+
   // Twitter auto-adds the letters 'RT ' before each retweet
-  const displayText = status === 'retweet' ? removeRetweetSymbol(text) : text;
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
   if ((images === null && link === null) || !isPrimary) {
-    return <TweetText text={text} isPrimary={isPrimary} />;
+    return <TweetText text={displayText} isPrimary={isPrimary} />;
   }
   if (images !== null && link !== null) {
     return (
