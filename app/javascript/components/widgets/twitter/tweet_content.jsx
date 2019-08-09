@@ -23,14 +23,15 @@ export const Text = styled.div`
 `;
 
 const TwitterImage = styled.img`
-  height: ${props => (props.oneImg ? '487px' : 'auto')};
-  width: auto;
+  height: ${props => (props.isMain ? '100%' : 'auto')};
+  width: ${props => (!props.isMain ? '100%' : 'auto')};
+  text-align: center;
 `;
 
 const ImageGrid = styled.div`
   display: inline-grid;
   height: 487px;
-  width: 100%;
+  width: ${props => (props.oneImg ? 'auto' : '100%')};
   grid-gap: ${spacing.s};
   grid-template-columns: auto auto;
   overflow: hidden;
@@ -38,7 +39,10 @@ const ImageGrid = styled.div`
 `;
 
 const ImageWrapper = styled.div`
+  display: flex;
   grid-row: ${props => (props.main ? ' 1 / 3' : 'auto')};
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 `;
 
@@ -86,11 +90,7 @@ const imageLayout = images => {
     const isMain = image === images[0] && images.length === 3;
     return (
       <ImageWrapper main={isMain}>
-        <TwitterImage
-          src={image}
-          alt="twitterMedia"
-          oneImg={images.length === 1}
-        />
+        <TwitterImage isMain={isMain} src={image} alt="twitterMedia" />
       </ImageWrapper>
     );
   });
@@ -99,7 +99,11 @@ const imageLayout = images => {
 export const TweetMedia = ({ images, linkUrl }) => {
   return (
     <MediaWrapper>
-      {images !== null && <ImageGrid>{imageLayout(images)}</ImageGrid>}
+      {images !== null && (
+        <ImageGrid oneImg={images.length === 1}>
+          {imageLayout(images)}
+        </ImageGrid>
+      )}
       {linkUrl !== null && (
         <Microlink url={linkUrl} style={linkStyle} size="large" />
       )}
