@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 
 export const SidePanel = ({ widgets, selectedWidget, totalTime, tabDown }) => (
   <Wrapper>
-    <TopCorner showTime={widgets[selectedWidget].showTime} />
+    <TopCorner showWeather={widgets[selectedWidget].showWeather} />
     <FixedContent
       widgets={widgets}
       selectedWidget={selectedWidget}
