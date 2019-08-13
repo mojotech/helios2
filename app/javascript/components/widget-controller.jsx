@@ -1,5 +1,6 @@
 import React from 'react';
 import { mathMod } from 'ramda';
+import styled from 'styled-components';
 import FullPanel from '@components/full-panel';
 import SidePanel from '@components/side-panel';
 import Twitter from '@widgets/twitter';
@@ -7,6 +8,10 @@ import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 
 const SWITCH_INTERVAL = 20000;
+
+const Wrapper = styled.div`
+  outline: none;
+`;
 
 const widgets = [
   {
@@ -76,7 +81,7 @@ export class WidgetController extends React.Component {
 
     return (
       // eslint-disable-next-line
-      <div
+      <Wrapper
         onKeyDown={this.switchPages}
         onClick={this.handleClicks}
         // eslint-disable-next-line
@@ -89,7 +94,7 @@ export class WidgetController extends React.Component {
           totalTime={SWITCH_INTERVAL}
           tabDown={this.moveDown}
         />
-      </div>
+      </Wrapper>
     );
   }
 }
