@@ -40,6 +40,7 @@ enum EventSource {
 }
 
 type Location {
+  livestreamUrl: String!
   bathroomCode: String!
   cityName: String!
   dayAnnouncements: [Announcement!]!

@@ -37,4 +37,8 @@ class Location < ApplicationRecord
   def bathroom_code
     ENV['BATHROOM_CODE']
   end
+
+  def livestream_url
+    ENV['YOUTUBE_LIVESTREAM_URL']
+  end
 end

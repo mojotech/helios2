@@ -12,4 +12,5 @@ class Types::LocationType < Types::BaseObject
   field "wifi_name", String
   field "wifi_password", String
   field "bathroom_code", String
+  field "livestream_url", String
 end
