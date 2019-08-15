@@ -1,7 +1,21 @@
 import React from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { colors, weights, fonts, fontSizes } from '@lib/theme';
 import { GreySubText } from '@components/typography';
+import { LoadingMessage, DisconnectedMessage } from '@messages/message';
+
+const getTrafficCams = gql`
+  {
+    primaryLocation {
+      trafficCams {
+        title
+        url
+      }
+    }
+  }
+`;
 
 const Title = styled.div`
   margin-top: 16px;
@@ -40,27 +54,46 @@ const Notice = styled(GreySubText)`
 `;
 
 const Traffic = () => (
-  <>
-    <Row>
-      <Column>
-        <Title>I-95 at Broad St</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/95-21%20I-95%20S%20@%20Broad%20St%20.jpg" />
-        <Title>I-95 at Lonsdale</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/95-26%20I-95%20N%20@%20Lonsdale%20Ave.jpg" />
-        <Title>I-95 at Kinsley</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/95-22b%20I-95%20N%20@%20Kinsley%20Ave.jpg" />
-      </Column>
-      <Column>
-        <Title>Exit 10 (near I-295)</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/95-11%20I-95%20N%20@%20Toll%20Gate%20Rd.jpg" />
-        <Title>I-95 I-195 Split</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/195-1%20I-195%20W%20Split%20@%20I-95.jpg" />
-        <Title>Tobey Street</Title>
-        <TrafficCam src="http://www.dot.ri.gov/img/travel/camimages/6-2%20Rt%206%20E%20%20%2010%20N%20@%20Tobey%20St.jpg" />
-      </Column>
-    </Row>
-    <Notice>Images from http://www.dot.ri.gov</Notice>
-  </>
+  <Query query={getTrafficCams}>
+    {({ loading, error, data }) => {
+      if (loading) {
+        return <LoadingMessage />;
+      }
+
+      if (error) {
+        return <DisconnectedMessage />;
+      }
+
+      const { trafficCams } = data.primaryLocation;
+      if (!trafficCams) {
+        return null;
+      }
+
+      const CameraList = (beginning, end) => {
+        return trafficCams.map((cam, index) => {
+          if (index >= beginning && index < end) {
+            return (
+              <div key={cam}>
+                <Title>{cam.title}</Title>
+                <TrafficCam src={cam.url} />
+              </div>
+            );
+          }
+          return <div key={cam} />;
+        });
+      };
+
+      return (
+        <>
+          <Row>
+            <Column>{CameraList(0, 3)}</Column>
+            <Column>{CameraList(3, 6)}</Column>
+          </Row>
+          <Notice>Images from http://www.dot.ri.gov</Notice>
+        </>
+      );
+    }}
+  </Query>
 );
 
 export default Traffic;
