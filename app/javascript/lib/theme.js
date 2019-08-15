@@ -45,3 +45,4 @@ export const fonts = {
 };
 
 export const leftPanelWidth = '827px';
+export const sidePanelWidth = 600;

@@ -20,7 +20,7 @@ import githubCommitIcon from '@images/commit.png';
 import slackMessageIcon from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
-import { width } from '@components/side-panel';
+import { sidePanelWidth } from '@lib/theme';
 
 const blockTypes = {
   githubPull: githubPullIcon,
@@ -191,7 +191,7 @@ class Scene extends React.Component {
         },
       ),
       Bodies.rectangle(
-        this.state.width - wallWidth / 2 - width,
+        this.state.width - wallWidth / 2 - sidePanelWidth,
         this.state.height / 2,
         wallWidth,
         this.state.height + padding,
@@ -251,7 +251,7 @@ class Scene extends React.Component {
 
   addBlocks = () => {
     const block = this.nextBlock();
-    const widthBetweenWalls = this.state.width - wallWidth - width;
+    const widthBetweenWalls = this.state.width - wallWidth - sidePanelWidth;
     const randomDist =
       (widthBetweenWalls * (Math.random() + Math.random())) / 2;
     // add circles to the world,

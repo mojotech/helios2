@@ -2,67 +2,54 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { GreySubText } from '@components/typography';
-import { fontSizes, leftPanelWidth } from '@lib/theme';
+import { fontSizes, sidePanelWidth } from '@lib/theme';
 import sunMoon from '@images/sunmoon.png';
 
 export const LoadingMessage = () => <Message message="Loading..." />;
 export const DisconnectedMessage = () => (
   <Message message="Looks like we're disconnected" />
 );
-export const WeatherLoadingMessage = () => (
-  <Message imageWidth="0" message="Loading the weather..." />
-);
-export const WeatherDisconnectedMessage = () => (
-  <Message imageWidth="0" message="We can't display the weather right now." />
-);
+export const WeatherLoadingMessage = () => <WeatherMessage />;
+export const WeatherDisconnectedMessage = () => <WeatherMessage />;
 
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};
   text-align: center;
-  width: ${leftPanelWidth};
+`;
+
+const SidePanelSpacing = styled.div`
+  height: 136px;
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(50vh - 200px);
+  margin-right: ${sidePanelWidth}px;
 `;
 
-const Message = ({ width, height, message, imageWidth, imageHeight }) => {
-  const widthFloat = parseFloat(width);
-  const heightFloat = parseFloat(height);
+const SunMoon = styled.img`
+  width: 100px;
+  height: 100px;
+  align-self: center;
+`;
 
-  const svgWidth = width;
-  const svgHeight = height;
+const Message = ({ message }) => {
   return (
     <Column>
-      <svg width={svgWidth} height={svgHeight}>
-        <image
-          x={((widthFloat - parseFloat(imageWidth)) / 2).toString()}
-          y={(heightFloat - parseFloat(imageHeight) + 1).toString()}
-          width={imageWidth}
-          height={imageHeight}
-          xlinkHref={sunMoon}
-          position="absolute"
-        />
-      </svg>
+      <SunMoon src={sunMoon} />
       <MessageDisplay>{message}</MessageDisplay>
     </Column>
   );
 };
 
+const WeatherMessage = () => {
+  return <SidePanelSpacing />;
+};
+
 Message.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
   message: PropTypes.string.isRequired,
-  imageHeight: PropTypes.string,
-  imageWidth: PropTypes.string,
 };
-
-Message.defaultProps = {
-  width: leftPanelWidth,
-  height: '344px',
-  imageHeight: '100px',
-  imageWidth: '100px',
-};
-
 export default Message;
