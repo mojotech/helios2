@@ -48,6 +48,7 @@ type Location {
   latitude: Float!
   longitude: Float!
   timezone: String!
+  trafficCams: [TrafficCam!]!
   weather: Weather!
   wifiName: String!
   wifiPassword: String!
@@ -94,6 +95,12 @@ type Subscription {
 
   # Latest weather data retrieved
   weatherPublished(latitude: Float!, longitude: Float!): Weather!
+}
+
+type TrafficCam {
+  id: ID!
+  title: String!
+  url: String!
 }
 
 type TweetInteraction {
