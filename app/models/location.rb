@@ -6,6 +6,7 @@ class Location < ApplicationRecord
 
   has_many :announcements, inverse_of: :location, dependent: :destroy
   has_many :solarcycles, dependent: :destroy
+  has_many :traffic_cams, dependent: :destroy
 
   def self.primary(city_name = ENV['PRIMARY_CITY_NAME'])
     find_by(city_name: city_name)
