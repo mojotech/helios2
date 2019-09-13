@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { splitAt, take } from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -26,7 +28,7 @@ const Title = styled.div`
   font-family: ${fonts.extended};
 `;
 
-const TrafficCam = styled.img`
+const TrafficCamImage = styled.img`
   width: 400px;
   height: 250px;
 `;
@@ -53,6 +55,18 @@ const Notice = styled(GreySubText)`
   margin-right: 750px;
 `;
 
+const TrafficCam = ({ title, url }) => (
+  <div>
+    <Title>{title}</Title>
+    <TrafficCamImage src={url} />
+  </div>
+);
+
+TrafficCam.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
 const Traffic = () => (
   <Query query={getTrafficCams}>
     {({ loading, error, data }) => {
@@ -69,25 +83,21 @@ const Traffic = () => (
         return null;
       }
 
-      const CameraList = (beginning, end) => {
-        return trafficCams.map((cam, index) => {
-          if (index >= beginning && index < end) {
-            return (
-              <div key={cam}>
-                <Title>{cam.title}</Title>
-                <TrafficCam src={cam.url} />
-              </div>
-            );
-          }
-          return <div key={cam} />;
-        });
-      };
+      const [firstColumn, secondColumn] = splitAt(3, trafficCams);
 
       return (
         <>
           <Row>
-            <Column>{CameraList(0, 3)}</Column>
-            <Column>{CameraList(3, 6)}</Column>
+            <Column>
+              {take(3, firstColumn).map(cam => (
+                <TrafficCam key={cam} {...cam} />
+              ))}
+            </Column>
+            <Column>
+              {take(3, secondColumn).map(cam => (
+                <TrafficCam key={cam} {...cam} />
+              ))}
+            </Column>
           </Row>
           <Notice>Images from http://www.dot.ri.gov</Notice>
         </>
