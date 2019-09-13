@@ -29,8 +29,8 @@ const Title = styled.div`
 `;
 
 const TrafficCamImage = styled.img`
-  width: 400px;
-  height: 250px;
+  width: 376px;
+  height: 240px;
 `;
 
 const Column = styled.div`
