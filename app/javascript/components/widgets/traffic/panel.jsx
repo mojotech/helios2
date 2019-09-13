@@ -12,6 +12,7 @@ const getTrafficCams = gql`
   {
     primaryLocation {
       trafficCams {
+        id
         title
         url
       }
@@ -89,13 +90,13 @@ const Traffic = () => (
         <>
           <Row>
             <Column>
-              {take(3, firstColumn).map(cam => (
-                <TrafficCam key={cam} {...cam} />
+              {take(3, firstColumn).map(({ id, ...cam }) => (
+                <TrafficCam key={id} {...cam} />
               ))}
             </Column>
             <Column>
-              {take(3, secondColumn).map(cam => (
-                <TrafficCam key={cam} {...cam} />
+              {take(3, secondColumn).map(({ id, ...cam }) => (
+                <TrafficCam key={id} {...cam} />
               ))}
             </Column>
           </Row>
