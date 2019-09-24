@@ -171,6 +171,16 @@ class Scene extends React.Component {
     this.addBlocks();
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      world,
+      data: { loading },
+    } = this.props;
+    if (prevProps.data.loading && !loading && isPresent(world)) {
+      this.restoreWorld(world);
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timer);
     this.saveWorld();
@@ -265,9 +275,9 @@ class Scene extends React.Component {
     }
 
     if (
-      worldCounts.githubCommit <= counts.githubCommit &&
-      worldCounts.githubPull <= counts.githubPull &&
-      worldCounts.slackMessage <= counts.slackMessage
+      (worldCounts.githubCommit || 0) <= counts.githubCommit &&
+      (worldCounts.githubPull || 0) <= counts.githubPull &&
+      (worldCounts.slackMessage || 0) <= counts.slackMessage
     ) {
       World.add(this.engine.world, world.map(deserializeFallingBlock));
       this.setState(worldCounts);
