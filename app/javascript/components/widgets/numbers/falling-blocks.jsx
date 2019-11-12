@@ -11,8 +11,7 @@ import {
   Runner,
 } from 'matter-js';
 import { graphql, withApollo } from 'react-apollo';
-import { pathOr, keys, compose } from 'ramda';
-import Resurrect from 'resurrect-js';
+import { countBy, pathOr, keys, compose } from 'ramda';
 import PropTypes from 'prop-types';
 import { getEventCounts } from '@numbers/queries';
 import githubPullIcon from '@images/pr.png';
@@ -21,12 +20,78 @@ import slackMessageIcon from '@images/slack.png';
 import { getStartOfWeek } from '@lib/datetime';
 import { withLocalMutation, withLocalState } from '@numbers/ducks';
 import { sidePanelWidth } from '@lib/theme';
+import { isPresent } from '@lib/util';
 
 const blockTypes = {
   githubPull: githubPullIcon,
   githubCommit: githubCommitIcon,
   slackMessage: slackMessageIcon,
 };
+
+const blockTypeKeyFromValue = value =>
+  keys(blockTypes).find(key => blockTypes[key] === value);
+
+const createFallingBlock = (x, y, blockType, options = {}) =>
+  Bodies.polygon(x, y, 8, 8, {
+    restitution: 0.25,
+    friction: 0.8,
+    render: {
+      sprite: {
+        texture: blockTypes[blockType],
+      },
+    },
+    ...options,
+  });
+
+const countByBlockType = countBy(body => body[0]);
+
+const serializeFallingBlock = ({
+  angle,
+  angularSpeed,
+  angularVelocity,
+  isSleeping,
+  isStatic,
+  position,
+  render,
+  sleepCounter,
+  visible,
+  velocity,
+}) => [
+  blockTypeKeyFromValue(render.sprite.texture),
+  angle,
+  angularSpeed,
+  angularVelocity,
+  isSleeping,
+  isStatic,
+  position,
+  sleepCounter,
+  visible,
+  velocity,
+];
+
+const deserializeFallingBlock = ([
+  blockType,
+  angle,
+  angularSpeed,
+  angularVelocity,
+  isSleeping,
+  isStatic,
+  position,
+  sleepCounter,
+  visible,
+  velocity,
+]) =>
+  createFallingBlock(position.x, position.y, blockType, {
+    angle,
+    angularSpeed,
+    angularVelocity,
+    isSleeping,
+    isStatic,
+    sleepCounter,
+    visible,
+    velocity,
+  });
+
 const wallWidth = 50;
 // Padding applied to the height of the walls to prevent blocks created contemporaneously from colliding.
 const padding = 50;
@@ -69,45 +134,35 @@ const getImageFromCache = imagePath => {
 class Scene extends React.Component {
   static propTypes = {
     mutation: PropTypes.func.isRequired,
+    world: PropTypes.arrayOf(PropTypes.array),
     data: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    world: null,
   };
 
   imageCache = {};
 
   constructor(props) {
     super(props);
-    const { world, ...currentState } = this.getLocalState(props);
     this.state = {
-      ...currentState,
+      githubPull: 0,
+      githubCommit: 0,
+      slackMessage: 0,
     };
     this.scene = React.createRef();
     this.overlay = React.createRef();
     this.timer = null;
-    this.res = new Resurrect({ prefix: '$', cleanup: true });
   }
 
   componentDidMount() {
+    const { world } = this.props;
     this.setupWorld();
-    const { world } = this.getLocalState(this.props);
-    if (world) {
-      const loadedWorld = this.res.resurrect(world);
-      const counts = this.getCountsFromProps(this.props);
-      const {
-        data: { loading },
-      } = this.props;
-
-      if (
-        loading ||
-        (this.state.githubCommit <= counts.githubCommit &&
-          this.state.githubPull <= counts.githubPull &&
-          this.state.slackMessage <= counts.slackMessage)
-      ) {
-        Engine.merge(this.engine, { world: loadedWorld });
-      } else {
-        this.setState({ githubCommit: 0, githubPull: 0, slackMessage: 0 });
-      }
+    if (isPresent(world)) {
+      this.restoreWorld(world);
     }
     Composite.allBodies(this.engine.world)
       .filter(body => !body.isStatic)
@@ -117,17 +172,8 @@ class Scene extends React.Component {
   }
 
   componentWillUnmount() {
-    const allBodies = Composite.allBodies(this.engine.world);
-    allBodies
-      .filter(body => body.isOnOverlay)
-      .forEach(body => {
-        // eslint-disable-next-line no-param-reassign
-        body.isOnOverlay = false;
-        return body.isOnOverlay;
-      });
-
     clearTimeout(this.timer);
-    this.save();
+    this.saveWorld();
     this.teardownWorld();
   }
 
@@ -198,19 +244,47 @@ class Scene extends React.Component {
     Render.run(this.renderMatter);
   }
 
-  getInitialCounts = () => ({
-    githubPull: 0,
-    githubCommit: 0,
-    slackMessage: 0,
-  });
+  getCountsFromProps = pathOr(
+    {
+      githubPull: 0,
+      githubCommit: 0,
+      slackMessage: 0,
+    },
+    ['data', 'events', 'count'],
+  );
 
-  getLocalState = pathOr(this.getInitialCounts(), ['localState']);
+  restoreWorld = world => {
+    const worldCounts = countByBlockType(world);
+    const counts = this.getCountsFromProps(this.props);
+    const {
+      data: { loading },
+    } = this.props;
 
-  getCountsFromProps = pathOr(this.getInitialCounts(), [
-    'data',
-    'events',
-    'count',
-  ]);
+    if (loading) {
+      return;
+    }
+
+    if (
+      worldCounts.githubCommit <= counts.githubCommit &&
+      worldCounts.githubPull <= counts.githubPull &&
+      worldCounts.slackMessage <= counts.slackMessage
+    ) {
+      World.add(this.engine.world, world.map(deserializeFallingBlock));
+      this.setState(worldCounts);
+    } else {
+      this.setState({ githubCommit: 0, githubPull: 0, slackMessage: 0 });
+    }
+  };
+
+  saveWorld = () => {
+    const world = Composite.allBodies(this.engine.world)
+      .filter(({ render }) =>
+        blockTypeKeyFromValue(pathOr(false, ['sprite', 'texture'], render)),
+      )
+      .map(serializeFallingBlock);
+
+    this.props.mutation({ world });
+  };
 
   teardownWorld = () => {
     Render.stop(this.renderMatter);
@@ -239,23 +313,25 @@ class Scene extends React.Component {
   };
 
   addBlocks = () => {
+    const {
+      data: { loading },
+    } = this.props;
+
+    if (loading) {
+      this.timer = setTimeout(this.addBlocks, 200);
+      return;
+    }
+
     const block = this.nextBlock();
-    const widthBetweenWalls = this.state.width - wallWidth - sidePanelWidth;
+    const width = window.innerWidth;
+    const widthBetweenWalls = width - wallWidth - sidePanelWidth;
     const randomDist =
       (widthBetweenWalls * (Math.random() + Math.random())) / 2;
     // add circles to the world,
     // randomly pick a point from one wall edge to the other
     // so that they don't fall directly on top of each other.
     if (block) {
-      const newBlock = Bodies.polygon(randomDist, -10, 8, 8, {
-        restitution: 0.25,
-        friction: 0.8,
-        render: {
-          sprite: {
-            texture: blockTypes[block],
-          },
-        },
-      });
+      const newBlock = createFallingBlock(randomDist, -10, block);
 
       this.setState(state => ({ [block]: state[block] + 1 }));
 
@@ -297,34 +373,6 @@ class Scene extends React.Component {
     allBodies
       .filter(body => body.isStatic)
       .forEach(body => this.addToOverlay(body));
-  }
-
-  save() {
-    const { githubPull, githubCommit, slackMessage } = this.state;
-    this.props.mutation({
-      githubPull,
-      githubCommit,
-      slackMessage,
-      world: this.serialise(this.engine.world),
-    });
-  }
-
-  serialise(object) {
-    return this.res.stringify(object, (key, value) => {
-      // serialise fails if it attempts to work on an event, so we need to avoid them
-      if (key === 'events') {
-        return null;
-      }
-      // limit precision of floats
-      if (!/^#/.exec(key) && typeof value === 'number') {
-        const fixed = parseFloat(value.toFixed(3));
-
-        if (fixed === 0 && value !== 0) return value;
-
-        return fixed;
-      }
-      return value;
-    });
   }
 
   render() {
