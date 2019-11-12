@@ -80,8 +80,6 @@ class Scene extends React.Component {
     super(props);
     const { world, ...currentState } = this.getLocalState(props);
     this.state = {
-      height: window.innerHeight,
-      width: window.innerWidth,
       ...currentState,
     };
     this.scene = React.createRef();
@@ -147,12 +145,15 @@ class Scene extends React.Component {
       enableSleeping: true,
     });
 
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
     this.renderMatter = Render.create({
       element: this.scene.current,
       engine: this.engine,
       options: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width,
+        height,
         background: 'transparent',
         wireframes: false,
         showSleeping: false,
@@ -166,35 +167,23 @@ class Scene extends React.Component {
        * and expand in height/width evenly around that point
        */
 
-      Bodies.rectangle(
-        this.state.width / 2,
-        this.state.height - wallWidth / 2,
-        this.state.width,
-        wallWidth,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: 'black',
-          },
+      Bodies.rectangle(width / 2, height - wallWidth / 2, width, wallWidth, {
+        isStatic: true,
+        render: {
+          fillStyle: 'black',
         },
-      ),
-      Bodies.rectangle(
-        wallWidth / 2,
-        this.state.height / 2,
-        wallWidth,
-        this.state.height + padding,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: 'black',
-          },
+      }),
+      Bodies.rectangle(wallWidth / 2, height / 2, wallWidth, height + padding, {
+        isStatic: true,
+        render: {
+          fillStyle: 'black',
         },
-      ),
+      }),
       Bodies.rectangle(
-        this.state.width - wallWidth / 2 - sidePanelWidth,
-        this.state.height / 2,
+        width - wallWidth / 2 - sidePanelWidth,
+        height / 2,
         wallWidth,
-        this.state.height + padding,
+        height + padding,
         {
           isStatic: true,
           render: {
