@@ -307,10 +307,13 @@ class Scene extends React.Component {
 
   sleepStartEvent = block => {
     Events.on(block, 'sleepStart', () => {
-      setInvisible(block);
-      setStatic(block);
-      this.addToOverlay(block);
       Events.off(block, 'sleepStart');
+      setStatic(block);
+      this.addToOverlay(block).then(body => {
+        if (body) {
+          setInvisible(body);
+        }
+      });
     });
   };
 
@@ -354,10 +357,14 @@ class Scene extends React.Component {
 
   addToOverlay(body) {
     if (!body || !body.render.sprite.texture || body.isOnOverlay) {
-      return;
+      return Promise.resolve();
     }
     const { texture, xOffset, yOffset } = body.render.sprite;
-    getImageFromCache(texture)
+
+    // eslint-disable-next-line no-param-reassign
+    body.isOnOverlay = true;
+
+    return getImageFromCache(texture)
       .then(img => {
         const ctx = this.overlay.current.getContext('2d');
 
@@ -368,14 +375,13 @@ class Scene extends React.Component {
 
         ctx.rotate(-body.angle);
         ctx.translate(-body.position.x, -body.position.y);
+
+        return body;
       })
       .catch(img => {
         // eslint-disable-next-line no-console
         console.error(`Failed loading ${img.src}`);
       });
-
-    // eslint-disable-next-line no-param-reassign
-    body.isOnOverlay = true;
   }
 
   prepareOverlay() {
