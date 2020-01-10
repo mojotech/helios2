@@ -47,6 +47,8 @@ type GuestsWidget implements Widget {
   locationId: String!
   name: String!
   position: Int!
+  showWeather: Boolean
+  sidebarText: String
 }
 
 type Location {
@@ -87,6 +89,8 @@ type NumbersWidget implements Widget {
   locationId: String!
   name: String!
   position: Int!
+  showWeather: Boolean
+  sidebarText: String
 }
 
 type Query {
@@ -125,6 +129,17 @@ type TrafficCam {
   url: String!
 }
 
+type TrafficWidget implements Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+  showWeather: Boolean
+  sidebarText: String
+  trafficCams: [TrafficCam!]!
+}
+
 type TweetInteraction {
   favoriteCount: Int!
   retweetCount: Int!
@@ -147,6 +162,8 @@ type TwitterWidget implements Widget {
   locationId: String!
   name: String!
   position: Int!
+  showWeather: Boolean
+  sidebarText: String
 
   # Tweets from MojoTech
   tweets: [MojoTweet!]!
@@ -275,6 +292,8 @@ type WeatherWidget implements Widget {
   locationId: String!
   name: String!
   position: Int!
+  showWeather: Boolean
+  sidebarText: String
 
   # Weather response from Dark Sky
   weather: Weather!
@@ -287,6 +306,8 @@ interface Widget {
   locationId: String!
   name: String!
   position: Int!
+  showWeather: Boolean
+  sidebarText: String
 }
 
 type WidgetCollection {

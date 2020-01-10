@@ -8,6 +8,8 @@ module Types::WidgetType
   field "name", String, null: false
   field "duration_seconds", Integer, null: false
   field "position", Integer, null: false
+  field "sidebar_text", String, null: true
+  field "show_weather", Boolean, null: true
   field "location_id", String, null: false
 
   definition_methods do
