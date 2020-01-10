@@ -31,6 +31,7 @@ Location.find_or_initialize_by(
   r.time_zone = 'America/New_York'
 end.save!
 
+primary_location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 Widget.find_or_initialize_by(
   name: "Guests"
 ) do |r|
@@ -55,7 +56,7 @@ Widget.find_or_initialize_by(
   r.enabled = false
   r.duration_seconds = 20
   r.position = 2
-  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+  r.location_id = primary_location_id
 end.save!
 
 Widget.find_or_initialize_by(
@@ -64,7 +65,18 @@ Widget.find_or_initialize_by(
   r.enabled = true
   r.duration_seconds = 20
   r.position = 3
-  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+  r.location_id = primary_location_id
+end.save!
+
+Widget.find_or_initialize_by(
+  name: "Traffic"
+) do |r|
+  r.enabled = true
+  r.duration_seconds = 20
+  r.position = 4
+  r.start = Tod::TimeOfDay("16:00")
+  r.stop = Tod::TimeOfDay("23:00")
+  r.location_id = primary_location_id
 end.save!
 
 TrafficCam.find_or_initialize_by(
