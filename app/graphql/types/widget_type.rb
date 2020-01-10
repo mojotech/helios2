@@ -17,6 +17,7 @@ module Types::WidgetType
       when 'Weather' then Types::WeatherWidget
       when 'Twitter' then Types::TwitterWidget
       when 'Numbers' then Types::NumbersWidget
+      when 'Traffic' then Types::TrafficWidget
       else raise "Unexpected WidgetType: #{obj.inspect}"
       end
     end
@@ -73,5 +74,15 @@ class Types::NumbersWidget < Types::BaseObject
     events = events.created_after(after) if after
     events = events.with_source(type) if type
     events
+  end
+end
+
+class Types::TrafficWidget < Types::BaseObject
+  implements Types::WidgetType
+
+  field :traffic_cams, [Types::TrafficCamType]
+
+  def traffic_cams
+    object.location.traffic_cams
   end
 end

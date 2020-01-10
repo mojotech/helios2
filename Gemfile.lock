@@ -284,6 +284,7 @@ GEM
     timecop (0.9.1)
     timers (4.0.4)
       hitimes
+    tod (2.2.0)
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
@@ -356,6 +357,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sqlite3
   timecop
+  tod
   turbolinks (~> 5)
   twitter (~> 6.2)
   tzinfo-data

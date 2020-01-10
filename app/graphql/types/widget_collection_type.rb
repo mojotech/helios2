@@ -5,7 +5,7 @@ class Types::WidgetCollectionType < Types::BaseObject
   end
 
   def enabled
-    object.enabled.all
+    object.enabled.available.all
   end
 
   def next(current_widget_id: nil)

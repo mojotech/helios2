@@ -1,4 +1,7 @@
 class Widget < ApplicationRecord
+  serialize :start, Tod::TimeOfDay
+  serialize :stop, Tod::TimeOfDay
+
   validates :name, presence: true, uniqueness: true
   validates :position, presence: true, uniqueness: true
 
@@ -6,6 +9,11 @@ class Widget < ApplicationRecord
 
   default_scope { order(position: :asc) }
   scope :enabled, -> { where(enabled: true) }
+  scope :available, -> do
+    # TimeOfDay does not work with timezone
+    tod = Tod::TimeOfDay(Time.now).to_s # rubocop:disable Rails/TimeZone
+    where('(start <= ? OR start IS NULL) AND (stop >= ? OR stop IS NULL)', tod, tod)
+  end
 
   def self.next_or_default(current_id)
     current_id && where('id > ?', current_id).order(:position).first || first

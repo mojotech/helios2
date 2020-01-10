@@ -5,5 +5,11 @@ class Helios2Schema < GraphQL::Schema
   query(Types::QueryType)
   subscription(Types::SubscriptionType)
 
-  orphan_types [Types::GuestsWidget, Types::WeatherWidget, Types::TwitterWidget, Types::NumbersWidget]
+  orphan_types [
+    Types::GuestsWidget,
+    Types::WeatherWidget,
+    Types::TwitterWidget,
+    Types::NumbersWidget,
+    Types::TrafficWidget
+  ]
 end
