@@ -38,6 +38,8 @@ Widget.find_or_initialize_by(
   r.enabled = false
   r.duration_seconds = 20
   r.position = 0
+  r.sidebar_text = 'Guests'
+  r.show_weather = false
   r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 end.save!
 
@@ -47,6 +49,8 @@ Widget.find_or_initialize_by(
   r.enabled = true
   r.duration_seconds = 20
   r.position = 1
+  r.sidebar_text = 'Weather'
+  r.show_weather = false
   r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
 end.save!
 
@@ -56,6 +60,8 @@ Widget.find_or_initialize_by(
   r.enabled = true
   r.duration_seconds = 20
   r.position = 2
+  r.sidebar_text = '@MojoTech'
+  r.show_weather = true
   r.location_id = primary_location_id
 end.save!
 
@@ -65,6 +71,8 @@ Widget.find_or_initialize_by(
   r.enabled = true
   r.duration_seconds = 20
   r.position = 3
+  r.sidebar_text = 'MojoTech by the Numbers'
+  r.show_weather = true
   r.location_id = primary_location_id
 end.save!
 
@@ -74,6 +82,8 @@ Widget.find_or_initialize_by(
   r.enabled = true
   r.duration_seconds = 20
   r.position = 4
+  r.sidebar_text = 'Traffic'
+  r.show_weather = true
   r.start = Tod::TimeOfDay("16:00")
   r.stop = Tod::TimeOfDay("23:00")
   r.location_id = primary_location_id
