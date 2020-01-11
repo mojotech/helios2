@@ -16,22 +16,22 @@ const Wrapper = styled.div`
 
 const widgets = [
   {
-    panel: <Weather.Panel />,
+    panel: Weather.Panel,
     text: 'Weather',
     showWeather: false,
   },
   {
-    panel: <Twitter.Panel />,
+    panel: Twitter.Panel,
     text: '@MojoTech',
     showWeather: true,
   },
   {
-    panel: <Numbers.Panel />,
+    panel: Numbers.Panel,
     text: 'MojoTech by the Numbers',
     showWeather: true,
   },
   {
-    panel: <Traffic.Panel />,
+    panel: Traffic.Panel,
     text: 'Traffic',
     showWeather: true,
     hourStart: 16,
@@ -111,7 +111,9 @@ export class WidgetController extends React.Component {
         // eslint-disable-next-line
         tabIndex="0"
       >
-        <FullPanel currentWidget={currentWidget.panel} />
+        <FullPanel>
+          <currentWidget.panel />
+        </FullPanel>
         <SidePanel
           widgets={visibleWidgets}
           selectedWidget={index}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export const widgetShape = {
   widgets: PropTypes.arrayOf(
     PropTypes.shape({
-      panel: PropTypes.node.isRequired,
+      panel: PropTypes.elementType.isRequired,
       text: PropTypes.string,
     }),
   ).isRequired,
