@@ -45,12 +45,46 @@ export class WidgetController extends React.Component {
     super(props);
     this.state = {
       index: 0,
+      transitionTime: Date.now() + SWITCH_INTERVAL,
     };
+  }
+
+  componentDidMount() {
+    this.timerId = setInterval(() => {
+      const { transitionTime, pausedTime } = this.state;
+
+      if (!transitionTime || pausedTime) {
+        return;
+      }
+
+      const now = Date.now();
+
+      if (transitionTime < now) {
+        this.moveDown();
+      }
+    }, 500);
+  }
+
+  componentWillUnmount() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
   }
 
   switchPages = ({ keyCode }) => {
     const upKey = 38;
     const downKey = 40;
+    const SPACEBAR = 32;
+    if (keyCode === SPACEBAR) {
+      this.setState(({ pausedTime, transitionTime }) =>
+        pausedTime
+          ? {
+              pausedTime: null,
+              transitionTime: transitionTime - pausedTime + Date.now(),
+            }
+          : { pausedTime: Date.now() },
+      );
+    }
     if (keyCode === downKey) {
       this.moveDown();
     }
@@ -74,12 +108,14 @@ export class WidgetController extends React.Component {
   moveDown = () => {
     this.setState(({ index }) => ({
       index: (index + 1) % this.getVisibleWidgets().length,
+      transitionTime: Date.now() + SWITCH_INTERVAL,
     }));
   };
 
   moveUp = () => {
     this.setState(({ index }) => ({
       index: mathMod(index - 1, this.getVisibleWidgets().length),
+      transitionTime: Date.now() + SWITCH_INTERVAL,
     }));
   };
 
@@ -99,7 +135,7 @@ export class WidgetController extends React.Component {
   };
 
   render() {
-    const { index } = this.state;
+    const { index, pausedTime } = this.state;
     const visibleWidgets = this.getVisibleWidgets();
     const currentWidget = visibleWidgets[index];
 
@@ -118,7 +154,7 @@ export class WidgetController extends React.Component {
           widgets={visibleWidgets}
           selectedWidget={index}
           totalTime={SWITCH_INTERVAL}
-          tabDown={this.moveDown}
+          isPaused={!!pausedTime}
         />
       </Wrapper>
     );

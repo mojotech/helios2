@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '@components/row';
 import Wifi from '@components/wifi';
@@ -18,6 +19,7 @@ export const FixedContent = ({
   selectedWidget,
   totalTime,
   tabDown,
+  isPaused,
 }) => (
   <div>
     <Row>
@@ -30,10 +32,15 @@ export const FixedContent = ({
         selectedWidget={selectedWidget}
         totalTime={totalTime}
         tabDown={tabDown}
+        isPaused={isPaused}
       />
     </CarouselContainer>
   </div>
 );
-FixedContent.propTypes = widgetShape;
+
+FixedContent.propTypes = {
+  ...widgetShape,
+  isPaused: PropTypes.bool.isRequired,
+};
 
 export default FixedContent;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { spacing, sidePanelWidth } from '@lib/theme';
 import FixedContent from '@components/fixed-content';
@@ -16,7 +17,13 @@ const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
-export const SidePanel = ({ widgets, selectedWidget, totalTime, tabDown }) => (
+export const SidePanel = ({
+  widgets,
+  selectedWidget,
+  totalTime,
+  tabDown,
+  isPaused,
+}) => (
   <Wrapper>
     <TopCorner showWeather={widgets[selectedWidget].showWeather} />
     <FixedContent
@@ -24,10 +31,14 @@ export const SidePanel = ({ widgets, selectedWidget, totalTime, tabDown }) => (
       selectedWidget={selectedWidget}
       totalTime={totalTime}
       tabDown={tabDown}
+      isPaused={isPaused}
     />
   </Wrapper>
 );
 
-SidePanel.propTypes = widgetShape;
+SidePanel.propTypes = {
+  ...widgetShape,
+  isPaused: PropTypes.bool.isRequired,
+};
 
 export default SidePanel;
