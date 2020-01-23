@@ -1,55 +1,62 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
 import { mathMod } from 'ramda';
+import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import FullPanel from '@components/full-panel';
 import SidePanel from '@components/side-panel';
+import { DisconnectedMessage, LoadingMessage } from '@messages/message';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
 
-const SWITCH_INTERVAL = 20000;
+const getWidgets = gql`
+  query getWidgets($id: Int!) {
+    primaryLocation {
+      widgets {
+        enabled {
+          id
+          name
+          sidebarText
+        }
+        byIdOrFirst(id: $id) {
+          id
+          name
+          durationSeconds
+          sidebarText
+          showWeather
+        }
+      }
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   outline: none;
 `;
 
-const widgets = [
-  {
-    panel: Weather.Panel,
-    text: 'Weather',
-    showWeather: false,
-  },
-  {
-    panel: Twitter.Panel,
-    text: '@MojoTech',
-    showWeather: true,
-  },
-  {
-    panel: Numbers.Panel,
-    text: 'MojoTech by the Numbers',
-    showWeather: true,
-  },
-  {
-    panel: Traffic.Panel,
-    text: 'Traffic',
-    showWeather: true,
-    hourStart: 16,
-    hourStop: 23,
-    isVisible: false,
-  },
-];
+const widgetElements = {
+  Weather,
+  Twitter,
+  Numbers,
+  Traffic,
+};
 
 export class WidgetController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
-      transitionTime: Date.now() + SWITCH_INTERVAL,
+      currentWidgetId: 0,
+      transitionTime: null,
     };
   }
 
   componentDidMount() {
+    const prefetchDelay = 1500;
+
+    this.lastPrefetchTime = 0;
     this.timerId = setInterval(() => {
       const { transitionTime, pausedTime } = this.state;
 
@@ -57,10 +64,22 @@ export class WidgetController extends React.Component {
         return;
       }
 
+      const { client } = this.props;
+      const prefetchTime = transitionTime - prefetchDelay;
       const now = Date.now();
 
       if (transitionTime < now) {
-        this.moveDown();
+        this.nextWidget();
+      } else if (
+        prefetchTime < now &&
+        this.lastPrefetchTime < now - prefetchDelay
+      ) {
+        const { nextWidgetId } = this.state;
+        this.lastPrefetchTime = now;
+        client.query({
+          query: getWidgets,
+          variables: { id: nextWidgetId },
+        });
       }
     }, 500);
   }
@@ -86,15 +105,46 @@ export class WidgetController extends React.Component {
       );
     }
     if (keyCode === downKey) {
-      this.moveDown();
+      this.nextWidget();
     }
     if (keyCode === upKey) {
-      this.moveUp();
+      this.prevWidget();
     }
   };
 
-  switchToPage = index => {
-    this.setState({ index });
+  nextWidget = () => {
+    this.setState(({ nextWidgetId }) =>
+      nextWidgetId
+        ? {
+            currentWidgetId: nextWidgetId,
+            nextWidgetId: null,
+            prevWidgetId: null,
+            transitionTime: null,
+          }
+        : {},
+    );
+  };
+
+  prevWidget = () => {
+    this.setState(({ prevWidgetId }) =>
+      prevWidgetId
+        ? {
+            currentWidgetId: prevWidgetId,
+            nextWidgetId: null,
+            prevWidgetId: null,
+            transitionTime: null,
+          }
+        : {},
+    );
+  };
+
+  switchToPage = id => {
+    this.setState({
+      currentWidgetId: id,
+      nextWidgetId: null,
+      prevWidgetId: null,
+      transitionTime: null,
+    });
   };
 
   handleClicks = ({ target }) => {
@@ -105,60 +155,105 @@ export class WidgetController extends React.Component {
     }
   };
 
-  moveDown = () => {
-    this.setState(({ index }) => ({
-      index: (index + 1) % this.getVisibleWidgets().length,
-      transitionTime: Date.now() + SWITCH_INTERVAL,
-    }));
-  };
-
-  moveUp = () => {
-    this.setState(({ index }) => ({
-      index: mathMod(index - 1, this.getVisibleWidgets().length),
-      transitionTime: Date.now() + SWITCH_INTERVAL,
-    }));
-  };
-
-  getVisibleWidgets = () => {
-    const date = new Date();
-    const currentHour = date.getHours();
-
-    return widgets.filter(widget => {
-      if (widget.hourStart !== undefined) {
-        if (currentHour >= widget.hourStart && currentHour < widget.hourStop) {
-          return true;
-        }
-        return false;
-      }
-      return true;
-    });
-  };
-
   render() {
-    const { index, pausedTime } = this.state;
-    const visibleWidgets = this.getVisibleWidgets();
-    const currentWidget = visibleWidgets[index];
+    const { currentWidgetId, pausedTime } = this.state;
+
+    const fetchPolicy = currentWidgetId === 0 ? 'network-only' : 'cache-first';
 
     return (
-      // eslint-disable-next-line
-      <Wrapper
-        onKeyDown={this.switchPages}
-        onClick={this.handleClicks}
-        // eslint-disable-next-line
-        tabIndex="0"
+      <Query
+        query={getWidgets}
+        variables={{ id: currentWidgetId }}
+        fetchPolicy={fetchPolicy}
+        onCompleted={({ primaryLocation: { widgets } }) => {
+          const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
+
+          const index = enabledWidgets.findIndex(w => w.id === current.id);
+
+          const prevWidgetId =
+            enabledWidgets[mathMod(index - 1, enabledWidgets.length)].id;
+          const nextWidgetId =
+            enabledWidgets[mathMod(index + 1, enabledWidgets.length)].id;
+
+          this.setState({
+            currentWidgetId: current.id,
+            nextWidgetId,
+            prevWidgetId,
+            transitionTime: Date.now() + current.durationSeconds * 1000,
+          });
+        }}
       >
-        <FullPanel>
-          <currentWidget.panel />
-        </FullPanel>
-        <SidePanel
-          widgets={visibleWidgets}
-          selectedWidget={index}
-          totalTime={SWITCH_INTERVAL}
-          isPaused={!!pausedTime}
-        />
-      </Wrapper>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return (
+              <Wrapper>
+                <FullPanel>
+                  <LoadingMessage />
+                </FullPanel>
+                <SidePanel
+                  widgets={[]}
+                  selectedWidgetId={0}
+                  showWeather={false}
+                  totalTime={0}
+                />
+              </Wrapper>
+            );
+          }
+
+          if (error) {
+            // eslint-disable-next-line
+            console.error(error);
+            return (
+              <Wrapper>
+                <FullPanel>
+                  <DisconnectedMessage />
+                </FullPanel>
+                <SidePanel
+                  widgets={[]}
+                  selectedWidgetId={0}
+                  showWeather={false}
+                  totalTime={0}
+                />
+              </Wrapper>
+            );
+          }
+
+          const {
+            primaryLocation: { widgets },
+          } = data;
+          const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
+
+          const WidgetElement = widgetElements[current.name].Panel;
+
+          return (
+            <Wrapper
+              onKeyDown={this.switchPages}
+              onClick={this.handleClicks}
+              // eslint-disable-next-line
+              tabIndex="0"
+            >
+              <FullPanel>
+                <WidgetElement />
+              </FullPanel>
+              <SidePanel
+                widgets={enabledWidgets}
+                selectedWidgetId={current.id}
+                showWeather={current.showWeather}
+                totalTime={current.durationSeconds * 1000}
+                isPaused={!!pausedTime}
+              />
+            </Wrapper>
+          );
+        }}
+      </Query>
     );
   }
 }
+
+WidgetController.propTypes = {
+  client: PropTypes.shape({
+    query: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default WidgetController;
