@@ -311,6 +311,7 @@ interface Widget {
 }
 
 type WidgetCollection {
+  byIdOrFirst(id: Int): Widget!
   enabled: [Widget!]!
   next(currentWidgetId: Int): Widget!
 }
