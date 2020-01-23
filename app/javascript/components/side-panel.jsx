@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { spacing, sidePanelWidth } from '@lib/theme';
-import FixedContent from '@components/fixed-content';
-import widgetShape from '@lib/widget-shape';
+import { spacing, colors, sidePanelWidth } from '@lib/theme';
+import Wifi from '@components/wifi';
+import Bathroom from '@components/bathroom';
+import { Row } from '@components/row';
 import TopCorner from '@components/top-corner-controller';
+import Widgets from '@components/widgets';
 
 const Wrapper = styled.div`
   bottom: 0;
@@ -17,28 +19,39 @@ const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
+const FixedContent = styled.div`
+  margin-top: ${spacing.xxl};
+  font-size: 13px;
+  color: ${colors.white};
+`;
+
 export const SidePanel = ({
   widgets,
-  selectedWidget,
+  selectedWidgetId,
+  showWeather,
   totalTime,
-  tabDown,
   isPaused,
 }) => (
   <Wrapper>
-    <TopCorner showWeather={widgets[selectedWidget].showWeather} />
-    <FixedContent
-      widgets={widgets}
-      selectedWidget={selectedWidget}
-      totalTime={totalTime}
-      tabDown={tabDown}
-      isPaused={isPaused}
-    />
+    <TopCorner showWeather={showWeather} />
+    <Row>
+      <Wifi />
+      <Bathroom />
+    </Row>
+    <FixedContent>
+      <Widgets
+        widgets={widgets}
+        selectedWidgetId={selectedWidgetId}
+        totalTime={totalTime}
+        isPaused={isPaused}
+      />
+    </FixedContent>
   </Wrapper>
 );
 
 SidePanel.propTypes = {
-  ...widgetShape,
-  isPaused: PropTypes.bool.isRequired,
+  ...Widgets.propTypes,
+  showWeather: PropTypes.bool.isRequired,
 };
 
 export default SidePanel;

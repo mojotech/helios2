@@ -72,7 +72,7 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <WidgetController />
+    <WidgetController client={client} />
   </ApolloProvider>
 );
 export default App;

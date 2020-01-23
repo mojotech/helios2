@@ -3,36 +3,34 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { spacing } from '@lib/theme';
 import { Tab } from '@components/tabs';
-import widgetShape from '@lib/widget-shape';
 
 const WidgetContainer = styled.div`
   margin-bottom: ${spacing.l};
 `;
 
-export const Widgets = ({
-  widgets,
-  selectedWidget,
-  totalTime,
-  tabDown,
-  isPaused,
-}) =>
-  widgets.map((widget, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <WidgetContainer key={index}>
+export const Widgets = ({ widgets, selectedWidgetId, totalTime, isPaused }) =>
+  widgets.map(widget => (
+    <WidgetContainer key={widget.id}>
       <Tab
-        widgetId={index}
-        selected={index === selectedWidget}
+        widgetId={widget.id}
+        selected={widget.id === selectedWidgetId}
         totalTime={totalTime}
-        tabDown={tabDown}
-        text={widget.text}
+        text={widget.sidebarText}
         isPaused={isPaused}
       />
     </WidgetContainer>
   ));
 
 Widgets.propTypes = {
-  ...widgetShape,
   isPaused: PropTypes.bool.isRequired,
+  widgets: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.integer,
+      sidebarText: PropTypes.string,
+    }),
+  ).isRequired,
+  selectedWidgetId: PropTypes.number.isRequired,
+  totalTime: PropTypes.number.isRequired,
 };
 
 export default Widgets;
