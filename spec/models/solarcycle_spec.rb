@@ -4,6 +4,7 @@ RSpec.describe Solarcycle, type: :model do
   before do
     Timecop.freeze(Time.new(2019, 6, 16, 6, 0, 0, "-04:00"))
 
+    Location.delete_all
     Solarcycle.delete_all
     location = Location.create!(
       latitude: 40.7127,

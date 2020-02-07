@@ -6,6 +6,7 @@ import SidePanel from '@components/side-panel';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
+import Traffic from '@widgets/traffic';
 
 const SWITCH_INTERVAL = 20000;
 
@@ -29,6 +30,14 @@ const widgets = [
     panel: <Numbers.Panel />,
     text: 'MojoTech by the Numbers',
     showWeather: true,
+  },
+  {
+    panel: <Traffic.Panel />,
+    text: 'Traffic',
+    showWeather: true,
+    hourStart: 16,
+    hourStop: 23,
+    isVisible: false,
   },
 ];
 
@@ -65,19 +74,35 @@ export class WidgetController extends React.Component {
 
   moveDown = () => {
     this.setState(({ index }) => ({
-      index: (index + 1) % widgets.length,
+      index: (index + 1) % this.getVisibleWidgets().length,
     }));
   };
 
   moveUp = () => {
     this.setState(({ index }) => ({
-      index: mathMod(index - 1, widgets.length),
+      index: mathMod(index - 1, this.getVisibleWidgets().length),
     }));
+  };
+
+  getVisibleWidgets = () => {
+    const date = new Date();
+    const currentHour = date.getHours();
+
+    return widgets.filter(widget => {
+      if (widget.hourStart !== undefined) {
+        if (currentHour >= widget.hourStart && currentHour < widget.hourStop) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
   };
 
   render() {
     const { index } = this.state;
-    const currentWidget = widgets[index];
+    const visibleWidgets = this.getVisibleWidgets();
+    const currentWidget = visibleWidgets[index];
 
     return (
       // eslint-disable-next-line
@@ -89,7 +114,7 @@ export class WidgetController extends React.Component {
       >
         <FullPanel currentWidget={currentWidget.panel} />
         <SidePanel
-          widgets={widgets}
+          widgets={visibleWidgets}
           selectedWidget={index}
           totalTime={SWITCH_INTERVAL}
           tabDown={this.moveDown}

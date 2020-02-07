@@ -4,4 +4,6 @@ class Helios2Schema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
   subscription(Types::SubscriptionType)
+
+  orphan_types [Types::GuestsWidget, Types::WeatherWidget, Types::TwitterWidget, Types::NumbersWidget]
 end

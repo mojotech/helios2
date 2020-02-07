@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_04_172236) do
+ActiveRecord::Schema.define(version: 2019_08_23_192258) do
 
   create_table "announcements", force: :cascade do |t|
     t.datetime "publish_on", null: false
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 2019_06_04_172236) do
     t.index ["location_id"], name: "index_solarcycles_on_location_id"
   end
 
+  create_table "traffic_cams", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "url", null: false
+    t.integer "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_traffic_cams_on_location_id"
+  end
+
   create_table "widgets", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "enabled", null: false
@@ -65,6 +74,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_172236) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_widgets_on_location_id"
   end
 
 end
