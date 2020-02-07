@@ -53,7 +53,7 @@ end.save!
 Widget.find_or_initialize_by(
   name: "Twitter"
 ) do |r|
-  r.enabled = false
+  r.enabled = true
   r.duration_seconds = 20
   r.position = 2
   r.location_id = primary_location_id
