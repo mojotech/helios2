@@ -1,95 +1,110 @@
-providence = Location.create(
-  latitude: 41.823989,
-  longitude: -71.412834,
-  city_name: 'Providence',
-  time_zone: 'America/New_York'
-)
+providence = Location.find_or_initialize_by(
+  city_name: 'Providence'
+) do |r|
+  r.latitude = 41.823989
+  r.longitude = -71.412834
+  r.time_zone = 'America/New_York'
+end
+providence.save!
 
-Location.create(
-  latitude: 40.014986,
-  longitude: -105.270546,
-  city_name: 'Boulder',
-  time_zone: 'America/Denver'
-)
+Location.find_or_initialize_by(
+  city_name: 'Boulder'
+) do |r|
+  r.latitude = 40.014986
+  r.longitude = -105.270546
+  r.time_zone = 'America/Denver'
+end.save!
 
-Location.create(
-  latitude: 38.907192,
-  longitude: -77.036871,
-  city_name: 'DC',
-  time_zone: 'America/New_York'
-)
+Location.find_or_initialize_by(
+  city_name: 'DC'
+) do |r|
+  r.latitude = 38.907192
+  r.longitude = -77.036871
+  r.time_zone = 'America/New_York'
+end.save!
 
-Location.create(
-  latitude: 40.712775,
-  longitude: -74.005973,
-  city_name: 'NYC',
-  time_zone: 'America/New_York'
-)
+Location.find_or_initialize_by(
+  city_name: 'NYC'
+) do |r|
+  r.latitude = 40.712775
+  r.longitude = -74.005973
+  r.time_zone = 'America/New_York'
+end.save!
 
-Widget.create(
-  name: "Guests",
-  enabled: false,
-  duration_seconds: 20,
-  position: 0,
-  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
-)
+Widget.find_or_initialize_by(
+  name: "Guests"
+) do |r|
+  r.enabled = false
+  r.duration_seconds = 20
+  r.position = 0
+  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+end.save!
 
-Widget.create(
-  name: "Weather",
-  enabled: true,
-  duration_seconds: 20,
-  position: 1,
-  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
-)
+Widget.find_or_initialize_by(
+  name: "Weather"
+) do |r|
+  r.enabled = true
+  r.duration_seconds = 20
+  r.position = 1
+  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+end.save!
 
-Widget.create(
-  name: "Twitter",
-  enabled: false,
-  duration_seconds: 20,
-  position: 2,
-  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
-)
+Widget.find_or_initialize_by(
+  name: "Twitter"
+) do |r|
+  r.enabled = false
+  r.duration_seconds = 20
+  r.position = 2
+  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+end.save!
 
-Widget.create(
-  name: "Numbers",
-  enabled: true,
-  duration_seconds: 20,
-  position: 3,
-  location_id: Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
-)
+Widget.find_or_initialize_by(
+  name: "Numbers"
+) do |r|
+  r.enabled = true
+  r.duration_seconds = 20
+  r.position = 3
+  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+end.save!
 
-TrafficCam.create(
-  title: "I-95 at Broad St",
-  url: "http://www.dot.ri.gov/img/travel/camimages/95-21%20I-95%20S%20@%20Broad%20St%20.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "I-95 at Broad St"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/95-21%20I-95%20S%20@%20Broad%20St%20.jpg"
+  r.location_id = providence.id
+end.save!
 
-TrafficCam.create(
-  title: "I-95 at Lonsdale",
-  url: "http://www.dot.ri.gov/img/travel/camimages/95-26%20I-95%20N%20@%20Lonsdale%20Ave.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "I-95 at Lonsdale"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/95-26%20I-95%20N%20@%20Lonsdale%20Ave.jpg"
+  r.location_id = providence.id
+end.save!
 
-TrafficCam.create(
-  title: "I-95 at Kinsley",
-  url: "http://www.dot.ri.gov/img/travel/camimages/95-22b%20I-95%20N%20@%20Kinsley%20Ave.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "I-95 at Kinsley"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/95-22b%20I-95%20N%20@%20Kinsley%20Ave.jpg"
+  r.location_id = providence.id
+end.save!
 
-TrafficCam.create(
-  title: "Exit 10 (near I-295)",
-  url: "http://www.dot.ri.gov/img/travel/camimages/95-11%20I-95%20N%20@%20Toll%20Gate%20Rd.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "Exit 10 (near I-295)"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/95-11%20I-95%20N%20@%20Toll%20Gate%20Rd.jpg"
+  r.location_id = providence.id
+end.save!
 
-TrafficCam.create(
-  title: "I-95 I-195 Split",
-  url: "http://www.dot.ri.gov/img/travel/camimages/195-1%20I-195%20W%20Split%20@%20I-95.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "I-95 I-195 Split"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/195-1%20I-195%20W%20Split%20@%20I-95.jpg"
+  r.location_id = providence.id
+end.save!
 
-TrafficCam.create(
-  title: "Tobey Street",
-  url: "http://www.dot.ri.gov/img/travel/camimages/6-2%20Rt%206%20E%20%20%2010%20N%20@%20Tobey%20St.jpg",
-  location_id: providence.id
-)
+TrafficCam.find_or_initialize_by(
+  title: "Tobey Street"
+) do |r|
+  r.url = "http://www.dot.ri.gov/img/travel/camimages/6-2%20Rt%206%20E%20%20%2010%20N%20@%20Tobey%20St.jpg"
+  r.location_id = providence.id
+end.save!
