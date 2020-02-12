@@ -38,6 +38,7 @@ default: &default
     - .woff2
 
   extensions:
+    - .svelte
     - .jsx
     - .js
     - .sass
