@@ -15,5 +15,7 @@ Rails.application.routes.draw do
     get 'create_slack_auth', to: 'slack_auth#create'
   end
 
+  get "/svelte", to: 'pages#svelte'
+
   root to: 'pages#index'
 end

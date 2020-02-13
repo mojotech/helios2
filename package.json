@@ -7,6 +7,7 @@
     "@microlink/react": "^4.0.1",
     "@rails/webpacker": "^4.0.7",
     "actioncable": "^5.2.0",
+    "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-cache-persist": "^0.1.1",
     "apollo-client": "^2.6.2",
@@ -23,6 +24,7 @@
     "hoist-non-react-statics": "^3.0.1",
     "html-entities": "^1.2.1",
     "matter-js": "^0.14.2",
+    "node-sass": "^4.13.1",
     "numeral": "^2.0.6",
     "pluralize": "^8.0.0",
     "prop-types": "^15.6.1",
@@ -35,7 +37,9 @@
     "styled-components": "^3.2.6",
     "styled-normalize": "^4.0.0",
     "svelte": "^3.18.2",
-    "svelte-loader": "^2.13.6"
+    "svelte-apollo": "^0.3.0",
+    "svelte-loader": "^2.13.6",
+    "svelte-preprocess": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
