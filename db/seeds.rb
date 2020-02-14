@@ -31,7 +31,7 @@ Location.find_or_initialize_by(
   r.time_zone = 'America/New_York'
 end.save!
 
-primary_location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+primary_location = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME'])
 Widget.find_or_initialize_by(
   name: "Guests"
 ) do |r|
@@ -40,7 +40,7 @@ Widget.find_or_initialize_by(
   r.position = 0
   r.sidebar_text = 'Guests'
   r.show_weather = false
-  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+  r.location = primary_location
 end.save!
 
 Widget.find_or_initialize_by(
@@ -51,7 +51,7 @@ Widget.find_or_initialize_by(
   r.position = 1
   r.sidebar_text = 'Weather'
   r.show_weather = false
-  r.location_id = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME']).id
+  r.location = primary_location
 end.save!
 
 Widget.find_or_initialize_by(
@@ -62,7 +62,7 @@ Widget.find_or_initialize_by(
   r.position = 2
   r.sidebar_text = '@MojoTech'
   r.show_weather = true
-  r.location_id = primary_location_id
+  r.location = primary_location
 end.save!
 
 Widget.find_or_initialize_by(
@@ -73,7 +73,7 @@ Widget.find_or_initialize_by(
   r.position = 3
   r.sidebar_text = 'MojoTech by the Numbers'
   r.show_weather = true
-  r.location_id = primary_location_id
+  r.location = primary_location
 end.save!
 
 Widget.find_or_initialize_by(
@@ -86,47 +86,47 @@ Widget.find_or_initialize_by(
   r.show_weather = true
   r.start = Tod::TimeOfDay("16:00")
   r.stop = Tod::TimeOfDay("23:00")
-  r.location_id = primary_location_id
+  r.location = primary_location
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "I-95 at Broad St"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-21%20I-95%20S%20@%20Broad%20St%20.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "I-95 at Lonsdale"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-26%20I-95%20N%20@%20Lonsdale%20Ave.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "I-95 at Kinsley"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-22b%20I-95%20N%20@%20Kinsley%20Ave.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "Exit 10 (near I-295)"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-11%20I-95%20N%20@%20Toll%20Gate%20Rd.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "I-95 I-195 Split"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/195-1%20I-195%20W%20Split%20@%20I-95.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
 
 TrafficCam.find_or_initialize_by(
   title: "Tobey Street"
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/6-2%20Rt%206%20E%20%20%2010%20N%20@%20Tobey%20St.jpg"
-  r.location_id = providence.id
+  r.location = providence
 end.save!
