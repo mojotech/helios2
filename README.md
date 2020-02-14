@@ -4,7 +4,7 @@ This project is a Rails 5.2 app using webpacker and React.
 
 ### Ruby version
 
-MRI 2.5.1
+MRI 2.5.7
 
 ### Installation options
 
