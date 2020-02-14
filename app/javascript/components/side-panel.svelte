@@ -2,6 +2,8 @@
   import gql from 'graphql-tag';
   import Wifi, { fragments as WifiFragments } from '@components/wifi.svelte';
   import Bathroom, { fragments as BathroomFragments } from '@components/bathroom.svelte';
+  import CarouselTab from '@components/carousel-tab.svelte';
+  import Logo from '@images/logo.png';
 
   const getSidePanel = gql`
     fragment getSidePanel on Location {
@@ -26,8 +28,13 @@
 </script>
 <script>
   export let loading = false;
-  export let timezone; 
-  export let widgets; 
+  export let timezone;
+  export let widgets;
+
+  export let currentWidgetId;
+  export let showWeather;
+  export let durationSeconds;
+  export let isPaused;
 
   $: enabledWidgets = widgets.enabled;
 
@@ -41,15 +48,16 @@
     background-color: rgba(0, 0, 0, 0.7);
     flex: 0 0 600px;
     flex-direction: column;
+    justify-content: space-around;
     display: flex;
     overflow: hidden;
+    padding: 80px 60px 40px 40px;
   }
 
   .logoRow {
     display: flex;
-    margin-top: 13px;
     align-items: left;
-    justify-content: left;
+    justify-content: space-between;
   }
 
   .row {
@@ -66,6 +74,7 @@
   <aside>
     <div class="logoRow">
       <Date timezone={timezone} />
+      <img src={Logo} alt="helios" width={62} height={54} />
     </div>
     <div class="row">
       <Time timezone={timezone} />
@@ -74,12 +83,18 @@
       <Wifi {...filterFragments(WifiFragments, $$props).getWifi} />
       <Bathroom {...filterFragments(BathroomFragments, $$props).getBathroom} />
     </div>
-    <ul>
+    <div>
       {#each enabledWidgets as widget (widget.id)}
-        <li>{widget.sidebarText}</li>
+        <CarouselTab
+          widgetId={widget.id}
+          selected={widget.id == currentWidgetId}
+          durationSeconds={durationSeconds}
+          text={widget.sidebarText}
+          isPaused={isPaused}
+        />
       {:else}
-        <li>No widgets found</li>
+        No widgets found
       {/each}
-    </ul>
+    </div>
   </aside>
 {/if}

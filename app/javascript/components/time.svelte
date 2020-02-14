@@ -33,7 +33,6 @@
   }
 </style>
 
-<div>
-  <div class="hourMin">{hourMin}</div>
-  <div class="amPm">{amPm}</div>
+<div class="hourMin">
+  {hourMin}<span class="amPm"> {amPm}</span>
 </div>

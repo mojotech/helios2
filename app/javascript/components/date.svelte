@@ -23,8 +23,8 @@
     color: $white;
     font-size: $sizeMedium;
     font-family: $familyLight;
-    margin-bottom: $spacingXxxl;
-    margin-top: $spacingXxxl;
+    margin-bottom: 12px;
+    margin-top: 12px;
   }
 </style>
 

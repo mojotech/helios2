@@ -15,15 +15,27 @@
   export let bathroomCode;
 </script>
 
-<style>
-  .wifi {
+<style type="text/scss">
+  @import "./theme.sass";
+  .bathroom {
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
   }
+  .subTitle {
+    font-size: $sizeSmall;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    margin-bottom: $spacingL;
+  }
+
+  .subTitleLarge {
+    font-size: $sizeLarge;
+    margin-bottom: $spacingM;
+  }
+
 </style>
 
-<div class="wifi">
-  <div>BATHROOM CODE</div>
-  <div>{bathroomCode}</div>
+<div class="bathroom">
+  <div class="subTitle">BATHROOM CODE</div>
+  <div class="subTitleLarge">{bathroomCode}</div>
 </div>

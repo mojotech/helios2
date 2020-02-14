@@ -17,18 +17,27 @@
   export let wifiPassword;
 </script>
 
-<style>
+<style type="text/scss">
+  @import "./theme.sass";
   .wifi {
     display: flex;
     flex-direction: column;
-    margin-right: 119px;
-    margin-bottom: 50px;
-    margin-top: 100px;
+  }
+
+  .subTitle {
+    font-size: $sizeSmall;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .subTitleLarge {
+    font-size: $sizeLarge;
+    margin-bottom: $spacingM;
   }
 </style>
 
 <div class="wifi">
-  <div>WIFI</div>
-  <div>{wifiName}</div>
-  <div>{wifiPassword}</div>
+  <div class="subTitle">WIFI</div>
+  <div class="subTitleLarge">{wifiName}</div>
+  <div class="subTitleLarge">{wifiPassword}</div>
 </div>
