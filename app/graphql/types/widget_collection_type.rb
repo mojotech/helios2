@@ -8,15 +8,22 @@ class Types::WidgetCollectionType < Types::BaseObject
   end
 
   def enabled
-    object.enabled.available.order(:position).all
+    enabled_and_available.all
   end
 
   def next(current_widget_id: nil)
-    object.enabled.available.next_or_default(current_widget_id)
+    enabled_and_available.next_or_default(current_widget_id)
   end
 
   def by_id_or_first(id: nil)
-    scope = object.enabled.available.order(:position)
+    scope = enabled_and_available
     id && scope.find_by(id: id) || scope.first
+  end
+
+  def enabled_and_available
+    location = object.proxy_association.owner
+    object
+      .enabled
+      .available(location.time_now)
   end
 end

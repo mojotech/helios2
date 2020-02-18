@@ -9,9 +9,8 @@ class Widget < ApplicationRecord
 
   default_scope { order(position: :asc) }
   scope :enabled, -> { where(enabled: true) }
-  scope :available, -> do
-    # TimeOfDay does not work with timezone
-    tod = Tod::TimeOfDay(Time.now).to_s # rubocop:disable Rails/TimeZone
+  scope :available, ->(time) do
+    tod = Tod::TimeOfDay(time).to_s
     where('(start <= ? OR start IS NULL) AND (stop >= ? OR stop IS NULL)', tod, tod)
   end
 
