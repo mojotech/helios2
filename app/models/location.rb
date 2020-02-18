@@ -39,4 +39,8 @@ class Location < ApplicationRecord
   def bathroom_code
     ENV['BATHROOM_CODE']
   end
+
+  def time_now
+    Time.now.in_time_zone(time_zone)
+  end
 end
