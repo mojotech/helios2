@@ -195,6 +195,7 @@ export class WidgetController extends React.Component {
                   selectedWidgetId={0}
                   showWeather={false}
                   totalTime={0}
+                  isPaused={false}
                 />
               </Wrapper>
             );
@@ -213,6 +214,7 @@ export class WidgetController extends React.Component {
                   selectedWidgetId={0}
                   showWeather={false}
                   totalTime={0}
+                  isPaused={false}
                 />
               </Wrapper>
             );
