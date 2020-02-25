@@ -33,6 +33,6 @@ module.exports = {
       '@images': path.resolve(__dirname, '../../app/assets/images'),
       '@icons': path.resolve(__dirname, '../../app/assets/images/icons'),
     },
-    extensions: ['.jsx', '.js'],
+    extensions: ['.jsx', '.mjs', '.js'],
   },
 };
