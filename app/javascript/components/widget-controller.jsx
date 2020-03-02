@@ -139,12 +139,16 @@ export class WidgetController extends React.Component {
   };
 
   switchToPage = id => {
-    this.setState({
-      currentWidgetId: id,
-      nextWidgetId: null,
-      prevWidgetId: null,
-      transitionTime: null,
-    });
+    this.setState(({ currentWidgetId }) =>
+      currentWidgetId !== id
+        ? {
+            currentWidgetId: id,
+            nextWidgetId: null,
+            prevWidgetId: null,
+            transitionTime: null,
+          }
+        : {},
+    );
   };
 
   handleClicks = ({ target }) => {
