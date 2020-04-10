@@ -4,6 +4,7 @@ import cityImage from '@images/buildings.png';
 import { yValue, xValue } from '@lib/circle-math';
 import { timeDiffInMinutes, timeAndDateForTimezone } from '@lib/datetime';
 import { colors } from '@lib/theme';
+import { keyframes } from 'styled-components';
 import MoonPhase from '@weather/moon-phase';
 
 const getPhaseType = phase => {
@@ -15,6 +16,22 @@ const getPhaseType = phase => {
   if (phase > 0.5 && phase < 0.75) return 'wanGib';
   if (phase === 0.75) return 'thirdQuart';
   return 'wanCres';
+};
+
+const getEllipseTopArc = (x, y, xRadius, yRadius) => {
+  const startX = x - xRadius;
+  const endX = x + xRadius;
+  return `M ${startX} ${y} A ${xRadius} ${yRadius} 0 1 1 ${endX} ${y}`;
+};
+
+const getOrbPercent = (endTime, totalTime, offset) => {
+  const startTime = new Date(endTime - totalTime * 60000);
+  const elapsedMinutes = (new Date() - startTime) / 1000 / 60;
+  // determine the percent of the total time that has elapsed
+  const timeElapsedPercent = (elapsedMinutes / totalTime) * 100;
+  // limit the percent to a given range based on offset
+  const rangePercent = (timeElapsedPercent / 100) * (100 - offset * 2) + offset;
+  return Math.floor(rangePercent);
 };
 
 export class SemiCircle extends React.Component {
@@ -71,6 +88,7 @@ export class SemiCircle extends React.Component {
   render() {
     const {
       totalTime,
+      endTime,
       width,
       height,
       paddingLeft,
@@ -94,6 +112,19 @@ export class SemiCircle extends React.Component {
     const rxEllipse = widthFloat / 2 - paddingLeft;
     const ryEllipse = heightFloat - paddingTop;
     const ellipseCenterX = widthFloat / 2;
+    const arcBeginPercent = 12;
+    const arcPath = getEllipseTopArc(
+      ellipseCenterX,
+      heightFloat,
+      rxEllipse,
+      ryEllipse,
+    );
+    const arcEndPercent = getOrbPercent(endTime, totalTime, arcBeginPercent);
+    const arcAnimation = keyframes`
+    0% { offset-distance : ${arcBeginPercent}% }
+    100% { offset-distance : ${arcEndPercent}% }
+    `;
+
     return (
       <svg width={width} height={height}>
         <defs>
@@ -150,17 +181,15 @@ export class SemiCircle extends React.Component {
             )}
             radius={ballRadius}
             phase={getPhaseType(moonPhase)}
+            arcPath={arcPath}
+            arcAnimation={arcAnimation}
           />
         ) : (
           <circle
-            cx={ballX.toString()}
-            cy={yValue(
-              ballX,
-              rxEllipse,
-              ryEllipse,
-              ellipseCenterX,
-              heightFloat,
-            )}
+            style={{
+              offsetPath: `path('${arcPath}')`,
+              animation: `${arcAnimation} 1000ms 1 normal forwards ease-in-out`,
+            }}
             r={ballRadius}
             fill={colors.pink}
           />
