@@ -35,7 +35,7 @@ gem 'groupdate'
 gem 'tod'
 
 gem "dotenv-rails", "~> 2.4.0"
-gem "forecast_io"
+gem "faraday"
 gem "foreman", "~> 0.84"
 gem 'graphiql-rails', group: :development
 gem "graphql", "~> 1.8.3"
