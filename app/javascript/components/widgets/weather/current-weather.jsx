@@ -5,11 +5,13 @@ import styled from 'styled-components';
 import withFragment from '@hocs/with-fragment';
 import { SmallSkyIcon, LargeSkyIcon } from '@weather/sky-icons';
 
-const getMinutelyWeather = gql`
-  fragment MinutelyWeather on Weather {
-    minutely {
-      summary
-      icon
+const getCurrentWeather = gql`
+  fragment CurrentWeather on Weather {
+    current {
+      weather {
+        description
+        icon
+      }
     }
   }
 `;
@@ -20,8 +22,8 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 
-const MinutelyWeather = ({ weather, useLargeIcon }) => {
-  const { summary, icon } = weather.minutely;
+const CurrentWeather = ({ weather, useLargeIcon }) => {
+  const { description, icon } = weather.current.weather;
   return (
     <IconWrapper>
       {useLargeIcon ? (
@@ -29,26 +31,29 @@ const MinutelyWeather = ({ weather, useLargeIcon }) => {
       ) : (
         <SmallSkyIcon icon={icon} />
       )}
-      {summary}
+      {description}
     </IconWrapper>
   );
 };
 
-MinutelyWeather.propTypes = {
+CurrentWeather.propTypes = {
   weather: PropTypes.shape({
-    minutely: PropTypes.shape({
-      summary: PropTypes.string.isRequired,
+    current: PropTypes.shape({
+      weather: PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }).isRequired,
   useLargeIcon: PropTypes.bool,
 };
 
-MinutelyWeather.defaultProps = {
+CurrentWeather.defaultProps = {
   useLargeIcon: false,
 };
 
-MinutelyWeather.fragments = {
-  weather: getMinutelyWeather,
+CurrentWeather.fragments = {
+  weather: getCurrentWeather,
 };
 
-export default withFragment(MinutelyWeather);
+export default withFragment(CurrentWeather);

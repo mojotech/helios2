@@ -14,7 +14,7 @@ class Location < ApplicationRecord
   end
 
   def weather
-    response = ::Clients::DarkskyClient.forecast(self).dup
+    response = ::Clients::WeatherClient.forecast(self).dup
     response['solarcycles'] = solarcycles.after_beginning_of_yesterday.to_a
     response['moonPhase'] = moon_phase
     response.freeze
