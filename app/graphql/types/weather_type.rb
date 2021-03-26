@@ -15,7 +15,6 @@ class Types::WeatherDailyDataType < Types::WeatherObject
   field :icon, String
   field :sunriseTime, Types::UnixDateTimeType
   field :sunsetTime, Types::UnixDateTimeType
-  field :moonPhase, Float
   field :precipIntensity, Float
   field :precipIntensityMax, Float
   field :precipIntensityMaxTime, Types::UnixDateTimeType
@@ -120,6 +119,8 @@ class Types::WeatherType < Types::WeatherObject
   field "daily", Types::WeatherDailyDetailType
   field "offset", Int
   field "solarcycles", [Types::SolarcycleType]
+
+  field "moonPhase", Float, deprecation_reason: "Moved to Location"
 
   # field "flags", # TODO: skipping this for now
 end

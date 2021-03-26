@@ -16,8 +16,17 @@ class Location < ApplicationRecord
   def weather
     response = ::Clients::DarkskyClient.forecast(self).dup
     response['solarcycles'] = solarcycles.after_beginning_of_yesterday.to_a
+    response['moonPhase'] = moon_phase
     response.freeze
     response
+  end
+
+  MOON_CYCLE_TIME = 2_551_442.8
+  FIRST_NEW_MOON_EPOCH = 592_500
+
+  def moon_phase
+    phase_ratio = ((Time.now.to_i - FIRST_NEW_MOON_EPOCH) % MOON_CYCLE_TIME) / MOON_CYCLE_TIME
+    (phase_ratio * 8).round * 0.125
   end
 
   def day_announcements
