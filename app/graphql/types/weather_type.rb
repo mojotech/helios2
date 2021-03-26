@@ -9,114 +9,100 @@ class Types::WeatherObject < Types::BaseObject
   field_class Types::WeatherField
 end
 
+class Types::WeatherTemperatureDataType < Types::WeatherObject
+  field :day, Types::KelvinToFarenheitType
+  field :night, Types::KelvinToFarenheitType
+  field :morn, Types::KelvinToFarenheitType
+  field :eve, Types::KelvinToFarenheitType
+  field :min, Types::KelvinToFarenheitType
+  field :max, Types::KelvinToFarenheitType
+end
+
+class Types::WeatherApparentTemperatureDataType < Types::WeatherObject
+  field :day, Types::KelvinToFarenheitType
+  field :night, Types::KelvinToFarenheitType
+  field :morn, Types::KelvinToFarenheitType
+  field :eve, Types::KelvinToFarenheitType
+end
+
+class Types::WeatherInfoDataType < Types::WeatherObject
+  def initialize(value, context, **kwargs, &block)
+    # Weather data is always an array of one object, this unwraps that object
+    super(value[0], context, **kwargs, &block)
+  end
+
+  field "id", Integer
+  field "main", String
+  field "description", String, resolve: ->(obj, _args, _ctx) { obj["description"].to_s.humanize }
+  field "icon", Types::IconIdToNameType
+end
+
 class Types::WeatherDailyDataType < Types::WeatherObject
-  field :time, Types::UnixDateTimeType
-  field :summary, String
-  field :icon, String
-  field :sunriseTime, Types::UnixDateTimeType
-  field :sunsetTime, Types::UnixDateTimeType
-  field :precipIntensity, Float
-  field :precipIntensityMax, Float
-  field :precipIntensityMaxTime, Types::UnixDateTimeType
-  field :precipProbability, Float
-  field :precipType, String
-  field :temperatureHigh, Float
-  field :temperatureHighTime, Types::UnixDateTimeType
-  field :temperatureLow, Float
-  field :apparentTemperatureHigh, Float
-  field :apparentTemperatureLow, Float
-  field :dewPoint, Int
-  field :humidity, Float
-  field :pressure, Float
-  field :windSpeed, Float
-  field :windGust, Float
-  field :windBearing, Int
-  field :cloudCover, Float
-  field :uvIndex, Int
-  field :ozone, Float
-  field :temperatureMin, Float
-  field :temperatureMax, Float
-  field :apparentTemperatureMin, Float
-  field :apparentTemperatureMax, Float
+  field "time", Types::UnixDateTimeType, hash_key: "dt"
+  field "weather", Types::WeatherInfoDataType
+  field :sunrise, Types::UnixDateTimeType
+  field :sunset, Types::UnixDateTimeType
+  field "precipProbability", Float, hash_key: "pop"
+  field :rain, Float
+  field :temp, Types::WeatherTemperatureDataType
+  field :feels_like, Types::WeatherApparentTemperatureDataType
+  field :dew_point, Int
+  field :humidity, Int
+  field :pressure, Int
+  field :wind_speed, Float
+  field :wind_deg, Int
+  field :clouds, Int
+  field :uvi, Int
 end
 
 class Types::WeatherHourlyDataType < Types::WeatherObject
-  field :time, Types::UnixDateTimeType
-  field :summary, String
-  field :icon, String
-  field :precipIntensity, Float
-  field :precipProbability, Float
-  field :precipType, String
-  field :temperature, Float
-  field :apparentTemperature, Float
-  field :dewPoint, Float
-  field :humidity, Float
-  field :pressure, Float
-  field :windSpeed, Float
-  field :windGust, Float
-  field :windBearing, Int
-  field :cloudCover, Float
-  field :uvIndex, Int
+  field "time", Types::UnixDateTimeType, hash_key: "dt"
+  field "weather", Types::WeatherInfoDataType
+  field "precipProbability", Float, hash_key: "pop"
+  field :temp, Types::KelvinToFarenheitType
+  field :feels_like, Types::KelvinToFarenheitType
+  field :dew_point, Float
+  field :humidity, Int
+  field :pressure, Int
+  field :wind_speed, Float
+  field :wind_gust, Float
+  field :wind_deg, Int
+  field :clouds, Int
+  field :uvi, Int
   field :visibility, Int
-  field :ozone, Float
 end
 
 class Types::WeatherMinutelyDataType < Types::WeatherObject
-  field "time", Types::UnixDateTimeType
-  field "precipIntensity", Float
-  field "precipIntensityError", Float
-  field "precipProbability", Float
-  field "precipType", String
-end
-
-class Types::WeatherDailyDetailType < Types::WeatherObject
-  field "summary", String
-  field "icon", String
-  field "data", [Types::WeatherDailyDataType]
-end
-
-class Types::WeatherHourlyDetailType < Types::WeatherObject
-  field "summary", String
-  field "icon", String
-  field "data", [Types::WeatherHourlyDataType]
-end
-
-class Types::WeatherMinutelyDetailType < Types::WeatherObject
-  field "summary", String
-  field "icon", String
-  field "data", [Types::WeatherMinutelyDataType]
+  field "time", Types::UnixDateTimeType, hash_key: "dt"
+  field "precipitation", Float
 end
 
 class Types::WeatherCurrentlyDetailType < Types::WeatherObject
-  field "time", Types::UnixDateTimeType
-  field "summary", String
-  field "icon", String
+  field "time", Types::UnixDateTimeType, hash_key: "dt"
+  field "weather", Types::WeatherInfoDataType
   field "nearestStormDistance", Int
   field "nearestStormBearing", Int
-  field "precipIntensity", Int
-  field "precipProbability", Int
-  field "temperature", Float
-  field "apparentTemperature", Float
-  field "dewPoint", Float
-  field "humidity", Float
-  field "pressure", Float
-  field "windSpeed", Float
-  field "windGust", Float
-  field "windBearing", Int
-  field "cloudCover", Float
-  field "uvIndex", Int
+  field "temp", Types::KelvinToFarenheitType
+  field "feels_like", Float
+  field "dew_point", Float
+  field "humidity", Int
+  field "pressure", Int
+  field "wind_speed", Float
+  field "wind_gust", Float
+  field "wind_deg", Int
+  field "clouds", Float
+  field "uvi", Int
   field "visibility", Int
-  field "ozone", Float
 end
 
 class Types::WeatherType < Types::WeatherObject
-  field "latitude", Float
-  field "longitude", Float
+  field "lat", Float
+  field "lon", Float
   field "timezone", String
-  field "currently", Types::WeatherCurrentlyDetailType
-  field "minutely", Types::WeatherMinutelyDetailType
-  field "hourly", Types::WeatherHourlyDetailType
-  field "daily", Types::WeatherDailyDetailType
+  field "current", Types::WeatherCurrentlyDetailType
+  field "minutely", [Types::WeatherMinutelyDataType]
+  field "hourly", [Types::WeatherHourlyDataType]
+  field "daily", [Types::WeatherDailyDataType]
   field "offset", Int
   field "solarcycles", [Types::SolarcycleType]
 

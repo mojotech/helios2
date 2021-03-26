@@ -51,6 +51,10 @@ type GuestsWidget implements Widget {
   sidebarText: String
 }
 
+scalar IconIdToName
+
+scalar KelvinToFarenheit
+
 type Location {
   bathroomCode: String!
   cityName: String!
@@ -175,117 +179,97 @@ scalar UTCDateTime
 scalar UnixDateTime
 
 type Weather {
-  currently: WeatherCurrentlyDetail!
-  daily: WeatherDailyDetail!
-  hourly: WeatherHourlyDetail!
-  latitude: Float!
-  longitude: Float!
-  minutely: WeatherMinutelyDetail!
+  current: WeatherCurrentlyDetail!
+  daily: [WeatherDailyData!]!
+  hourly: [WeatherHourlyData!]!
+  lat: Float!
+  lon: Float!
+  minutely: [WeatherMinutelyData!]!
   moonPhase: Float! @deprecated(reason: "Moved to Location")
   offset: Int!
   solarcycles: [SolarCycle!]!
   timezone: String!
 }
 
+type WeatherApparentTemperatureData {
+  day: KelvinToFarenheit!
+  eve: KelvinToFarenheit!
+  morn: KelvinToFarenheit!
+  night: KelvinToFarenheit!
+}
+
 type WeatherCurrentlyDetail {
-  apparentTemperature: Float!
-  cloudCover: Float!
+  clouds: Float!
   dewPoint: Float!
-  humidity: Float!
-  icon: String!
+  feelsLike: Float!
+  humidity: Int!
   nearestStormBearing: Int!
   nearestStormDistance: Int!
-  ozone: Float!
-  precipIntensity: Int!
-  precipProbability: Int!
-  pressure: Float!
-  summary: String!
-  temperature: Float!
+  pressure: Int!
+  temp: KelvinToFarenheit!
   time: UnixDateTime!
-  uvIndex: Int!
+  uvi: Int!
   visibility: Int!
-  windBearing: Int!
+  weather: WeatherInfoData!
+  windDeg: Int!
   windGust: Float!
   windSpeed: Float!
 }
 
 type WeatherDailyData {
-  apparentTemperatureHigh: Float!
-  apparentTemperatureLow: Float!
-  apparentTemperatureMax: Float!
-  apparentTemperatureMin: Float!
-  cloudCover: Float!
+  clouds: Int!
   dewPoint: Int!
-  humidity: Float!
-  icon: String!
-  moonPhase: Float!
-  ozone: Float!
-  precipIntensity: Float!
-  precipIntensityMax: Float!
-  precipIntensityMaxTime: UnixDateTime!
+  feelsLike: WeatherApparentTemperatureData!
+  humidity: Int!
   precipProbability: Float!
-  precipType: String!
-  pressure: Float!
-  summary: String!
-  sunriseTime: UnixDateTime!
-  sunsetTime: UnixDateTime!
-  temperatureHigh: Float!
-  temperatureHighTime: UnixDateTime!
-  temperatureLow: Float!
-  temperatureMax: Float!
-  temperatureMin: Float!
+  pressure: Int!
+  rain: Float!
+  sunrise: UnixDateTime!
+  sunset: UnixDateTime!
+  temp: WeatherTemperatureData!
   time: UnixDateTime!
-  uvIndex: Int!
-  windBearing: Int!
-  windGust: Float!
+  uvi: Int!
+  weather: WeatherInfoData!
+  windDeg: Int!
   windSpeed: Float!
-}
-
-type WeatherDailyDetail {
-  data: [WeatherDailyData!]!
-  icon: String!
-  summary: String!
 }
 
 type WeatherHourlyData {
-  apparentTemperature: Float!
-  cloudCover: Float!
+  clouds: Int!
   dewPoint: Float!
-  humidity: Float!
-  icon: String!
-  ozone: Float!
-  precipIntensity: Float!
+  feelsLike: KelvinToFarenheit!
+  humidity: Int!
   precipProbability: Float!
-  precipType: String!
-  pressure: Float!
-  summary: String!
-  temperature: Float!
+  pressure: Int!
+  temp: KelvinToFarenheit!
   time: UnixDateTime!
-  uvIndex: Int!
+  uvi: Int!
   visibility: Int!
-  windBearing: Int!
+  weather: WeatherInfoData!
+  windDeg: Int!
   windGust: Float!
   windSpeed: Float!
 }
 
-type WeatherHourlyDetail {
-  data: [WeatherHourlyData!]!
-  icon: String!
-  summary: String!
+type WeatherInfoData {
+  description: String!
+  icon: IconIdToName!
+  id: Int!
+  main: String!
 }
 
 type WeatherMinutelyData {
-  precipIntensity: Float!
-  precipIntensityError: Float!
-  precipProbability: Float!
-  precipType: String!
+  precipitation: Float!
   time: UnixDateTime!
 }
 
-type WeatherMinutelyDetail {
-  data: [WeatherMinutelyData!]!
-  icon: String!
-  summary: String!
+type WeatherTemperatureData {
+  day: KelvinToFarenheit!
+  eve: KelvinToFarenheit!
+  max: KelvinToFarenheit!
+  min: KelvinToFarenheit!
+  morn: KelvinToFarenheit!
+  night: KelvinToFarenheit!
 }
 
 type WeatherWidget implements Widget {

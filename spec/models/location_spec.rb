@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 module WeatherHelpers
-  def self.darksky_response
-    text = File.read(Rails.root.join("spec", "fixtures", "files", "darksky_response_1.json"))
-    json = JSON.parse(text)
-    Hashie::Mash.new(json)
+  def self.weather_response
+    JSON.parse(File.read(Rails.root.join("spec", "fixtures", "files", "onecall_response_1.json")))
   end
 end
 
@@ -17,7 +15,7 @@ RSpec.describe Solarcycle, type: :model do
       city_name: 'Providence',
       time_zone: 'America/New_York'
     )
-    allow(ForecastIO).to receive(:forecast) { WeatherHelpers.darksky_response }
+    allow(Clients::WeatherClient).to receive(:get) { WeatherHelpers.weather_response }
 
     Timecop.freeze(Time.new(2019, 6, 16, 6, 0, 0, ActiveSupport::TimeZone['America/New_York'].formatted_offset))
   end

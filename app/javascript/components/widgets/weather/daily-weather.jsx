@@ -42,11 +42,13 @@ const IconWrapper = styled.div`
 const getDailyWeather = gql`
   fragment DailyWeather on Weather {
     daily {
-      data {
-        temperatureLow
-        temperatureHigh
-        time
-        precipProbability
+      temp {
+        min
+        max
+      }
+      time
+      precipProbability
+      weather {
         icon
       }
     }
@@ -59,24 +61,23 @@ const formatTempatures = (temperatureLow, temperatureHigh) =>
   `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
 
 const DailyWeather = ({ weather }) => {
-  const { data: dailyWeathers } = weather.daily;
+  const dailyWeathers = weather.daily;
 
   return (
     <Wrapper>
       {take(4, dailyWeathers).map(
         ({
           time,
-          temperatureLow,
-          temperatureHigh,
+          temp: { min, max },
           precipProbability,
-          icon,
+          weather: { icon },
         }) => (
           <Item key={time}>
             <IconWrapper>
               <SmallSkyIcon icon={icon} />
             </IconWrapper>
             <Day>{parseDay(time)}</Day>
-            <Temp>{formatTempatures(temperatureLow, temperatureHigh)}</Temp>
+            <Temp>{formatTempatures(min, max)}</Temp>
             <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
           </Item>
         ),
@@ -87,9 +88,7 @@ const DailyWeather = ({ weather }) => {
 
 DailyWeather.propTypes = {
   weather: PropTypes.shape({
-    daily: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-    }).isRequired,
+    daily: PropTypes.array.isRequired,
   }).isRequired,
 };
 
