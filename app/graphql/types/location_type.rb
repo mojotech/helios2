@@ -10,6 +10,7 @@ class Types::LocationType < Types::BaseObject
   field "weather", Types::WeatherType
   field "day_announcements", [Types::AnnouncementType]
   field "widgets", Types::WidgetCollectionType
+  field "moon_phase", Float
 
   field "wifi_name", String
   field "wifi_password", String

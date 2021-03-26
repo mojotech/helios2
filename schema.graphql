@@ -59,6 +59,7 @@ type Location {
   isPrimary: Boolean!
   latitude: Float!
   longitude: Float!
+  moonPhase: Float!
   timezone: String!
   trafficCams: [TrafficCam!]!
   weather: Weather!
@@ -180,6 +181,7 @@ type Weather {
   latitude: Float!
   longitude: Float!
   minutely: WeatherMinutelyDetail!
+  moonPhase: Float! @deprecated(reason: "Moved to Location")
   offset: Int!
   solarcycles: [SolarCycle!]!
   timezone: String!

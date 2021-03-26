@@ -52,11 +52,7 @@ const SunsetLabel = styled.div`
 
 const getSunriseSunsetWeather = gql`
   fragment SunriseSunsetWeather on Weather {
-    daily {
-      data {
-        moonPhase
-      }
-    }
+    moonPhase
     solarcycles {
       type
       time
@@ -98,7 +94,7 @@ const SunriseSunset = ({ location, weather }) => {
         height={containerHeight}
         timezone={timezone}
         nightMode={isNight}
-        moonPhase={weather.daily.data[0].moonPhase}
+        moonPhase={weather.moonPhase}
       />
       <SunriseLabel>
         <Text>{capitalize(beginTime.type)}</Text>
@@ -123,13 +119,7 @@ SunriseSunset.propTypes = {
     ),
   }).isRequired,
   weather: PropTypes.shape({
-    daily: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          moonPhase: PropTypes.number.isRequired,
-        }),
-      ),
-    }).isRequired,
+    moonPhase: PropTypes.number.isRequired,
   }).isRequired,
 };
 
