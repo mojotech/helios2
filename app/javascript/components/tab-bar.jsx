@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { colors } from '../lib/theme';
 
 const width = 568;
@@ -15,13 +15,17 @@ const progressBarFrames = keyframes`
   }
 `;
 
+const progressBarAnimation = props => css`
+  animation: ${progressBarFrames} ${props.time}s linear 0s;
+  animation-fill-mode: forwards;
+  animation-play-state: ${props.isPaused ? `paused` : `playing`};
+`;
+
 const ProgressBar = styled.div`
   background-color: ${colors.white};
   height: ${height}px;
   width: ${width}px;
-  ${props => `animation: ${progressBarFrames} ${props.time}s linear 0s;`}
-  animation-fill-mode: forwards;
-  animation-play-state: ${props => (props.isPaused ? `paused` : `playing`)};
+  ${progressBarAnimation};
 `;
 
 const SolidBar = styled.div`
