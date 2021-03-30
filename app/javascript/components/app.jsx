@@ -13,6 +13,7 @@ import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { persistCache } from 'apollo-cache-persist';
 import WidgetController from '@components/widget-controller';
 import helioSchema from '@javascript/schema.json';
+import GlobalStyle from '../styles';
 
 const cable = ActionCable.createConsumer('/cable');
 
@@ -72,6 +73,7 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
+    <GlobalStyle />
     <WidgetController client={client} />
   </ApolloProvider>
 );
