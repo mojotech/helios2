@@ -104,7 +104,6 @@ class Types::WeatherType < Types::WeatherObject
   field "hourly", [Types::WeatherHourlyDataType]
   field "daily", [Types::WeatherDailyDataType]
   field "offset", Int
-  field "solarcycles", [Types::SolarcycleType]
 
   field "moonPhase", Float, deprecation_reason: "Moved to Location"
 
