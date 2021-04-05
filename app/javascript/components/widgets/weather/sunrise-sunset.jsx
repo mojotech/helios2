@@ -14,6 +14,7 @@ import { parseTime, timeDiffInMinutes } from '@lib/datetime';
 import { WhiteText } from '@components/typography';
 import withFragment from '@hocs/with-fragment';
 import SemiCircle from '@weather/semi-circle';
+import WeatherEffect from '@weather/weather-effect';
 
 const containerHeight = '344px';
 
@@ -53,7 +54,10 @@ const SunsetLabel = styled.div`
 const getSunriseSunsetWeather = gql`
   fragment SunriseSunsetWeather on Weather {
     moonPhase
+    ...WeatherEffect
   }
+
+  ${WeatherEffect.fragments.weather}
 `;
 
 const getSunriseSunsetLocation = gql`
@@ -85,6 +89,7 @@ const SunriseSunset = ({ location, weather }) => {
 
   return (
     <SunriseSunsetContainer>
+      <WeatherEffect weather={weather} />
       <SemiCircle
         totalTime={timeDiffInMinutes(
           new Date(endTime.time),
