@@ -53,27 +53,28 @@ const SunsetLabel = styled.div`
 const getSunriseSunsetWeather = gql`
   fragment SunriseSunsetWeather on Weather {
     moonPhase
-    solarcycles {
-      type
-      time
-    }
   }
 `;
 
 const getSunriseSunsetLocation = gql`
   fragment SunriseSunsetLocation on Location {
     timezone
+    solarCycles {
+      type
+      time
+    }
   }
 `;
 
 const SunriseSunset = ({ location, weather }) => {
-  const { timezone } = location;
-  const { solarcycles } = weather;
+  const { solarCycles, timezone } = location;
+  const { moonPhase } = weather;
+
   const currDate = new Date();
 
   const [beforeNow, afterNow] = splitWhen(
     cycle => new Date(cycle.time).getTime() - currDate.getTime() > 0,
-    solarcycles,
+    solarCycles,
   );
   const beginTime = takeLast(1, beforeNow)[0];
   const endTime = take(1, afterNow)[0];
@@ -94,7 +95,7 @@ const SunriseSunset = ({ location, weather }) => {
         height={containerHeight}
         timezone={timezone}
         nightMode={isNight}
-        moonPhase={weather.moonPhase}
+        moonPhase={moonPhase}
       />
       <SunriseLabel>
         <Text>{capitalize(beginTime.type)}</Text>
@@ -111,12 +112,12 @@ const SunriseSunset = ({ location, weather }) => {
 SunriseSunset.propTypes = {
   location: PropTypes.shape({
     timezone: PropTypes.string.isRequired,
-    solarcycles: PropTypes.arrayOf(
+    solarCycles: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
         time: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
   }).isRequired,
   weather: PropTypes.shape({
     moonPhase: PropTypes.number.isRequired,

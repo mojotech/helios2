@@ -90,3 +90,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # twitter API
 gem "twitter", "~> 6.2"
+
+# Calculates sunrise & sunset
+gem 'sun'
