@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { colors } from '@lib/theme';
+import styled from 'styled-components';
 
 const getRearPath = (radius, phase, radiusModifier1) => {
   const diameter = radius * 2;
@@ -108,28 +109,27 @@ const iconRender = (posX, posY, radius, phase, arcPath, arcAnimation) => {
   const frontMoonColor =
     rearMoonColor === colors.white ? colors.black : colors.white;
   return (
-    <g>
-      <path
+    <g filter="url(#moonShadow)">
+      <MoonPart
         d={rearMoonPath}
         fill={rearMoonColor}
-        filter="url(#moonShadow)"
-        style={{
-          offsetPath: `path('${arcPath}')`,
-          animation: `${arcAnimation} 1000ms 1 normal forwards ease-in-out`,
-        }}
+        arcPath={arcPath}
+        arcAnimation={arcAnimation}
       />
-      <path
+      <MoonPart
         d={frontMoonPath}
         fill={frontMoonColor}
-        filter="url(#moonShadow)"
-        style={{
-          offsetPath: `path('${arcPath}')`,
-          animation: `${arcAnimation} 1000ms 1 normal forwards ease-in-out`,
-        }}
+        arcPath={arcPath}
+        arcAnimation={arcAnimation}
       />
     </g>
   );
 };
+
+const MoonPart = styled.path`
+  offset-path: path('${p => p.arcPath}');
+  animation: ${p => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
+`;
 
 const MoonPhase = ({ posX, posY, radius, phase, arcPath, arcAnimation }) => (
   <g>
@@ -155,7 +155,10 @@ MoonPhase.propTypes = {
   radius: PropTypes.string.isRequired,
   phase: PropTypes.string.isRequired,
   arcPath: PropTypes.string.isRequired,
-  arcAnimation: PropTypes.string.isRequired,
+  arcAnimation: PropTypes.shape({
+    inject: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default MoonPhase;
