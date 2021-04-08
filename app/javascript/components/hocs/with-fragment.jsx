@@ -7,7 +7,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
  * WrappedComponent's fragment names
  */
 export default function withFragment(WrappedComponent) {
-  const Enhanced = props => {
+  const Enhanced = React.memo(props => {
     const fragmentKeys = Object.keys(WrappedComponent.fragments);
     const fragmentDataProps = fragmentKeys.reduce((accProps, fragmentKey) => {
       const fragment = WrappedComponent.fragments[fragmentKey];
@@ -18,7 +18,7 @@ export default function withFragment(WrappedComponent) {
     }, {});
 
     return <WrappedComponent {...props} {...fragmentDataProps} />;
-  };
+  });
 
   // retain fragments defined statically on WrappedComponent
   hoistNonReactStatic(Enhanced, WrappedComponent);
