@@ -25,6 +25,11 @@ namespace :simulate do
     post_slack_event(render_new_slack_announcement_json)
   end
 
+  desc "Simulates a new weather poll"
+  task weather_poll: :environment do
+    WeatherPollerWorker.new.perform
+  end
+
   def disable_github_authentication
     WebHooks::GithubController.skip_before_action :authenticate_github_request!
   end
