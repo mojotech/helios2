@@ -48,6 +48,7 @@ export const WeatherQuery = ({
         return <LoadingMessage />;
       }
       if (error) {
+        console.error(error); // eslint-disable-line
         return <DisconnectedMessage />;
       }
       return (
