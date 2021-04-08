@@ -75,6 +75,10 @@ class SubscribedWeather extends React.Component {
     this.props.subscribeToPublishedEvents();
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.primaryLocation !== nextProps.primaryLocation;
+  }
+
   render() {
     const { primaryLocation } = this.props;
     const { weather } = primaryLocation;
