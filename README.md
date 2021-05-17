@@ -14,6 +14,8 @@ You can either install the deps directly on your box or you can use the Docker s
 
 ### Getting ready
 
+- `asdf install`
+- `gem install bundler:1.17.3`
 - `bundle install`
 - `yarn install`
 - `cp .env.local.sample .env` -- fill in env vars where applicable
