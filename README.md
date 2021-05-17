@@ -14,8 +14,14 @@ You can either install the deps directly on your box or you can use the Docker s
 
 ### Getting ready
 
+Prequisites:
+- libpq
+  - Ubuntu: sudo apt install libpq-dev
+  - OSX: sudo brew install libpq
+
 - `asdf install`
 - `gem install bundler:1.17.3`
+- `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
 - `bundle install`
 - `yarn install`
 - `cp .env.local.sample .env` -- fill in env vars where applicable
