@@ -26,6 +26,7 @@ Prequisites:
 - `gem install bundler:1.17.3`
 - `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
 - `gem install sqlite3 -v '1.3.13' --source 'https://rubygems.org/'`
+- `gem install foreman`
 - `bundle install`
 - `yarn install`
 - `cp .env.local.sample .env` -- fill in env vars where applicable
