@@ -23,6 +23,9 @@ Prequisites:
   - OSX: brew install sqlite3 && brew link --force sqlite3
 - asdf
   - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
+- freedesktop mime database
+  - Ubuntu: should work out of the box. https://github.com/mimemagicrb/mimemagic#dependencies
+  - OSX: brew install shared-mime-info
 
 - `asdf install`
 - `gem install bundler:1.17.3`
