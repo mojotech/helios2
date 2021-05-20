@@ -14,6 +14,21 @@ You can either install the deps directly on your box or you can use the Docker s
 
 ### Getting ready
 
+Prequisites:
+- libpq
+  - Ubuntu: sudo apt install libpq-dev
+  - OSX: sudo brew install libpq
+- libsqlite3
+  - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
+  - OSX: sudo brew install sqlite3
+- asdf
+  - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
+
+- `asdf install`
+- `gem install bundler:1.17.3`
+- `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
+- `gem install sqlite3 -v '1.3.13' --source 'https://rubygems.org/'`
+- `gem install foreman`
 - `bundle install`
 - `yarn install`
 - `cp .env.local.sample .env` -- fill in env vars where applicable
@@ -39,7 +54,8 @@ You can either install the deps directly on your box or you can use the Docker s
 
 - Install Docker and docker-compose
 - `cp .env.local.sample .env` -- fill in env vars where applicable
-- Sign up for a free darksky API key: https://darksky.net/dev
+- Sign up for a free [OpenWeather API key](https://home.openweathermap.org/api_keys)
+ 
   Note: the free API key has a daily limit of 1000 requests
 
 ### Start it up

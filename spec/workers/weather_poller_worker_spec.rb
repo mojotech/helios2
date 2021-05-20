@@ -21,7 +21,7 @@ RSpec.describe WeatherPollerWorker, type: :worker do
       city_name: 'Providence',
       time_zone: 'America/New_York'
     )
-    allow(ForecastIO).to receive(:forecast) { TESTDATA }
+    allow(Clients::WeatherClient).to receive(:forecast) { TESTDATA }
     allow_any_instance_of(Redis).to(
       receive(:pubsub) {
         ["helios2_development:graphql-event::weatherPublished:latitude:41.823989:longitude:-71.412834"]
@@ -36,7 +36,7 @@ RSpec.describe WeatherPollerWorker, type: :worker do
       )
     end
 
-    it "will publish the darksky response when polling a location" do
+    it "will publish the openweather response when polling a location" do
       expect(Helios2Schema.subscriptions).to(
         receive(:trigger).with(
           "weatherPublished",

@@ -4,20 +4,24 @@ import withFragment from '@hocs/with-fragment';
 
 const getCurrentIcon = gql`
   fragment CurrentIcon on Weather {
-    currently {
-      icon
+    current {
+      weather {
+        icon
+      }
     }
   }
 `;
 
 const CurrentIcon = ({ weather }) => {
-  return weather.currently.icon;
+  return weather.current.weather.icon;
 };
 
 CurrentIcon.propTypes = {
   weather: PropTypes.shape({
-    currently: PropTypes.shape({
-      icon: PropTypes.string.isRequired,
+    current: PropTypes.shape({
+      weather: PropTypes.shape({
+        icon: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   }).isRequired,
 };

@@ -1,8 +1,8 @@
 import styledNormalize from 'styled-normalize';
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { fonts } from '@lib/theme';
 
-const injectBaseStyles = () => injectGlobal`
+const GlobalStyle = createGlobalStyle`
   ${styledNormalize}
 
   body {
@@ -10,4 +10,4 @@ const injectBaseStyles = () => injectGlobal`
   }
 `;
 
-export default injectBaseStyles;
+export default GlobalStyle;

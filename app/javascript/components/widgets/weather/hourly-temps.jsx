@@ -58,11 +58,9 @@ const RainIcon = styled.img`
 const getHourlyWeather = gql`
   fragment HourlyWeather on Weather {
     hourly {
-      data {
-        temperature
-        time
-        precipProbability
-      }
+      temp
+      time
+      precipProbability
     }
   }
 `;
@@ -70,14 +68,14 @@ const getHourlyWeather = gql`
 const HourlyTemps = ({ weather, hours }) => {
   const hourlyWeathers = compose(
     slice(1, hours + 1),
-    pathOr([], ['hourly', 'data']),
+    pathOr([], ['hourly']),
   )(weather);
   return (
     <Wrapper>
-      {hourlyWeathers.map(({ time, temperature, precipProbability }, idx) => (
+      {hourlyWeathers.map(({ time, temp, precipProbability }, idx) => (
         <Item key={time} index={idx}>
           <Time>{parseHour(time)}</Time>
-          <Temp>{parseInt(temperature, 10)}°</Temp>
+          <Temp>{parseInt(temp, 10)}°</Temp>
           <Precip>
             <RainIcon src={rainIcon} width="20" height="20" alt="" />
             {parseInt(precipProbability * 100, 10)}
@@ -91,9 +89,7 @@ const HourlyTemps = ({ weather, hours }) => {
 
 HourlyTemps.propTypes = {
   weather: PropTypes.shape({
-    hourly: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-    }).isRequired,
+    hourly: PropTypes.array.isRequired,
   }).isRequired,
   hours: PropTypes.number,
 };

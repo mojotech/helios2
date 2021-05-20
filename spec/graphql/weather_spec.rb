@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 module WeatherHelpers
-  def self.darksky_response
-    text = File.read(Rails.root.join("spec", "fixtures", "files", "darksky_response_1.json"))
-    json = JSON.parse(text)
-    Hashie::Mash.new(json)
+  def self.weather_response
+    JSON.parse(File.read(Rails.root.join("spec", "fixtures", "files", "onecall_response_1.json")))
   end
 end
 
@@ -20,7 +18,7 @@ describe Helios2Schema do
       city_name: 'Providence',
       time_zone: 'America/New_York'
     )
-    allow(ForecastIO).to receive(:forecast) { WeatherHelpers.darksky_response }
+    allow(Clients::WeatherClient).to receive(:get) { WeatherHelpers.weather_response }
     allow(ENV).to receive(:[]).with('PRIMARY_CITY_NAME') { 'Providence' }
   }
 
@@ -42,8 +40,10 @@ describe Helios2Schema do
 {
   primaryLocation{
     weather{
-      currently{
-        summary
+      current{
+        weather{
+          main
+        }
       }
     }
   }
@@ -52,8 +52,8 @@ describe Helios2Schema do
     }
 
     context "from anonymous" do
-      it "will consume a DarkSky response and return data" do
-        expect(result["data"]["primaryLocation"]["weather"]["currently"]["summary"]).to eq("Partly Cloudy")
+      it "will consume an OpenWeather response and return data" do
+        expect(result["data"]["primaryLocation"]["weather"]["current"]["weather"]["main"]).to eq("Mist")
       end
     end
   end

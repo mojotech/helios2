@@ -4,19 +4,18 @@ import withFragment from '@hocs/with-fragment';
 
 const getCurrentTemp = gql`
   fragment CurrentTemp on Weather {
-    currently {
-      temperature
+    current {
+      temp
     }
   }
 `;
 
-const CurrentTemp = ({ weather }) =>
-  `${parseInt(weather.currently.temperature, 10)}°`;
+const CurrentTemp = ({ weather }) => `${parseInt(weather.current.temp, 10)}°`;
 
 CurrentTemp.propTypes = {
   weather: PropTypes.shape({
-    currently: PropTypes.shape({
-      temperature: PropTypes.number.isRequired,
+    current: PropTypes.shape({
+      temp: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
 };

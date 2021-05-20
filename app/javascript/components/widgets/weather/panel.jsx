@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CurrentTemp from '@weather/current-temp';
 import HourlyTemps from '@weather/hourly-temps';
-import MinutelyWeather from '@weather/minutely-weather';
+import CurrentWeather from '@weather/current-weather';
 import DailyWeather from '@weather/daily-weather';
 import SunriseSunset from '@weather/sunrise-sunset';
 import WeatherQuery from '@components/get-weather-query';
@@ -24,14 +24,14 @@ const PanelWeather = gql`
   fragment PanelWeather on Weather {
     ...CurrentTemp
     ...HourlyWeather
-    ...MinutelyWeather
+    ...CurrentWeather
     ...DailyWeather
     ...SunriseSunsetWeather
   }
 
   ${CurrentTemp.fragments.weather}
   ${HourlyTemps.fragments.weather}
-  ${MinutelyWeather.fragments.weather}
+  ${CurrentWeather.fragments.weather}
   ${DailyWeather.fragments.weather}
   ${SunriseSunset.fragments.weather}
 `;
@@ -75,6 +75,10 @@ class SubscribedWeather extends React.Component {
     this.props.subscribeToPublishedEvents();
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.primaryLocation !== nextProps.primaryLocation;
+  }
+
   render() {
     const { primaryLocation } = this.props;
     const { weather } = primaryLocation;
@@ -87,11 +91,11 @@ class SubscribedWeather extends React.Component {
           <HourlyTemps {...{ weather }} />
         </CenteredRow>
         <SummaryText>
-          <MinutelyWeather {...{ weather }} useLargeIcon />
+          <CurrentWeather {...{ weather }} useLargeIcon />
         </SummaryText>
         <SunriseSunset {...{ location: primaryLocation, weather }} />
         <DailyWeather {...{ weather }} />
-        <Notice>Powered by Dark Sky</Notice>
+        <Notice>Powered by OpenWeather</Notice>
       </Column>
     );
   }

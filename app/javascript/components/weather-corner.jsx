@@ -57,7 +57,7 @@ class WeatherCorner extends React.Component {
       <Column>
         <Row>
           <SkyIconWrapper>
-            <MediumSkyIcon icon={weather.currently.icon} />
+            <MediumSkyIcon icon={weather.current.weather.icon} />
           </SkyIconWrapper>
           <TempText>
             <CurrentTemp {...{ weather }} />
@@ -71,9 +71,11 @@ class WeatherCorner extends React.Component {
 WeatherCorner.propTypes = {
   primaryLocation: PropTypes.shape({
     weather: PropTypes.shape({
-      currently: PropTypes.shape({
-        temperature: PropTypes.number.isRequired,
-        icon: PropTypes.string.isRequired,
+      current: PropTypes.shape({
+        temp: PropTypes.number.isRequired,
+        weather: PropTypes.shape({
+          icon: PropTypes.string.isRequired,
+        }).isRequired,
       }).isRequired,
     }).isRequired,
   }).isRequired,

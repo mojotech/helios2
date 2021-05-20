@@ -35,7 +35,7 @@ gem 'groupdate'
 gem 'tod'
 
 gem "dotenv-rails", "~> 2.4.0"
-gem "forecast_io"
+gem "faraday"
 gem "foreman", "~> 0.84"
 gem 'graphiql-rails', group: :development
 gem "graphql", "~> 1.8.3"
@@ -90,3 +90,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # twitter API
 gem "twitter", "~> 6.2"
+
+# Calculates sunrise & sunset
+gem 'sun'
