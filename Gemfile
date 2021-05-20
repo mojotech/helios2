@@ -8,7 +8,7 @@ gem 'rails', '~> 5.2.0'
 # ActionCable adapter
 gem 'redis'
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 4.3'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'sass-rails', '~> 5.0'
