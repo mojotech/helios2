@@ -21,6 +21,8 @@ Prequisites:
 - libsqlite3
   - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
   - OSX: sudo brew install sqlite3
+- asdf
+  - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
 
 - `asdf install`
 - `gem install bundler:1.17.3`
