@@ -17,10 +17,10 @@ You can either install the deps directly on your box or you can use the Docker s
 Prequisites:
 - libpq
   - Ubuntu: sudo apt install libpq-dev
-  - OSX: sudo brew install libpq
+  - OSX: brew install libpq && brew link --force libpq
 - libsqlite3
   - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
-  - OSX: sudo brew install sqlite3
+  - OSX: brew install sqlite3 && brew link --force sqlite3
 - asdf
   - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
 
