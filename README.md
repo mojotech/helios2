@@ -34,11 +34,36 @@ Prequisites:
 - `cp .env.local.sample .env` -- fill in env vars where applicable
 - Configure Redis:
 
+OSX:
   ```shell
   brew install redis
   redis-cli CONFIG SET dir /tmp/
   redis-cli CONFIG SET dbfilename temp.rdb
   redis-server &
+  redis-cli ping  # Should respond with PONG
+  rake db:setup
+  ```
+Ubuntu:
+- Update system
+  ```shell
+  sudo apt update
+  ```
+- Install redis server
+  ```shell
+  sudo apt install redis-server
+  ```
+- Update configuration
+  ```shell
+  sudo sh -c 'echo "supervised systemd" >> /etc/redis/redis.config'
+  ```
+- Restart running service
+  ```shell
+  sudo systemctl restart redis.service
+  ```
+- Configure and verify redis
+  ```shell
+  redis-cli CONFIG SET dir /tmp/
+  redis-cli CONFIG SET dbfilename temp.rdb
   redis-cli ping  # Should respond with PONG
   rake db:setup
   ```
