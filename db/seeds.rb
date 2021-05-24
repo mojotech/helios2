@@ -31,6 +31,14 @@ Location.find_or_initialize_by(
   r.time_zone = 'America/New_York'
 end.save!
 
+Location.find_or_initialize_by(
+  city_name: 'SanDiego'
+) do |r|
+  r.latitude = 32.7157
+  r.longitude = -117.1611
+  r.time_zone = 'America/Los_Angeles'
+end.save!
+
 primary_location = Location.find_by(city_name: ENV['PRIMARY_CITY_NAME'])
 Widget.find_or_initialize_by(
   name: "Guests"
