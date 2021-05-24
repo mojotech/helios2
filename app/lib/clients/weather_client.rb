@@ -13,7 +13,7 @@ class Clients::WeatherClient
   end
 
   def self.get(latitude, longitude)
-    response = Faraday.get(WEATHER_API_URL % { lat: latitude, lon: longitude, key: ENV['WEATHER_API_KEY'] })
+    response = Faraday.get(WEATHER_API_URL % { lat: latitude, lon: longitude, key: AppEnv['WEATHER_API_KEY'] })
     return JSON.parse(response.body) if response.success?
   end
 end
