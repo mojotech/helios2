@@ -3,10 +3,10 @@ require 'slack-ruby-client'
 class WebHooks::SlackAuthController < ApplicationController
   layout false
   SLACK_CONFIG = {
-    slack_client_id: ENV['SLACK_CLIENT_ID'],
-    slack_api_secret: ENV['SLACK_API_SECRET'],
-    slack_redirect_uri: ENV['SLACK_REDIRECT_URI'],
-    slack_verification_token: ENV['SLACK_VERIFICATION_TOKEN']
+    slack_client_id: AppEnv['SLACK_CLIENT_ID'],
+    slack_api_secret: AppEnv['SLACK_API_SECRET'],
+    slack_redirect_uri: AppEnv['SLACK_REDIRECT_URI'],
+    slack_verification_token: AppEnv['SLACK_VERIFICATION_TOKEN']
   }.freeze
 
   missing_params = SLACK_CONFIG.select { |_key, value| value.nil? }

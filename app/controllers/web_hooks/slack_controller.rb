@@ -2,7 +2,8 @@ class WebHooks::SlackController < ApplicationController
   protect_from_forgery with: :null_session
 
   def create
-    halt 403, "Invalid Slack verification token: #{params[:token]}" if ENV['SLACK_VERIFICATION_TOKEN'] != params[:token]
+    is_invalid_token = AppEnv['SLACK_VERIFICATION_TOKEN'] != params[:token]
+    halt 403, "Invalid Slack verification token: #{params[:token]}" if is_invalid_token
     render plain: build_create_response
   end
 
@@ -72,7 +73,7 @@ class WebHooks::SlackController < ApplicationController
     require 'uri'
     require 'json'
 
-    uri = URI.parse(ENV['SLACK_WEBHOOK_URL'])
+    uri = URI.parse(AppEnv['SLACK_WEBHOOK_URL'])
 
     header = { 'Content-Type': 'application/json' }
     text = { 'text': "<@#{user}> #{message}", 'channel': channel.to_s }
