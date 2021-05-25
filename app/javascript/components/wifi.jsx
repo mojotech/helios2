@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { Row } from '@components/row';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import WifiIcon from '@assets/images/wifi_name.svg';
+import LockIcon from '@assets/images/wifi_password.svg';
 
 const Column = styled.div`
   display: flex;
@@ -44,8 +46,19 @@ export const Wifi = () => (
           <Row>
             <Column>
               <WhiteSubTitle>WIFI</WhiteSubTitle>
-              <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
-              <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
+              <Row>
+                <img src={WifiIcon} alt="wifi-name" width={35} height={49.5} />
+                <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
+              </Row>
+              <Row>
+                <img
+                  src={LockIcon}
+                  alt="wifi-password"
+                  width={35}
+                  height={35}
+                />
+                <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
+              </Row>
             </Column>
           </Row>
         );
