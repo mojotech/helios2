@@ -146,13 +146,18 @@ type TrafficWidget implements Widget {
   trafficCams: [TrafficCam!]!
 }
 
+type TweetImageType {
+  id: Int!
+  mediaUrl: String!
+}
+
 type TweetInteraction {
   favoriteCount: Int!
   retweetCount: Int!
 }
 
 type TweetMedia {
-  images: [String!]
+  images: [TweetImageType!]
   link: String
 }
 

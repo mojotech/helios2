@@ -43,7 +43,12 @@ BothMediaTypes.defaultProps = {
 };
 BothMediaTypes.propTypes = {
   displayText: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      media_url: PropTypes.string.isRequired,
+    }),
+  ),
   linkUrl: PropTypes.string,
 };
 const OneMediaType = ({ displayText, images, linkUrl }) => (
@@ -60,7 +65,12 @@ OneMediaType.defaultProps = {
 };
 OneMediaType.propTypes = {
   displayText: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      media_url: PropTypes.string.isRequired,
+    }),
+  ),
   linkUrl: PropTypes.string,
 };
 export const QuoteTweet = ({ displayText, linkUrl }) => (
@@ -106,7 +116,12 @@ const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
 TweetBody.propTypes = {
   text: PropTypes.string.isRequired,
   media: PropTypes.shape({
-    images: PropTypes.arrayOf(PropTypes.string),
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        mediaUrl: PropTypes.string.isRequired,
+      }),
+    ),
     link: PropTypes.string,
   }).isRequired,
   status: PropTypes.string.isRequired,
