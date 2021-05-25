@@ -14,10 +14,12 @@ TIMELINEDATA = [Twitter::Tweet.new(
   },
   extended_entities: {
     media: [
-      { id: 1_144_667_172_058_357_760,
+      {
+        id: 114_466_717_354_731_520_0,
         media_url: "http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg",
         expanded_url: "https://twitter.com/MojoTech/status/1144667173547315200/photo/1",
-        type: "photo" }
+        type: "photo"
+      }
     ]
   },
   retweet_count: 0,
@@ -68,7 +70,10 @@ describe Helios2Schema do
       retweetCount
     }
     media{
-      images
+      images {
+        id
+        mediaUrl
+      }
       link
     }
     user{
@@ -102,7 +107,8 @@ describe Helios2Schema do
 
       it 'will return valid media data' do
         media = result["data"]["tweets"].first["media"]
-        expect(media["images"].first).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
+        expect(media["images"].first["id"]).to eq(114_466_717_354_731_520_0)
+        expect(media["images"].first["mediaUrl"]).to eq("http://pbs.twimg.com/media/D-KsunCW4AA7uz8.jpg")
         expect(media["link"]).to eq(nil)
       end
 

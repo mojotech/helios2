@@ -13,10 +13,17 @@ class Types::InteractionType < Types::BaseObject
   field "favorite_count", Integer
 end
 
+class Types::TwitterImageType < Types::BaseObject
+  graphql_name "TweetImageType"
+
+  field "id", Integer
+  field "media_url", String
+end
+
 class Types::MediaType < Types::BaseObject
   graphql_name "TweetMedia"
 
-  field "images", [String], null: true
+  field "images", [Types::TwitterImageType], null: true
   field "link", String, null: true
 end
 

@@ -89,8 +89,8 @@ const imageLayout = images => {
   return images.map(image => {
     const isMain = image === images[0] && images.length === 3;
     return (
-      <ImageWrapper main={isMain}>
-        <TwitterImage isMain={isMain} src={image} alt="twitterMedia" />
+      <ImageWrapper key={image.id} main={isMain}>
+        <TwitterImage isMain={isMain} src={image.mediaUrl} alt="twitterMedia" />
       </ImageWrapper>
     );
   });
@@ -117,6 +117,11 @@ TweetMedia.defaultProps = {
 };
 
 TweetMedia.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.string),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      media_url: PropTypes.string.isRequired,
+    }),
+  ),
   linkUrl: PropTypes.string,
 };

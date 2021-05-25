@@ -31,9 +31,7 @@ class Clients::CreateTweet
   end
 
   def images
-    attributes[:extended_entities][:media].map { |item|
-      item[:media_url]
-    }
+    attributes[:extended_entities][:media]
   rescue StandardError
     nil
   end
