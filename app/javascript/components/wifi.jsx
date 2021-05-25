@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { Row } from '@components/row';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import LockIcon from '@assets/images/lock.png';
 
 const Column = styled.div`
   display: flex;
@@ -44,7 +45,10 @@ export const Wifi = () => (
           <Row>
             <Column>
               <WhiteSubTitle>WIFI</WhiteSubTitle>
-              <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
+              <Row>
+                <img src={LockIcon} alt="lock" width={50} height={50} />
+                <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
+              </Row>
               <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
             </Column>
           </Row>
