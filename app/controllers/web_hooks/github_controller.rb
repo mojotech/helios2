@@ -33,6 +33,6 @@ class WebHooks::GithubController < ApplicationController
   end
 
   private def webhook_secret(_payload)
-    ENV['GITHUB_WEBHOOK_SECRET']
+    AppEnv['GITHUB_WEBHOOK_SECRET']
   end
 end
