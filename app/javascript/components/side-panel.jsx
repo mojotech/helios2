@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { spacing, colors, sidePanelWidth } from '@lib/theme';
 import Wifi from '@components/wifi';
 import Bathroom from '@components/bathroom';
+import CityName from '@components/city-name';
 import { Row } from '@components/row';
 import TopCorner from '@components/top-corner-controller';
 import Widgets from '@components/widgets';
@@ -34,6 +35,7 @@ export const SidePanel = ({
 }) => (
   <Wrapper>
     <TopCorner showWeather={showWeather} />
+    <CityName />
     <Row>
       <Wifi />
       <Bathroom />
