@@ -36,7 +36,7 @@ Prequisites:
 
   ```shell
   brew install redis
-  redis-cli CONFIG SET dir/tmp/
+  redis-cli CONFIG SET dir /tmp/
   redis-cli CONFIG SET dbfilename temp.rdb
   redis-server &
   redis-cli ping  # Should respond with PONG
