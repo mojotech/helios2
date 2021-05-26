@@ -11,9 +11,15 @@ import LockIcon from '@assets/images/icons/icon-key.svg';
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 119px;
+  margin-right: 100px;
   margin-bottom: 50px;
   margin-top: 100px;
+`;
+
+const Icon = styled.div`
+  margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 `;
 
 const getWifiInfo = gql`
@@ -47,11 +53,15 @@ export const Wifi = () => (
             <Column>
               <WhiteSubTitle>WIFI</WhiteSubTitle>
               <Row>
-                <img src={WifiIcon} alt="wifi" width={35} height={49.5} />
+                <Icon>
+                  <img src={WifiIcon} alt="wifi" width={24} height={32} />
+                </Icon>
                 <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
               </Row>
               <Row>
-                <img src={LockIcon} alt="lock" width={35} height={35} />
+                <Icon>
+                  <img src={LockIcon} alt="lock" width={24} height={32} />
+                </Icon>
                 <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
               </Row>
             </Column>
