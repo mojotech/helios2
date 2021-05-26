@@ -32,7 +32,7 @@ Location.find_or_initialize_by(
 end.save!
 
 Location.find_or_initialize_by(
-  city_name: 'SanDiego'
+  city_name: 'San Diego'
 ) do |r|
   r.latitude = 32.7157
   r.longitude = -117.1611
