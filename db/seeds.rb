@@ -4,6 +4,9 @@ providence = Location.find_or_initialize_by(
   r.latitude = 41.823989
   r.longitude = -71.412834
   r.time_zone = 'America/New_York'
+  r.wifi_name = 'mojotech-guest'
+  r.wifi_password = 'p@ssw0rd'
+  r.bathroom_code = '0000*'
 end
 providence.save!
 
@@ -13,6 +16,8 @@ Location.find_or_initialize_by(
   r.latitude = 40.014986
   r.longitude = -105.270546
   r.time_zone = 'America/Denver'
+  r.wifi_name = 'mojotech-guest'
+  r.wifi_password = 'p@ssw0rd'
 end.save!
 
 Location.find_or_initialize_by(
