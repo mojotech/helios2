@@ -13,8 +13,8 @@ class Types::LocationType < Types::BaseObject
   field "moon_phase", Float
   field "solar_cycles", [Types::SolarcycleType]
 
-  field "wifi_name", String
-  field "wifi_password", String
-  field "bathroom_code", String
+  field "wifi_name", String, null: true
+  field "wifi_password", String, null: true
+  field "bathroom_code", String, null: true
   field "traffic_cams", [Types::TrafficCamType]
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_184534) do
+ActiveRecord::Schema.define(version: 2021_05_27_202246) do
 
   create_table "announcements", force: :cascade do |t|
     t.datetime "publish_on", null: false
@@ -47,6 +47,9 @@ ActiveRecord::Schema.define(version: 2021_04_05_184534) do
     t.string "time_zone", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "wifi_name"
+    t.string "wifi_password"
+    t.string "bathroom_code"
   end
 
   create_table "traffic_cams", force: :cascade do |t|
