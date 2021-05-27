@@ -4,6 +4,7 @@ import { splitAt, take } from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import ReactHlsPlayer from 'react-hls-player';
 import { colors, weights, fonts, fontSizes } from '@lib/theme';
 import { GreySubText } from '@components/typography';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
@@ -15,6 +16,7 @@ const getTrafficCams = gql`
         id
         title
         url
+        feedFormat
       }
     }
   }
@@ -56,16 +58,21 @@ const Notice = styled(GreySubText)`
   margin-right: 750px;
 `;
 
-const TrafficCam = ({ title, url }) => (
+const TrafficCam = ({ title, url, feedFormat }) => (
   <div>
     <Title>{title}</Title>
-    <TrafficCamImage src={url} />
+    {feedFormat === 'video' ? (
+      <ReactHlsPlayer src={url} autoPlay controls width="450px" height="auto" />
+    ) : (
+      <TrafficCamImage src={url} />
+    )}
   </div>
 );
 
 TrafficCam.propTypes = {
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  feedFormat: PropTypes.string.isRequired,
 };
 
 const Traffic = () => (
@@ -84,18 +91,19 @@ const Traffic = () => (
         return null;
       }
 
-      const [firstColumn, secondColumn] = splitAt(3, trafficCams);
+      const columnSize = Math.floor(trafficCams.length / 2);
+      const [firstColumn, secondColumn] = splitAt(columnSize, trafficCams);
 
       return (
         <>
           <Row>
             <Column>
-              {take(3, firstColumn).map(({ id, ...cam }) => (
+              {take(columnSize, firstColumn).map(({ id, ...cam }) => (
                 <TrafficCam key={id} {...cam} />
               ))}
             </Column>
             <Column>
-              {take(3, secondColumn).map(({ id, ...cam }) => (
+              {take(columnSize, secondColumn).map(({ id, ...cam }) => (
                 <TrafficCam key={id} {...cam} />
               ))}
             </Column>
