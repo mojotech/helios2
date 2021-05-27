@@ -44,7 +44,7 @@ export const Wifi = () => (
         }
 
         const { wifiName, wifiPassword } = data.primaryLocation;
-        if (!wifiName) {
+        if (!wifiName || !wifiPassword) {
           return null;
         }
 

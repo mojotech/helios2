@@ -56,7 +56,7 @@ scalar IconIdToName
 scalar KelvinToFarenheit
 
 type Location {
-  bathroomCode: String!
+  bathroomCode: String
   cityName: String!
   dayAnnouncements: [Announcement!]!
   id: ID!
@@ -69,8 +69,8 @@ type Location {
   trafficCams: [TrafficCam!]!
   weather: Weather!
   widgets: WidgetCollection!
-  wifiName: String!
-  wifiPassword: String!
+  wifiName: String
+  wifiPassword: String
 }
 
 type MojoTweet {
