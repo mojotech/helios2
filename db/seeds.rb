@@ -107,6 +107,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-21%20I-95%20S%20@%20Broad%20St%20.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.find_or_initialize_by(
@@ -114,6 +115,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-26%20I-95%20N%20@%20Lonsdale%20Ave.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.find_or_initialize_by(
@@ -121,6 +123,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-22b%20I-95%20N%20@%20Kinsley%20Ave.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.find_or_initialize_by(
@@ -128,6 +131,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/95-11%20I-95%20N%20@%20Toll%20Gate%20Rd.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.find_or_initialize_by(
@@ -135,6 +139,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "http://www.dot.ri.gov/img/travel/camimages/195-1%20I-195%20W%20Split%20@%20I-95.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.find_or_initialize_by(
@@ -142,6 +147,7 @@ TrafficCam.find_or_initialize_by(
 ) do |r|
   r.url = "https://www.dot.ri.gov/img/travel/camimages/6-1%20Rt%206%20E%20%20%2010%20N%20@%20Dean%20St.jpg"
   r.location = providence
+  r.feed_format = "image"
 end.save!
 
 TrafficCam.where(

@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_202246) do
     t.integer "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "feed_format", default: "image", null: false
     t.index ["location_id"], name: "index_traffic_cams_on_location_id"
   end
 
