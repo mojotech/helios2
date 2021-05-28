@@ -130,6 +130,7 @@ type Subscription {
 }
 
 type TrafficCam {
+  feedFormat: String!
   id: ID!
   title: String!
   url: String!
