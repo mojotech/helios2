@@ -10,7 +10,7 @@ providence = Location.find_or_initialize_by(
 end
 providence.save!
 
-Location.find_or_initialize_by(
+boulder = Location.find_or_initialize_by(
   city_name: 'Boulder'
 ) do |r|
   r.latitude = 40.014986
@@ -18,7 +18,8 @@ Location.find_or_initialize_by(
   r.time_zone = 'America/Denver'
   r.wifi_name = 'mojotech-guest'
   r.wifi_password = 'p@ssw0rd'
-end.save!
+end
+boulder.save!
 
 Location.find_or_initialize_by(
   city_name: 'DC'
@@ -153,3 +154,35 @@ end.save!
 TrafficCam.where(
   title: "Tobey Street"
 ).destroy_all
+
+TrafficCam.find_or_initialize_by(
+  title: "Broadway and Canyon"
+) do |r|
+  r.url = "https://videostream.bouldercolorado.gov/live/smil:broadway_and_canyon.smil/playlist.m3u8"
+  r.location = boulder
+  r.feed_format = "video"
+end.save!
+
+TrafficCam.find_or_initialize_by(
+  title: "Foothills and Arapahoe"
+) do |r|
+  r.url = "https://videostream.bouldercolorado.gov/live/smil:foothills_and_arapahoe.smil/playlist.m3u8"
+  r.location = boulder
+  r.feed_format = "video"
+end.save!
+
+TrafficCam.find_or_initialize_by(
+  title: "28th and Colorado"
+) do |r|
+  r.url = "https://videostream.bouldercolorado.gov/live/smil:28th_and_colorado.smil/playlist.m3u8"
+  r.location = boulder
+  r.feed_format = "video"
+end.save!
+
+TrafficCam.find_or_initialize_by(
+  title: "28th and Iris"
+) do |r|
+  r.url = "https://videostream.bouldercolorado.gov/live/smil:28th_and_iris.smil/playlist.m3u8"
+  r.location = boulder
+  r.feed_format = "video"
+end.save!
