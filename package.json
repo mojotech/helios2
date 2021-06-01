@@ -4,7 +4,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@microlink/react": "^4.0.1",
+    "@microlink/react": "5.5.5",
     "@rails/webpacker": "^4.0.7",
     "actioncable": "^5.2.0",
     "apollo-cache-inmemory": "^1.6.2",
@@ -27,10 +27,11 @@
     "pluralize": "^8.0.0",
     "prop-types": "^15.6.1",
     "ramda": "^0.25.0",
-    "react": "^16.8.0",
+    "react": "17.0.2",
     "react-apollo": "^2.1.4",
-    "react-dom": "^16.8.6",
-    "react-highlight-words": "^0.16.0",
+    "react-dom": "17.0.2",
+    "react-highlight-words": "0.17.0",
+    "regenerator-runtime": "^0.13.7",
     "resurrect-js": "^1.0.1",
     "styled-components": "^4.0.0",
     "styled-normalize": "^4.0.0"
