@@ -92,6 +92,20 @@ Ubuntu:
 - `docker-compose up`
 - http://localhost:5000
 
+### Commands for local lint/testing steps:
+
+- Command prints detected errors, stylistic/formatting issues, and bugs
+- `yarn run lint`
+
+- Executes yarn run lint, and makes suggested changes
+- `yarn run lint --fix`
+
+- Runs test script as defined by the package
+- `yarn run test`
+
+- Ruby-specific code style checker, reports and automaticaly fixes errors
+- `bundle exec rubocop`
+
 #### Spin up Rails Console
 
 - have the docker image running in one terminal tab (`docker-compose up`)
