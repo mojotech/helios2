@@ -109,6 +109,9 @@ type Query {
   # Location running the app
   primaryLocation: Location!
 
+  # Get current sha
+  schemaSha: String!
+
   # Tweets from MojoTech
   tweets: [MojoTweet!]!
 }
