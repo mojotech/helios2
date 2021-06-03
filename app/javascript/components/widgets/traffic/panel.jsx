@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { splitAt, take } from 'ramda';
+import { splitAt, take, uniq, map, compose } from 'ramda';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -90,9 +90,12 @@ const Traffic = () => (
       if (!trafficCams) {
         return null;
       }
-
       const columnSize = Math.floor(trafficCams.length / 2);
       const [firstColumn, secondColumn] = splitAt(columnSize, trafficCams);
+      const getUniqUrls = compose(
+        uniq,
+        map(cam => new URL(cam.url).origin),
+      );
 
       return (
         <>
@@ -108,7 +111,10 @@ const Traffic = () => (
               ))}
             </Column>
           </Row>
-          <Notice>Images from http://www.dot.ri.gov</Notice>
+          <Notice>Images from:</Notice>
+          {getUniqUrls(trafficCams).map(url => (
+            <Notice>{url}</Notice>
+          ))}
         </>
       );
     }}
