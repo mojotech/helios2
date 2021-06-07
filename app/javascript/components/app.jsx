@@ -14,6 +14,7 @@ import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { persistCache } from 'apollo-cache-persist';
 import WidgetController from '@components/widget-controller';
 import helioSchema from '@javascript/schema.json';
+import GetVersion from '@components/get-version';
 import GlobalStyle from '../styles';
 
 const cable = ActionCable.createConsumer('/cable');
@@ -76,6 +77,7 @@ const App = () => (
   <ApolloProvider client={client}>
     <GlobalStyle />
     <WidgetController client={client} />
+    <GetVersion />
   </ApolloProvider>
 );
 export default App;

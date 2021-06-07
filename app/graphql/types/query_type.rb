@@ -39,4 +39,12 @@ class Types::QueryType < Types::BaseObject
       Location.primary
     end
   end
+
+  field :schema_sha, String do
+    description "Get current sha"
+  end
+
+  def schema_sha
+    AppEnv['HEROKU_SLUG_COMMIT']
+  end
 end

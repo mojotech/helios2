@@ -109,6 +109,9 @@ type Query {
   # Location running the app
   primaryLocation: Location!
 
+  # Get current sha
+  schemaSha: String!
+
   # Tweets from MojoTech
   tweets: [MojoTweet!]!
 }
@@ -124,6 +127,9 @@ type Subscription {
 
   # An event was published to the API
   eventPublished: Event!
+
+  # Updated SHA value
+  schemaSha: String!
 
   # Latest weather data retrieved
   weatherPublished(latitude: Float!, longitude: Float!): Weather!
