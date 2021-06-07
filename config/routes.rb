@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   # rubocop:disable Style/IfUnlessModifier
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
