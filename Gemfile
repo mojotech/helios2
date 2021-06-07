@@ -93,3 +93,7 @@ gem "twitter", "~> 6.2"
 
 # Calculates sunrise & sunset
 gem 'sun'
+
+# Admin interface
+gem 'activeadmin'
+gem 'devise'
