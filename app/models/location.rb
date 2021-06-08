@@ -61,4 +61,8 @@ class Location < ApplicationRecord
   def time_now
     Time.now.in_time_zone(time_zone)
   end
+
+  def display_name
+    city_name
+  end
 end
