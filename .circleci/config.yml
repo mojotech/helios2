@@ -60,6 +60,7 @@ jobs:
       - run:
           name: run diff on schema.json
           command: |
+            bundle exec rake graphql:schema:dump
             git diff --quiet schema.graphql
 
       # run tests!
