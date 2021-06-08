@@ -82,6 +82,8 @@ export const SunriseSunset = ({ location, weather }) => {
   );
 
   if (isEmpty(beforeNow) || isEmpty(afterNow)) {
+    // eslint-disable-next-line no-console
+    console.warn({ currDate, beforeNow, afterNow, ...location });
     return (
       <SunriseSunsetContainer>
         <WeatherEffect weather={weather} />
