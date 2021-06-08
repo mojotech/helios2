@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { take, takeLast, splitWhen, replace, toUpper } from 'ramda';
+import { isEmpty, take, takeLast, splitWhen, replace, toUpper } from 'ramda';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -70,7 +70,7 @@ const getSunriseSunsetLocation = gql`
   }
 `;
 
-const SunriseSunset = ({ location, weather }) => {
+export const SunriseSunset = ({ location, weather }) => {
   const { solarCycles, timezone } = location;
   const { moonPhase } = weather;
 
@@ -80,6 +80,15 @@ const SunriseSunset = ({ location, weather }) => {
     cycle => new Date(cycle.time).getTime() - currDate.getTime() > 0,
     solarCycles,
   );
+
+  if (isEmpty(beforeNow) || isEmpty(afterNow)) {
+    return (
+      <SunriseSunsetContainer>
+        <WeatherEffect weather={weather} />
+      </SunriseSunsetContainer>
+    );
+  }
+
   const beginTime = takeLast(1, beforeNow)[0];
   const endTime = take(1, afterNow)[0];
 
