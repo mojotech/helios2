@@ -61,6 +61,27 @@ WeatherWrapper.propTypes = {
   count: PropTypes.number.isRequired,
 };
 
+const HorizontalWeatherWrapper = React.memo(
+  ({ Type, duration, variance, count }) =>
+    new Array(count).fill().map((_, index) => (
+      <Type
+        key={index.toString()}
+        style={{
+          top: `${evenlyDistribute(index, count)}%`,
+          animationDelay: `${Math.random() * -(duration + variance)}s`,
+          animationDuration: `${duration + Math.random() * variance}s`,
+          animationIterationCount: 'infinite',
+        }}
+      />
+    )),
+);
+
+HorizontalWeatherWrapper.propTypes = {
+  Type: PropTypes.object.isRequired, // eslint-disable-line
+  duration: PropTypes.number.isRequired,
+  variance: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+};
 /* Weather ID Types: https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
  * 8__: Clear / Clouds
  * 7__: Atmosphere (particles)
@@ -248,6 +269,68 @@ const Thunder = () => {
     </>
   );
 };
+// #endregion
+
+// cloud starts here
+const CloudMotionFrames = keyframes`
+   0% {
+    left: -200px;
+  }
+  100% {
+    left: 100%;
+  }
+`;
+
+const MoveUpDown = keyframes`
+0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(40px);
+  }
+  60% {
+    transform: translateY(-100px); 
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const CloudImage = css`
+  opacity: 60%;
+  background: white;
+  width: 200px;
+  height: 150px;
+  border-radius: 0 0 50px 50px;
+  background: radial-gradient(35px 30px, white 98%, transparent 100%) 20% 30% /70px
+      60px,
+    radial-gradient(50px 45px, white 98%, transparent 100%) 50% 50% /100px 90px,
+    radial-gradient(50px, white 98%, transparent 100%) 100% 100%/100px 100px,
+    radial-gradient(40px, white 98%, transparent 100%) 0 100% /80px 80px,
+    linear-gradient(white, white) bottom/100% 40px;
+  background-repeat: no-repeat;
+`;
+
+const MovingCloud = styled.div`
+  bottom: 100%;
+  position: absolute;
+  top: 120px;
+  animation: ${CloudMotionFrames} linear, ${MoveUpDown} linear;
+  ${CloudImage};
+`;
+
+const Cloud = ({ duration, variance, count }) => (
+  <HorizontalWeatherWrapper
+    {...{ Type: MovingCloud, duration, variance, count }}
+  />
+);
+
+Cloud.propTypes = {
+  duration: PropTypes.number.isRequired,
+  variance: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+};
+// Cloud ends here
 
 // #endregion
 
@@ -303,6 +386,10 @@ const weatherIdMap = {
   620: <Snow duration={6} variance={1} count={20} />, // Light
   621: <Snow duration={4} variance={1} count={50} />, // Normal
   622: <Snow duration={2} variance={1} count={70} />, // Heavy
+  801: <Cloud duration={16} variance={1} count={2} />, // few cloud
+  802: <Cloud duration={16} variance={5} count={4} />, // scattered cloud
+  803: <Cloud duration={16} variance={10} count={8} />, // broken cloud
+  804: <Cloud duration={16} variance={15} count={16} />, // overcast cloud
 }
 /* eslint-enable prettier/prettier */
 
