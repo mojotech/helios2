@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-link';
@@ -74,7 +75,16 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <GlobalStyle />
-    <WidgetController client={client} />
+    <Router>
+      <Switch>
+        <Route
+          path="/:city_name"
+          render={routeProps => (
+            <WidgetController client={client} {...routeProps} />
+          )}
+        />
+      </Switch>
+    </Router>
   </ApolloProvider>
 );
 export default App;

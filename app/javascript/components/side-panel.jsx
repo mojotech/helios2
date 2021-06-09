@@ -28,12 +28,13 @@ const FixedContent = styled.div`
 export const SidePanel = ({
   widgets,
   selectedWidgetId,
-  showWeather,
   totalTime,
+  showWeather,
   isPaused,
+  props,
 }) => (
   <Wrapper>
-    <TopCorner showWeather={showWeather} />
+    <TopCorner showWeather={showWeather} {...props} />
     <Row>
       <Wifi />
       <Bathroom />

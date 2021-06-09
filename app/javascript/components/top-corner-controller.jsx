@@ -26,7 +26,7 @@ const Row = styled.div`
   margin-right: 100px;
 `;
 
-const TopCorner = ({ showWeather }) => {
+const TopCorner = props => {
   return (
     <div>
       <DateLogoRow>
@@ -36,8 +36,8 @@ const TopCorner = ({ showWeather }) => {
         <Logo />
       </IconWrapper>
       <Row>
-        <TimeHero />
-        {showWeather && <WeatherCorner />}
+        <TimeHero {...props} />
+        {props.showWeather && <WeatherCorner />}
       </Row>
     </div>
   );

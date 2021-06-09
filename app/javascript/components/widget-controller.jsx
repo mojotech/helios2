@@ -13,8 +13,8 @@ import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
 
 const getWidgets = gql`
-  query getWidgets($id: Int!) {
-    primaryLocation {
+  query getWidgets($id: Int!, $loc: String!) {
+    location(cityName: $loc) {
       widgets {
         enabled {
           id
@@ -78,7 +78,10 @@ export class WidgetController extends React.Component {
         this.lastPrefetchTime = now;
         client.query({
           query: getWidgets,
-          variables: { id: nextWidgetId },
+          variables: {
+            id: nextWidgetId,
+            loc: this.props.location.pathname.substring(1),
+          },
         });
       }
     }, 500);
@@ -160,12 +163,16 @@ export class WidgetController extends React.Component {
 
     const fetchPolicy = currentWidgetId === 0 ? 'network-only' : 'cache-first';
 
+    const cityName = this.props.location.pathname.substring(1);
+
     return (
       <Query
         query={getWidgets}
-        variables={{ id: currentWidgetId }}
+        variables={{ id: currentWidgetId, loc: cityName }}
         fetchPolicy={fetchPolicy}
-        onCompleted={({ primaryLocation: { widgets } }) => {
+        onCompleted={response => {
+          const { location } = response;
+          const { widgets } = location[0];
           const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
 
           const index = enabledWidgets.findIndex(w => w.id === current.id);
@@ -222,9 +229,8 @@ export class WidgetController extends React.Component {
             );
           }
 
-          const {
-            primaryLocation: { widgets },
-          } = data;
+          const { location } = data;
+          const { widgets } = location[0];
           const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
 
           const WidgetElement = widgetElements[current.name].Panel;
@@ -258,6 +264,9 @@ export class WidgetController extends React.Component {
 WidgetController.propTypes = {
   client: PropTypes.shape({
     query: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
