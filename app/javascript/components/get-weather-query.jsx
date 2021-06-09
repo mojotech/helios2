@@ -6,21 +6,22 @@ import { assocPath } from 'ramda';
 import SunriseSunset from '@weather/sunrise-sunset';
 
 /* eslint-disable graphql/template-strings */
-const getPrimaryLocationWeather = (WeatherFrag, queryName) => gql`
-  {
-    primaryLocation {
-      latitude
-      longitude
-      ...SunriseSunsetLocation
-      weather {
-        ...${queryName}
-      }
+const getLocationWeather = (WeatherFrag, queryName) => gql`
+query getLocationWeather($loc: String!) {
+  location(cityName: $loc) {
+    latitude
+    longitude
+    ...SunriseSunsetLocation
+    weather {
+      ...${queryName}
     }
   }
+}
 
-  ${SunriseSunset.fragments.location}
-  ${WeatherFrag}
+${SunriseSunset.fragments.location}
+${WeatherFrag}
 `;
+
 /* eslint-enable graphql/template-strings */
 
 /* eslint-disable graphql/template-strings */
@@ -41,8 +42,12 @@ export const WeatherQuery = ({
   DisconnectedMessage,
   WeatherFrag,
   queryName,
+  location,
 }) => (
-  <Query query={getPrimaryLocationWeather(WeatherFrag, queryName)}>
+  <Query
+    query={getLocationWeather(WeatherFrag, queryName)}
+    variables={{ loc: location.pathname.substring(1) }}
+  >
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -53,13 +58,13 @@ export const WeatherQuery = ({
       }
       return (
         <Subscription
-          primaryLocation={data.primaryLocation}
+          primaryLocation={data.location[0]}
           subscribeToPublishedEvents={() =>
             subscribeToMore({
               document: subscribeWeatherPublished(WeatherFrag, queryName),
               variables: {
-                latitude: data.primaryLocation.latitude,
-                longitude: data.primaryLocation.longitude,
+                latitude: data.location[0].latitude,
+                longitude: data.location[0].longitude,
               },
               updateQuery: (prev, { subscriptionData }) => {
                 if (!subscriptionData.data) {
@@ -90,6 +95,9 @@ WeatherQuery.propTypes = {
     definitions: PropTypes.array.isRequired,
   }).isRequired,
   queryName: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default WeatherQuery;

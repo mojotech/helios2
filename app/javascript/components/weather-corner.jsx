@@ -82,7 +82,7 @@ WeatherCorner.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-const getWeatherQuery = () => {
+const getWeatherQuery = props => {
   return (
     <WeatherQuery
       Subscription={WeatherCorner}
@@ -90,6 +90,7 @@ const getWeatherQuery = () => {
       DisconnectedMessage={WeatherDisconnectedMessage}
       WeatherFrag={CornerWeather}
       queryName="CornerWeather"
+      {...props}
     />
   );
 };
