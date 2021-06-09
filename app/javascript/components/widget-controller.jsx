@@ -184,11 +184,13 @@ export class WidgetController extends React.Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (loading) {
+          if (error) {
+            // eslint-disable-next-line
+            console.error(error);
             return (
               <Wrapper>
                 <FullPanel>
-                  <LoadingMessage />
+                  <DisconnectedMessage />
                 </FullPanel>
                 <SidePanel
                   widgets={[]}
@@ -201,13 +203,11 @@ export class WidgetController extends React.Component {
             );
           }
 
-          if (error) {
-            // eslint-disable-next-line
-            console.error(error);
+          if (loading) {
             return (
               <Wrapper>
                 <FullPanel>
-                  <DisconnectedMessage />
+                  <LoadingMessage />
                 </FullPanel>
                 <SidePanel
                   widgets={[]}
