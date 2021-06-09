@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   post "/graphql", to: "graphql#execute"
 
+  get "/:city_name", controller: "PagesController", to: 'pages#index'
+
   namespace :web_hooks do
     post 'github', to: 'github#create', defaults: { format: :json }
     post 'slack_event', to: 'slack#create', defaults: { format: :json }
