@@ -198,6 +198,7 @@ export class WidgetController extends React.Component {
                   showWeather={false}
                   totalTime={0}
                   isPaused={false}
+                  props={this.props}
                 />
               </Wrapper>
             );
@@ -215,6 +216,7 @@ export class WidgetController extends React.Component {
                   showWeather={false}
                   totalTime={0}
                   isPaused={false}
+                  props={this.props}
                 />
               </Wrapper>
             );
@@ -235,7 +237,7 @@ export class WidgetController extends React.Component {
               tabIndex="0"
             >
               <FullPanel>
-                <WidgetElement />
+                <WidgetElement {...this.props} />
               </FullPanel>
               <SidePanel
                 widgets={enabledWidgets}
@@ -243,6 +245,7 @@ export class WidgetController extends React.Component {
                 showWeather={current.showWeather}
                 totalTime={current.durationSeconds * 1000}
                 isPaused={!!pausedTime}
+                props={this.props}
               />
             </Wrapper>
           );
