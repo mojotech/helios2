@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   resolve: {
     alias: {
+      // reconcile with package.json jest.moduleNameMapper
       '@root': path.resolve(__dirname, '../..'),
       '@app': path.resolve(__dirname, '../../app'),
       '@javascript': path.resolve(__dirname, '../../app/javascript'),
