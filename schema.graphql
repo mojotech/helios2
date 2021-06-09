@@ -103,6 +103,12 @@ type Query {
   # MojoTech slack/github events
   events(after: String, type: EventSource): EventCollection!
 
+  # Target location to receive updates
+  location(
+    # City name of location
+    cityName: String!
+  ): [Location!]!
+
   # MojoTech office locations
   locations: [Location!]!
 

@@ -3,9 +3,20 @@ class Types::QueryType < Types::BaseObject
     description "MojoTech office locations"
   end
 
+  field :location, [Types::LocationType] do
+    description "Target location to receive updates"
+    argument :city_name, String, "City name of location", required: true
+  end
+
   def locations
     Rails.cache.fetch('locations-response', expires_in: 15.minutes) do
       Location.all
+    end
+  end
+
+  def location(city_name)
+    Rails.cache.fetch('location-response', expires_in: 15.minutes) do
+      Location.where(city_name: city_name[:city_name])
     end
   end
 
