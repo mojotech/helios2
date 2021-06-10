@@ -139,3 +139,11 @@ https://app.zeplin.io/project/5ad8bfb98c928b070d6e1589
 ### GraphqQL fetch caching
 
 We have switched our client's default fetchPolicy to network-only, preferring to have a loading state prior to fetching the most up to date data.
+
+### ActiveAdmin User Interface
+
+Use the admin interface to navigate models and edit their parameters. Can be used to alter the displayed wifi and bathroom codes, rearrange and adjust widget screen time, or even delete a traffic cam from view.
+- Accessible through http://localhost:5000/admin
+- user email: admin@example.com
+- password: password
+
