@@ -48,6 +48,7 @@ jobs:
             - ~/.yarn-cache
           key: yarn-cache-{{ checksum "yarn.lock" }}
 
+      - run: yarn format --check
       - run: yarn run lint
       - run: yarn run test
 

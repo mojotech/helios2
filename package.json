@@ -63,7 +63,8 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",
     "test": "jest",
-    "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ "
+    "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ ",
+    "format": "prettier --write *.json *.jsx *.js"
   },
   "jest": {
     "verbose": true,
