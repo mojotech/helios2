@@ -22,22 +22,6 @@ end
 boulder.save!
 
 Location.find_or_initialize_by(
-  city_name: 'DC'
-) do |r|
-  r.latitude = 38.907192
-  r.longitude = -77.036871
-  r.time_zone = 'America/New_York'
-end.save!
-
-Location.find_or_initialize_by(
-  city_name: 'NYC'
-) do |r|
-  r.latitude = 40.712775
-  r.longitude = -74.005973
-  r.time_zone = 'America/New_York'
-end.save!
-
-Location.find_or_initialize_by(
   city_name: 'San Diego'
 ) do |r|
   r.latitude = 32.7157
