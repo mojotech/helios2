@@ -128,6 +128,9 @@ type Subscription {
   # An announcement was published
   announcementPublished: Announcement!
 
+  # Updated SHA value
+  deploymentSha: String!
+
   # An event was published to the API
   eventPublished: Event!
 
