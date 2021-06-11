@@ -74,6 +74,37 @@
               "deprecationReason": null
             },
             {
+              "name": "location",
+              "description": "Target location to receive updates",
+              "args": [
+                {
+                  "name": "cityName",
+                  "description": "City name of location",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Location",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "locations",
               "description": "MojoTech office locations",
               "args": [
