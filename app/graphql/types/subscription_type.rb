@@ -14,4 +14,8 @@ class Types::SubscriptionType < Types::BaseObject
   field :announcement_published, Types::AnnouncementType, description: "An announcement was published"
 
   def announcement_published; end
+
+  field :deployment_sha, String, description: "Updated SHA value"
+
+  def deployment_sha; end
 end
