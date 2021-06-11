@@ -2,8 +2,8 @@ class Widget < ApplicationRecord
   serialize :start, Tod::TimeOfDay
   serialize :stop, Tod::TimeOfDay
 
-  validates :name, presence: true, uniqueness: true
-  validates :position, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :location_id }
+  validates :position, presence: true, uniqueness: { scope: :location_id }
 
   belongs_to :location
 
