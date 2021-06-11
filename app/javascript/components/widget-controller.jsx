@@ -13,8 +13,8 @@ import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
 
 const getWidgets = gql`
-  query getWidgets($id: Int!) {
-    primaryLocation {
+  query getWidgets($id: Int!, $cityName: String!) {
+    location(cityName: $cityName) {
       widgets {
         enabled {
           id
@@ -75,10 +75,14 @@ export class WidgetController extends React.Component {
         this.lastPrefetchTime < now - prefetchDelay
       ) {
         const { nextWidgetId } = this.state;
+        const { cityName } = this.props;
         this.lastPrefetchTime = now;
         client.query({
           query: getWidgets,
-          variables: { id: nextWidgetId },
+          variables: {
+            id: nextWidgetId,
+            cityName,
+          },
         });
       }
     }, 500);
@@ -160,12 +164,16 @@ export class WidgetController extends React.Component {
 
     const fetchPolicy = currentWidgetId === 0 ? 'network-only' : 'cache-first';
 
+    const { cityName } = this.props;
+
     return (
       <Query
         query={getWidgets}
-        variables={{ id: currentWidgetId }}
+        variables={{ id: currentWidgetId, cityName }}
         fetchPolicy={fetchPolicy}
-        onCompleted={({ primaryLocation: { widgets } }) => {
+        onCompleted={response => {
+          const { location } = response;
+          const { widgets } = location;
           const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
 
           const index = enabledWidgets.findIndex(w => w.id === current.id);
@@ -196,6 +204,7 @@ export class WidgetController extends React.Component {
                   showWeather={false}
                   totalTime={0}
                   isPaused={false}
+                  cityName={cityName}
                 />
               </Wrapper>
             );
@@ -215,14 +224,14 @@ export class WidgetController extends React.Component {
                   showWeather={false}
                   totalTime={0}
                   isPaused={false}
+                  cityName={cityName}
                 />
               </Wrapper>
             );
           }
 
-          const {
-            primaryLocation: { widgets },
-          } = data;
+          const { location } = data;
+          const { widgets } = location;
           const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
 
           const WidgetElement = widgetElements[current.name].Panel;
@@ -235,7 +244,7 @@ export class WidgetController extends React.Component {
               tabIndex="0"
             >
               <FullPanel>
-                <WidgetElement />
+                <WidgetElement cityName={cityName} />
               </FullPanel>
               <SidePanel
                 widgets={enabledWidgets}
@@ -243,6 +252,7 @@ export class WidgetController extends React.Component {
                 showWeather={current.showWeather}
                 totalTime={current.durationSeconds * 1000}
                 isPaused={!!pausedTime}
+                cityName={cityName}
               />
             </Wrapper>
           );
@@ -256,6 +266,7 @@ WidgetController.propTypes = {
   client: PropTypes.shape({
     query: PropTypes.func.isRequired,
   }).isRequired,
+  cityName: PropTypes.string.isRequired,
 };
 
 export default WidgetController;

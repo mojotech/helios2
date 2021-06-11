@@ -82,16 +82,19 @@ WeatherCorner.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-const getWeatherQuery = () => {
-  return (
-    <WeatherQuery
-      Subscription={WeatherCorner}
-      LoadingMessage={WeatherLoadingMessage}
-      DisconnectedMessage={WeatherDisconnectedMessage}
-      WeatherFrag={CornerWeather}
-      queryName="CornerWeather"
-    />
-  );
+const getWeatherQuery = ({ cityName }) => (
+  <WeatherQuery
+    Subscription={WeatherCorner}
+    LoadingMessage={WeatherLoadingMessage}
+    DisconnectedMessage={WeatherDisconnectedMessage}
+    WeatherFrag={CornerWeather}
+    queryName="CornerWeather"
+    cityName={cityName}
+  />
+);
+
+getWeatherQuery.propTypes = {
+  cityName: PropTypes.string.isRequired,
 };
 
 export default getWeatherQuery;
