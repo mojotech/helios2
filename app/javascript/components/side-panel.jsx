@@ -32,9 +32,10 @@ export const SidePanel = ({
   showWeather,
   totalTime,
   isPaused,
+  cityName,
 }) => (
   <Wrapper>
-    <TopCorner showWeather={showWeather} />
+    <TopCorner showWeather={showWeather} cityName={cityName} />
     <CityName />
     <Row>
       <Wifi />

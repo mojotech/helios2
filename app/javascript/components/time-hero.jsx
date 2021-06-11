@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -14,16 +15,16 @@ const Wrapper = styled(SpacedRow)`
 `;
 
 const getLocation = gql`
-  {
-    primaryLocation {
+  query getLocation($cityName: String!) {
+    location(cityName: $cityName) {
       timezone
     }
   }
 `;
 
-export const TimeHero = () => (
+export const TimeHero = ({ cityName }) => (
   <Wrapper>
-    <Query query={getLocation}>
+    <Query query={getLocation} variables={{ cityName }}>
       {({ loading, error, data }) => {
         if (loading) {
           return <LoadingMessage />;
@@ -32,11 +33,14 @@ export const TimeHero = () => (
         if (error) {
           return <ErrorMessage />;
         }
-
-        return <Time timezone={data.primaryLocation.timezone} />;
+        return <Time timezone={data.location.timezone} />;
       }}
     </Query>
   </Wrapper>
 );
+
+TimeHero.propTypes = {
+  cityName: PropTypes.string.isRequired,
+};
 
 export default TimeHero;
