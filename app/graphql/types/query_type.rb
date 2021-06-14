@@ -16,7 +16,7 @@ class Types::QueryType < Types::BaseObject
 
   def location(options = {})
     city_name = options[:city_name]
-    Rails.cache.fetch('location-response', expires_in: 15.minutes) do
+    Rails.cache.fetch(`location-response-#{city_name}`, expires_in: 15.minutes) do
       Location.where(city_name: city_name).first
     end
   end
