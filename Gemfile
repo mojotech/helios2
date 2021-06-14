@@ -46,6 +46,9 @@ gem 'github_webhook', '~> 1.1'
 # slack API
 gem 'slack-ruby-client'
 
+# bambooHR API
+gem 'bamboozled'
+
 # jobs
 gem 'sidekiq'
 gem 'sidekiq-repeat'
