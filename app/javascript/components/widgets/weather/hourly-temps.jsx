@@ -54,6 +54,12 @@ const Percent = styled.span`
 const RainIcon = styled.img`
   margin-right: ${spacing.s};
 `;
+const Wind = styled.div`
+  font-size: ${fontSizes.small};
+  font-family: ${fonts.regular};
+  font-weight: ${weights.regular};
+  letter-spacing: 1.4px;
+`;
 
 const getHourlyWeather = gql`
   fragment HourlyWeather on Weather {
@@ -61,6 +67,7 @@ const getHourlyWeather = gql`
       temp
       time
       precipProbability
+      windSpeed
     }
   }
 `;
@@ -72,17 +79,20 @@ const HourlyTemps = ({ weather, hours }) => {
   )(weather);
   return (
     <Wrapper>
-      {hourlyWeathers.map(({ time, temp, precipProbability }, idx) => (
-        <Item key={time} index={idx}>
-          <Time>{parseHour(time)}</Time>
-          <Temp>{parseInt(temp, 10)}°</Temp>
-          <Precip>
-            <RainIcon src={rainIcon} width="20" height="20" alt="" />
-            {parseInt(precipProbability * 100, 10)}
-            <Percent>%</Percent>
-          </Precip>
-        </Item>
-      ))}
+      {hourlyWeathers.map(
+        ({ time, temp, precipProbability, windSpeed }, idx) => (
+          <Item key={time} index={idx}>
+            <Time>{parseHour(time)}</Time>
+            <Temp>{parseInt(temp, 10)}°</Temp>
+            <Precip>
+              <RainIcon src={rainIcon} width="20" height="20" alt="" />
+              {parseInt(precipProbability * 100, 10)}
+              <Percent>%</Percent>
+            </Precip>
+            <Wind>{windSpeed} m/s</Wind>
+          </Item>
+        ),
+      )}
     </Wrapper>
   );
 };

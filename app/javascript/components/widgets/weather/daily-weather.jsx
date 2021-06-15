@@ -34,6 +34,10 @@ const Rain = styled.div`
   font-size: ${fontSizes.small};
   margin-top: ${spacing.s};
 `;
+const Wind = styled.div`
+  font-size: ${fontSizes.small};
+  margin-top: ${spacing.s};
+`;
 
 const IconWrapper = styled.div`
   width: 60px;
@@ -51,6 +55,7 @@ const getDailyWeather = gql`
       weather {
         icon
       }
+      windSpeed
     }
   }
 `;
@@ -71,6 +76,7 @@ const DailyWeather = ({ weather }) => {
           temp: { min, max },
           precipProbability,
           weather: { icon },
+          windSpeed,
         }) => (
           <Item key={time}>
             <IconWrapper>
@@ -79,6 +85,7 @@ const DailyWeather = ({ weather }) => {
             <Day>{parseDay(time)}</Day>
             <Temp>{formatTempatures(min, max)}</Temp>
             <Rain>Rain {parseInt(precipProbability * 100, 10)}%</Rain>
+            <Wind>Wind {windSpeed} m/s</Wind>
           </Item>
         ),
       )}
