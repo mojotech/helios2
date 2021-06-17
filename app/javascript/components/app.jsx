@@ -14,6 +14,7 @@ import { getMainDefinition } from 'apollo-utilities';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { persistCache } from 'apollo-cache-persist';
 import WidgetController from '@components/widget-controller';
+import versionCompare from '@components/version-compare';
 import helioSchema from '@javascript/schema.json';
 import GlobalStyle from '../styles';
 
@@ -72,6 +73,8 @@ const client = new ApolloClient({
     },
   },
 });
+
+versionCompare(client);
 
 const App = () => (
   <ApolloProvider client={client}>
