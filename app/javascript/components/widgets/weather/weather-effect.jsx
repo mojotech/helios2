@@ -354,102 +354,102 @@ const DrizzleModerate = () => (
 const DrizzleHeavy = () => <Drizzle duration={1.2} variance={0.4} count={60} />;
 
 const weatherIdMap = {
-  200: (
+  200: () => (
     <>
       <RainModerate /> <Thunder />
     </>
   ), // Light rain
-  201: (
+  201: () => (
     <>
       <RainHeavy /> <Thunder />
     </>
   ), // Moderate rain
-  202: (
+  202: () => (
     <>
       <RainIntense /> <Thunder />
     </>
   ), // Heavy rain
-  210: <Thunder />, // Light thunderstorm
-  211: <Thunder />, // Moderate thunderstorm
-  212: <Thunder />, // Heavy thunderstorm
-  221: <Thunder />, // Ragged thunderstorm
-  230: (
+  210: () => <Thunder />, // Light thunderstorm
+  211: () => <Thunder />, // Moderate thunderstorm
+  212: () => <Thunder />, // Heavy thunderstorm
+  221: () => <Thunder />, // Ragged thunderstorm
+  230: () => (
     <>
       <DrizzleLight /> <Thunder />
     </>
   ), // Light drizzle
-  231: (
+  231: () => (
     <>
       <DrizzleModerate /> <Thunder />
     </>
   ), // Moderate drizzle
-  232: (
+  232: () => (
     <>
       <DrizzleHeavy /> <Thunder />
     </>
   ), // Heavy drizzle
-  300: <DrizzleLight />, // Light
-  301: <DrizzleModerate />, // Moderate
-  302: <DrizzleHeavy />, // Heavy
-  310: (
+  300: () => <DrizzleLight />, // Light
+  301: () => <DrizzleModerate />, // Moderate
+  302: () => <DrizzleHeavy />, // Heavy
+  310: () => (
     <>
       <DrizzleLight /> <RainLight />
     </>
   ), // Light rain
-  311: (
+  311: () => (
     <>
       <DrizzleLight /> <RainModerate />
     </>
   ), // Moderate rain
-  312: (
+  312: () => (
     <>
       <DrizzleModerate /> <RainModerate />
     </>
   ), // Heavy rain
-  313: (
+  313: () => (
     <>
       <DrizzleLight /> <RainModerate />
     </>
   ), // Shower rain
-  314: (
+  314: () => (
     <>
       <DrizzleModerate /> <RainModerate />
     </>
   ), // Heavy shower rain
-  321: <DrizzleModerate />, // Shower
-  500: <RainLight />, // Light
-  501: <RainModerate />, // Moderate
-  502: <RainHeavy />, // Heavy
-  503: <RainIntense />, // Very heavy
-  504: <RainExtreme />, // Extreme
-  511: <RainModerate />, // Freezing
-  520: <RainLight />, // Light shower
-  521: <RainModerate />, // Moderate shower
-  522: <RainHeavy />, // Heavy shower
-  531: <RainModerate />, // Ragged shower
-  600: <Snow duration={6} variance={2} count={20} />, // Light
-  601: <Snow duration={4} variance={2} count={50} />, // Normal
-  602: <Snow duration={2} variance={2} count={70} />, // Heavy
-  611: <HeavySnow duration={3} variance={2} count={20} />, // Sleet
-  612: <HeavySnow duration={2} variance={1} count={35} />, // Sleet
-  613: <HeavySnow duration={1.5} variance={1} count={45} />, // Sleet
-  615: (
+  321: () => <DrizzleModerate />, // Shower
+  500: () => <RainLight />, // Light
+  501: () => <RainModerate />, // Moderate
+  502: () => <RainHeavy />, // Heavy
+  503: () => <RainIntense />, // Very heavy
+  504: () => <RainExtreme />, // Extreme
+  511: () => <RainModerate />, // Freezing
+  520: () => <RainLight />, // Light shower
+  521: () => <RainModerate />, // Moderate shower
+  522: () => <RainHeavy />, // Heavy shower
+  531: () => <RainModerate />, // Ragged shower
+  600: () => <Snow duration={6} variance={2} count={20} />, // Light
+  601: () => <Snow duration={4} variance={2} count={50} />, // Normal
+  602: () => <Snow duration={2} variance={2} count={70} />, // Heavy
+  611: () => <HeavySnow duration={3} variance={2} count={20} />, // Sleet
+  612: () => <HeavySnow duration={2} variance={1} count={35} />, // Sleet
+  613: () => <HeavySnow duration={1.5} variance={1} count={45} />, // Sleet
+  615: () => (
     <>
       <Snow duration={4} variance={2} count={20} /> <RainLight />
     </>
   ), // Light rain and snow
-  616: (
+  616: () => (
     <>
       <Snow duration={2} variance={2} count={30} /> <RainModerate />
     </>
   ), // Rain and snow
-  620: <Snow duration={6} variance={1} count={20} />, // Light
-  621: <Snow duration={4} variance={1} count={50} />, // Normal
-  622: <Snow duration={2} variance={1} count={70} />, // Heavy
-  801: <Cloud duration={16} variance={1} count={2} />, // few cloud
-  802: <Cloud duration={16} variance={5} count={4} />, // scattered cloud
-  803: <Cloud duration={16} variance={10} count={8} />, // broken cloud
-  804: <Cloud duration={16} variance={15} count={16} />, // overcast cloud
+  620: () => <Snow duration={6} variance={1} count={20} />, // Light
+  621: () => <Snow duration={4} variance={1} count={50} />, // Normal
+  622: () => <Snow duration={2} variance={1} count={70} />, // Heavy
+  801: () => <Cloud duration={16} variance={1} count={2} />, // few cloud
+  802: () => <Cloud duration={16} variance={5} count={4} />, // scattered cloud
+  803: () => <Cloud duration={16} variance={10} count={8} />, // broken cloud
+  804: () => <Cloud duration={16} variance={15} count={16} />, // overcast cloud
 };
 /* eslint-enable prettier/prettier */
 
@@ -462,7 +462,11 @@ const WeatherEffect = ({ weather }) => {
 
   const Effect = weatherIdMap[id];
 
-  return Effect ? <EffectContainer>{Effect}</EffectContainer> : null;
+  return Effect ? (
+    <EffectContainer>
+      <Effect />
+    </EffectContainer>
+  ) : null;
 };
 
 WeatherEffect.propTypes = {
