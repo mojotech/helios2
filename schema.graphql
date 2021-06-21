@@ -109,12 +109,6 @@ type Query {
     cityName: String!
   ): Location!
 
-  # MojoTech office locations
-  locations: [Location!]!
-
-  # Location running the app
-  primaryLocation: Location!
-
   # Tweets from MojoTech
   tweets: [MojoTweet!]!
 }
