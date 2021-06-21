@@ -51,8 +51,8 @@ class WeatherCorner extends React.Component {
   }
 
   render() {
-    const { primaryLocation } = this.props;
-    const { weather } = primaryLocation;
+    const { location } = this.props;
+    const { weather } = location;
     return (
       <Column>
         <Row>
@@ -69,7 +69,7 @@ class WeatherCorner extends React.Component {
 }
 
 WeatherCorner.propTypes = {
-  primaryLocation: PropTypes.shape({
+  location: PropTypes.shape({
     weather: PropTypes.shape({
       current: PropTypes.shape({
         temp: PropTypes.number.isRequired,

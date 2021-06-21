@@ -8,8 +8,8 @@ import { colors, fontSizes, spacing, fonts } from '@lib/theme';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const getTimezone = gql`
-  {
-    primaryLocation {
+  query getTimezone($cityName: String!) {
+    location(cityName: $cityName) {
       timezone
     }
   }
@@ -55,7 +55,7 @@ export class Date extends React.Component {
   };
 
   timezone = props =>
-    props.data.primaryLocation ? props.data.primaryLocation.timezone : null;
+    props.data.location ? props.data.location.timezone : null;
 
   startDateTimer = () => {
     this.setDate();
@@ -76,4 +76,10 @@ export class Date extends React.Component {
   }
 }
 
-export default graphql(getTimezone)(Date);
+export default graphql(getTimezone, {
+  options: ownProps => ({
+    variables: {
+      cityName: ownProps.cityName,
+    },
+  }),
+})(Date);

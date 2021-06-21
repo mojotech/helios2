@@ -58,7 +58,7 @@ export const WeatherQuery = ({
       }
       return (
         <Subscription
-          primaryLocation={data.location}
+          location={data.location}
           subscribeToPublishedEvents={() =>
             subscribeToMore({
               document: subscribeWeatherPublished(WeatherFrag, queryName),
@@ -74,7 +74,7 @@ export const WeatherQuery = ({
                 const { weatherPublished } = subscriptionData.data;
 
                 return assocPath(
-                  ['primaryLocation', 'weather'],
+                  ['location', 'weather'],
                   weatherPublished,
                   prev,
                 );

@@ -10,8 +10,8 @@ import { GreySubText } from '@components/typography';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 
 const getTrafficCams = gql`
-  {
-    primaryLocation {
+  query getTrafficCams($cityName: String!) {
+    location(cityName: $cityName) {
       trafficCams {
         id
         title
@@ -75,8 +75,8 @@ TrafficCam.propTypes = {
   feedFormat: PropTypes.string.isRequired,
 };
 
-const Traffic = () => (
-  <Query query={getTrafficCams}>
+const Traffic = ({ cityName }) => (
+  <Query query={getTrafficCams} variables={{ cityName }}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -86,7 +86,7 @@ const Traffic = () => (
         return <DisconnectedMessage />;
       }
 
-      const { trafficCams } = data.primaryLocation;
+      const { trafficCams } = data.location;
       if (!trafficCams) {
         return null;
       }
@@ -121,4 +121,7 @@ const Traffic = () => (
   </Query>
 );
 
+Traffic.propTypes = {
+  cityName: PropTypes.string.isRequired,
+};
 export default Traffic;
