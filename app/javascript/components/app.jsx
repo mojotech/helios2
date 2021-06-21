@@ -83,7 +83,7 @@ const App = () => (
       <Switch>
         <Route
           path="/:city_name"
-          component={routeProps => (
+          render={routeProps => (
             <WidgetController
               client={client}
               cityName={routeProps.match.params.city_name}
