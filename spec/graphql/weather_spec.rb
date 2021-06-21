@@ -38,7 +38,7 @@ describe Helios2Schema do
     let(:query_string) {
       %(
 {
-  primaryLocation{
+  location(cityName: "Providence"){
     weather{
       current{
         weather{
@@ -53,7 +53,7 @@ describe Helios2Schema do
 
     context "from anonymous" do
       it "will consume an OpenWeather response and return data" do
-        expect(result["data"]["primaryLocation"]["weather"]["current"]["weather"]["main"]).to eq("Mist")
+        expect(result["data"]["location"]["weather"]["current"]["weather"]["main"]).to eq("Mist")
       end
     end
   end
