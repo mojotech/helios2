@@ -76,12 +76,12 @@ class SubscribedWeather extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.primaryLocation !== nextProps.primaryLocation;
+    return this.props.location !== nextProps.location;
   }
 
   render() {
-    const { primaryLocation } = this.props;
-    const { weather } = primaryLocation;
+    const { location } = this.props;
+    const { weather } = location;
     return (
       <Column>
         <CenteredRow>
@@ -93,7 +93,7 @@ class SubscribedWeather extends React.Component {
         <SummaryText>
           <CurrentWeather {...{ weather }} useLargeIcon />
         </SummaryText>
-        <SunriseSunset {...{ location: primaryLocation, weather }} />
+        <SunriseSunset {...{ location, weather }} />
         <DailyWeather {...{ weather }} />
         <Notice>Powered by OpenWeather</Notice>
       </Column>
@@ -102,7 +102,7 @@ class SubscribedWeather extends React.Component {
 }
 
 SubscribedWeather.propTypes = {
-  primaryLocation: PropTypes.shape({
+  location: PropTypes.shape({
     weather: PropTypes.shape({}).isRequired,
   }).isRequired,
   subscribeToPublishedEvents: PropTypes.func.isRequired,

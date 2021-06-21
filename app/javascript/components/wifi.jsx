@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -23,17 +24,17 @@ const Icon = styled.div`
 `;
 
 const getWifiInfo = gql`
-  {
-    primaryLocation {
+  query getWifiInfo($cityName: String!) {
+    location(cityName: $cityName) {
       wifiName
       wifiPassword
     }
   }
 `;
 
-export const Wifi = () => (
+export const Wifi = ({ cityName }) => (
   <div>
-    <Query query={getWifiInfo}>
+    <Query query={getWifiInfo} variables={{ cityName }}>
       {({ loading, error, data }) => {
         if (loading) {
           return <LoadingMessage />;
@@ -43,7 +44,7 @@ export const Wifi = () => (
           return <ErrorMessage />;
         }
 
-        const { wifiName, wifiPassword } = data.primaryLocation;
+        const { wifiName, wifiPassword } = data.location;
         if (!wifiName || !wifiPassword) {
           return null;
         }
@@ -72,4 +73,7 @@ export const Wifi = () => (
   </div>
 );
 
+Wifi.propTypes = {
+  cityName: PropTypes.string.isRequired,
+};
 export default Wifi;

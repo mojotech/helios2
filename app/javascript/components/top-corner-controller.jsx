@@ -30,7 +30,7 @@ const TopCorner = ({ showWeather, cityName }) => {
   return (
     <div>
       <DateLogoRow>
-        <Date />
+        <Date cityName={cityName} />
       </DateLogoRow>
       <IconWrapper>
         <Logo />

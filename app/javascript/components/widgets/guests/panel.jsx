@@ -20,9 +20,9 @@ const subscribeAnnouncementPublished = gql`
   }
 `;
 
-const getPrimaryLocationAnnouncements = gql`
-  {
-    primaryLocation {
+const getLocationAnnouncements = gql`
+  query getLocationAnnouncements($cityName: String!) {
+    location(cityName: $cityName) {
       dayAnnouncements {
         message
         people
@@ -106,20 +106,20 @@ SubscribedAnnouncements.propTypes = {
   subscribeToPublishedAnnouncements: PropTypes.func.isRequired,
 };
 
-const Guests = () => (
-  <Query query={getPrimaryLocationAnnouncements}>
+const Guests = ({ cityName }) => (
+  <Query query={getLocationAnnouncements} variables={{ cityName }}>
     {({ loading, error, data, subscribeToMore }) => {
       if (error) {
         return <DisconnectedMessage />;
       }
 
-      if (loading || data.primaryLocation.dayAnnouncements.length === 0) {
+      if (loading || data.location.dayAnnouncements.length === 0) {
         return <LoadingMessage />;
       }
 
       return (
         <SubscribedAnnouncements
-          dayAnnouncements={data.primaryLocation.dayAnnouncements}
+          dayAnnouncements={data.location.dayAnnouncements}
           subscribeToPublishedAnnouncements={() =>
             subscribeToMore({
               document: subscribeAnnouncementPublished,
@@ -131,11 +131,11 @@ const Guests = () => (
 
                 if (isInFutureToday(announcementPublished.publishOn)) {
                   return set(
-                    lensPath(['primaryLocation', 'dayAnnouncements']),
+                    lensPath(['location', 'dayAnnouncements']),
 
                     append(
                       announcementPublished,
-                      prev.primaryLocation.dayAnnouncements,
+                      prev.location.dayAnnouncements,
                     ),
 
                     prev,
@@ -144,8 +144,8 @@ const Guests = () => (
 
                 const isFutureToday = item => isInFutureToday(item.publishOn);
                 return set(
-                  lensPath(['primaryLocation', 'dayAnnouncements']),
-                  filter(isFutureToday, prev.primaryLocation.dayAnnouncements),
+                  lensPath(['location', 'dayAnnouncements']),
+                  filter(isFutureToday, prev.location.dayAnnouncements),
                   prev,
                 );
               },
@@ -157,4 +157,7 @@ const Guests = () => (
   </Query>
 );
 
+Guests.propTypes = {
+  cityName: PropTypes.string.isRequired,
+};
 export default Guests;

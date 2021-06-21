@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -6,8 +7,8 @@ import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 
 const getBathroomCode = gql`
-  {
-    primaryLocation {
+  query getBathroomCode($cityName: String!) {
+    location(cityName: $cityName) {
       bathroomCode
     }
   }
@@ -19,8 +20,8 @@ const Column = styled.div`
   margin-top: 100px;
 `;
 
-export const Bathroom = () => (
-  <Query query={getBathroomCode}>
+export const Bathroom = ({ cityName }) => (
+  <Query query={getBathroomCode} variables={{ cityName }}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -30,7 +31,7 @@ export const Bathroom = () => (
         return <ErrorMessage />;
       }
 
-      const { bathroomCode } = data.primaryLocation;
+      const { bathroomCode } = data.location;
       if (!bathroomCode) {
         return null;
       }
@@ -44,5 +45,9 @@ export const Bathroom = () => (
     }}
   </Query>
 );
+
+Bathroom.propTypes = {
+  cityName: PropTypes.string.isRequired,
+};
 
 export default Bathroom;
