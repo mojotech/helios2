@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime';
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-link';
@@ -80,17 +80,15 @@ const App = () => (
   <ApolloProvider client={client}>
     <GlobalStyle />
     <Router>
-      <Switch>
-        <Route
-          path="/:city_name"
-          render={routeProps => (
-            <WidgetController
-              client={client}
-              cityName={routeProps.match.params.city_name}
-            />
-          )}
-        />
-      </Switch>
+      <Route
+        path="/:city_name"
+        render={routeProps => (
+          <WidgetController
+            client={client}
+            cityName={routeProps.match.params.city_name}
+          />
+        )}
+      />
     </Router>
   </ApolloProvider>
 );
