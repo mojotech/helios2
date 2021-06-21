@@ -171,3 +171,11 @@ TrafficCam.find_or_initialize_by(
   r.location = boulder
   r.feed_format = "video"
 end.save!
+
+if AdminUser.count.zero?
+  AdminUser.create!(
+    email: ENV['ADMIN_EMAIL'],
+    password: ENV['ADMIN_PASSWORD'],
+    password_confirmation: ENV['ADMIN_PASSWORD']
+  )
+end
