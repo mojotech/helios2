@@ -87,6 +87,7 @@
       "^@messages(.*)$": "<rootDir>/app/javascript/components/widgets/messages$1",
       "^@numbers(.*)$": "<rootDir>/app/javascript/components/widgets/numbers$1",
       "^@weather(.*)$": "<rootDir>/app/javascript/components/widgets/weather$1",
+      "^@twitter(.*)$": "<rootDir>/app/javascript/components/widgets/twitter$1",
       "^@hocs(.*)$": "<rootDir>/app/javascript/components/hocs$1",
       "^@assets(.*)$": "<rootDir>/app/assets$1",
       "^@images(.*)$": "<rootDir>/app/assets/images$1",
