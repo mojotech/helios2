@@ -117,16 +117,27 @@ export class WidgetController extends React.Component {
   };
 
   nextWidget = () => {
-    this.setState(({ nextWidgetId }) =>
-      nextWidgetId
-        ? {
-            currentWidgetId: nextWidgetId,
-            nextWidgetId: null,
-            prevWidgetId: null,
-            transitionTime: null,
-          }
-        : {},
-    );
+    this.setState(state => {
+      const { nextWidgetId } = state;
+      if (!nextWidgetId) {
+        // eslint-disable-next-line
+        console.error(
+          `FATAL: nextWidgetId is undefined for nextWidget call. state: ${state}`,
+        );
+        return {
+          currentWidgetId: null,
+          nextWidgetId: null,
+          prevWidgetId: null,
+          transitionTime: null,
+        };
+      }
+      return {
+        currentWidgetId: nextWidgetId,
+        nextWidgetId: null,
+        prevWidgetId: null,
+        transitionTime: null,
+      };
+    });
   };
 
   prevWidget = () => {
@@ -143,12 +154,16 @@ export class WidgetController extends React.Component {
   };
 
   switchToPage = id => {
-    this.setState({
-      currentWidgetId: id,
-      nextWidgetId: null,
-      prevWidgetId: null,
-      transitionTime: null,
-    });
+    this.setState(({ currentWidgetId }) =>
+      currentWidgetId !== id
+        ? {
+            currentWidgetId: id,
+            nextWidgetId: null,
+            prevWidgetId: null,
+            transitionTime: null,
+          }
+        : {},
+    );
   };
 
   handleClicks = ({ target }) => {
