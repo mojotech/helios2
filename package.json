@@ -77,6 +77,7 @@
     ],
     "moduleNameMapper": {
       "\\.(png|jpg|gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
+      "react-hls-player": "<rootDir>/__mocks__/emptyMock.js",
       "^@root(.*)$": "<rootDir>/$1",
       "^@app(.*)$": "<rootDir>/app$1",
       "^@javascript(.*)$": "<rootDir>/app/javascript$1",
