@@ -26,7 +26,7 @@ const Row = styled.div`
   margin-right: 100px;
 `;
 
-const TopCorner = ({ showWeather, cityName }) => {
+const TopCorner = ({ showWeather, cityName, loading, error, location }) => {
   return (
     <div>
       <DateLogoRow>
@@ -36,7 +36,7 @@ const TopCorner = ({ showWeather, cityName }) => {
         <Logo />
       </IconWrapper>
       <Row>
-        <TimeHero cityName={cityName} />
+        <TimeHero loading={loading} error={error} location={location} />
         {showWeather && <WeatherCorner cityName={cityName} />}
       </Row>
     </div>
@@ -44,7 +44,18 @@ const TopCorner = ({ showWeather, cityName }) => {
 };
 
 TopCorner.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+  location: PropTypes.shape({
+    timezone: PropTypes.string,
+  }).isRequired,
   showWeather: PropTypes.bool.isRequired,
   cityName: PropTypes.string.isRequired,
 };
+
+TopCorner.defaultProps = {
+  loading: true,
+  error: false,
+};
+
 export default TopCorner;

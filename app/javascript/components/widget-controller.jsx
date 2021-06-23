@@ -6,12 +6,15 @@ import {
   WidgetDisplay,
   LoadingDisplay,
   DisconnectedDisplay,
+  getWidgetDisplay,
 } from '@components/widget-display';
 import WidgetTransitionControls from '@components/widget-transition-controls';
 
 const getWidgets = gql`
+  ${getWidgetDisplay}
   query getWidgets($id: Int!, $cityName: String!) {
     location(cityName: $cityName) {
+      ...WidgetDisplay
       widgets {
         enabled {
           id
@@ -61,13 +64,13 @@ export const WidgetController = ({ client, cityName }) => {
     >
       {({ loading, error, data }) => {
         if (loading) {
-          return <LoadingDisplay cityName={cityName} />;
+          return <LoadingDisplay cityName={cityName} loading={loading} />;
         }
 
         if (error) {
           // eslint-disable-next-line
           console.error(error);
-          return <DisconnectedDisplay cityName={cityName} />;
+          return <DisconnectedDisplay cityName={cityName} error={error} />;
         }
 
         return (
@@ -76,7 +79,9 @@ export const WidgetController = ({ client, cityName }) => {
             requestPrefetch={queryCallback}
             requestWidget={setNewWidgetId}
             cityName={cityName}
-            widgets={data.location.widgets}
+            location={data.location}
+            loading={loading}
+            error={error}
           />
         );
       }}

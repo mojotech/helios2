@@ -6,30 +6,32 @@ import {
   DisconnectedDisplay,
 } from '@components/widget-display';
 
-const widgets = {
-  enabled: [
-    {
+const location = {
+  widgets: {
+    enabled: [
+      {
+        id: 2,
+        name: 'Weather',
+        sidebarText: 'Weather',
+      },
+      {
+        id: 3,
+        name: 'Twitter',
+        sidebarText: '@MojoTech',
+      },
+      {
+        id: 4,
+        name: 'Numbers',
+        sidebarText: 'MojoTech by the Numbers',
+      },
+    ],
+    byIdOrFirst: {
+      durationSeconds: 20,
       id: 2,
       name: 'Weather',
+      showWeather: false,
       sidebarText: 'Weather',
     },
-    {
-      id: 3,
-      name: 'Twitter',
-      sidebarText: '@MojoTech',
-    },
-    {
-      id: 4,
-      name: 'Numbers',
-      sidebarText: 'MojoTech by the Numbers',
-    },
-  ],
-  byIdOrFirst: {
-    durationSeconds: 20,
-    id: 2,
-    name: 'Weather',
-    showWeather: false,
-    sidebarText: 'Weather',
   },
 };
 
@@ -42,15 +44,17 @@ const renderWidgetDisplay = () =>
       clickToWidgetAction={() => {}}
       isPaused={false}
       cityName="Providence"
-      widgets={widgets}
+      location={location}
+      loading
+      error={false}
     />,
   );
 
 const renderLoadingDisplay = () =>
-  renderer.render(<LoadingDisplay cityName="Providence" />);
+  renderer.render(<LoadingDisplay cityName="Providence" loading />);
 
 const renderDisconnectedDisplay = () =>
-  renderer.render(<DisconnectedDisplay cityName="Providence" />);
+  renderer.render(<DisconnectedDisplay cityName="Providence" error />);
 
 describe('WidgetDisplay component', () => {
   it('renders correctly', () => {

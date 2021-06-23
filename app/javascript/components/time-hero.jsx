@@ -1,46 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { SpacedRow } from '@components/row';
 import Time from '@components/time';
-import { spacing } from '@lib/theme';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import withFragment from './hocs/with-fragment';
 
-const Wrapper = styled(SpacedRow)`
-  margin-top: ${spacing.m};
-  align-items: flex-end;
-  margin-bottom: 44px;
-`;
-
-const getLocation = gql`
-  query getLocation($cityName: String!) {
-    location(cityName: $cityName) {
-      timezone
-    }
+export const getTimeZone = gql`
+  fragment TimeHero on Location {
+    timezone
   }
 `;
 
-export const TimeHero = ({ cityName }) => (
-  <Wrapper>
-    <Query query={getLocation} variables={{ cityName }}>
-      {({ loading, error, data }) => {
-        if (loading) {
-          return <LoadingMessage />;
-        }
-
-        if (error) {
-          return <ErrorMessage />;
-        }
-        return <Time timezone={data.location.timezone} />;
-      }}
-    </Query>
-  </Wrapper>
-);
-
-TimeHero.propTypes = {
-  cityName: PropTypes.string.isRequired,
+export const TimeHero = ({ loading, error, location }) => {
+  if (loading) {
+    return <LoadingMessage />;
+  }
+  if (error) {
+    return <ErrorMessage />;
+  }
+  return <Time location={location} />;
 };
 
-export default TimeHero;
+TimeHero.propTypes = {
+  location: PropTypes.shape({
+    timezone: PropTypes.string,
+  }).isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+};
+
+TimeHero.defaultProps = {
+  loading: true,
+  error: false,
+};
+
+TimeHero.fragments = {
+  location: getTimeZone,
+};
+
+export default withFragment(TimeHero);
