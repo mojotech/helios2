@@ -5,8 +5,9 @@ exports[`DisconnectedDisplay component renders correctly 1`] = `
   <FullPanel>
     <DisconnectedMessage />
   </FullPanel>
-  <SidePanel
+  <Memo
     cityName="Providence"
+    error={true}
     isPaused={false}
     selectedWidgetId={0}
     showWeather={false}
@@ -21,9 +22,10 @@ exports[`LoadingDisplay component renders correctly 1`] = `
   <FullPanel>
     <LoadingMessage />
   </FullPanel>
-  <SidePanel
+  <Memo
     cityName="Providence"
     isPaused={false}
+    loading={true}
     selectedWidgetId={0}
     showWeather={false}
     totalTime={0}
@@ -43,9 +45,41 @@ exports[`WidgetDisplay component renders correctly 1`] = `
       cityName="Providence"
     />
   </FullPanel>
-  <SidePanel
+  <Memo
     cityName="Providence"
+    error={false}
     isPaused={false}
+    loading={true}
+    location={
+      Object {
+        "widgets": Object {
+          "byIdOrFirst": Object {
+            "durationSeconds": 20,
+            "id": 2,
+            "name": "Weather",
+            "showWeather": false,
+            "sidebarText": "Weather",
+          },
+          "enabled": Array [
+            Object {
+              "id": 2,
+              "name": "Weather",
+              "sidebarText": "Weather",
+            },
+            Object {
+              "id": 3,
+              "name": "Twitter",
+              "sidebarText": "@MojoTech",
+            },
+            Object {
+              "id": 4,
+              "name": "Numbers",
+              "sidebarText": "MojoTech by the Numbers",
+            },
+          ],
+        },
+      }
+    }
     selectedWidgetId={2}
     showWeather={false}
     totalTime={20000}

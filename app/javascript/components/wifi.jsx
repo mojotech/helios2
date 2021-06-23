@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { Row } from '@components/row';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 import WifiIcon from '@assets/images/icons/icon-wifi.svg';
 import LockIcon from '@assets/images/icons/icon-key.svg';
+import withFragment from './hocs/with-fragment';
 
 const Column = styled.div`
   display: flex;
@@ -23,57 +23,64 @@ const Icon = styled.div`
   margin-top: 5px;
 `;
 
-const getWifiInfo = gql`
-  query getWifiInfo($cityName: String!) {
-    location(cityName: $cityName) {
-      wifiName
-      wifiPassword
-    }
+export const getWifi = gql`
+  fragment Wifi on Location {
+    wifiName
+    wifiPassword
   }
 `;
 
-export const Wifi = ({ cityName }) => (
-  <div>
-    <Query query={getWifiInfo} variables={{ cityName }}>
-      {({ loading, error, data }) => {
-        if (loading) {
-          return <LoadingMessage />;
-        }
+export const Wifi = ({ loading, error, location }) => {
+  if (loading) {
+    return <LoadingMessage />;
+  }
+  if (error) {
+    return <ErrorMessage />;
+  }
 
-        if (error) {
-          return <ErrorMessage />;
-        }
-
-        const { wifiName, wifiPassword } = data.location;
-        if (!wifiName || !wifiPassword) {
-          return null;
-        }
-
-        return (
+  const { wifiName, wifiPassword } = location;
+  if (!wifiName || !wifiPassword) {
+    return null;
+  }
+  return (
+    <div>
+      <Row>
+        <Column>
+          <WhiteSubTitle>WIFI</WhiteSubTitle>
           <Row>
-            <Column>
-              <WhiteSubTitle>WIFI</WhiteSubTitle>
-              <Row>
-                <Icon>
-                  <img src={WifiIcon} alt="wifi" width={24} height={32} />
-                </Icon>
-                <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
-              </Row>
-              <Row>
-                <Icon>
-                  <img src={LockIcon} alt="lock" width={24} height={32} />
-                </Icon>
-                <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
-              </Row>
-            </Column>
+            <Icon>
+              <img src={WifiIcon} alt="wifi" width={24} height={32} />
+            </Icon>
+            <WhiteTitleLarge>{wifiName}</WhiteTitleLarge>
           </Row>
-        );
-      }}
-    </Query>
-  </div>
-);
+          <Row>
+            <Icon>
+              <img src={LockIcon} alt="lock" width={24} height={32} />
+            </Icon>
+            <WhiteTitleLarge>{wifiPassword}</WhiteTitleLarge>
+          </Row>
+        </Column>
+      </Row>
+    </div>
+  );
+};
 
 Wifi.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    wifiName: PropTypes.string,
+    wifiPassword: PropTypes.string,
+  }).isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
 };
-export default Wifi;
+
+Wifi.defaultProps = {
+  loading: true,
+  error: false,
+};
+
+Wifi.fragments = {
+  location: getWifi,
+};
+
+export default withFragment(Wifi);

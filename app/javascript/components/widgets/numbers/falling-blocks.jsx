@@ -132,6 +132,8 @@ const getImageFromCache = imagePath => {
 };
 
 class Scene extends React.Component {
+  imageCache = {};
+
   static propTypes = {
     mutation: PropTypes.func.isRequired,
     world: PropTypes.arrayOf(PropTypes.array),
@@ -143,8 +145,6 @@ class Scene extends React.Component {
   static defaultProps = {
     world: null,
   };
-
-  imageCache = {};
 
   constructor(props) {
     super(props);

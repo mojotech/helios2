@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import withFragment from './hocs/with-fragment';
 
-const getBathroomCode = gql`
-  query getBathroomCode($cityName: String!) {
-    location(cityName: $cityName) {
-      bathroomCode
-    }
+export const getBathroomCode = gql`
+  fragment Bathroom on Location {
+    bathroomCode
   }
 `;
 
@@ -20,34 +18,42 @@ const Column = styled.div`
   margin-top: 100px;
 `;
 
-export const Bathroom = ({ cityName }) => (
-  <Query query={getBathroomCode} variables={{ cityName }}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+export const Bathroom = ({ loading, error, location }) => {
+  if (loading) {
+    return <LoadingMessage />;
+  }
+  if (error) {
+    return <ErrorMessage />;
+  }
 
-      if (error) {
-        return <ErrorMessage />;
-      }
-
-      const { bathroomCode } = data.location;
-      if (!bathroomCode) {
-        return null;
-      }
-
-      return (
-        <Column>
-          <WhiteSubTitle>BATHROOM CODE</WhiteSubTitle>
-          <WhiteTitleLarge>{bathroomCode}</WhiteTitleLarge>
-        </Column>
-      );
-    }}
-  </Query>
-);
-
-Bathroom.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  const { bathroomCode } = location;
+  if (!bathroomCode) {
+    return null;
+  }
+  return (
+    <Column>
+      <WhiteSubTitle>BATHROOM CODE</WhiteSubTitle>
+      <WhiteTitleLarge>{bathroomCode}</WhiteTitleLarge>
+    </Column>
+  );
 };
 
-export default Bathroom;
+Bathroom.propTypes = {
+  location: PropTypes.shape({
+    bathroomCode: PropTypes.string,
+  }),
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+};
+
+Bathroom.defaultProps = {
+  location: {},
+  loading: true,
+  error: false,
+};
+
+Bathroom.fragments = {
+  location: getBathroomCode,
+};
+
+export default withFragment(Bathroom);

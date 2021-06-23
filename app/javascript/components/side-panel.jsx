@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { spacing, colors, sidePanelWidth } from '@lib/theme';
-import Wifi from '@components/wifi';
-import Bathroom from '@components/bathroom';
+import Wifi, { getWifi } from '@components/wifi';
+import Bathroom, { getBathroomCode } from '@components/bathroom';
 import CityName from '@components/city-name';
 import { Row } from '@components/row';
 import TopCorner from '@components/top-corner-controller';
 import Widgets from '@components/widgets';
+import gql from 'graphql-tag';
+import withFragment from './hocs/with-fragment';
 
 const Wrapper = styled.div`
   bottom: 0;
@@ -26,6 +28,15 @@ const FixedContent = styled.div`
   color: ${colors.white};
 `;
 
+export const getSidePanel = gql`
+  ${getWifi}
+  ${getBathroomCode}
+  fragment SidePanel on Location {
+    ...Wifi
+    ...Bathroom
+  }
+`;
+
 export const SidePanel = ({
   widgets,
   selectedWidgetId,
@@ -33,13 +44,22 @@ export const SidePanel = ({
   totalTime,
   isPaused,
   cityName,
+  location,
+  loading,
+  error,
 }) => (
   <Wrapper>
-    <TopCorner showWeather={showWeather} cityName={cityName} />
+    <TopCorner
+      showWeather={showWeather}
+      cityName={cityName}
+      loading={loading}
+      error={error}
+      location={location}
+    />
     <CityName cityName={cityName} />
     <Row>
-      <Wifi cityName={cityName} />
-      <Bathroom cityName={cityName} />
+      <Wifi loading={loading} error={error} location={location} />
+      <Bathroom loading={loading} error={error} location={location} />
     </Row>
     <FixedContent>
       <Widgets
@@ -55,6 +75,17 @@ export const SidePanel = ({
 SidePanel.propTypes = {
   ...Widgets.propTypes,
   showWeather: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
-export default SidePanel;
+SidePanel.defaultProps = {
+  loading: true,
+  error: false,
+};
+
+SidePanel.fragments = {
+  location: getSidePanel,
+};
+
+export default withFragment(SidePanel);
