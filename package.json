@@ -36,8 +36,7 @@
     "regenerator-runtime": "^0.13.7",
     "resurrect-js": "^1.0.1",
     "styled-components": "^4.0.0",
-    "styled-normalize": "^4.0.0",
-    "unfetch": "^4.2.0"
+    "styled-normalize": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
