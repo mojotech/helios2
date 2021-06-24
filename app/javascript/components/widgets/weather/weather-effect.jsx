@@ -337,33 +337,85 @@ Cloud.propTypes = {
 /* eslint-disable prettier/prettier */
 const RainLight = () => <Rain duration={0.6} variance={0.4} count={10} />;
 const RainModerate = () => <Rain duration={0.5} variance={0.3} count={20} />;
-const RainHeavy = () => <Rain duration={0.5} variance={0.2} count={35} angle={15} />;
-const RainIntense = () => <Rain duration={0.4} variance={0.1} count={40} angle={30} />;
-const RainExtreme = () => <Rain duration={0.5} variance={0.1} count={60} angle={45} />;
+const RainHeavy = () => (
+  <Rain duration={0.5} variance={0.2} count={35} angle={15} />
+);
+const RainIntense = () => (
+  <Rain duration={0.4} variance={0.1} count={40} angle={30} />
+);
+const RainExtreme = () => (
+  <Rain duration={0.5} variance={0.1} count={60} angle={45} />
+);
 
 const DrizzleLight = () => <Drizzle duration={1.8} variance={0.5} count={30} />;
-const DrizzleModerate = () => <Drizzle duration={1.5} variance={0.5} count={45} />;
+const DrizzleModerate = () => (
+  <Drizzle duration={1.5} variance={0.5} count={45} />
+);
 const DrizzleHeavy = () => <Drizzle duration={1.2} variance={0.4} count={60} />;
 
 const weatherIdMap = {
-  200: <><RainModerate /> <Thunder /></>, // Light rain
-  201: <><RainHeavy /> <Thunder /></>, // Moderate rain
-  202: <><RainIntense /> <Thunder /></>, // Heavy rain
+  200: (
+    <>
+      <RainModerate /> <Thunder />
+    </>
+  ), // Light rain
+  201: (
+    <>
+      <RainHeavy /> <Thunder />
+    </>
+  ), // Moderate rain
+  202: (
+    <>
+      <RainIntense /> <Thunder />
+    </>
+  ), // Heavy rain
   210: <Thunder />, // Light thunderstorm
   211: <Thunder />, // Moderate thunderstorm
   212: <Thunder />, // Heavy thunderstorm
   221: <Thunder />, // Ragged thunderstorm
-  230: <><DrizzleLight /> <Thunder /></>, // Light drizzle
-  231: <><DrizzleModerate /> <Thunder /></>, // Moderate drizzle
-  232: <><DrizzleHeavy /> <Thunder /></>, // Heavy drizzle
+  230: (
+    <>
+      <DrizzleLight /> <Thunder />
+    </>
+  ), // Light drizzle
+  231: (
+    <>
+      <DrizzleModerate /> <Thunder />
+    </>
+  ), // Moderate drizzle
+  232: (
+    <>
+      <DrizzleHeavy /> <Thunder />
+    </>
+  ), // Heavy drizzle
   300: <DrizzleLight />, // Light
   301: <DrizzleModerate />, // Moderate
   302: <DrizzleHeavy />, // Heavy
-  310: <><DrizzleLight /> <RainLight /></>, // Light rain
-  311: <><DrizzleLight /> <RainModerate /></>, // Moderate rain
-  312: <><DrizzleModerate /> <RainModerate /></>, // Heavy rain
-  313: <><DrizzleLight /> <RainModerate /></>, // Shower rain
-  314: <><DrizzleModerate /> <RainModerate /></>, // Heavy shower rain
+  310: (
+    <>
+      <DrizzleLight /> <RainLight />
+    </>
+  ), // Light rain
+  311: (
+    <>
+      <DrizzleLight /> <RainModerate />
+    </>
+  ), // Moderate rain
+  312: (
+    <>
+      <DrizzleModerate /> <RainModerate />
+    </>
+  ), // Heavy rain
+  313: (
+    <>
+      <DrizzleLight /> <RainModerate />
+    </>
+  ), // Shower rain
+  314: (
+    <>
+      <DrizzleModerate /> <RainModerate />
+    </>
+  ), // Heavy shower rain
   321: <DrizzleModerate />, // Shower
   500: <RainLight />, // Light
   501: <RainModerate />, // Moderate
@@ -381,8 +433,16 @@ const weatherIdMap = {
   611: <HeavySnow duration={3} variance={2} count={20} />, // Sleet
   612: <HeavySnow duration={2} variance={1} count={35} />, // Sleet
   613: <HeavySnow duration={1.5} variance={1} count={45} />, // Sleet
-  615: <><Snow duration={4} variance={2} count={20} /> <RainLight /></>, // Light rain and snow
-  616: <><Snow duration={2} variance={2} count={30} /> <RainModerate /></>, // Rain and snow
+  615: (
+    <>
+      <Snow duration={4} variance={2} count={20} /> <RainLight />
+    </>
+  ), // Light rain and snow
+  616: (
+    <>
+      <Snow duration={2} variance={2} count={30} /> <RainModerate />
+    </>
+  ), // Rain and snow
   620: <Snow duration={6} variance={1} count={20} />, // Light
   621: <Snow duration={4} variance={1} count={50} />, // Normal
   622: <Snow duration={2} variance={1} count={70} />, // Heavy
@@ -390,7 +450,7 @@ const weatherIdMap = {
   802: <Cloud duration={16} variance={5} count={4} />, // scattered cloud
   803: <Cloud duration={16} variance={10} count={8} />, // broken cloud
   804: <Cloud duration={16} variance={15} count={16} />, // overcast cloud
-}
+};
 /* eslint-enable prettier/prettier */
 
 const WeatherEffect = ({ weather }) => {
