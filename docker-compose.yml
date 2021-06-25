@@ -21,3 +21,5 @@ services:
       - REDIS_URL=redis://redis:6379/1
   redis:
     image: redis:4.0
+    ports: 
+      - "6379:6379"
