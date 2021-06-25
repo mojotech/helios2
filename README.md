@@ -6,76 +6,6 @@ This project is a Rails 5.2 app using webpacker and React.
 
 MRI 2.5.7
 
-### Installation options
-
-You can either install the deps directly on your box or you can use the Docker support.
-
-## Native
-
-### Getting ready
-
-Prequisites:
-- libpq
-  - Ubuntu: sudo apt install libpq-dev
-  - OSX: brew install libpq && brew link --force libpq
-- libsqlite3
-  - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
-  - OSX: brew install sqlite3 && brew link --force sqlite3
-- asdf
-  - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
-- freedesktop mime database
-  - Ubuntu: should work out of the box. https://github.com/mimemagicrb/mimemagic#dependencies
-  - OSX: brew install shared-mime-info
-
-- `asdf install`
-- `gem install bundler:1.17.3`
-- `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
-- `gem install sqlite3 -v '1.3.13' --source 'https://rubygems.org/'`
-- `gem install foreman`
-- `bundle install`
-- `yarn install`
-- `cp .env.local.sample .env` -- fill in env vars where applicable
-- Configure Redis:
-
-OSX:
-  ```shell
-  brew install redis
-  redis-cli CONFIG SET dir /tmp/
-  redis-cli CONFIG SET dbfilename temp.rdb
-  redis-server &
-  redis-cli ping  # Should respond with PONG
-  rake db:setup
-  ```
-Ubuntu:
-- Update system
-  ```shell
-  sudo apt update
-  ```
-- Install redis server
-  ```shell
-  sudo apt install redis-server
-  ```
-- Update configuration
-  ```shell
-  sudo sh -c 'echo "supervised systemd" >> /etc/redis/redis.config'
-  ```
-- Restart running service
-  ```shell
-  sudo systemctl restart redis.service
-  ```
-- Configure and verify redis
-  ```shell
-  redis-cli CONFIG SET dir /tmp/
-  redis-cli CONFIG SET dbfilename temp.rdb
-  redis-cli ping  # Should respond with PONG
-  rake db:setup
-  ```
-
-### Start it up
-
-- `foreman start -f Procfile.development`
-- http://localhost:5000
-
 ## Docker
 
 ### Getting Ready
@@ -92,6 +22,17 @@ Ubuntu:
 - `docker-compose up`
 - http://localhost:5000
 
+### Migrating your database
+
+Setup:
+- `docker-compose exec web rake db:setup`
+
+Migrate database:
+- `docker-compose exec web rake db:migrate`
+
+Seed:
+- `docker-compose exec web rake db:seed`
+
 ### Commands for local lint/testing steps:
 
 - Command prints detected errors, stylistic/formatting issues, and bugs
@@ -104,7 +45,7 @@ Ubuntu:
 - `yarn run test`
 
 - Ruby-specific code style checker, reports and automaticaly fixes errors
-- `bundle exec rubocop`
+- `docker-compose exec web bundle exec rubocop`
 
 #### Spin up Rails Console
 
