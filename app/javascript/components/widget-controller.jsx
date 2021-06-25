@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { mathMod } from 'ramda';
 import { Query } from 'react-apollo';
-import styled from 'styled-components';
-import FullPanel from '@components/full-panel';
-import SidePanel from '@components/side-panel';
-import { DisconnectedMessage, LoadingMessage } from '@messages/message';
-import Twitter from '@widgets/twitter';
-import Numbers from '@widgets/numbers';
-import Weather from '@widgets/weather';
-import Traffic from '@widgets/traffic';
+import {
+  WidgetDisplay,
+  LoadingDisplay,
+  DisconnectedDisplay,
+} from '@components/widget-display';
 
 const getWidgets = gql`
   query getWidgets($id: Int!, $cityName: String!) {
@@ -32,17 +29,6 @@ const getWidgets = gql`
     }
   }
 `;
-
-const Wrapper = styled.div`
-  outline: none;
-`;
-
-const widgetElements = {
-  Weather,
-  Twitter,
-  Numbers,
-  Traffic,
-};
 
 export class WidgetController extends React.Component {
   constructor(props) {
@@ -94,7 +80,7 @@ export class WidgetController extends React.Component {
     }
   }
 
-  switchPages = ({ keyCode }) => {
+  keyToWidgetAction = ({ keyCode }) => {
     const upKey = 38;
     const downKey = 40;
     const SPACEBAR = 32;
@@ -151,7 +137,7 @@ export class WidgetController extends React.Component {
     });
   };
 
-  handleClicks = ({ target }) => {
+  clickToWidgetAction = ({ target }) => {
     const targetId = target.id;
     if (targetId.startsWith('widget_')) {
       const widgetId = parseInt(targetId.replace('widget_', ''), 10);
@@ -193,68 +179,23 @@ export class WidgetController extends React.Component {
       >
         {({ loading, error, data }) => {
           if (loading) {
-            return (
-              <Wrapper>
-                <FullPanel>
-                  <LoadingMessage />
-                </FullPanel>
-                <SidePanel
-                  widgets={[]}
-                  selectedWidgetId={0}
-                  showWeather={false}
-                  totalTime={0}
-                  isPaused={false}
-                  cityName={cityName}
-                />
-              </Wrapper>
-            );
+            return <LoadingDisplay cityName={cityName} />;
           }
 
           if (error) {
             // eslint-disable-next-line
             console.error(error);
-            return (
-              <Wrapper>
-                <FullPanel>
-                  <DisconnectedMessage />
-                </FullPanel>
-                <SidePanel
-                  widgets={[]}
-                  selectedWidgetId={0}
-                  showWeather={false}
-                  totalTime={0}
-                  isPaused={false}
-                  cityName={cityName}
-                />
-              </Wrapper>
-            );
+            return <DisconnectedDisplay cityName={cityName} />;
           }
 
-          const { location } = data;
-          const { widgets } = location;
-          const { enabled: enabledWidgets, byIdOrFirst: current } = widgets;
-
-          const WidgetElement = widgetElements[current.name].Panel;
-
           return (
-            <Wrapper
-              onKeyDown={this.switchPages}
-              onClick={this.handleClicks}
-              // eslint-disable-next-line
-              tabIndex="0"
-            >
-              <FullPanel>
-                <WidgetElement cityName={cityName} />
-              </FullPanel>
-              <SidePanel
-                widgets={enabledWidgets}
-                selectedWidgetId={current.id}
-                showWeather={current.showWeather}
-                totalTime={current.durationSeconds * 1000}
-                isPaused={!!pausedTime}
-                cityName={cityName}
-              />
-            </Wrapper>
+            <WidgetDisplay
+              keyToWidgetAction={this.keyToWidgetAction}
+              clickToWidgetAction={this.clickToWidgetAction}
+              isPaused={!!pausedTime}
+              cityName={cityName}
+              widgets={data.location.widgets}
+            />
           );
         }}
       </Query>
