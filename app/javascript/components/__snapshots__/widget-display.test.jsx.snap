@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisconnectedDisplay component renders correctly 1`] = `
+<styled.div>
+  <FullPanel>
+    <DisconnectedMessage />
+  </FullPanel>
+  <SidePanel
+    cityName="Providence"
+    isPaused={false}
+    selectedWidgetId={0}
+    showWeather={false}
+    totalTime={0}
+    widgets={Array []}
+  />
+</styled.div>
+`;
+
+exports[`LoadingDisplay component renders correctly 1`] = `
+<styled.div>
+  <FullPanel>
+    <LoadingMessage />
+  </FullPanel>
+  <SidePanel
+    cityName="Providence"
+    isPaused={false}
+    selectedWidgetId={0}
+    showWeather={false}
+    totalTime={0}
+    widgets={Array []}
+  />
+</styled.div>
+`;
+
+exports[`WidgetDisplay component renders correctly 1`] = `
+<styled.div
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  tabIndex="0"
+>
+  <FullPanel>
+    <getWeatherQuery
+      cityName="Providence"
+    />
+  </FullPanel>
+  <SidePanel
+    cityName="Providence"
+    isPaused={false}
+    selectedWidgetId={2}
+    showWeather={false}
+    totalTime={20000}
+    widgets={
+      Array [
+        Object {
+          "id": 2,
+          "name": "Weather",
+          "sidebarText": "Weather",
+        },
+        Object {
+          "id": 3,
+          "name": "Twitter",
+          "sidebarText": "@MojoTech",
+        },
+        Object {
+          "id": 4,
+          "name": "Numbers",
+          "sidebarText": "MojoTech by the Numbers",
+        },
+      ]
+    }
+  />
+</styled.div>
+`;
