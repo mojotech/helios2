@@ -12,6 +12,7 @@ const getCurrentWeather = gql`
         description
         icon
       }
+      windGust
     }
   }
 `;
@@ -22,6 +23,13 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 
+const WeatherDescription = ({ baseDescription, weather }) => {
+  if (weather.current.windGust > 15) {
+    return `${baseDescription}, gusty wind at ${weather.current.windGust} mph`;
+  }
+  return baseDescription;
+};
+
 const CurrentWeather = ({ weather, useLargeIcon }) => {
   const { description, icon } = weather.current.weather;
   return (
@@ -31,7 +39,7 @@ const CurrentWeather = ({ weather, useLargeIcon }) => {
       ) : (
         <SmallSkyIcon icon={icon} />
       )}
-      {description}
+      <WeatherDescription baseDescription={description} weather={weather} />
     </IconWrapper>
   );
 };
