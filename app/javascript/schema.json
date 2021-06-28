@@ -794,7 +794,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1051,16 +1051,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "KelvinToFarenheit",
-          "description": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "WeatherMinutelyData",
           "description": null,
@@ -1161,7 +1151,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1233,7 +1223,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1673,7 +1663,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1691,7 +1681,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1709,7 +1699,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1727,7 +1717,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1745,7 +1735,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1763,7 +1753,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1794,7 +1784,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1812,7 +1802,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1830,7 +1820,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -1848,7 +1838,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "KelvinToFarenheit",
+                  "name": "Float",
                   "ofType": null
                 }
               },

@@ -1,5 +1,6 @@
 class Clients::WeatherClient
-  WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/onecall?lat=%{lat}&lon=%{lon}&appid=%{key}'.freeze
+  WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/onecall?lat=%{lat}&lon=%{lon}&appid=%{key}&units=imperial'
+                    .freeze
 
   def self.forecast(location)
     key = "openweather-response-#{location.latitude}-#{location.longitude}"
