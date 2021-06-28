@@ -10,19 +10,19 @@ class Types::WeatherObject < Types::BaseObject
 end
 
 class Types::WeatherTemperatureDataType < Types::WeatherObject
-  field :day, Types::KelvinToFarenheitType
-  field :night, Types::KelvinToFarenheitType
-  field :morn, Types::KelvinToFarenheitType
-  field :eve, Types::KelvinToFarenheitType
-  field :min, Types::KelvinToFarenheitType
-  field :max, Types::KelvinToFarenheitType
+  field :day, Float
+  field :night, Float
+  field :morn, Float
+  field :eve, Float
+  field :min, Float
+  field :max, Float
 end
 
 class Types::WeatherApparentTemperatureDataType < Types::WeatherObject
-  field :day, Types::KelvinToFarenheitType
-  field :night, Types::KelvinToFarenheitType
-  field :morn, Types::KelvinToFarenheitType
-  field :eve, Types::KelvinToFarenheitType
+  field :day, Float
+  field :night, Float
+  field :morn, Float
+  field :eve, Float
 end
 
 class Types::WeatherInfoDataType < Types::WeatherObject
@@ -59,8 +59,8 @@ class Types::WeatherHourlyDataType < Types::WeatherObject
   field "time", Types::UnixDateTimeType, hash_key: "dt"
   field "weather", Types::WeatherInfoDataType
   field "precipProbability", Float, hash_key: "pop"
-  field :temp, Types::KelvinToFarenheitType
-  field :feels_like, Types::KelvinToFarenheitType
+  field :temp, Float
+  field :feels_like, Float
   field :dew_point, Float
   field :humidity, Int
   field :pressure, Int
@@ -82,7 +82,7 @@ class Types::WeatherCurrentlyDetailType < Types::WeatherObject
   field "weather", Types::WeatherInfoDataType
   field "nearestStormDistance", Int
   field "nearestStormBearing", Int
-  field "temp", Types::KelvinToFarenheitType
+  field "temp", Float
   field "feels_like", Float
   field "dew_point", Float
   field "humidity", Int

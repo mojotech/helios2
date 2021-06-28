@@ -53,8 +53,6 @@ type GuestsWidget implements Widget {
 
 scalar IconIdToName
 
-scalar KelvinToFarenheit
-
 type Location {
   bathroomCode: String
   cityName: String!
@@ -201,10 +199,10 @@ type Weather {
 }
 
 type WeatherApparentTemperatureData {
-  day: KelvinToFarenheit!
-  eve: KelvinToFarenheit!
-  morn: KelvinToFarenheit!
-  night: KelvinToFarenheit!
+  day: Float!
+  eve: Float!
+  morn: Float!
+  night: Float!
 }
 
 type WeatherCurrentlyDetail {
@@ -215,7 +213,7 @@ type WeatherCurrentlyDetail {
   nearestStormBearing: Int!
   nearestStormDistance: Int!
   pressure: Int!
-  temp: KelvinToFarenheit!
+  temp: Float!
   time: UnixDateTime!
   uvi: Int!
   visibility: Int!
@@ -246,11 +244,11 @@ type WeatherDailyData {
 type WeatherHourlyData {
   clouds: Int!
   dewPoint: Float!
-  feelsLike: KelvinToFarenheit!
+  feelsLike: Float!
   humidity: Int!
   precipProbability: Float!
   pressure: Int!
-  temp: KelvinToFarenheit!
+  temp: Float!
   time: UnixDateTime!
   uvi: Int!
   visibility: Int!
@@ -273,12 +271,12 @@ type WeatherMinutelyData {
 }
 
 type WeatherTemperatureData {
-  day: KelvinToFarenheit!
-  eve: KelvinToFarenheit!
-  max: KelvinToFarenheit!
-  min: KelvinToFarenheit!
-  morn: KelvinToFarenheit!
-  night: KelvinToFarenheit!
+  day: Float!
+  eve: Float!
+  max: Float!
+  min: Float!
+  morn: Float!
+  night: Float!
 }
 
 type WeatherWidget implements Widget {
