@@ -34,6 +34,16 @@ const getOrbPercent = (endTime, totalTime, offset) => {
   return Math.floor(rangePercent);
 };
 
+const Default = {
+  sun: colors.pink,
+  foreground: colors.lightPink,
+};
+
+const NightMode = {
+  moon: colors.blue,
+  foreground: colors.lightBlue,
+};
+
 export class SemiCircle extends React.Component {
   static propTypes = {
     totalTime: PropTypes.number.isRequired,
@@ -125,24 +135,28 @@ export class SemiCircle extends React.Component {
     100% { offset-distance : ${arcEndPercent}% }
     `;
 
+    const styleRadialGradient = () => {
+      if (nightMode) return NightMode.foreground;
+      return Default.foreground;
+    };
+
+    const styleLinearGradient = () => {
+      if (nightMode) return NightMode.moon;
+      return Default.sun;
+    };
+
     return (
       <svg width={width} height={height}>
         <defs>
           <radialGradient id="circleGradient">
-            <stop
-              offset="5%"
-              stopColor={nightMode ? colors.lightBlue : colors.lightPink}
-            />
+            <stop offset="5%" stopColor={styleRadialGradient()} />
             <stop offset="95%" stopColor={colors.black} />
           </radialGradient>
         </defs>
         <defs>
           <linearGradient id="strokeGradient">
             <stop offset="2%" stopColor={colors.black} />
-            <stop
-              offset="50%"
-              stopColor={nightMode ? colors.blue : colors.pink}
-            />
+            <stop offset="50%" stopColor={styleLinearGradient()} />
             <stop offset="98%" stopColor={colors.black} />
           </linearGradient>
         </defs>
