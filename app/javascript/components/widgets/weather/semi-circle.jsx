@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cityImage from '@images/buildings.png';
+import pvdImage from '@images/buildings.png';
+import bldImage from '@images/boulder_buildings.svg';
 import { yValue, xValue } from '@lib/circle-math';
 import { timeDiffInMinutes, timeAndDateForTimezone } from '@lib/datetime';
 import { colors } from '@lib/theme';
 import styled, { keyframes } from 'styled-components';
 import MoonPhase from '@weather/moon-phase';
+
+const getCityImage = cityName => {
+  if (cityName === 'Boulder') return bldImage;
+  return pvdImage;
+};
 
 const getPhaseType = phase => {
   if (phase === 0) return 'newMoon';
@@ -34,6 +40,14 @@ const getOrbPercent = (endTime, totalTime, offset) => {
   return Math.floor(rangePercent);
 };
 
+const yellow = '#fbd273';
+const lightYellow = '#FAE7A7';
+
+const Boulder = {
+  sun: yellow,
+  foreground: lightYellow,
+};
+
 const Default = {
   sun: colors.pink,
   foreground: colors.lightPink,
@@ -51,6 +65,7 @@ export class SemiCircle extends React.Component {
     width: PropTypes.string.isRequired,
     height: PropTypes.string.isRequired,
     timezone: PropTypes.string.isRequired,
+    cityName: PropTypes.string.isRequired,
     paddingLeft: PropTypes.number,
     paddingTop: PropTypes.number,
     cityImageHeight: PropTypes.string,
@@ -135,13 +150,17 @@ export class SemiCircle extends React.Component {
     100% { offset-distance : ${arcEndPercent}% }
     `;
 
+    const cityImage = getCityImage(this.props.cityName);
+
     const styleRadialGradient = () => {
       if (nightMode) return NightMode.foreground;
+      if (cityImage === bldImage) return Boulder.foreground;
       return Default.foreground;
     };
 
     const styleLinearGradient = () => {
       if (nightMode) return NightMode.moon;
+      if (cityImage === bldImage) return Boulder.sun;
       return Default.sun;
     };
 
@@ -203,6 +222,9 @@ export class SemiCircle extends React.Component {
             arcPath={arcPath}
             arcAnimation={arcAnimation}
             ballRadius={ballRadius}
+            fillStyle={
+              this.props.cityName === 'Boulder' ? Boulder.sun : Default.sun
+            }
           />
         )}
       </svg>
@@ -214,6 +236,6 @@ const SunCircle = styled.circle`
 offset-path: path('${p => p.arcPath}');
 animation: ${p => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
 r: ${p => p.ballRadius};
-fill: ${colors.pink}`;
+fill: ${p => p.fillStyle}`;
 
 export default SemiCircle;
