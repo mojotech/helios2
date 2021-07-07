@@ -8,6 +8,16 @@ type Announcement {
   publishOn: UTCDateTime!
 }
 
+type BusesWidget implements Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+  showWeather: Boolean
+  sidebarText: String
+}
+
 scalar DateTime
 
 type Event {

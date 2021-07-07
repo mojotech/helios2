@@ -64,11 +64,9 @@ const WidgetTransitionControls = ({
   requestPrefetch,
   requestWidget,
   cityName,
-  location,
-  loading,
-  error,
+  widgets,
 }) => {
-  const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
+  const { byIdOrFirst: current, enabled: enabledWidgets } = widgets;
 
   const widgetTransitionTime = current.durationSeconds * 1000;
 
@@ -143,9 +141,7 @@ const WidgetTransitionControls = ({
       clickToWidgetAction={clickToWidgetAction}
       isPaused={selectIsPaused(state)}
       cityName={cityName}
-      location={location}
-      loading={loading}
-      error={error}
+      widgets={widgets}
     />
   );
 };
@@ -155,25 +151,16 @@ WidgetTransitionControls.propTypes = {
   requestPrefetch: PropTypes.func.isRequired,
   requestWidget: PropTypes.func.isRequired,
   cityName: PropTypes.string.isRequired,
-  location: PropTypes.shape({
-    widgets: PropTypes.shape({
-      enabled: PropTypes.array.isRequired,
-      byIdOrFirst: PropTypes.shape({
-        durationSeconds: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        showWeather: PropTypes.bool.isRequired,
-        sidebarText: PropTypes.string.isRequired,
-      }).isRequired,
+  widgets: PropTypes.shape({
+    enabled: PropTypes.array.isRequired,
+    byIdOrFirst: PropTypes.shape({
+      durationSeconds: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      showWeather: PropTypes.bool.isRequired,
+      sidebarText: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  loading: PropTypes.bool,
-  error: PropTypes.bool,
-};
-
-WidgetTransitionControls.defaultProps = {
-  loading: true,
-  error: false,
 };
 
 export default WidgetTransitionControls;

@@ -70,7 +70,7 @@ export const WidgetController = ({ client, cityName }) => {
         if (error) {
           // eslint-disable-next-line
           console.error(error);
-          return <DisconnectedDisplay cityName={cityName} error={error} />;
+          return <DisconnectedDisplay cityName={cityName} loading={loading} />;
         }
 
         return (
@@ -79,9 +79,7 @@ export const WidgetController = ({ client, cityName }) => {
             requestPrefetch={queryCallback}
             requestWidget={setNewWidgetId}
             cityName={cityName}
-            location={data.location}
-            loading={loading}
-            error={error}
+            widgets={data.location.widgets}
           />
         );
       }}

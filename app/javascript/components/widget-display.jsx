@@ -1,25 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { DisconnectedMessage, LoadingMessage } from '@messages/message';
 import FullPanel from '@components/full-panel';
-import SidePanel, { getSidePanel } from '@components/side-panel';
+import SidePanel from '@components/side-panel';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
-import withFragment from './hocs/with-fragment';
+import Buses from '@widgets/buses';
 
 const Wrapper = styled.div`
   outline: none;
-`;
-
-export const getWidgetDisplay = gql`
-  ${getSidePanel}
-  fragment WidgetDisplay on Location {
-    ...SidePanel
-  }
 `;
 
 const widgetElements = {
@@ -27,6 +19,7 @@ const widgetElements = {
   Twitter,
   Numbers,
   Traffic,
+  Buses,
 };
 
 export const WidgetDisplay = ({
@@ -34,11 +27,9 @@ export const WidgetDisplay = ({
   clickToWidgetAction,
   isPaused,
   cityName,
-  location,
-  loading,
-  error,
+  widgets,
 }) => {
-  const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
+  const { byIdOrFirst: current, enabled: enabledWidgets } = widgets;
   const WidgetElement = widgetElements[current.name].Panel;
   return (
     <Wrapper
@@ -57,9 +48,6 @@ export const WidgetDisplay = ({
         totalTime={current.durationSeconds * 1000}
         isPaused={isPaused}
         cityName={cityName}
-        location={location}
-        loading={loading}
-        error={error}
       />
     </Wrapper>
   );
@@ -70,32 +58,19 @@ WidgetDisplay.propTypes = {
   clickToWidgetAction: PropTypes.func.isRequired,
   isPaused: PropTypes.bool.isRequired,
   cityName: PropTypes.string.isRequired,
-  location: PropTypes.shape({
-    widgets: PropTypes.shape({
-      enabled: PropTypes.array.isRequired,
-      byIdOrFirst: PropTypes.shape({
-        durationSeconds: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        showWeather: PropTypes.bool.isRequired,
-        sidebarText: PropTypes.string.isRequired,
-      }).isRequired,
+  widgets: PropTypes.shape({
+    enabled: PropTypes.array.isRequired,
+    byIdOrFirst: PropTypes.shape({
+      durationSeconds: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      showWeather: PropTypes.bool.isRequired,
+      sidebarText: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  loading: PropTypes.bool,
-  error: PropTypes.bool,
 };
 
-WidgetDisplay.defaultProps = {
-  loading: true,
-  error: false,
-};
-
-WidgetDisplay.fragments = {
-  location: getWidgetDisplay,
-};
-
-export const LoadingDisplay = ({ cityName, loading }) => (
+export const LoadingDisplay = ({ cityName }) => (
   <Wrapper>
     <FullPanel>
       <LoadingMessage />
@@ -107,21 +82,15 @@ export const LoadingDisplay = ({ cityName, loading }) => (
       totalTime={0}
       isPaused={false}
       cityName={cityName}
-      loading={loading}
     />
   </Wrapper>
 );
 
 LoadingDisplay.propTypes = {
   cityName: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
 };
 
-LoadingDisplay.defaultProps = {
-  loading: true,
-};
-
-export const DisconnectedDisplay = ({ cityName, error }) => (
+export const DisconnectedDisplay = ({ cityName }) => (
   <Wrapper>
     <FullPanel>
       <DisconnectedMessage />
@@ -133,18 +102,12 @@ export const DisconnectedDisplay = ({ cityName, error }) => (
       totalTime={0}
       isPaused={false}
       cityName={cityName}
-      error={error}
     />
   </Wrapper>
 );
 
 DisconnectedDisplay.propTypes = {
   cityName: PropTypes.string.isRequired,
-  error: PropTypes.bool,
 };
 
-DisconnectedDisplay.defaultProps = {
-  error: false,
-};
-
-export default withFragment(WidgetDisplay);
+export default WidgetDisplay;
