@@ -10,6 +10,7 @@ const getWeatherEffect = gql`
       weather {
         id
       }
+      windSpeed
     }
   }
 `;
@@ -319,16 +320,33 @@ const MovingCloud = styled.div`
   ${CloudImage};
 `;
 
-const Cloud = ({ duration, variance, count }) => (
-  <HorizontalWeatherWrapper
-    {...{ Type: MovingCloud, duration, variance, count }}
-  />
-);
+const Cloud = ({ duration, variance, count, windSpeed }) => {
+  if (windSpeed <= 10) {
+    return (
+      <HorizontalWeatherWrapper
+        {...{ Type: MovingCloud, duration: duration + 15, variance, count }}
+      />
+    );
+  }
+  if (windSpeed >= 15) {
+    return (
+      <HorizontalWeatherWrapper
+        {...{ Type: MovingCloud, duration: duration - 5, variance, count }}
+      />
+    );
+  }
+  return (
+    <HorizontalWeatherWrapper
+      {...{ Type: MovingCloud, duration, variance, count }}
+    />
+  );
+};
 
 Cloud.propTypes = {
   duration: PropTypes.number.isRequired,
   variance: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
+  windSpeed: PropTypes.number.isRequired,
 };
 // Cloud ends here
 
@@ -446,10 +464,22 @@ const weatherIdMap = {
   620: () => <Snow duration={6} variance={1} count={20} />, // Light
   621: () => <Snow duration={4} variance={1} count={50} />, // Normal
   622: () => <Snow duration={2} variance={1} count={70} />, // Heavy
-  801: () => <Cloud duration={16} variance={1} count={2} />, // few cloud
-  802: () => <Cloud duration={16} variance={5} count={4} />, // scattered cloud
-  803: () => <Cloud duration={16} variance={10} count={8} />, // broken cloud
-  804: () => <Cloud duration={16} variance={15} count={16} />, // overcast cloud
+  // eslint-disable-next-line react/prop-types
+  801: ({ windSpeed }) => (
+    <Cloud duration={16} variance={1} count={2} windSpeed={windSpeed} />
+  ), // few cloud
+  // eslint-disable-next-line react/prop-types
+  802: ({ windSpeed }) => (
+    <Cloud duration={16} variance={5} count={4} windSpeed={windSpeed} />
+  ), // scattered cloud
+  // eslint-disable-next-line react/prop-types
+  803: ({ windSpeed }) => (
+    <Cloud duration={16} variance={10} count={8} windSpeed={windSpeed} />
+  ), // broken cloud
+  // eslint-disable-next-line react/prop-types
+  804: ({ windSpeed }) => (
+    <Cloud duration={16} variance={15} count={16} windSpeed={windSpeed} />
+  ), // overcast cloud
 };
 /* eslint-enable prettier/prettier */
 
@@ -464,7 +494,7 @@ const WeatherEffect = ({ weather }) => {
 
   return Effect ? (
     <EffectContainer>
-      <Effect />
+      <Effect windSpeed={weather.current.windSpeed} />
     </EffectContainer>
   ) : null;
 };
