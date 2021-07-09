@@ -86,6 +86,17 @@ Location.all.each do |location|
     r.start = Tod::TimeOfDay("16:00")
     r.stop = Tod::TimeOfDay("23:00")
   end.save!
+
+  Widget.find_or_initialize_by(
+    name: "Events",
+    location: location
+  ) do |r|
+    r.enabled = true
+    r.duration_seconds = 20
+    r.position = 5
+    r.sidebar_text = 'Events at MojoTech'
+    r.show_weather = true
+  end.save!
 end
 
 TrafficCam.find_or_initialize_by(
