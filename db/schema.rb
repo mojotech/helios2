@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_180242) do
+ActiveRecord::Schema.define(version: 2021_07_12_211847) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -86,6 +86,13 @@ ActiveRecord::Schema.define(version: 2021_06_07_180242) do
     t.datetime "updated_at", null: false
     t.string "feed_format", default: "image", null: false
     t.index ["location_id"], name: "index_traffic_cams_on_location_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "user_name", null: false
+    t.text "public_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "widgets", force: :cascade do |t|
