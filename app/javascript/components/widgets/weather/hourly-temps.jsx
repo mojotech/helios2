@@ -55,7 +55,7 @@ const RainIcon = styled.img`
   margin-right: ${spacing.s};
 `;
 
-const getHourlyWeather = gql`
+export const getHourlyWeather = gql`
   fragment HourlyWeather on Weather {
     hourly {
       temp
@@ -98,8 +98,4 @@ HourlyTemps.defaultProps = {
   hours: 5,
 };
 
-HourlyTemps.fragments = {
-  weather: getHourlyWeather,
-};
-
-export default withFragment(HourlyTemps);
+export default withFragment(HourlyTemps, { weather: getHourlyWeather });

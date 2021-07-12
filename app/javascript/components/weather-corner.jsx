@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import CurrentTemp from '@components/widgets/weather/current-temp';
-import SunriseSunset from '@weather/sunrise-sunset';
+import CurrentTemp, {
+  getCurrentTemp,
+} from '@components/widgets/weather/current-temp';
+import { getSunriseSunsetWeather } from '@weather/sunrise-sunset';
 import Row from '@components/row';
 import WeatherQuery from '@components/get-weather-query';
 import { MediumSkyIcon } from '@weather/sky-icons';
-import CurrentIcon from '@weather/weather-icon';
+import { getCurrentIcon } from '@weather/weather-icon';
 import { colors, weights, fontSizes, fonts } from '@lib/theme';
 import {
   WeatherLoadingMessage,
@@ -15,15 +17,14 @@ import {
 } from '@messages/message';
 
 const CornerWeather = gql`
+  ${getCurrentTemp}
+  ${getSunriseSunsetWeather}
+  ${getCurrentIcon}
   fragment CornerWeather on Weather {
     ...CurrentTemp
     ...SunriseSunsetWeather
     ...CurrentIcon
   }
-
-  ${CurrentTemp.fragments.weather}
-  ${SunriseSunset.fragments.weather}
-  ${CurrentIcon.fragments.weather}
 `;
 
 const Column = styled.div`

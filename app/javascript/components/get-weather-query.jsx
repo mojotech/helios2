@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { assocPath } from 'ramda';
-import SunriseSunset from '@weather/sunrise-sunset';
+import { getSunriseSunsetLocation } from '@weather/sunrise-sunset';
 
 /* eslint-disable graphql/template-strings */
 const getLocationWeather = (WeatherFrag, queryName) => gql`
+${getSunriseSunsetLocation}
 query getLocationWeather($cityName: String!) {
   location(cityName: $cityName) {
     latitude
@@ -18,7 +19,6 @@ query getLocationWeather($cityName: String!) {
   }
 }
 
-${SunriseSunset.fragments.location}
 ${WeatherFrag}
 `;
 
