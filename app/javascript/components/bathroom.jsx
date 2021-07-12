@@ -4,7 +4,8 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
-import withFragment from './hocs/with-fragment';
+// import withFragment from './hocs/with-fragment';
+import withFragmentModify from './hocs/with-fragment-modify';
 
 export const getBathroomCode = gql`
   fragment Bathroom on Location {
@@ -52,8 +53,6 @@ Bathroom.defaultProps = {
   error: false,
 };
 
-Bathroom.fragments = {
-  location: getBathroomCode,
-};
-
-export default withFragment(Bathroom);
+//compose()
+export default withFragmentModify(Bathroom, { location: getBathroomCode });
+// export default withFragment(Bathroom);
