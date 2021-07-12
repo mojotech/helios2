@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { isEmpty, pathOr } from 'ramda';
 import {
   WidgetDisplay,
   LoadingDisplay,
   DisconnectedDisplay,
+  WidgetDisabledDisplay,
   getWidgetDisplay,
 } from '@components/widget-display';
 import WidgetTransitionControls from '@components/widget-transition-controls';
@@ -71,6 +73,11 @@ export const WidgetController = ({ client, cityName }) => {
           // eslint-disable-next-line
           console.error(error);
           return <DisconnectedDisplay cityName={cityName} error={error} />;
+        }
+
+        const widget = pathOr([], ['location', 'widgets', 'enabled'], data);
+        if (isEmpty(widget)) {
+          return <WidgetDisabledDisplay />;
         }
 
         return (
