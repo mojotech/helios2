@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import withFragment from '@hocs/with-fragment';
 
-const getCurrentIcon = gql`
+export const getCurrentIcon = gql`
   fragment CurrentIcon on Weather {
     current {
       weather {
@@ -26,8 +26,4 @@ CurrentIcon.propTypes = {
   }).isRequired,
 };
 
-CurrentIcon.fragments = {
-  weather: getCurrentIcon,
-};
-
-export default withFragment(CurrentIcon);
+export default withFragment(CurrentIcon, { weather: getCurrentIcon });

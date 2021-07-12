@@ -39,7 +39,7 @@ const IconWrapper = styled.div`
   width: 60px;
 `;
 
-const getDailyWeather = gql`
+export const getDailyWeather = gql`
   fragment DailyWeather on Weather {
     daily {
       temp {
@@ -92,8 +92,4 @@ DailyWeather.propTypes = {
   }).isRequired,
 };
 
-DailyWeather.fragments = {
-  weather: getDailyWeather,
-};
-
-export default withFragment(DailyWeather);
+export default withFragment(DailyWeather, { weather: getDailyWeather });

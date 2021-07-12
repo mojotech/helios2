@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import withFragment from '@hocs/with-fragment';
 import { SmallSkyIcon, LargeSkyIcon } from '@weather/sky-icons';
 
-const getCurrentWeather = gql`
+export const getCurrentWeather = gql`
   fragment CurrentWeather on Weather {
     current {
       weather {
@@ -60,8 +60,4 @@ CurrentWeather.defaultProps = {
   useLargeIcon: false,
 };
 
-CurrentWeather.fragments = {
-  weather: getCurrentWeather,
-};
-
-export default withFragment(CurrentWeather);
+export default withFragment(CurrentWeather, { weather: getCurrentWeather });

@@ -14,7 +14,7 @@ import { parseTime, timeDiffInMinutes } from '@lib/datetime';
 import { WhiteText } from '@components/typography';
 import withFragment from '@hocs/with-fragment';
 import SemiCircle from '@weather/semi-circle';
-import WeatherEffect from '@weather/weather-effect';
+import WeatherEffect, { getWeatherEffect } from '@weather/weather-effect';
 
 const containerHeight = '344px';
 
@@ -51,18 +51,17 @@ const SunsetLabel = styled.div`
   z-index: 2;
 `;
 
-const getSunriseSunsetWeather = gql`
+export const getSunriseSunsetWeather = gql`
+  ${getWeatherEffect}
   fragment SunriseSunsetWeather on Weather {
-    moonPhase
     ...WeatherEffect
   }
-
-  ${WeatherEffect.fragments.weather}
 `;
 
-const getSunriseSunsetLocation = gql`
+export const getSunriseSunsetLocation = gql`
   fragment SunriseSunsetLocation on Location {
     timezone
+    moonPhase
     cityName
     solarCycles {
       type
@@ -72,8 +71,7 @@ const getSunriseSunsetLocation = gql`
 `;
 
 export const SunriseSunset = ({ location, weather }) => {
-  const { solarCycles, timezone, cityName } = location;
-  const { moonPhase } = weather;
+  const { solarCycles, timezone, cityName, moonPhase } = location;
 
   const currDate = new Date();
 
@@ -130,6 +128,7 @@ export const SunriseSunset = ({ location, weather }) => {
 SunriseSunset.propTypes = {
   location: PropTypes.shape({
     timezone: PropTypes.string.isRequired,
+    moonPhase: PropTypes.number.isRequired,
     cityName: PropTypes.string.isRequired,
     solarCycles: PropTypes.arrayOf(
       PropTypes.shape({
@@ -138,14 +137,10 @@ SunriseSunset.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
-  weather: PropTypes.shape({
-    moonPhase: PropTypes.number.isRequired,
-  }).isRequired,
+  weather: PropTypes.shape({}).isRequired,
 };
 
-SunriseSunset.fragments = {
+export default withFragment(SunriseSunset, {
   weather: getSunriseSunsetWeather,
   location: getSunriseSunsetLocation,
-};
-
-export default withFragment(SunriseSunset);
+});

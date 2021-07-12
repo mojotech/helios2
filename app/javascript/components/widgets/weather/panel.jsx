@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CurrentTemp from '@weather/current-temp';
-import HourlyTemps from '@weather/hourly-temps';
-import CurrentWeather from '@weather/current-weather';
-import DailyWeather from '@weather/daily-weather';
-import SunriseSunset from '@weather/sunrise-sunset';
+import CurrentTemp, { getCurrentTemp } from '@weather/current-temp';
+import HourlyTemps, { getHourlyWeather } from '@weather/hourly-temps';
+import CurrentWeather, { getCurrentWeather } from '@weather/current-weather';
+import DailyWeather, { getDailyWeather } from '@weather/daily-weather';
+import SunriseSunset, {
+  getSunriseSunsetWeather,
+} from '@weather/sunrise-sunset';
 import WeatherQuery from '@components/get-weather-query';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import { Row } from '@components/row';
@@ -21,6 +23,11 @@ import { GreySubText, WhiteText } from '@components/typography';
 import gql from 'graphql-tag';
 
 const PanelWeather = gql`
+  ${getCurrentTemp}
+  ${getHourlyWeather}
+  ${getCurrentWeather}
+  ${getDailyWeather}
+  ${getSunriseSunsetWeather}
   fragment PanelWeather on Weather {
     ...CurrentTemp
     ...HourlyWeather
@@ -28,12 +35,6 @@ const PanelWeather = gql`
     ...DailyWeather
     ...SunriseSunsetWeather
   }
-
-  ${CurrentTemp.fragments.weather}
-  ${HourlyTemps.fragments.weather}
-  ${CurrentWeather.fragments.weather}
-  ${DailyWeather.fragments.weather}
-  ${SunriseSunset.fragments.weather}
 `;
 
 const Column = styled.div`

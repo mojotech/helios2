@@ -97,10 +97,6 @@ WidgetDisplay.defaultProps = {
   error: false,
 };
 
-WidgetDisplay.fragments = {
-  location: getWidgetDisplay,
-};
-
 export const LoadingDisplay = ({ cityName, loading }) => (
   <Wrapper>
     <FullPanel>
@@ -167,4 +163,5 @@ export const WidgetDisabledDisplay = () => (
     />
   </Wrapper>
 );
-export default withFragment(WidgetDisplay);
+
+export default withFragment(WidgetDisplay, { location: WidgetDisplay });
