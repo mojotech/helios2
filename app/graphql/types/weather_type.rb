@@ -43,7 +43,7 @@ class Types::WeatherDailyDataType < Types::WeatherObject
   field :sunrise, Types::UnixDateTimeType
   field :sunset, Types::UnixDateTimeType
   field "precipProbability", Float, hash_key: "pop"
-  field :rain, Float
+  field :rain, Float, null: true
   field :temp, Types::WeatherTemperatureDataType
   field :feels_like, Types::WeatherApparentTemperatureDataType
   field :dew_point, Int
@@ -88,7 +88,7 @@ class Types::WeatherCurrentlyDetailType < Types::WeatherObject
   field "humidity", Int
   field "pressure", Int
   field "wind_speed", Float
-  field "wind_gust", Float
+  field "wind_gust", Float, null: true
   field "wind_deg", Int
   field "clouds", Float
   field "uvi", Int

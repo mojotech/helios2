@@ -229,7 +229,7 @@ type WeatherCurrentlyDetail {
   visibility: Int!
   weather: WeatherInfoData!
   windDeg: Int!
-  windGust: Float!
+  windGust: Float
   windSpeed: Float!
 }
 
@@ -240,7 +240,7 @@ type WeatherDailyData {
   humidity: Int!
   precipProbability: Float!
   pressure: Int!
-  rain: Float!
+  rain: Float
   sunrise: UnixDateTime!
   sunset: UnixDateTime!
   temp: WeatherTemperatureData!
