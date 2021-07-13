@@ -65,7 +65,7 @@ class Types::WeatherHourlyDataType < Types::WeatherObject
   field :humidity, Int
   field :pressure, Int
   field :wind_speed, Float
-  field :wind_gust, Float
+  field :wind_gust, Float, null: true
   field :wind_deg, Int
   field :clouds, Int
   field :uvi, Int

@@ -254,7 +254,7 @@ type WeatherHourlyData {
   visibility: Int!
   weather: WeatherInfoData!
   windDeg: Int!
-  windGust: Float!
+  windGust: Float
   windSpeed: Float!
 }
 
