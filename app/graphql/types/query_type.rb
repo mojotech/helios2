@@ -31,4 +31,14 @@ class Types::QueryType < Types::BaseObject
     events = events.with_source(type) if type
     events
   end
+
+  field :employee_events, Types::EmployeeEventCollectionType do
+    description "Employee events from bambooHR"
+  end
+
+  def employee_events
+    # dummy return value for now because cannot return null
+    # will be filled in with database calls in a later PR
+    42
+  end
 end
