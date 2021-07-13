@@ -14,7 +14,7 @@ import { parseTime, timeDiffInMinutes } from '@lib/datetime';
 import { WhiteText } from '@components/typography';
 import withFragment from '@hocs/with-fragment';
 import SemiCircle from '@weather/semi-circle';
-import WeatherEffect from '@weather/weather-effect';
+import WeatherEffect, { getWeatherEffect } from '@weather/weather-effect';
 
 const containerHeight = '344px';
 
@@ -51,16 +51,15 @@ const SunsetLabel = styled.div`
   z-index: 2;
 `;
 
-const getSunriseSunsetWeather = gql`
+export const getSunriseSunsetWeather = gql`
+  ${getWeatherEffect}
   fragment SunriseSunsetWeather on Weather {
     moonPhase
     ...WeatherEffect
   }
-
-  ${WeatherEffect.fragments.weather}
 `;
 
-const getSunriseSunsetLocation = gql`
+export const getSunriseSunsetLocation = gql`
   fragment SunriseSunsetLocation on Location {
     timezone
     solarCycles {
@@ -140,9 +139,7 @@ SunriseSunset.propTypes = {
   }).isRequired,
 };
 
-SunriseSunset.fragments = {
+export default withFragment(SunriseSunset, {
   weather: getSunriseSunsetWeather,
   location: getSunriseSunsetLocation,
-};
-
-export default withFragment(SunriseSunset);
+});

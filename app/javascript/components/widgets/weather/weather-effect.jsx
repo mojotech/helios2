@@ -4,7 +4,7 @@ import styled, { css, keyframes } from 'styled-components';
 import gql from 'graphql-tag';
 import withFragment from '@hocs/with-fragment';
 
-const getWeatherEffect = gql`
+export const getWeatherEffect = gql`
   fragment WeatherEffect on Weather {
     current {
       weather {
@@ -509,8 +509,4 @@ WeatherEffect.propTypes = {
   }).isRequired,
 };
 
-WeatherEffect.fragments = {
-  weather: getWeatherEffect,
-};
-
-export default withFragment(WeatherEffect);
+export default withFragment(WeatherEffect, { weather: getWeatherEffect });

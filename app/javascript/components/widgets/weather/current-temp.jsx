@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import withFragment from '@hocs/with-fragment';
 
-const getCurrentTemp = gql`
+export const getCurrentTemp = gql`
   fragment CurrentTemp on Weather {
     current {
       temp
@@ -20,8 +20,4 @@ CurrentTemp.propTypes = {
   }).isRequired,
 };
 
-CurrentTemp.fragments = {
-  weather: getCurrentTemp,
-};
-
-export default withFragment(CurrentTemp);
+export default withFragment(CurrentTemp, { weather: getCurrentTemp });
