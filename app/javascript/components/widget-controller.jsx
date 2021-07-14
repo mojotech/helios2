@@ -6,15 +6,12 @@ import {
   WidgetDisplay,
   LoadingDisplay,
   DisconnectedDisplay,
-  getWidgetDisplay,
 } from '@components/widget-display';
 import WidgetTransitionControls from '@components/widget-transition-controls';
 
 const getWidgets = gql`
-  ${getWidgetDisplay}
   query getWidgets($id: Int!, $cityName: String!) {
     location(cityName: $cityName) {
-      ...WidgetDisplay
       widgets {
         enabled {
           id

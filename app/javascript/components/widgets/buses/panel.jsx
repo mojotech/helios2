@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import mapboxgl from '!mapbox-gl';
 import PropTypes from 'prop-types';
-import geoJson from './chicago-parks.json';
 import MapStyle from './globalMapStyle';
 import vehiclepositions from './vehiclepositions.json';
 
@@ -45,16 +44,13 @@ const MapWithMarkers = ({ map, features }) => {
 const Buses = () => {
   const mapContainer = useRef(null);
   const [mapState, setMap] = useState(null);
-  const [lng] = useState(-71.415);
-  const [lat] = useState(41.825);
-  const [zoom] = useState(15);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom,
+      center: [-71.4125, 41.8255],
+      zoom: 17,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-left');
@@ -66,14 +62,12 @@ const Buses = () => {
     <div>
       <MapStyle />
       <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div>
       <MapDimensions ref={mapContainer} className="map-container">
-        {' '}
         <MapWithMarkers
           map={mapState}
           features={vehiclepositions.entity}
-        />{' '}
+        />
       </MapDimensions>
     </div>
   );
