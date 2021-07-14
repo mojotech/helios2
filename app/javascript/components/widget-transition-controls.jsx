@@ -74,16 +74,9 @@ const WidgetTransitionControls = ({
 
   const [state, dispatch] = useReducer(reducer, {
     startTimestamp: Date.now(),
-    msRemainingSinceLastStart: null,
+    msRemainingSinceLastStart: widgetTransitionTime,
     prefetchRequestedYet: false,
   });
-
-  useEffect(() => {
-    dispatch({
-      type: 'startTimer',
-      msDurationSeconds: widgetTransitionTime,
-    });
-  }, [current.id]);
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -137,6 +130,10 @@ const WidgetTransitionControls = ({
     }
   };
 
+  const startTimer = () => {
+    dispatch({ type: 'startTimer', msDurationSeconds: widgetTransitionTime });
+  };
+
   return (
     <WrappedComponent
       keyToWidgetAction={keyToWidgetAction}
@@ -146,6 +143,7 @@ const WidgetTransitionControls = ({
       location={location}
       loading={loading}
       error={error}
+      startTimer={startTimer}
     />
   );
 };
