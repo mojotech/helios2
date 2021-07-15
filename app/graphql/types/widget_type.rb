@@ -20,6 +20,7 @@ module Types::WidgetType
       when 'Twitter' then Types::TwitterWidget
       when 'Numbers' then Types::NumbersWidget
       when 'Traffic' then Types::TrafficWidget
+      when 'Buses' then Types::BusesWidget
       else raise "Unexpected WidgetType: #{obj.inspect}"
       end
     end
@@ -77,6 +78,10 @@ class Types::NumbersWidget < Types::BaseObject
     events = events.with_source(type) if type
     events
   end
+end
+
+class Types::BusesWidget < Types::BaseObject
+  implements Types::WidgetType
 end
 
 class Types::TrafficWidget < Types::BaseObject
