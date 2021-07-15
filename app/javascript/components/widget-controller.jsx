@@ -76,6 +76,9 @@ export const WidgetController = ({ client, cityName }) => {
             requestPrefetch={queryCallback}
             requestWidget={setNewWidgetId}
             cityName={cityName}
+            location={data.location}
+            loading={loading}
+            error={error}
             widgets={data.location.widgets}
           />
         );

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { DisconnectedMessage, LoadingMessage } from '@messages/message';
 import FullPanel from '@components/full-panel';
-import SidePanel from '@components/side-panel';
+import SidePanel, { getSidePanel } from '@components/side-panel';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
 import Buses from '@widgets/buses';
+import withFragment from './hocs/with-fragment';
 
 const Wrapper = styled.div`
   outline: none;
