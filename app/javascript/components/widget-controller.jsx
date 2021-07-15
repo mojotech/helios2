@@ -38,7 +38,7 @@ const getWidgets = gql`
 export const WidgetController = ({ client, cityName }) => {
   const [newWidgetId, setNewWidgetId] = useState(0);
 
-  const fetchPolicy = newWidgetId === 0 ? 'network-only' : 'cache-first';
+  const fetchPolicy = newWidgetId === 0 ? 'cache-first' : 'network-only';
 
   const queryCallback = nextWidgetId => {
     client.query({
