@@ -10,6 +10,7 @@ class Helios2Schema < GraphQL::Schema
     Types::WeatherWidget,
     Types::TwitterWidget,
     Types::NumbersWidget,
-    Types::TrafficWidget
+    Types::TrafficWidget,
+    Types::EventsWidget
   ]
 end

@@ -14,14 +14,11 @@ module Types::WidgetType
 
   definition_methods do
     def resolve_type(obj, _ctx)
-      case obj.name
-      when 'Guests' then Types::GuestsWidget
-      when 'Weather' then Types::WeatherWidget
-      when 'Twitter' then Types::TwitterWidget
-      when 'Numbers' then Types::NumbersWidget
-      when 'Traffic' then Types::TrafficWidget
-      else raise "Unexpected WidgetType: #{obj.inspect}"
-      end
+      widgets = { 'Guests' => Types::GuestsWidget, 'Weather' => Types::WeatherWidget,
+                  'Twitter' => Types::TwitterWidget, 'Numbers' => Types::NumbersWidget,
+                  'Traffic' => Types::TrafficWidget, 'Events' => Types::EventsWidget }
+      raise "Unexpected WidgetType: #{obj.inspect}" unless widgets[obj.name]
+      widgets[obj.name]
     end
   end
 end
@@ -77,6 +74,10 @@ class Types::NumbersWidget < Types::BaseObject
     events = events.with_source(type) if type
     events
   end
+end
+
+class Types::EventsWidget < Types::BaseObject
+  implements Types::WidgetType
 end
 
 class Types::TrafficWidget < Types::BaseObject

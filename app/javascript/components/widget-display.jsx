@@ -9,6 +9,7 @@ import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
+import Events from '@widgets/events';
 import withFragment from './hocs/with-fragment';
 
 const Wrapper = styled.div`
@@ -27,6 +28,7 @@ const widgetElements = {
   Twitter,
   Numbers,
   Traffic,
+  Events,
 };
 
 export const WidgetDisplay = ({

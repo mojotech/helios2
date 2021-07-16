@@ -39,6 +39,16 @@ enum EventSource {
   slackMessage
 }
 
+type EventsWidget implements Widget {
+  durationSeconds: Int!
+  id: Int!
+  locationId: String!
+  name: String!
+  position: Int!
+  showWeather: Boolean
+  sidebarText: String
+}
+
 type GuestsWidget implements Widget {
   # MojoTech announcements today
   dayAnnouncements: [Announcement!]!
