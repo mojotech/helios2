@@ -61,7 +61,53 @@ export const TabBar = () => (
   </svg>
 );
 
-const Twitter = ({ startTimer }) => (
+const Twitter = ({ tweets }) => {
+  const previous = takeLast(1, splitAt(1, tweets))[0];
+  return (
+    <PanelWrapper>
+      <Tweet tweet={tweets[0]} isPrimary />
+      <PreviousWrapper>
+        <TweetDivider>Previous Tweets</TweetDivider>
+        <TabBar />
+        {previous.map(tweet => (
+          <React.Fragment key={tweet.createdAt}>
+            <Tweet tweet={tweet} isPrimary={false} />
+            <TabBar />
+          </React.Fragment>
+        ))}
+      </PreviousWrapper>
+    </PanelWrapper>
+  );
+};
+
+Twitter.propTypes = {
+  tweets: PropTypes.arrayOf(
+    PropTypes.shape({
+      createdAt: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      interactions: PropTypes.shape({
+        favoriteCount: PropTypes.number.isRequired,
+        retweetCount: PropTypes.number.isRequired,
+      }).isRequired,
+      media: PropTypes.shape({
+        images: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            mediaUrl: PropTypes.string.isRequired,
+          }),
+        ),
+        link: PropTypes.string,
+      }),
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        handle: PropTypes.string.isRequired,
+        avatar: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+  ).isRequired,
+};
+
+const TwitterController = ({ startTimer }) => (
   <Query query={getMojoTweets} onCompleted={startTimer} onError={startTimer}>
     {({ loading, error, data }) => {
       if (loading) {
@@ -72,28 +118,13 @@ const Twitter = ({ startTimer }) => (
         return <DisconnectedMessage />;
       }
 
-      const previous = takeLast(1, splitAt(1, data.tweets))[0];
-      return (
-        <PanelWrapper>
-          <Tweet tweet={data.tweets[0]} isPrimary />
-          <PreviousWrapper>
-            <TweetDivider>Previous Tweets</TweetDivider>
-            <TabBar />
-            {previous.map(tweet => (
-              <React.Fragment key={tweet.createdAt}>
-                <Tweet tweet={tweet} isPrimary={false} />
-                <TabBar />
-              </React.Fragment>
-            ))}
-          </PreviousWrapper>
-        </PanelWrapper>
-      );
+      return <Twitter tweets={data.tweets} />;
     }}
   </Query>
 );
 
-Twitter.propTypes = {
+TwitterController.propTypes = {
   startTimer: PropTypes.func.isRequired,
 };
 
-export default Twitter;
+export default TwitterController;
