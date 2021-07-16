@@ -11,6 +11,9 @@ export const DisconnectedMessage = () => (
 );
 export const WeatherLoadingMessage = () => <WeatherMessage />;
 export const WeatherDisconnectedMessage = () => <WeatherMessage />;
+export const WidgetDisabledMessage = () => (
+  <Message message="No widget enabled" />
+);
 
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};

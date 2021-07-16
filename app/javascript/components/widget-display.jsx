@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { DisconnectedMessage, LoadingMessage } from '@messages/message';
+import {
+  DisconnectedMessage,
+  LoadingMessage,
+  WidgetDisabledMessage,
+} from '@messages/message';
 import FullPanel from '@components/full-panel';
 import SidePanel, { getSidePanel } from '@components/side-panel';
 import Twitter from '@widgets/twitter';
@@ -149,4 +153,18 @@ DisconnectedDisplay.defaultProps = {
   error: false,
 };
 
+export const WidgetDisabledDisplay = () => (
+  <Wrapper>
+    <FullPanel>
+      <WidgetDisabledMessage />
+    </FullPanel>
+    <SidePanel
+      widgets={[]}
+      selectedWidgetId={0}
+      showWeather={false}
+      totalTime={0}
+      isPaused={false}
+    />
+  </Wrapper>
+);
 export default withFragment(WidgetDisplay);
