@@ -3,6 +3,10 @@ class Types::EmployeeEventCollectionType < Types::BaseObject
   field :anniversary_employees, [Types::EmployeeType]
   field :time_off_employees, [Types::EmployeeType]
 
+  field :all, [Types::EmployeeType]
+
+  delegate :all, to: :object
+
   def birthday_employees
     Clients::BamboohrClient.find_employees.find_birthday_employees
   end

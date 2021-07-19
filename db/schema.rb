@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_12_211847) do
+ActiveRecord::Schema.define(version: 2021_07_21_200625) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -54,6 +54,18 @@ ActiveRecord::Schema.define(version: 2021_07_12_211847) do
     t.string "source", null: false
     t.date "day", null: false
     t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employee_events", force: :cascade do |t|
+    t.string "external_id"
+    t.text "display_name"
+    t.string "birthday"
+    t.string "hire_date"
+    t.boolean "is_photo_uploaded"
+    t.string "photo_url"
+    t.text "time_off_employees", default: "--- []\n"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

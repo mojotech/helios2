@@ -37,8 +37,7 @@ class Types::QueryType < Types::BaseObject
   end
 
   def employee_events
-    # dummy return value for now because cannot return null
-    # will be filled in with database calls in a later PR
+    Clients::BamboohrClient.find_employees.update_employees
     42
   end
 end

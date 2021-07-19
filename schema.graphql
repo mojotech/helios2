@@ -18,6 +18,7 @@ type Employee {
 }
 
 type EmployeeEventCollection {
+  all: [Employee!]!
   anniversaryEmployees: [Employee!]!
   birthdayEmployees: [Employee!]!
   timeOffEmployees: [Employee!]!
