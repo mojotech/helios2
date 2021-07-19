@@ -107,7 +107,7 @@ Twitter.propTypes = {
   ).isRequired,
 };
 
-export default () => (
+const TwitterController = ({}) => (
   <Query query={getMojoTweets}>
     {({ loading, error, data }) => {
       if (loading) {
@@ -122,3 +122,5 @@ export default () => (
     }}
   </Query>
 );
+
+export default TwitterController;
