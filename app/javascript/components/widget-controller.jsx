@@ -55,14 +55,6 @@ export const WidgetController = ({ client, cityName }) => {
       query={getWidgets}
       variables={{ id: newWidgetId, cityName }}
       fetchPolicy={fetchPolicy}
-      onCompleted={response => {
-        const {
-          location: {
-            widgets: { byIdOrFirst: current },
-          },
-        } = response;
-        setNewWidgetId(current.id);
-      }}
     >
       {({ loading, error, data }) => {
         if (loading) {
