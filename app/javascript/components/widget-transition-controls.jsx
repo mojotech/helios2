@@ -41,7 +41,7 @@ const reducer = (state, action) => {
       };
     case 'startTimer':
       return {
-        msRemainingSinceLastStart: action.msDurationSeconds,
+        msRemainingSinceLastStart: action.msDurationRemaining,
         startTimestamp: selectIsPaused(state) ? null : now,
         prefetchRequestedYet: false,
       };
@@ -81,7 +81,7 @@ const WidgetTransitionControls = ({
   useEffect(() => {
     dispatch({
       type: 'startTimer',
-      msDurationSeconds: widgetTransitionTime,
+      msDurationRemaining: widgetTransitionTime,
     });
   }, [current.id]);
 
