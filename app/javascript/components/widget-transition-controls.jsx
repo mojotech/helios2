@@ -13,6 +13,8 @@ export const selectShouldRequestPrefetch = state =>
     prefetchDelay;
 
 export const selectIsPaused = state => state.startTimestamp === null;
+export const isStarted = state =>
+  state.startTimestamp !== null && state.msRemainingSinceLastStart !== null;
 
 const resolveWidgetId = (enabledWidgets, currentWidgetId, { type }) => {
   const index = enabledWidgets.findIndex(w => w.id === currentWidgetId);
