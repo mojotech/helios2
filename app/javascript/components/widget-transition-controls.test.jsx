@@ -81,6 +81,24 @@ describe('shouldRequestPrefetch', () => {
       }),
     ).toEqual(true);
   });
+  it('returns false, msRemaining as null should not trigger request prefetch', () => {
+    expect(
+      selectShouldRequestPrefetch({
+        msRemainingSinceLastStart: null,
+        startTimestamp: Date.now() - 21000,
+        prefetchRequestedYet: false,
+      }),
+    ).toEqual(false);
+  });
+  it('returns false, startTimestamp as null should not trigger request prefetch', () => {
+    expect(
+      selectShouldRequestPrefetch({
+        msRemainingSinceLastStart: 20000,
+        startTimestamp: null,
+        prefetchRequestedYet: false,
+      }),
+    ).toEqual(false);
+  });
 });
 
 describe('shouldRequestWidget', () => {
