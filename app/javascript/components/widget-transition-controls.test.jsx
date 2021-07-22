@@ -2,6 +2,7 @@ import {
   selectShouldRequestPrefetch,
   selectShouldRequestWidget,
   selectIsPaused,
+  isStarted,
 } from '@components/widget-transition-controls';
 
 describe('isPaused', () => {
@@ -11,6 +12,32 @@ describe('isPaused', () => {
 
   it('returns false if the timer is unpaused', () => {
     expect(selectIsPaused({ startTimestamp: Date.now() })).toEqual(false);
+  });
+});
+
+describe('isStarted', () => {
+  it('returns false if the timestamp of the start is of null value (paused state)', () => {
+    expect(
+      isStarted({ startTimestamp: null, msRemainingSinceLastStart: 100 }),
+    ).toEqual(false);
+  });
+
+  it('returns false if the milliseconds remaining is of null value (msRemaining should not be null)', () => {
+    expect(
+      isStarted({ startTimestamp: 100, msRemainingSinceLastStart: null }),
+    ).toEqual(false);
+  });
+
+  it('returns false if the milliseconds remaining or starting timestamp are of null value', () => {
+    expect(
+      isStarted({ startTimestamp: null, msRemainingSinceLastStart: null }),
+    ).toEqual(false);
+  });
+
+  it('returns true if neither the starting timestamp nor milliseconds remaining are of null value (isStarted performing correctly)', () => {
+    expect(
+      isStarted({ startTimestamp: 100, msRemainingSinceLastStart: 100 }),
+    ).toEqual(true);
   });
 });
 
