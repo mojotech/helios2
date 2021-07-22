@@ -91,6 +91,7 @@ const getWeatherQuery = ({ cityName }) => (
     WeatherFrag={CornerWeather}
     queryName="CornerWeather"
     cityName={cityName}
+    startTimer={() => {}}
   />
 );
 

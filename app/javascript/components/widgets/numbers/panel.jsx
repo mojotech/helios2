@@ -134,8 +134,13 @@ SubscribedEvents.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-const Numbers = () => (
-  <Query query={getEventCounts} variables={{ after: getStartOfWeek() }}>
+const Numbers = ({ startTimer }) => (
+  <Query
+    query={getEventCounts}
+    variables={{ after: getStartOfWeek() }}
+    onCompleted={startTimer}
+    onError={startTimer}
+  >
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -177,5 +182,9 @@ const Numbers = () => (
     }}
   </Query>
 );
+
+Numbers.propTypes = {
+  startTimer: PropTypes.func.isRequired,
+};
 
 export default Numbers;

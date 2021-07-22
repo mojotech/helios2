@@ -109,7 +109,7 @@ SubscribedWeather.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-const getWeatherQuery = ({ cityName }) => (
+const getWeatherQuery = ({ startTimer, cityName }) => (
   <WeatherQuery
     Subscription={SubscribedWeather}
     LoadingMessage={LoadingMessage}
@@ -117,11 +117,13 @@ const getWeatherQuery = ({ cityName }) => (
     WeatherFrag={PanelWeather}
     queryName="PanelWeather"
     cityName={cityName}
+    startTimer={startTimer}
   />
 );
 
 getWeatherQuery.propTypes = {
   cityName: PropTypes.string.isRequired,
+  startTimer: PropTypes.func.isRequired,
 };
 
 export default getWeatherQuery;
