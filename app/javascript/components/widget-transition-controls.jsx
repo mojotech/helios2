@@ -9,6 +9,8 @@ export const selectShouldRequestWidget = state =>
 
 export const selectShouldRequestPrefetch = state =>
   !state.prefetchRequestedYet &&
+  !!state.msRemainingSinceLastStart &&
+  !!state.startTimestamp &&
   state.msRemainingSinceLastStart - (Date.now() - state.startTimestamp) <
     prefetchDelay;
 
