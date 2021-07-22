@@ -75,8 +75,13 @@ TrafficCam.propTypes = {
   feedFormat: PropTypes.string.isRequired,
 };
 
-const Traffic = ({ cityName }) => (
-  <Query query={getTrafficCams} variables={{ cityName }}>
+const Traffic = ({ cityName, startTimer }) => (
+  <Query
+    query={getTrafficCams}
+    variables={{ cityName }}
+    onCompleted={startTimer}
+    onError={startTimer}
+  >
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -123,5 +128,7 @@ const Traffic = ({ cityName }) => (
 
 Traffic.propTypes = {
   cityName: PropTypes.string.isRequired,
+  startTimer: PropTypes.func.isRequired,
 };
+
 export default Traffic;

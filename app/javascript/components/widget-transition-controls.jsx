@@ -83,13 +83,6 @@ const WidgetTransitionControls = ({
   });
 
   useEffect(() => {
-    dispatch({
-      type: 'startTimer',
-      msDurationRemaining: widgetTransitionTime,
-    });
-  }, [current.id]);
-
-  useEffect(() => {
     const timerId = setInterval(() => {
       if (!isStarted(state)) {
         return;
@@ -144,6 +137,10 @@ const WidgetTransitionControls = ({
     }
   };
 
+  const startTimer = () => {
+    dispatch({ type: 'startTimer', msDurationRemaining: widgetTransitionTime });
+  };
+
   return (
     <WrappedComponent
       keyToWidgetAction={keyToWidgetAction}
@@ -153,6 +150,7 @@ const WidgetTransitionControls = ({
       location={location}
       loading={loading}
       error={error}
+      startTimer={startTimer}
     />
   );
 };

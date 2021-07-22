@@ -47,6 +47,7 @@ const renderWidgetDisplay = () =>
       location={location}
       loading
       error={false}
+      startTimer={() => {}}
     />,
   );
 

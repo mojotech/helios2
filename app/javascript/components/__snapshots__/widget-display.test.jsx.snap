@@ -43,6 +43,7 @@ exports[`WidgetDisplay component renders correctly 1`] = `
   <FullPanel>
     <getWeatherQuery
       cityName="Providence"
+      startTimer={[Function]}
     />
   </FullPanel>
   <Memo

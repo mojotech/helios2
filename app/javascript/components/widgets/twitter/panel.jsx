@@ -107,8 +107,8 @@ Twitter.propTypes = {
   ).isRequired,
 };
 
-const TwitterController = ({}) => (
-  <Query query={getMojoTweets}>
+const TwitterController = ({ startTimer }) => (
+  <Query query={getMojoTweets} onCompleted={startTimer} onError={startTimer}>
     {({ loading, error, data }) => {
       if (loading) {
         return <LoadingMessage />;
@@ -122,5 +122,9 @@ const TwitterController = ({}) => (
     }}
   </Query>
 );
+
+TwitterController.propTypes = {
+  startTimer: PropTypes.func.isRequired,
+};
 
 export default TwitterController;

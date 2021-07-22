@@ -43,10 +43,13 @@ export const WeatherQuery = ({
   WeatherFrag,
   queryName,
   cityName,
+  startTimer,
 }) => (
   <Query
     query={getLocationWeather(WeatherFrag, queryName)}
     variables={{ cityName }}
+    onCompleted={startTimer}
+    onError={startTimer}
   >
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
@@ -56,6 +59,7 @@ export const WeatherQuery = ({
         console.error(error); // eslint-disable-line
         return <DisconnectedMessage />;
       }
+
       return (
         <Subscription
           location={data.location}
@@ -96,6 +100,7 @@ WeatherQuery.propTypes = {
   }).isRequired,
   queryName: PropTypes.string.isRequired,
   cityName: PropTypes.string.isRequired,
+  startTimer: PropTypes.func.isRequired,
 };
 
 export default WeatherQuery;

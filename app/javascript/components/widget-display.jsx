@@ -43,6 +43,7 @@ export const WidgetDisplay = ({
   location,
   loading,
   error,
+  startTimer,
 }) => {
   const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
   const WidgetElement = widgetElements[current.name].Panel;
@@ -54,7 +55,7 @@ export const WidgetDisplay = ({
       tabIndex="0"
     >
       <FullPanel>
-        <WidgetElement cityName={cityName} />
+        <WidgetElement startTimer={startTimer} cityName={cityName} />
       </FullPanel>
       <SidePanel
         widgets={enabledWidgets}
@@ -90,6 +91,7 @@ WidgetDisplay.propTypes = {
   }).isRequired,
   loading: PropTypes.bool,
   error: PropTypes.bool,
+  startTimer: PropTypes.func.isRequired,
 };
 
 WidgetDisplay.defaultProps = {

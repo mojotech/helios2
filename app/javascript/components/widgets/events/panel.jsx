@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fontSizes, fonts, spacing } from '@lib/theme';
 import StarIcon from '@assets/images/icons/icon-star.svg';
@@ -107,7 +108,11 @@ const NewHires = () => {
   );
 };
 
-const Events = () => {
+const Events = ({ startTimer }) => {
+  useEffect(() => {
+    startTimer();
+  }, []);
+
   return (
     <div>
       <Title>
@@ -129,6 +134,10 @@ const Events = () => {
       </Grid>
     </div>
   );
+};
+
+Events.propTypes = {
+  startTimer: PropTypes.func.isRequired,
 };
 
 export default Events;
