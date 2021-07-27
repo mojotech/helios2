@@ -1,8 +1,8 @@
 class Clients::CreateEmployees
-  def initialize(employees, time_off)
+  def initialize(employees, time_off, dates = nil)
     @employees = employees
     @time_off = time_off
-    @dates = create_dates
+    @dates = dates || create_dates
   end
 
   def create_dates
