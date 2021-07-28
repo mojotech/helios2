@@ -70,6 +70,7 @@ class Types::WeatherHourlyDataType < Types::WeatherObject
   field :clouds, Int
   field :uvi, Int
   field :visibility, Int
+  field :snow, Float, null: true
 end
 
 class Types::WeatherMinutelyDataType < Types::WeatherObject
@@ -104,6 +105,7 @@ class Types::WeatherType < Types::WeatherObject
   field "hourly", [Types::WeatherHourlyDataType]
   field "daily", [Types::WeatherDailyDataType]
   field "offset", Int
+  field "precip_message", String
 
   field "moonPhase", Float, deprecation_reason: "Moved to Location"
 

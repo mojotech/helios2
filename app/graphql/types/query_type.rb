@@ -31,4 +31,4 @@ class Types::QueryType < Types::BaseObject
     events = events.with_source(type) if type
     events
   end
-end
+  end

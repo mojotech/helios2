@@ -205,6 +205,7 @@ type Weather {
   minutely: [WeatherMinutelyData!]!
   moonPhase: Float! @deprecated(reason: "Moved to Location")
   offset: Int!
+  precipMessage: String!
   timezone: String!
 }
 
@@ -258,6 +259,7 @@ type WeatherHourlyData {
   humidity: Int!
   precipProbability: Float!
   pressure: Int!
+  snow: Float
   temp: Float!
   time: UnixDateTime!
   uvi: Int!

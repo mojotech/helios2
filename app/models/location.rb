@@ -11,13 +11,49 @@ class Location < ApplicationRecord
   def self.primary(city_name = ENV['PRIMARY_CITY_NAME'])
     find_by(city_name: city_name)
   end
-
-  def weather
+   
+  def weather_detail(weather_info, time_split)
     response = ::Clients::WeatherClient.forecast(self).dup
-    response['moonPhase'] = moon_phase
-    response.freeze
-    response
-  end
+    weather_info.select {
+      |key, value |
+        case value.to_f
+      when value.to_f >= 0.25 then
+      response['precip_message'] = "possible to #{key} #{time_split}"
+      when value.to_f >= 0.50 then
+      response['precip_message'] = "Likely to #{key} #{time_split}"
+      when value.to_f >= 0.75 then
+      response['precip_message'] = "#{key} #{time_split}"
+      else
+        response['precip_message'] = ""
+      end
+    }
+    end
+    
+    def weather
+      response = ::Clients::WeatherClient.forecast(self).dup
+      response['moonPhase'] = moon_phase
+      response['current']['weather'][0]['hourly'] = response['hourly']
+      for i in 2..24 do
+        weather_info = {
+           "rain" => "#{response['hourly'][i]['pop']}",
+           "snow" => "#{response['hourly'][i]['snow']}"
+         }
+         if i == 2
+           time_split = "next hour"
+         else
+           time = Time.at(response['hourly'][i]['dt'].to_i).strftime("%H")
+         case time.to_i
+           when 12..18 then
+             time_split = "afternoon"
+           when 18..21 then
+             time_split = "evening"
+           end
+         end
+       end
+      weather_detail(weather_info,time_split)
+      response.freeze
+      response
+      end
 
   # rubocop:disable Metrics/AbcSize
   def solar_cycles(now = Time.zone.now)
