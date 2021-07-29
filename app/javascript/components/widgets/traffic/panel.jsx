@@ -113,7 +113,7 @@ const Traffic = ({ cityName }) => (
           </Row>
           <Notice>Images from:</Notice>
           {getUniqUrls(trafficCams).map(url => (
-            <Notice>{url}</Notice>
+            <Notice key={url}>{url}</Notice>
           ))}
         </>
       );
