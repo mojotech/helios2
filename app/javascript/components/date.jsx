@@ -23,7 +23,7 @@ export const DateText = styled.div`
 export class Date extends React.Component {
   static propTypes = {
     loading: PropTypes.bool,
-    error: PropTypes.shape({}),
+    error: PropTypes.bool,
     location: PropTypes.shape({
       timezone: PropTypes.string,
     }).isRequired,
@@ -31,7 +31,7 @@ export class Date extends React.Component {
 
   static defaultProps = {
     loading: true,
-    error: {},
+    error: false,
   };
 
   state = { date: null };
@@ -75,7 +75,7 @@ export class Date extends React.Component {
       return <ErrorMessage />;
     }
 
-    const { date } = this.state.date;
+    const { date } = this.state;
     if (!date) {
       return null;
     }
