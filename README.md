@@ -94,6 +94,8 @@ Ubuntu:
 
 ### Commands for local lint/testing steps:
 
+**NOTE**: cypress tests depend on latest `rake db:seed` and a server running locally
+
 - Command prints detected errors, stylistic/formatting issues, and bugs
 - `yarn run lint`
 
@@ -102,6 +104,12 @@ Ubuntu:
 
 - Runs test script as defined by the package
 - `yarn run test`
+
+- Runs cypress tests 
+- `yarn run cy:run`
+
+- Opens cypress test interface
+- `yarn run cy:open`
 
 - Ruby-specific code style checker, reports and automaticaly fixes errors
 - `bundle exec rubocop`
