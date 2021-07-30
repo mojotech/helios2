@@ -75,7 +75,7 @@ const WidgetTransitionControls = ({
   const widgetTransitionTime = current.durationSeconds * 1000;
 
   const [state, dispatch] = useReducer(reducer, {
-    startTimestamp: Date.now(),
+    startTimestamp: null,
     msRemainingSinceLastStart: null,
     prefetchRequestedYet: false,
   });
@@ -89,6 +89,9 @@ const WidgetTransitionControls = ({
 
   useEffect(() => {
     const timerId = setInterval(() => {
+      if (!isStarted(state)) {
+        return;
+      }
       if (selectIsPaused(state)) {
         return;
       }
