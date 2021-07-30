@@ -21,10 +21,10 @@ const Wrapper = styled.div`
 `;
 
 export const getWidgetDisplay = gql`
-  ${getSidePanel}
   fragment WidgetDisplay on Location {
     ...SidePanel
   }
+  ${getSidePanel}
 `;
 
 const widgetElements = {
@@ -164,4 +164,4 @@ export const WidgetDisabledDisplay = () => (
   </Wrapper>
 );
 
-export default withFragment(WidgetDisplay, { location: WidgetDisplay });
+export default withFragment(WidgetDisplay, { location: getWidgetDisplay });

@@ -33,7 +33,7 @@ const TimeValue = styled(Row)`
 export class Time extends React.Component {
   static propTypes = {
     location: PropTypes.shape({
-      timezone: PropTypes.string,
+      timezone: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -66,5 +66,11 @@ export class Time extends React.Component {
     );
   }
 }
+
+Time.propTypes = {
+  location: PropTypes.shape({
+    timezone: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Time;

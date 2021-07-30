@@ -6,7 +6,7 @@ import Wifi, { getWifi } from '@components/wifi';
 import Bathroom, { getBathroomCode } from '@components/bathroom';
 import CityName from '@components/city-name';
 import { Row } from '@components/row';
-import TopCorner from '@components/top-corner-controller';
+import TopCorner, { getTopCorner } from '@components/top-corner-controller';
 import Widgets from '@components/widgets';
 import gql from 'graphql-tag';
 import withFragment from './hocs/with-fragment';
@@ -29,12 +29,14 @@ const FixedContent = styled.div`
 `;
 
 export const getSidePanel = gql`
-  ${getWifi}
-  ${getBathroomCode}
   fragment SidePanel on Location {
     ...Wifi
     ...Bathroom
+    ...TopCorner
   }
+  ${getWifi}
+  ${getBathroomCode}
+  ${getTopCorner}
 `;
 
 export const SidePanel = ({

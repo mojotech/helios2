@@ -5,7 +5,7 @@ import Time from '@components/time';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 import withFragment from './hocs/with-fragment';
 
-export const getTimeZone = gql`
+export const getTimeHero = gql`
   fragment TimeHero on Location {
     timezone
   }
@@ -18,15 +18,14 @@ export const TimeHero = ({ loading, error, location }) => {
   if (error) {
     return <ErrorMessage />;
   }
+
   return <Time location={location} />;
 };
 
 TimeHero.propTypes = {
-  location: PropTypes.shape({
-    timezone: PropTypes.string,
-  }).isRequired,
   loading: PropTypes.bool,
   error: PropTypes.bool,
+  location: PropTypes.shape({}).isRequired,
 };
 
 TimeHero.defaultProps = {
@@ -34,4 +33,4 @@ TimeHero.defaultProps = {
   error: false,
 };
 
-export default withFragment(TimeHero, { location: getTimeZone });
+export default withFragment(TimeHero, { location: getTimeHero });
