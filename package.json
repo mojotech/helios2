@@ -43,6 +43,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
+    "cypress": "^8.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.3.0",
@@ -65,6 +66,8 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",
     "test": "jest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ ",
     "prettier:format": "prettier --write '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json",
     "prettier:check": "prettier --check '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json"
