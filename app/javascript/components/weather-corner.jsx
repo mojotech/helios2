@@ -17,14 +17,14 @@ import {
 } from '@messages/message';
 
 const CornerWeather = gql`
-  ${getCurrentTemp}
-  ${getSunriseSunsetWeather}
-  ${getCurrentIcon}
   fragment CornerWeather on Weather {
     ...CurrentTemp
     ...SunriseSunsetWeather
     ...CurrentIcon
   }
+  ${getCurrentTemp}
+  ${getSunriseSunsetWeather}
+  ${getCurrentIcon}
 `;
 
 const Column = styled.div`

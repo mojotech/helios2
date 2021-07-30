@@ -52,10 +52,10 @@ const SunsetLabel = styled.div`
 `;
 
 export const getSunriseSunsetWeather = gql`
-  ${getWeatherEffect}
   fragment SunriseSunsetWeather on Weather {
     ...WeatherEffect
   }
+  ${getWeatherEffect}
 `;
 
 export const getSunriseSunsetLocation = gql`

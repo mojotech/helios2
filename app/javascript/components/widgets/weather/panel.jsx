@@ -23,11 +23,6 @@ import { GreySubText, WhiteText } from '@components/typography';
 import gql from 'graphql-tag';
 
 const PanelWeather = gql`
-  ${getCurrentTemp}
-  ${getHourlyWeather}
-  ${getCurrentWeather}
-  ${getDailyWeather}
-  ${getSunriseSunsetWeather}
   fragment PanelWeather on Weather {
     ...CurrentTemp
     ...HourlyWeather
@@ -35,6 +30,11 @@ const PanelWeather = gql`
     ...DailyWeather
     ...SunriseSunsetWeather
   }
+  ${getCurrentTemp}
+  ${getHourlyWeather}
+  ${getCurrentWeather}
+  ${getDailyWeather}
+  ${getSunriseSunsetWeather}
 `;
 
 const Column = styled.div`
