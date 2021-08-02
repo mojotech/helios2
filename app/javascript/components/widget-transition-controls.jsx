@@ -44,7 +44,7 @@ const reducer = (state, action) => {
     case 'startTimer':
       return {
         msRemainingSinceLastStart: action.msDurationRemaining,
-        startTimestamp: selectIsPaused(state) ? null : now,
+        startTimestamp: now,
         prefetchRequestedYet: false,
       };
     case 'tryPrefetch':
