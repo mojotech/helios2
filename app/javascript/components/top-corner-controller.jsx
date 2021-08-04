@@ -75,4 +75,4 @@ TopCorner.defaultProps = {
   error: false,
 };
 
-export default withFragment(TopCorner, { location: getTopCorner });
+export default withFragment({ location: getTopCorner })(TopCorner);

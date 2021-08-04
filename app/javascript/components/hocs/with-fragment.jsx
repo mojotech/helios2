@@ -5,7 +5,7 @@ import { filter } from 'graphql-anywhere';
  * withFragment returns a component which expects props that match
  * WrappedComponent's fragment names
  */
-export default function withFragment(WrappedComponent, fragmentObject) {
+export const withFragment = fragmentObject => WrappedComponent => {
   const Enhanced = React.memo(props => {
     const fragmentKeys = Object.keys(fragmentObject);
     const fragmentDataProps = fragmentKeys.reduce((accProps, fragmentKey) => {
@@ -20,4 +20,6 @@ export default function withFragment(WrappedComponent, fragmentObject) {
   });
 
   return Enhanced;
-}
+};
+
+export default withFragment;

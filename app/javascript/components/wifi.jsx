@@ -79,4 +79,4 @@ Wifi.defaultProps = {
   error: false,
 };
 
-export default withFragment(Wifi, { location: getWifi });
+export default withFragment({ location: getWifi })(Wifi);

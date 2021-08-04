@@ -98,4 +98,4 @@ HourlyTemps.defaultProps = {
   hours: 5,
 };
 
-export default withFragment(HourlyTemps, { weather: getHourlyWeather });
+export default withFragment({ weather: getHourlyWeather })(HourlyTemps);

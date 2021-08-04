@@ -86,4 +86,4 @@ SidePanel.defaultProps = {
   error: false,
 };
 
-export default withFragment(SidePanel, { location: getSidePanel });
+export default withFragment({ location: getSidePanel })(SidePanel);

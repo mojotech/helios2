@@ -52,4 +52,4 @@ Bathroom.defaultProps = {
   error: false,
 };
 
-export default withFragment(Bathroom, { location: getBathroomCode });
+export default withFragment({ location: getBathroomCode })(Bathroom);

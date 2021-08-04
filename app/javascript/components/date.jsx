@@ -83,4 +83,4 @@ export class Date extends React.Component {
   }
 }
 
-export default withFragment(Date, { location: getTimeZone });
+export default withFragment({ location: getTimeZone })(Date);

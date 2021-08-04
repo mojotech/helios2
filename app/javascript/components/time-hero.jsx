@@ -33,4 +33,4 @@ TimeHero.defaultProps = {
   error: false,
 };
 
-export default withFragment(TimeHero, { location: getTimeHero });
+export default withFragment({ location: getTimeHero })(TimeHero);
