@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import Time from '@components/time';
+import { compose } from 'react-recompose';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
 export const getTimeHero = gql`
@@ -11,10 +13,7 @@ export const getTimeHero = gql`
   }
 `;
 
-export const TimeHero = ({ loading, error, location }) => {
-  if (loading) {
-    return <LoadingMessage />;
-  }
+export const TimeHero = ({ error, location }) => {
   if (error) {
     return <ErrorMessage />;
   }
@@ -23,14 +22,15 @@ export const TimeHero = ({ loading, error, location }) => {
 };
 
 TimeHero.propTypes = {
-  loading: PropTypes.bool,
   error: PropTypes.bool,
   location: PropTypes.shape({}).isRequired,
 };
 
 TimeHero.defaultProps = {
-  loading: true,
   error: false,
 };
 
-export default withFragment({ location: getTimeHero })(TimeHero);
+export default compose(
+  renderWhileLoading(LoadingMessage),
+  withFragment({ location: getTimeHero }),
+)(TimeHero);

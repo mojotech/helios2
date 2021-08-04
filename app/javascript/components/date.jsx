@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { compose } from 'react-recompose';
 import { dateForTimezone } from '@lib/datetime';
 import { colors, fontSizes, spacing, fonts } from '@lib/theme';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
 export const getTimeZone = gql`
@@ -22,7 +24,6 @@ export const DateText = styled.div`
 
 export class Date extends React.Component {
   static propTypes = {
-    loading: PropTypes.bool,
     error: PropTypes.bool,
     location: PropTypes.shape({
       timezone: PropTypes.string,
@@ -30,7 +31,6 @@ export class Date extends React.Component {
   };
 
   static defaultProps = {
-    loading: true,
     error: false,
   };
 
@@ -66,10 +66,7 @@ export class Date extends React.Component {
   };
 
   render() {
-    const { loading, error } = this.props;
-    if (loading) {
-      return <LoadingMessage />;
-    }
+    const { error } = this.props;
 
     if (error) {
       return <ErrorMessage />;
@@ -83,4 +80,7 @@ export class Date extends React.Component {
   }
 }
 
-export default withFragment({ location: getTimeZone })(Date);
+export default compose(
+  renderWhileLoading(LoadingMessage),
+  withFragment({ location: getTimeZone }),
+)(Date);
