@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { compose } from 'react-recompose';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import renderWhileError from '@hocs/render-while-error';
 import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
@@ -20,11 +21,7 @@ const Column = styled.div`
   margin-top: 100px;
 `;
 
-export const Bathroom = ({ error, location }) => {
-  if (error) {
-    return <ErrorMessage />;
-  }
-
+export const Bathroom = ({ location }) => {
   const { bathroomCode } = location;
   if (!bathroomCode) {
     return null;
@@ -41,15 +38,14 @@ Bathroom.propTypes = {
   location: PropTypes.shape({
     bathroomCode: PropTypes.string,
   }),
-  error: PropTypes.bool,
 };
 
 Bathroom.defaultProps = {
   location: {},
-  error: false,
 };
 
 export default compose(
+  renderWhileError(ErrorMessage),
   renderWhileLoading(LoadingMessage),
   withFragment({ location: getBathroomCode }),
 )(Bathroom);

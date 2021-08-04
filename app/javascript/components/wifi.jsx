@@ -8,6 +8,7 @@ import { Row } from '@components/row';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 import WifiIcon from '@assets/images/icons/icon-wifi.svg';
 import LockIcon from '@assets/images/icons/icon-key.svg';
+import renderWhileError from '@hocs/render-while-error';
 import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
@@ -32,11 +33,7 @@ export const getWifi = gql`
   }
 `;
 
-export const Wifi = ({ error, location }) => {
-  if (error) {
-    return <ErrorMessage />;
-  }
-
+export const Wifi = ({ location }) => {
   const { wifiName, wifiPassword } = location;
   if (!wifiName || !wifiPassword) {
     return null;
@@ -69,14 +66,10 @@ Wifi.propTypes = {
     wifiName: PropTypes.string,
     wifiPassword: PropTypes.string,
   }).isRequired,
-  error: PropTypes.bool,
-};
-
-Wifi.defaultProps = {
-  error: false,
 };
 
 export default compose(
+  renderWhileError(ErrorMessage),
   renderWhileLoading(LoadingMessage),
   withFragment({ location: getWifi }),
 )(Wifi);

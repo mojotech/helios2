@@ -6,6 +6,7 @@ import { compose } from 'react-recompose';
 import { dateForTimezone } from '@lib/datetime';
 import { colors, fontSizes, spacing, fonts } from '@lib/theme';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
+import renderWhileError from '@hocs/render-while-error';
 import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
@@ -24,15 +25,12 @@ export const DateText = styled.div`
 
 export class Date extends React.Component {
   static propTypes = {
-    error: PropTypes.bool,
     location: PropTypes.shape({
       timezone: PropTypes.string,
     }).isRequired,
   };
 
-  static defaultProps = {
-    error: false,
-  };
+  static defaultProps = {};
 
   state = { date: null };
 
@@ -66,12 +64,6 @@ export class Date extends React.Component {
   };
 
   render() {
-    const { error } = this.props;
-
-    if (error) {
-      return <ErrorMessage />;
-    }
-
     const { date } = this.state;
     if (!date) {
       return null;
@@ -81,6 +73,7 @@ export class Date extends React.Component {
 }
 
 export default compose(
+  renderWhileError(ErrorMessage),
   renderWhileLoading(LoadingMessage),
   withFragment({ location: getTimeZone }),
 )(Date);
