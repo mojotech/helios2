@@ -148,6 +148,23 @@ update_or_new!(TrafficCam, title: "28th and Iris") do |r|
   r.feed_format = "video"
 end
 
+# Add random one-time events (will not be displayed on helios after this week)
+
+update_or_new!(Event, external_id: "Tucker's final helios PR :(") do |r|
+  r.source = 'github_pull'
+  r.created_at = Date.parse('2021-10-6T10:09:08.07')
+end
+
+update_or_new!(Event, external_id: "PR: fix to allow multiple seedings") do |r|
+  r.source = 'github_pull'
+  r.created_at = Date.parse('2021-10-6T10:09:08.07')
+end
+
+update_or_new!(Event, external_id: "#the-five-interns-2021 channel message") do |r|
+  r.source = 'slack_message'
+  r.created_at = Date.parse('2021-10-6T10:09:08.07')
+end
+
 if AdminUser.count.zero?
   AdminUser.create!(
     email: ENV['ADMIN_EMAIL'],
