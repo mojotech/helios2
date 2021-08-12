@@ -14,7 +14,6 @@ const HourMin = styled.div`
   font-family: ${fonts.extended};
   font-weight: ${weights.regular};
   position: relative;
-  top: 8px;
 `;
 
 const AMPM = styled.div`
