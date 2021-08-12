@@ -19,6 +19,7 @@ const AMPM = styled.div`
   font-size: ${fontSizes.medium};
   font-family: ${fonts.extended};
   margin-left: 11px;
+  line-height: 45px;
 `;
 
 const TimeValue = styled(Row)`

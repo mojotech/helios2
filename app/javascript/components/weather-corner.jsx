@@ -39,8 +39,7 @@ const TempText = styled.div`
 `;
 
 const SkyIconWrapper = styled.div`
-  margin-top: 35px;
-  margin-right: 24px;
+  margin-bottom: 5px;
 `;
 
 class WeatherCorner extends React.Component {
