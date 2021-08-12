@@ -27,6 +27,10 @@ const CornerWeather = gql`
   ${getCurrentIcon}
 `;
 
+const BottomLineRow = styled(Row)`
+  align-items: flex-end;
+`;
+
 const TempText = styled.div`
   color: ${colors.white};
   font-size: ${fontSizes.xlarge};
@@ -48,14 +52,14 @@ class WeatherCorner extends React.Component {
     const { location } = this.props;
     const { weather } = location;
     return (
-      <Row>
+      <BottomLineRow>
         <SkyIconWrapper>
           <MediumSkyIcon icon={weather.current.weather.icon} />
         </SkyIconWrapper>
         <TempText>
           <CurrentTemp {...{ weather }} />
         </TempText>
-      </Row>
+      </BottomLineRow>
     );
   }
 }

@@ -13,7 +13,6 @@ const HourMin = styled.div`
   font-size: ${fontSizes.xlarge};
   font-family: ${fonts.extended};
   font-weight: ${weights.regular};
-  position: relative;
 `;
 
 const AMPM = styled.div`
