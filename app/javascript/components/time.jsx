@@ -13,14 +13,13 @@ const HourMin = styled.div`
   font-size: ${fontSizes.xlarge};
   font-family: ${fonts.extended};
   font-weight: ${weights.regular};
-  position: relative;
-  top: 8px;
 `;
 
 const AMPM = styled.div`
   font-size: ${fontSizes.medium};
   font-family: ${fonts.extended};
   margin-left: 11px;
+  line-height: 45px;
 `;
 
 const TimeValue = styled(Row)`
