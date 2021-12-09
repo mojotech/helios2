@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-       - image: circleci/ruby:2.5.7-node
+       - image: cimg/ruby:2.6.9-node
        - image: redis
 
       # Specify service dependencies here if necessary

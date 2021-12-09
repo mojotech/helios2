@@ -4,7 +4,7 @@ This project is a Rails 5.2 app using webpacker and React.
 
 ### Ruby version
 
-MRI 2.5.7
+MRI 2.6.9
 
 ### Installation options
 
@@ -28,7 +28,7 @@ Prequisites:
   - OSX: brew install shared-mime-info
 
 - `asdf install`
-- `gem install bundler:1.17.3`
+- `gem install bundler:2.2.32`
 - `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
 - `gem install sqlite3 -v '1.3.13' --source 'https://rubygems.org/'`
 - `gem install foreman`
