@@ -22,7 +22,7 @@ Prequisites:
   - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
   - OSX: brew install sqlite3 && brew link --force sqlite3
 - asdf
-  - OSX/Ubuntu: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
+  - OSX/Ubuntu: https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies
 - freedesktop mime database
   - Ubuntu: should work out of the box. https://github.com/mimemagicrb/mimemagic#dependencies
   - OSX: brew install shared-mime-info
