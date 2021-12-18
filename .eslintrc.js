@@ -24,7 +24,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: './config/webpack/webpack.config.custom.js',
+        config: './webpack.config.js',
       },
     },
   },

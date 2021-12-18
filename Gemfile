@@ -9,12 +9,12 @@ gem 'rails', '~> 5.2.0'
 gem 'redis'
 # Use Puma as the app server
 gem 'puma', '~> 4.3'
+gem 'rack-cors'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-gem 'webpacker', '>= 4.0.0'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby

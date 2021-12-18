@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime';
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-link';
@@ -18,10 +18,10 @@ import versionCompare from '@components/version-compare';
 import helioSchema from '@javascript/schema.json';
 import GlobalStyle from '../styles';
 
-const cable = ActionCable.createConsumer('/cable');
+const cable = ActionCable.createConsumer(`${process.env.BACKEND_URI}/cable`);
 
 const httpLink = new HttpLink({
-  uri: '/graphql',
+  uri: `${process.env.BACKEND_URI}/graphql`,
   credentials: 'include',
 });
 
@@ -88,6 +88,11 @@ const App = () => (
             cityName={routeProps.match.params.city_name}
           />
         )}
+      />
+      <Route
+        exact
+        path="/"
+        render={() => <Redirect to={`/${process.env.PRIMARY_CITY_NAME}`} />}
       />
     </Router>
   </ApolloProvider>
