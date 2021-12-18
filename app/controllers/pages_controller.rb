@@ -5,5 +5,6 @@ class PagesController < ApplicationController
     elsif Location.where(city_name: params[:city_name]).empty?
       raise RoutingError, 'Not Found'
     end
+    render file: 'public/index.html'
   end
 end

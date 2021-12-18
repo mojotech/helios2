@@ -12,7 +12,7 @@ services:
       - /helios/tmp
     ports:
       - "5000:5000"
-      - "3035:3035"
+      - "5001:5001"
     depends_on:
       - redis
     environment:
