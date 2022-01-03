@@ -5,6 +5,8 @@ class Event < ApplicationRecord
     slack_message: 'slack_message'
   }
 
+  validates :external_id, uniqueness: { scope: :source, message: "must be unique" }
+
   scope :with_source, ->(source) { where(source: source) }
   scope :created_after, ->(after) { where('created_at > ?', after) }
 
