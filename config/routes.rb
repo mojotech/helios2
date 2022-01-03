@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     get 'create_slack_auth', to: 'slack_auth#create'
   end
 
+  namespace :events do
+    post 'create', to: 'event#create'
+  end
+
   get "/:city_name", controller: "PagesController", to: 'pages#index'
 
   root to: 'pages#index'
