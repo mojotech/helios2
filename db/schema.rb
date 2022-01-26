@@ -66,6 +66,16 @@ ActiveRecord::Schema.define(version: 2021_12_20_181834) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "employee_events", force: :cascade do |t|
+    t.string "external_id"
+    t.text "display_name"
+    t.text "birthday"
+    t.text "hire_date"
+    t.boolean "is_photo_uploaded"
+    t.text "photo_url"
+    t.text "time_off_employees", default: "--- []\n"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "source"
     t.string "external_id"
