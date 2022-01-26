@@ -19,10 +19,10 @@ const versionCompare = client =>
       }
     },
     error: () => {
-      console.log(`Caused Error!`);
+      console.error(`Caused Error!`); // eslint-disable-line
     },
     complete: () => {
-      console.log(`We completed!`);
+      console.log(`We completed!`); // eslint-disable-line
     },
   });
 
