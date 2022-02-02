@@ -99,7 +99,7 @@ const Traffic = ({ cityName, startTimer }) => (
       const [firstColumn, secondColumn] = splitAt(columnSize, trafficCams);
       const getUniqUrls = compose(
         uniq,
-        map(cam => new URL(cam.url).origin),
+        map(cam => new URL(cam.url).hostname),
       );
 
       return (
