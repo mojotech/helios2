@@ -140,9 +140,9 @@ TrafficCam.find_or_initialize_by(
 end.save!
 
 TrafficCam.find_or_initialize_by(
-  title: "Dean Street"
+  title: "Broadway"
 ) do |r|
-  r.url = "https://www.dot.ri.gov/img/travel/camimages/6-1%20Rt%206%20E%20%20%2010%20N%20@%20Dean%20St.jpg"
+  r.url = "https://www.dot.ri.gov/img/travel/camimages/95-22%20I-95%20S%20@%20Broadway%20(Prov).jpg"
   r.location = providence
   r.feed_format = "image"
 end.save!
