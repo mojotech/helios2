@@ -131,6 +131,14 @@ const getImageFromCache = imagePath => {
   return Promise.resolve(image);
 };
 
+export const getBlocksDroppedSinceLastMount = () => {
+  return localStorage.getItem('blocksDroppedSinceLastMount') === 'true';
+};
+
+export const setBlocksAddedSinceLastMount = blocksDropped => {
+  localStorage.setItem('blocksDroppedSinceLastMount', blocksDropped);
+};
+
 class Scene extends React.Component {
   imageCache = {};
 
@@ -164,6 +172,7 @@ class Scene extends React.Component {
     if (isPresent(world)) {
       this.restoreWorld(world);
     }
+
     Composite.allBodies(this.engine.world)
       .filter(body => !body.isStatic)
       .forEach(block => this.sleepStartEvent(block));
@@ -176,6 +185,7 @@ class Scene extends React.Component {
       world,
       data: { loading },
     } = this.props;
+
     if (prevProps.data.loading && !loading && isPresent(world)) {
       this.restoreWorld(world);
     }
@@ -264,8 +274,6 @@ class Scene extends React.Component {
   );
 
   restoreWorld = world => {
-    const worldCounts = countByBlockType(world);
-    const counts = this.getCountsFromProps(this.props);
     const {
       data: { loading },
     } = this.props;
@@ -274,16 +282,30 @@ class Scene extends React.Component {
       return;
     }
 
+    const worldCounts = countByBlockType(world);
+    const counts = this.getCountsFromProps(this.props);
+
+    if (
+      (worldCounts.githubCommit || 0) < counts.githubCommit ||
+      (worldCounts.githubPull || 0) < counts.githubPull ||
+      (worldCounts.slackMessage || 0) < counts.slackMessage
+    ) {
+      setBlocksAddedSinceLastMount(true);
+    }
+
     if (
       (worldCounts.githubCommit || 0) <= counts.githubCommit &&
       (worldCounts.githubPull || 0) <= counts.githubPull &&
-      (worldCounts.slackMessage || 0) <= counts.slackMessage
+      (worldCounts.slackMessage || 0) <= counts.slackMessage &&
+      getBlocksDroppedSinceLastMount()
     ) {
       World.add(this.engine.world, world.map(deserializeFallingBlock));
       this.setState(worldCounts);
     } else {
       this.setState({ githubCommit: 0, githubPull: 0, slackMessage: 0 });
     }
+
+    setBlocksAddedSinceLastMount(false);
   };
 
   saveWorld = () => {
@@ -344,6 +366,7 @@ class Scene extends React.Component {
     // randomly pick a point from one wall edge to the other
     // so that they don't fall directly on top of each other.
     if (block) {
+      setBlocksAddedSinceLastMount(true);
       const newBlock = createFallingBlock(randomDist, -10, block);
 
       this.setState(state => ({ [block]: state[block] + 1 }));

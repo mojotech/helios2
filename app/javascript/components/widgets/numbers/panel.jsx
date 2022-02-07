@@ -151,6 +151,7 @@ const Numbers = ({ startTimer }) => (
       }
 
       const { count } = data.events;
+
       return (
         <>
           <Count>
@@ -163,9 +164,7 @@ const Numbers = ({ startTimer }) => (
                     if (!subscriptionData.data) {
                       return prev;
                     }
-
                     const { source } = subscriptionData.data.eventPublished;
-
                     return over(
                       lensPath(['events', 'count', source]),
                       inc,
