@@ -20,6 +20,12 @@ defmodule HeliosWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api" do
+    pipe_through(:api)
+
+    forward("/graphiql", Absinthe.Plug.GraphiQL, schema: HeliosWeb.Schema)
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", HeliosWeb do
   #   pipe_through :api
