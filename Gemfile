@@ -32,7 +32,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # ActiveRecord extensions
 gem 'groupdate'
-gem 'tod'
+gem 'tod', '~> 2.2.0'
 
 gem "dotenv-rails", "~> 2.4.0"
 gem "faraday"
