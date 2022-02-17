@@ -4,7 +4,7 @@ class Simulate
   end
 
   def render(assigns)
-    av = ActionView::Base.new(Rails.root.join('app', 'lib', 'simulate'))
+    av = ActionView::Base.new(Rails.root.join('app/lib/simulate'))
     av.assign(assigns)
     av.render(template: @template_path)
   end
