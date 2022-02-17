@@ -13,9 +13,10 @@ class Clients::CreateTweet
   end
 
   def attributes
-    if status == 'retweet'
+    case status
+    when 'retweet'
       @tweet.attrs[:retweeted_status]
-    elsif status == 'quote'
+    when 'quote'
       @tweet.attrs[:quoted_status]
     else
       @tweet.attrs
