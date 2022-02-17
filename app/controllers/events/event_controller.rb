@@ -8,8 +8,8 @@ class Events::EventController < ApplicationController
     else
       render json: { message: event.errors.full_messages }, status: :bad_request
     end
-  rescue StandardError => exception
-    render json: { message: exception.message }, status: :bad_request
+  rescue StandardError => e
+    render json: { message: e.message }, status: :bad_request
   end
 
   private
