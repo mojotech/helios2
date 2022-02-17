@@ -19,7 +19,7 @@ class WeatherPollerWorker
 
   LocationParams = Struct.new(:latitude, :longitude)
 
-  PARSE_LOCATION = /latitude:(?<latitude>.+):longitude:(?<longitude>.+)$/
+  PARSE_LOCATION = /latitude:(?<latitude>.+):longitude:(?<longitude>.+)$/.freeze
 
   def locations
     subscriptions.map do |subscription|
