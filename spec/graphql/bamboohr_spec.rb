@@ -27,7 +27,7 @@ describe Clients::CreateEmployees do
   context 'from bambooHR Client' do
     it 'find_anniversary_employees will find the correct employee' do
       anniversary_result = Clients::CreateEmployees.new(EMPLOYEESDATA, TIMEOFFDATA,
-        DATESDATA).find_anniversary_employees
+                                                        DATESDATA).find_anniversary_employees
       expect(anniversary_result.first["id"]).to eq("4")
       expect(anniversary_result.first["displayName"]).to eq("Charlotte Abbott")
       expect(anniversary_result.first["hireDate"]).to eq("2019-07-22")
