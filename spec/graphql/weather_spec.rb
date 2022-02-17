@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module WeatherHelpers
   def self.weather_response
-    JSON.parse(File.read(Rails.root.join("spec", "fixtures", "files", "onecall_response_1.json")))
+    JSON.parse(File.read(Rails.root.join("spec/fixtures/files/onecall_response_1.json")))
   end
 end
 
