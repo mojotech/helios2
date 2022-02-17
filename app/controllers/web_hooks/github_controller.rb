@@ -5,12 +5,14 @@ class WebHooks::GithubController < ApplicationController
 
   rescue_from NoMethodError, with: :handle_github_web_hook_exception
 
-  protected def github_pull_request(payload)
+  protected
+
+  def github_pull_request(payload)
     pull_request = payload[:pull_request]
     publish(Event.pull_requests.with_external_id(pull_request[:id]))
   end
 
-  protected def github_push(payload)
+  def github_push(payload)
     return unless payload[:ref] == 'refs/heads/master'
 
     payload[:commits].each do |commit|
@@ -18,7 +20,9 @@ class WebHooks::GithubController < ApplicationController
     end
   end
 
-  private def publish(event_scope)
+  private
+
+  def publish(event_scope)
     event = event_scope.first_or_initialize
     return unless event.new_record?
 
@@ -26,13 +30,13 @@ class WebHooks::GithubController < ApplicationController
     Helios2Schema.subscriptions.trigger("eventPublished", {}, event)
   end
 
-  private def handle_github_web_hook_exception(exception)
+  def handle_github_web_hook_exception(exception)
     raise exception unless exception.message =~ /^GithubWebhooksController#\w+ not implemented$/
 
     head :ok, content_type: 'application/json'
   end
 
-  private def webhook_secret(_payload)
+  def webhook_secret(_payload)
     AppEnv['GITHUB_WEBHOOK_SECRET']
   end
 end

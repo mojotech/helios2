@@ -28,7 +28,9 @@ class WebHooks::SlackController < ApplicationController
       (event[:subtype].nil? || subtypes.include?(event[:subtype]))
   end
 
-  protected def slack_event(event, type)
+  protected
+
+  def slack_event(event, type)
     case type
     when 'message'
       "Add Slack message to db #{publish_event(Event.slack_messages.with_external_id(event[:event_ts]))}"
@@ -38,7 +40,9 @@ class WebHooks::SlackController < ApplicationController
     end
   end
 
-  private def publish_event(event_scope)
+  private
+
+  def publish_event(event_scope)
     event = event_scope.first_or_initialize
     return unless event.new_record?
 
@@ -46,7 +50,7 @@ class WebHooks::SlackController < ApplicationController
     Helios2Schema.subscriptions.trigger("eventPublished", {}, event)
   end
 
-  private def publish_announcement(event)
+  def publish_announcement(event)
     announcement = Announcement.create!(parse_announcement(event))
     Helios2Schema.subscriptions.trigger("announcementPublished", {}, announcement)
     send_slack_message(event[:channel], event[:user], 'The announcement was saved :rocket:')
@@ -56,7 +60,7 @@ class WebHooks::SlackController < ApplicationController
       `@Helios guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence`')
   end
 
-  private def parse_announcement(event)
+  def parse_announcement(event)
     # Ex: "<@UXXXXXXX> guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence"
     if (match = event[:text].match(/(^<\S+>) (\S+) (.*)$/))
       _bot_id, type, content = match.captures
