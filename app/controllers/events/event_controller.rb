@@ -1,4 +1,4 @@
-class Events::EventController < ActionController::Base
+class Events::EventController < ApplicationController
   protect_from_forgery with: :null_session
 
   def create
