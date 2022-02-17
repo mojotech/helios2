@@ -18,6 +18,7 @@ module Types::WidgetType
                   'Twitter' => Types::TwitterWidget, 'Numbers' => Types::NumbersWidget,
                   'Traffic' => Types::TrafficWidget, 'Events' => Types::EventsWidget }
       raise "Unexpected WidgetType: #{obj.inspect}" unless widgets[obj.name]
+
       widgets[obj.name]
     end
   end

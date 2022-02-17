@@ -14,6 +14,7 @@ class WebHooks::SlackController < ApplicationController
     when 'event_callback'
       event = params[:event]
       return "Skipping disallowed event #{event[:subtype]}" unless allow_event?(event)
+
       result = slack_event(event, event[:type])
       "Add Slack message event to db #{result}"
     else
@@ -51,7 +52,7 @@ class WebHooks::SlackController < ApplicationController
     send_slack_message(event[:channel], event[:user], 'The announcement was saved :rocket:')
   rescue StandardError
     send_slack_message(event[:channel], event[:user],
-      'I couldn\'t understand that... Try something like this:
+                       'I couldn\'t understand that... Try something like this:
       `@Helios guests: Welcome to Roy and Amanda from Under Armour on May 23rd 2019 at 11:00 am in Providence`')
   end
 
