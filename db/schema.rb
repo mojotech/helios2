@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_20_181834) do
+ActiveRecord::Schema.define(version: 2022_02_17_225447) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2021_12_20_181834) do
     t.string "wifi_name"
     t.string "wifi_password"
     t.string "bathroom_code"
+    t.index ["city_name"], name: "index_locations_on_city_name", unique: true
   end
 
   create_table "traffic_cams", force: :cascade do |t|
@@ -125,6 +126,8 @@ ActiveRecord::Schema.define(version: 2021_12_20_181834) do
     t.string "stop"
     t.string "sidebar_text"
     t.boolean "show_weather"
+    t.index ["location_id", "name"], name: "index_widgets_on_location_id_and_name", unique: true
+    t.index ["location_id", "position"], name: "index_widgets_on_location_id_and_position", unique: true
     t.index ["location_id"], name: "index_widgets_on_location_id"
   end
 
