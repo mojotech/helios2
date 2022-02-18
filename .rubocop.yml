@@ -1,3 +1,5 @@
+require: rubocop-rails
+
 AllCops:
   TargetRubyVersion: 2.5
 
@@ -7,19 +9,16 @@ AllCops:
     - node_modules/**/*
     - db/schema.rb
 
-Rails:
-  Enabled: true
-
-Layout/AlignArray:
+Layout/ArrayAlignment:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Metrics/BlockLength:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/MethodLength:
