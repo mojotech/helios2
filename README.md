@@ -34,7 +34,7 @@ Prequisites:
 - `gem install foreman`
 - `bundle install`
 - `yarn install`
-- `cp .env.local.sample .env` -- fill in env vars where applicable
+- `cp .env.sample .env` -- dotenv loads variables from a **.env** in your project's root directory. Fill in env vars where applicable
 - Configure Redis:
 
 OSX:
