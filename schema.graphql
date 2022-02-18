@@ -42,13 +42,19 @@ type EventCount {
 }
 
 enum EventSource {
-  # Github commit
+  """
+  Github commit
+  """
   githubCommit
 
-  # Github pull request
+  """
+  Github pull request
+  """
   githubPull
 
-  # Slack message
+  """
+  Slack message
+  """
   slackMessage
 }
 
@@ -63,7 +69,9 @@ type EventsWidget implements Widget {
 }
 
 type GuestsWidget implements Widget {
-  # MojoTech announcements today
+  """
+  MojoTech announcements today
+  """
   dayAnnouncements: [Announcement!]!
   durationSeconds: Int!
   id: Int!
@@ -110,7 +118,9 @@ type Mutation {
 type NumbersWidget implements Widget {
   durationSeconds: Int!
 
-  # MojoTech slack/github events
+  """
+  MojoTech slack/github events
+  """
   events(after: String, type: EventSource): EventCollection!
   id: Int!
   locationId: String!
@@ -121,19 +131,29 @@ type NumbersWidget implements Widget {
 }
 
 type Query {
-  # Employee events from bambooHR
+  """
+  Employee events from bambooHR
+  """
   employeeEvents: EmployeeEventCollection!
 
-  # MojoTech slack/github events
+  """
+  MojoTech slack/github events
+  """
   events(after: String, type: EventSource): EventCollection!
 
-  # Target location to receive updates
+  """
+  Target location to receive updates
+  """
   location(
-    # City name of location
+    """
+    City name of location
+    """
     cityName: String!
   ): Location!
 
-  # Tweets from MojoTech
+  """
+  Tweets from MojoTech
+  """
   tweets: [MojoTweet!]!
 }
 
@@ -143,16 +163,24 @@ type SolarCycle {
 }
 
 type Subscription {
-  # An announcement was published
+  """
+  An announcement was published
+  """
   announcementPublished: Announcement!
 
-  # Updated SHA value
+  """
+  Updated SHA value
+  """
   deploymentSha: String!
 
-  # An event was published to the API
+  """
+  An event was published to the API
+  """
   eventPublished: Event!
 
-  # Latest weather data retrieved
+  """
+  Latest weather data retrieved
+  """
   weatherPublished(latitude: Float!, longitude: Float!): Weather!
 }
 
@@ -204,7 +232,9 @@ type TwitterWidget implements Widget {
   showWeather: Boolean
   sidebarText: String
 
-  # Tweets from MojoTech
+  """
+  Tweets from MojoTech
+  """
   tweets: [MojoTweet!]!
 }
 
@@ -314,11 +344,15 @@ type WeatherWidget implements Widget {
   showWeather: Boolean
   sidebarText: String
 
-  # Weather response from Dark Sky
+  """
+  Weather response from Dark Sky
+  """
   weather: Weather!
 }
 
-# A single tab or panel of Helios
+"""
+A single tab or panel of Helios
+"""
 interface Widget {
   durationSeconds: Int!
   id: Int!
