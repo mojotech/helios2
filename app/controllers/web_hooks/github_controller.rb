@@ -7,6 +7,9 @@ class WebHooks::GithubController < ApplicationController
 
   protected
 
+  def github_status(_payload)
+  end
+
   def github_pull_request(payload)
     pull_request = payload[:pull_request]
     publish(Event.pull_requests.with_external_id(pull_request[:id]))
