@@ -15,7 +15,7 @@ class Widget < ApplicationRecord
           else
             Tod::TimeOfDay(time)
           end
-    where('(start <= ? OR start IS NULL) AND (stop >= ? OR stop IS NULL)', tod, tod)
+    where('(start <= ? OR start IS NULL) AND (stop >= ? OR stop IS NULL)', tod.to_s, tod.to_s)
   end
 
   def self.next_or_default(current_id)
