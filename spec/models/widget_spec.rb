@@ -64,4 +64,15 @@ RSpec.describe Widget, type: :model do
     enabled_widgets = [weather, numbers]
     expect(Widget.enabled).to eq(enabled_widgets)
   end
+
+  context ".available" do
+    it "parses a time of day" do
+      expect(Widget.available("22:00")).to eq([guests, weather, twitter, numbers])
+    end
+
+    # frontend param is being parsed as a ActiveSupport DateTime so pass instead of parse
+    it "handles ActiveSupport DateTime" do
+      expect(Widget.available(DateTime.parse("2022-02-22 13:55:11 -0500"))).to eq([guests, weather, twitter, numbers])
+    end
+  end
 end

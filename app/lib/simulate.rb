@@ -4,8 +4,10 @@ class Simulate
   end
 
   def render(assigns)
-    av = ActionView::Base.new(Rails.root.join('app/lib/simulate'))
-    av.assign(assigns)
+    av = ActionView::Base.new(
+      ActionView::LookupContext.new(Rails.root.join('app/lib/simulate')),
+      assigns
+    )
     av.render(template: @template_path)
   end
 
