@@ -83,8 +83,8 @@ Location.all.each do |location|
     r.position = 4
     r.sidebar_text = 'Traffic'
     r.show_weather = true
-    r.start = Tod::TimeOfDay("16:00")
-    r.stop = Tod::TimeOfDay("23:00")
+    r.start = Tod::TimeOfDay.parse("16:00")
+    r.stop = Tod::TimeOfDay.parse("23:00")
   end.save!
 
   Widget.find_or_initialize_by(
