@@ -336,7 +336,7 @@
               "deprecationReason": null
             },
             {
-              "name": "timezone",
+              "name": "timeZone",
               "description": null,
               "args": [
 
@@ -645,7 +645,7 @@
               "deprecationReason": null
             },
             {
-              "name": "timezone",
+              "name": "timeZone",
               "description": null,
               "args": [
 

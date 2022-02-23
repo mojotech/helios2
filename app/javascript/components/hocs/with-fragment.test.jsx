@@ -20,12 +20,12 @@ const locationQuery = gql`
     ...TimeHero
   }
   fragment TimeHero on Location {
-    timezone
+    timeZone
   }
 `;
 
 const locationData = {
-  timezone: 'America/Denver',
+  timeZone: 'America/Denver',
   wifiName: 'test',
   wifiPassword: 'test1234',
   bathroomCode: '1234',
@@ -36,7 +36,7 @@ describe('withFragment higher order component', () => {
   it('filters properties correctly', () => {
     const testComponent = ({ location }) => {
       expect(location).toEqual({
-        timezone: 'America/Denver',
+        timeZone: 'America/Denver',
         wifiName: 'test',
         wifiPassword: 'test1234',
         bathroomCode: '1234',
