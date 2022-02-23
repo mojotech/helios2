@@ -4,7 +4,7 @@ class Types::LocationType < Types::BaseObject
   field "id", ID
   field "latitude", Float
   field "longitude", Float
-  field "timezone", String, method: :time_zone
+  field "time_zone", String
   field "city_name", String
   field "is_primary", Boolean, method: :primary?
   field "weather", Types::WeatherType

@@ -98,7 +98,7 @@ end
 class Types::WeatherType < Types::WeatherObject
   field "lat", Float
   field "lon", Float
-  field "timezone", String
+  field "time_zone", String, hash_key: :timezone
   field "current", Types::WeatherCurrentlyDetailType
   field "minutely", [Types::WeatherMinutelyDataType]
   field "hourly", [Types::WeatherHourlyDataType]

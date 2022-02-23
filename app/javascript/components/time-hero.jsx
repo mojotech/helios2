@@ -7,7 +7,7 @@ import withFragment from './hocs/with-fragment';
 
 export const getTimeHero = gql`
   fragment TimeHero on Location {
-    timezone
+    timeZone
   }
 `;
 

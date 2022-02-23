@@ -60,7 +60,7 @@ export const getSunriseSunsetWeather = gql`
 
 export const getSunriseSunsetLocation = gql`
   fragment SunriseSunsetLocation on Location {
-    timezone
+    timeZone
     moonPhase
     cityName
     solarCycles {

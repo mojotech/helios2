@@ -9,7 +9,7 @@ import withFragment from './hocs/with-fragment';
 
 export const getTimeZone = gql`
   fragment Date on Location {
-    timezone
+    timeZone
   }
 `;
 export const DateText = styled.div`
