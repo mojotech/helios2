@@ -2,14 +2,12 @@ require 'rails_helper'
 
 TESTDATA =
   {
-    "daily" => {
-      "data" => [
-        {
-          "sunsetTime" => 1_559_625_180,
-          "sunriseTime" => 1_559_679_420
-        }
-      ]
-    }
+    "daily" => [
+      {
+        "sunsetTime" => 1_559_625_180,
+        "sunriseTime" => 1_559_679_420
+      }
+    ]
   }.freeze
 
 RSpec.describe WeatherPollerWorker, type: :worker do
