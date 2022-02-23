@@ -4,11 +4,10 @@ class Simulate
   end
 
   def render(assigns)
-    av = ActionView::Base.new(
-      ActionView::LookupContext.new(Rails.root.join('app/lib/simulate')),
-      assigns
+    ApplicationController.render(
+      inline: File.read(Rails.root.join('app/lib/simulate', @template_path)),
+      assigns: assigns
     )
-    av.render(template: @template_path)
   end
 
   def self.pull_request
