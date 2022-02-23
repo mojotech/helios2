@@ -21,13 +21,27 @@ Prequisites:
 - libsqlite3
   - Ubuntu: sudo apt install sqlite3 libsqlite3-dev
   - OSX: brew install sqlite3 && brew link --force sqlite3
-- asdf
-  - OSX/Ubuntu: https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies
+- asdf OR nvm
+  - OSX/Ubuntu (asdf): https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies
+  - OSX/Ubuntu (nvm): https://github.com/nvm-sh/nvm
 - freedesktop mime database
   - Ubuntu: should work out of the box. https://github.com/mimemagicrb/mimemagic#dependencies
   - OSX: brew install shared-mime-info
 
-- `asdf install`
+- Depending on whether asdf or nvm worked for you: `asdf install` OR add the following to your ~/.zshrc after the configuration details for nvm to pin the nodejs version:
+  ```shell
+  autoload -U add-zsh-hook
+  load-nvmrc() {
+    if [[ -f .nvmrc && -r .nvmrc ]]; then
+      nvm use
+    elif [[ $(nvm version) != $(nvm version default)  ]]; then
+      echo "Reverting to nvm default version"
+      nvm use default
+    fi
+  }
+  add-zsh-hook chpwd load-nvmrc
+  load-nvmrc
+  ```
 - `gem install bundler:2.2.32`
 - `gem install pg -v '1.1.3' --source 'https://rubygems.org/'`
 - `gem install sqlite3 -v '1.3.13' --source 'https://rubygems.org/'`
