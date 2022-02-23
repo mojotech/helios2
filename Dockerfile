@@ -3,7 +3,7 @@ FROM ruby:2.6.9
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash &&\
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash &&\
     apt-get update -qq && apt-get install -yq build-essential nodejs unzip &&\
     gem install bundler -v 1.16 &&\
     npm install -g yarn

@@ -17,7 +17,7 @@ jobs:
       - run:
           name: install node/yarn
           command: |
-            curl -sL https://deb.nodesource.com/setup_14.x | sudo bash && sudo apt-get update -qq && sudo apt-get install -yq build-essential nodejs unzip && sudo npm install -g yarn
+            curl -sL https://deb.nodesource.com/setup_16.x | sudo bash && sudo apt-get update -qq && sudo apt-get install -yq build-essential nodejs unzip && sudo npm install -g yarn
 
       - checkout
 
