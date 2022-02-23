@@ -21,6 +21,9 @@ describe Helios2Schema do
     allow(Clients::WeatherClient).to receive(:get) { WeatherHelpers.weather_response }
     allow(ENV).to receive(:[]).with('PRIMARY_CITY_NAME') { 'Providence' }
   }
+  before(:all) do
+    Rails.cache.clear
+  end
 
   let(:result) {
     res = Helios2Schema.execute(

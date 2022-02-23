@@ -13,10 +13,12 @@ class Location < ApplicationRecord
   end
 
   def weather
-    response = ::Clients::WeatherClient.forecast(self).dup
-    response['moonPhase'] = moon_phase
-    response.freeze
-    response
+    Rails.cache.fetch("location-weather-response-#{city_name}", expires_in: 15.minutes) do
+      response = ::Clients::WeatherClient.forecast(self).dup
+      response['moonPhase'] = moon_phase
+      response.freeze
+      response
+    end
   end
 
   # rubocop:disable Metrics/AbcSize

@@ -28,6 +28,9 @@ RSpec.describe WeatherPollerWorker, type: :worker do
       }
     )
   }
+  before(:all) do
+    Rails.cache.clear
+  end
 
   describe "a poller" do
     it "will query uniq locations from redis " do
