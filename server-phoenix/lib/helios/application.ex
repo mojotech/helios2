@@ -14,7 +14,7 @@ defmodule Helios.Application do
 
     children = [
       # Start the Ecto repository
-      # Helios.Repo,
+      Helios.Repo,
       # Start the Telemetry supervisor
       HeliosWeb.Telemetry,
       # Start the PubSub system

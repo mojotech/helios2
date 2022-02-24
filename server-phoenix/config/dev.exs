@@ -1,6 +1,11 @@
 import Config
 
 # Configure your database
+config :helios,
+  ecto_repos: [Helios.Repo]
+
+config :helios, Helios.Repo,
+  database: "../db/development.sqlite3"
 
 # config :helios, Helios.Repo,
 #   username: "postgres",
