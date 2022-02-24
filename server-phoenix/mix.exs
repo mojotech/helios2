@@ -51,7 +51,9 @@ defmodule Helios.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:dotenv, "~> 3.0.0", only: [:dev, :test]}
+      {:dotenv, "~> 3.0.0", only: [:dev, :test]},
+      {:tzdata, "~> 1.1"},
+      {:sun_times, "~> 0.1.2"}
     ]
   end
 
