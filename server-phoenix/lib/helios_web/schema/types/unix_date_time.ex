@@ -5,7 +5,7 @@ defmodule HeliosWeb.Schema.Types.UnixDateTime do
     serialize(&serialize_time/1)
   end
 
-  defp serialize_time(%Absinthe.Blueprint.Input.Integer{value: value}) do
+  defp serialize_time(value) do
     value |> DateTime.from_unix!() |> DateTime.to_iso8601()
   end
 end
