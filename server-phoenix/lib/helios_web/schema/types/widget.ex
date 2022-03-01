@@ -13,10 +13,11 @@ defmodule HeliosWeb.Schema.Types.Widget do
       "Traffic" => :traffic_widget,
       "Events" => :events_widget
     }
-    unless widgets[obj.name] do
-      raise "Unexpected WidgetType: #{obj.inspect}"
+    widgetName = obj["name"]
+    unless Map.has_key?(widgets, widgetName) do
+      raise "Unexpected WidgetType"
     end
-    widgets[obj.name]
+    widgets[widgetName]
   end
 
   interface :widget do

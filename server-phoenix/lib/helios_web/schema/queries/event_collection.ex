@@ -6,8 +6,8 @@ defmodule HeliosWeb.Schema.Queries.EventCollection do
   object :event_collection_queries do
     field :events, :event_collection do
       description("MojoTech slack/github events")
-      arg(:created_after, :datetime, default_value: nil)
-      arg(:type, :event_source, default_value: nil)
+      arg(:created_after, :datetime)
+      arg(:type, :event_source)
       resolve(&EventCollection.events/3)
     end
   end
