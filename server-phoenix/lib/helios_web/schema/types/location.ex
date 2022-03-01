@@ -18,7 +18,9 @@ defmodule HeliosWeb.Schema.Types.Location do
     field :day_announcements, non_null(list_of(:announcement)) do
       resolve(&Location.day_announcements/3)
     end
-    field(:widgets, non_null(:widget_collection))
+    field :widgets, non_null(:widget_collection) do
+      resolve fn _, _, _ -> {:ok, %{}} end
+    end
     field :moon_phase, non_null(:float) do
       resolve(&Location.moon_phase/3)
     end
