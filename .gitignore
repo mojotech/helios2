@@ -49,3 +49,6 @@ yarn-debug.log*
 # Ignore cypress assets
 /cypress/videos
 /cypress/screenshots
+
+# Ignore manifest
+/public/manifest.json
