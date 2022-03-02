@@ -96,7 +96,9 @@ class SubscribedWeather extends React.Component {
         </SummaryText>
         <SunriseSunset {...{ location, weather }} />
         <DailyWeather {...{ weather }} />
-        <Notice>Powered by OpenWeather</Notice>
+        <Notice>
+          Powered by OpenWeather and https://sunrise-sunset.org/api
+        </Notice>
       </Column>
     );
   }
