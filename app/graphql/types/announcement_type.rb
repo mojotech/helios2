@@ -13,5 +13,5 @@ class Types::AnnouncementType < Types::BaseObject
   field "people", String
   field "company", String
   field "announcement_id", String
-  field "location_id", String
+  field "location_id", Integer
 end
