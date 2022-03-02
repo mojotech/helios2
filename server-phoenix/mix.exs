@@ -53,7 +53,7 @@ defmodule Helios.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:dotenv, "~> 3.0.0", only: [:dev, :test]},
       {:tzdata, "~> 1.1"},
-      {:sun_times, "~> 0.1.2"}
+      {:httpoison, "~> 1.7"}
     ]
   end
 
