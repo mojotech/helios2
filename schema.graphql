@@ -2,7 +2,7 @@ type Announcement {
   announcementId: String!
   company: String!
   id: ID!
-  locationId: String!
+  locationId: Int!
   message: String!
   people: String!
   publishOn: UTCDateTime!
@@ -61,7 +61,7 @@ enum EventSource {
 type EventsWidget implements Widget {
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -75,7 +75,7 @@ type GuestsWidget implements Widget {
   dayAnnouncements: [Announcement!]!
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -123,7 +123,7 @@ type NumbersWidget implements Widget {
   """
   events(after: String, type: EventSource): EventCollection!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -194,7 +194,7 @@ type TrafficCam {
 type TrafficWidget implements Widget {
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -226,7 +226,7 @@ type TweetUser {
 type TwitterWidget implements Widget {
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -338,7 +338,7 @@ type WeatherTemperatureData {
 type WeatherWidget implements Widget {
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean
@@ -356,7 +356,7 @@ A single tab or panel of Helios
 interface Widget {
   durationSeconds: Int!
   id: Int!
-  locationId: String!
+  locationId: Int!
   name: String!
   position: Int!
   showWeather: Boolean

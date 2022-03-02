@@ -10,7 +10,7 @@ module Types::WidgetType
   field "position", Integer, null: false
   field "sidebar_text", String, null: true
   field "show_weather", Boolean, null: true
-  field "location_id", String, null: false
+  field "location_id", Integer, null: false
 
   definition_methods do
     def resolve_type(obj, _ctx)
