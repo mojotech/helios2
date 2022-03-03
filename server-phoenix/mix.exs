@@ -56,7 +56,8 @@ defmodule Helios.MixProject do
       {:tzdata, "~> 1.1"},
       {:httpoison, "~> 1.7"},
       {:sun_times, "~> 0.1.2"},
-      {:timex, "~> 3.7.7"}
+      {:timex, "~> 3.7.7"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 
