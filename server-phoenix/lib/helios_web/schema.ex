@@ -7,7 +7,7 @@ defmodule HeliosWeb.Schema do
   end
 
   def get_string_key(%{source: source} = res, key) do
-    %{res | state: :resolved, value: Map.get(source, key)}
+      %{res | state: :resolved, value: Map.get(source, key)}
   end
 
   # Types
