@@ -30,6 +30,8 @@ defmodule HeliosWeb.Schema.Types.Location do
     field(:wifi_name, :string)
     field(:wifi_password, :string)
     field(:bathroom_code, :string)
-    field(:traffic_cams, non_null(list_of(:traffic_cam)))
+    field :traffic_cams, non_null(list_of(:traffic_cam)) do
+      resolve(&Location.traffic_cams/3)
+    end
   end
 end
