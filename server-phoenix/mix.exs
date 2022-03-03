@@ -54,7 +54,8 @@ defmodule Helios.MixProject do
       {:dotenv, "~> 3.0.0", only: [:dev, :test]},
       {:tzdata, "~> 1.1"},
       {:httpoison, "~> 1.7"},
-      {:sun_times, "~> 0.1.2"}
+      {:sun_times, "~> 0.1.2"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

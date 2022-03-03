@@ -52,3 +52,7 @@ config :phoenix, :json_library, Jason
 import_config "#{config_env()}.exs"
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
+config :cors_plug,
+  origin: ["http://localhost:5000"],
+  methods: ["*"]
