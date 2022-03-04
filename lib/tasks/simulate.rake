@@ -35,6 +35,7 @@ namespace :simulate do
 
   def post_github_event(event, params)
     session = ActionDispatch::Integration::Session.new(Rails.application)
+    session.host = "helios-event-simulate.local"
     resp = session.post(
       "/web_hooks/github",
       params: params,
@@ -49,6 +50,7 @@ namespace :simulate do
   def post_slack_event(params)
     ENV['SLACK_VERIFICATION_TOKEN'] = 'Sim-123456'
     session = ActionDispatch::Integration::Session.new(Rails.application)
+    session.host = "helios-event-simulate.local"
     resp = session.post(
       "/web_hooks/slack_event",
       params: params,
