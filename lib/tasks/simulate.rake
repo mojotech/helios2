@@ -1,9 +1,8 @@
 namespace :simulate do
   desc "Simulates opening a new pull request on github"
   task :pull_request, [:count] => :environment do |_t, args|
-    post_github_event('pull_request', render_new_pull_request_json)
-    disable_github_authentication
     args.with_defaults(count: 1)
+    disable_github_authentication
     args[:count].to_i.times { post_github_event('pull_request', render_new_pull_request_json) }
   end
 
