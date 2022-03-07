@@ -443,7 +443,7 @@ class Scene extends React.Component {
 export default compose(
   withApollo,
   graphql(getEventCounts, {
-    options: { variables: { after: getStartOfWeek() } },
+    options: { variables: { createdAfter: getStartOfWeek() } },
   }),
   withLocalState,
   withLocalMutation,
