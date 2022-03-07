@@ -19,13 +19,13 @@ class Types::QueryType < Types::BaseObject
 
   field :events, Types::EventCollectionType do
     description "MojoTech slack/github events"
-    argument :after, String, required: false
+    argument :created_after, String, required: false
     argument :type, Types::EventSourceType, required: false
   end
 
-  def events(after: nil, type: nil)
+  def events(created_after: nil, type: nil)
     events = Event.all
-    events = events.created_after(Date.parse(after)) if after
+    events = events.created_after(Date.parse(created_after)) if created_after
     events = events.with_source(type) if type
     events
   end

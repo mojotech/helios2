@@ -43,8 +43,8 @@ describe Helios2Schema do
     # provide a query string for `result`
     let(:query_string) {
       %|
-query getEvents($after: String) {
-  events(after: $after) {
+query getEvents($createdAfter: String) {
+  events(createdAfter: $createdAfter) {
     count {
       githubPull
       githubCommit
@@ -66,7 +66,7 @@ query getEvents($after: String) {
     end
 
     context "with after variable in the past" do
-      let(:variables) { { after: "Mon, 11 Jun 2012 04:00:00 GMT" } }
+      let(:variables) { { createdAfter: "Mon, 11 Jun 2012 04:00:00 GMT" } }
       it "should query event counts after date" do
         counts = result["data"]["events"]["count"]
         expect(counts["githubPull"]).to eq(1)
@@ -76,7 +76,7 @@ query getEvents($after: String) {
     end
 
     context "with after variable in the future" do
-      let(:variables) { { after: 10.days.from_now.iso8601 } }
+      let(:variables) { { createdAfter: 10.days.from_now.iso8601 } }
       it "should no event counts after date" do
         counts = result["data"]["events"]["count"]
         expect(counts["githubPull"]).to eq(0)

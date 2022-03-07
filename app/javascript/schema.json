@@ -59,7 +59,7 @@
               "description": "MojoTech slack/github events",
               "args": [
                 {
-                  "name": "after",
+                  "name": "createdAfter",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
