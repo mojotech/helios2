@@ -20,11 +20,11 @@ defmodule HeliosWeb.Schema.Resolvers.EventCollection do
 
         %{created_after: created_after} ->
           @test_query_data["all"]
-          |> Enum.filter(fn event -> DateTime.compare(event["created_at"], created_after) == :gt end)
+          |> Enum.filter(fn event -> DateTime.compare(event["created_at"], elem(DateTime.from_iso8601(created_after), 1)) == :gt end)
 
         %{created_after: created_after, type: type} ->
           @test_query_data["all"]
-          |> Enum.filter(fn event -> (DateTime.compare(event["created_at"], created_after) == :gt) and (event["source"] == type) end)
+          |> Enum.filter(fn event -> (DateTime.compare(event["created_at"], elem(DateTime.from_iso8601(created_after), 1)) == :gt) and (event["source"] == type) end)
 
         _ ->
           @test_query_data["all"]
