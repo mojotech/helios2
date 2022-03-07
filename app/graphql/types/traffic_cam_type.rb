@@ -4,5 +4,5 @@ class Types::TrafficCamType < Types::BaseObject
   field "id", ID
   field "title", String
   field "url", String
-  field "feedFormat", String
+  field "feed_format", String
 end

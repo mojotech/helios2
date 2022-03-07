@@ -5,6 +5,6 @@ defmodule HeliosWeb.Schema.Types.TrafficCam do
     field(:id, non_null(:id))
     field(:title, non_null(:string))
     field(:url, non_null(:string))
-    field(:feedFormat, non_null(:string))
+    field(:feed_format, non_null(:string))
   end
 end
