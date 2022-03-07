@@ -9,8 +9,8 @@ export const subscribeEventPublished = gql`
 `;
 
 export const getEventCounts = gql`
-  query getEvents($after: String!) {
-    events(after: $after) {
+  query getEvents($createdAfter: String!) {
+    events(createdAfter: $createdAfter) {
       count {
         githubPull
         githubCommit
