@@ -16,10 +16,11 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
   end
 
   def solar_cycles(parent, _args, _info) do
-    yesterday_sunset = LocationHelpers.sunset(parent["latitude"], parent["longitude"], "yesterday")
-    today_sunrise = LocationHelpers.sunrise(parent["latitude"], parent["longitude"])
-    today_sunset = LocationHelpers.sunset(parent["latitude"], parent["longitude"])
-    tomorrow_sunrise = LocationHelpers.sunrise(parent["latitude"], parent["longitude"], "tomorrow")
+    today = DateTime.now!(parent["time_zone"])
+    yesterday_sunset = LocationHelpers.sunset(today, parent["latitude"], parent["longitude"], -86400)
+    today_sunrise = LocationHelpers.sunrise(today, parent["latitude"], parent["longitude"])
+    today_sunset = LocationHelpers.sunset(today, parent["latitude"], parent["longitude"])
+    tomorrow_sunrise = LocationHelpers.sunrise(today, parent["latitude"], parent["longitude"], 86400)
 
     cycles = [
       %{"time" => yesterday_sunset, "type" => "sunset"},

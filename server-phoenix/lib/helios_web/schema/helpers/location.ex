@@ -3,16 +3,17 @@ defmodule HeliosWeb.Schema.Helpers.Location do
     DateTime.now!(time_zone)
   end
 
-  def sunset(lat, long, offset \\ "today") do
-    response = HTTPoison.get!("https://api.sunrise-sunset.org/json?lat=#{lat}&lng=#{long}&formatted=0&date=#{offset}")
-    data = Jason.decode!(response.body)
-    IO.inspect(data)
-    data["results"]["sunset"]
+  def sunset(dt, lat, long, offset \\ 0) do
+    DateTime.add(dt, offset, :second)
+      |> SunTimes.set(lat, long)
+      |> DateTime.shift_zone!("Etc/UTC")
+      |> DateTime.to_iso8601()
   end
 
-  def sunrise(lat, long, offset \\ "today") do
-    response = HTTPoison.get!("https://api.sunrise-sunset.org/json?lat=#{lat}&lng=#{long}&formatted=0&date=#{offset}")
-    data = Jason.decode!(response.body)
-    data["results"]["sunrise"]
+  def sunrise(dt, lat, long, offset \\ 0) do
+    DateTime.add(dt, offset, :second)
+      |> SunTimes.rise(lat, long)
+      |> DateTime.shift_zone!("Etc/UTC")
+      |> DateTime.to_iso8601()
   end
 end
