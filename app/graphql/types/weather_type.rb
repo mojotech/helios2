@@ -52,7 +52,7 @@ class Types::WeatherDailyDataType < Types::WeatherObject
   field :wind_speed, Float
   field :wind_deg, Int
   field :clouds, Int
-  field :uvi, Int
+  field :uvi, Float
 end
 
 class Types::WeatherHourlyDataType < Types::WeatherObject
@@ -68,7 +68,7 @@ class Types::WeatherHourlyDataType < Types::WeatherObject
   field :wind_gust, Float, null: true
   field :wind_deg, Int
   field :clouds, Int
-  field :uvi, Int
+  field :uvi, Float
   field :visibility, Int
 end
 
@@ -91,7 +91,7 @@ class Types::WeatherCurrentlyDetailType < Types::WeatherObject
   field "wind_gust", Float, null: true
   field "wind_deg", Int
   field "clouds", Float
-  field "uvi", Int
+  field "uvi", Float
   field "visibility", Int
 end
 
