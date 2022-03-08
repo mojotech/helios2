@@ -50,7 +50,7 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field(:wind_speed, non_null(:float))
     field(:wind_deg, non_null(:integer))
     field(:clouds, non_null(:integer))
-    field(:uvi, non_null(:integer))
+    field(:uvi, non_null(:float))
   end
 
   object :weather_hourly_data do
@@ -72,7 +72,7 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field(:wind_gust, :float)
     field(:wind_deg, non_null(:integer))
     field(:clouds, non_null(:integer))
-    field(:uvi, non_null(:integer))
+    field(:uvi, non_null(:float))
     field(:visibility, non_null(:integer))
   end
 
@@ -101,7 +101,7 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field(:wind_gust, :float)
     field(:wind_deg, non_null(:integer))
     field(:clouds, non_null(:float))
-    field(:uvi, non_null(:integer))
+    field(:uvi, non_null(:float))
     field(:visibility, non_null(:integer))
   end
 
