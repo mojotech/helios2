@@ -271,7 +271,7 @@ type WeatherCurrentlyDetail {
   pressure: Int!
   temp: Float!
   time: UnixDateTime!
-  uvi: Int!
+  uvi: Float!
   visibility: Int!
   weather: WeatherInfoData!
   windDeg: Int!
@@ -291,7 +291,7 @@ type WeatherDailyData {
   sunset: UnixDateTime!
   temp: WeatherTemperatureData!
   time: UnixDateTime!
-  uvi: Int!
+  uvi: Float!
   weather: WeatherInfoData!
   windDeg: Int!
   windSpeed: Float!
@@ -306,7 +306,7 @@ type WeatherHourlyData {
   pressure: Int!
   temp: Float!
   time: UnixDateTime!
-  uvi: Int!
+  uvi: Float!
   visibility: Int!
   weather: WeatherInfoData!
   windDeg: Int!
