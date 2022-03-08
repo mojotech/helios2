@@ -5,14 +5,14 @@ defmodule HeliosWeb.Schema.Resolvers.WidgetCollection do
   end
 
   def next(_parent, %{current_widget_id: current_widget_id}, _info) do
-    decodedData = Jason.decode!(WidgetCollectionData.enabled)
-    numWidgets = Enum.count(decodedData)
-    case Enum.find_index(decodedData, fn widget -> widget["id"] === current_widget_id end) do
+    decoded_data = Jason.decode!(WidgetCollectionData.enabled)
+    num_widgets = Enum.count(decoded_data)
+    case Enum.find_index(decoded_data, fn widget -> widget["id"] === current_widget_id end) do
       nil ->
-        {:ok, Enum.at(decodedData, 0)}
-      x when x === numWidgets - 1 -> {:ok, Enum.at(decodedData, 0)}
+        {:ok, Enum.at(decoded_data, 0)}
+      x when x === num_widgets - 1 -> {:ok, Enum.at(decoded_data, 0)}
       x ->
-        {:ok, Enum.at(decodedData, x + 1)}
+        {:ok, Enum.at(decoded_data, x + 1)}
     end
   end
 
