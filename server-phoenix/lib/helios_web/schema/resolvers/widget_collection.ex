@@ -17,6 +17,8 @@ defmodule HeliosWeb.Schema.Resolvers.WidgetCollection do
   end
 
   def by_id_or_first(_parent, %{id: id}, _info) do
-    {:ok, Enum.find(Jason.decode!(WidgetCollectionData.enabled), fn widget -> widget["id"] === id end)}
+    decoded_data = Jason.decode!(WidgetCollectionData.enabled)
+    id_exists = Enum.find(decoded_data, fn widget -> widget["id"] === id end)
+    {:ok, id_exists || Enum.at(decoded_data, 0)}
   end
 end
