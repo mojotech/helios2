@@ -1,6 +1,9 @@
 {
   "name": "helios2",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
