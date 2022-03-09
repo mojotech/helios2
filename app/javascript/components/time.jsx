@@ -32,18 +32,18 @@ const TimeValue = styled(Row)`
 export class Time extends React.Component {
   static propTypes = {
     location: PropTypes.shape({
-      timezone: PropTypes.string.isRequired,
+      timeZone: PropTypes.string.isRequired,
     }).isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = { time: timeForTimezone(props.location.timezone) };
+    this.state = { time: timeForTimezone(props.location.timeZone) };
   }
 
   componentDidMount() {
     this.intervalId = setInterval(() => {
-      this.setState({ time: timeForTimezone(this.props.location.timezone) });
+      this.setState({ time: timeForTimezone(this.props.location.timeZone) });
     }, 10000);
   }
 
@@ -68,7 +68,7 @@ export class Time extends React.Component {
 
 Time.propTypes = {
   location: PropTypes.shape({
-    timezone: PropTypes.string.isRequired,
+    timeZone: PropTypes.string.isRequired,
   }).isRequired,
 };
 

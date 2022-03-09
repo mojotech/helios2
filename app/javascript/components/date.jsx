@@ -25,7 +25,7 @@ export class Date extends React.Component {
     loading: PropTypes.bool,
     error: PropTypes.bool,
     location: PropTypes.shape({
-      timezone: PropTypes.string,
+      timeZone: PropTypes.string,
     }).isRequired,
   };
 
@@ -37,13 +37,13 @@ export class Date extends React.Component {
   state = { date: null };
 
   componentDidMount() {
-    if (this.timezone(this.props)) {
+    if (this.timeZone(this.props)) {
       this.startDateTimer();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.timezone(this.props) && !this.timezone(prevProps)) {
+    if (this.timeZone(this.props) && !this.timeZone(prevProps)) {
       this.startDateTimer();
     }
   }
@@ -55,10 +55,10 @@ export class Date extends React.Component {
   }
 
   setDate = () => {
-    this.setState({ date: dateForTimezone(this.timezone(this.props)) });
+    this.setState({ date: dateForTimezone(this.timeZone(this.props)) });
   };
 
-  timezone = props => (props.location ? props.location.timezone : null);
+  timeZone = props => (props.location ? props.location.timeZone : null);
 
   startDateTimer = () => {
     this.setDate();
@@ -76,6 +76,7 @@ export class Date extends React.Component {
     }
 
     const { date } = this.state;
+
     if (!date) {
       return null;
     }

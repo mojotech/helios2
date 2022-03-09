@@ -64,7 +64,7 @@ export class SemiCircle extends React.Component {
     endTime: PropTypes.instanceOf(Date).isRequired,
     width: PropTypes.string.isRequired,
     height: PropTypes.string.isRequired,
-    timezone: PropTypes.string.isRequired,
+    timeZone: PropTypes.string.isRequired,
     cityName: PropTypes.string.isRequired,
     paddingLeft: PropTypes.number,
     paddingTop: PropTypes.number,
@@ -90,7 +90,7 @@ export class SemiCircle extends React.Component {
     this.state = {
       remainingTime: timeDiffInMinutes(
         this.props.endTime,
-        timeAndDateForTimezone(this.props.timezone),
+        timeAndDateForTimezone(this.props.timeZone),
       ),
     };
   }
@@ -100,7 +100,7 @@ export class SemiCircle extends React.Component {
       this.setState({
         remainingTime: timeDiffInMinutes(
           this.props.endTime,
-          timeAndDateForTimezone(this.props.timezone),
+          timeAndDateForTimezone(this.props.timeZone),
         ),
       });
     }, 10000);
