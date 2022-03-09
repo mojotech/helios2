@@ -71,7 +71,7 @@ export const getSunriseSunsetLocation = gql`
 `;
 
 export const SunriseSunset = ({ location, weather }) => {
-  const { solarCycles, timezone, cityName, moonPhase } = location;
+  const { solarCycles, timeZone, cityName, moonPhase } = location;
 
   const currDate = new Date();
 
@@ -108,7 +108,7 @@ export const SunriseSunset = ({ location, weather }) => {
         endTime={new Date(endTime.time)}
         width={leftPanelWidth}
         height={containerHeight}
-        timezone={timezone}
+        timeZone={timeZone}
         cityName={cityName}
         nightMode={isNight}
         moonPhase={moonPhase}
@@ -127,7 +127,7 @@ export const SunriseSunset = ({ location, weather }) => {
 
 SunriseSunset.propTypes = {
   location: PropTypes.shape({
-    timezone: PropTypes.string.isRequired,
+    timeZone: PropTypes.string.isRequired,
     moonPhase: PropTypes.number.isRequired,
     cityName: PropTypes.string.isRequired,
     solarCycles: PropTypes.arrayOf(
