@@ -10,4 +10,8 @@ defmodule HeliosWeb.Schema.Resolvers.Weather do
   def precip_probability(parent, _args, _info) do
     {:ok, parent["pop"]}
   end
+
+  def weather_info_data(parent, _args, _info) do
+    {:ok, Enum.at(parent["weather"], 0)}
+  end
 end
