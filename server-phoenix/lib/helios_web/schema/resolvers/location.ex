@@ -1,7 +1,7 @@
 defmodule HeliosWeb.Schema.Resolvers.Location do
   alias HeliosWeb.Schema.Helpers.Location, as: LocationHelpers
   alias HeliosWeb.TestData.Location, as: LocationData
-  alias HeliosWeb.TestData.Weather, as: WeatherData
+  alias HeliosWeb.Clients.WeatherClient
   alias HeliosWeb.TestData.TrafficCams, as: TrafficCamsData
 
   def location(_parent, %{city_name: city_name}, _info) do
@@ -12,8 +12,8 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
     {:ok, Jason.decode!(LocationData.location(System.get_env("PRIMARY_CITY_NAME")))}
   end
 
-  def weather(_parent, _args, _info) do
-    {:ok, Jason.decode!(WeatherData.weather)}
+  def weather(parent, _args, _info) do
+    {:ok, WeatherClient.forecast(parent)}
   end
 
   def traffic_cams(_parent, _args, _info) do
