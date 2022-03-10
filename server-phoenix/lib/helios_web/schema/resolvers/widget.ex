@@ -1,13 +1,14 @@
 defmodule HeliosWeb.Schema.Resolvers.Widget do
-  alias HeliosWeb.TestData.Weather, as: WeatherData
+  alias HeliosWeb.Clients.WeatherClient
   alias HeliosWeb.TestData.TrafficCams, as: TrafficCamsData
+  alias Helios.Widget
 
   def day_announcements(_parent, _args, _info) do
     {:ok, []}
   end
 
-  def weather(_parent, _args, _info) do
-    {:ok, Jason.decode!(WeatherData.weather())}
+  def weather(%Widget{location: location}, _args, _info) do
+    {:ok, WeatherClient.forecast(location)}
   end
 
   def tweets(_parent, _args, _info) do
