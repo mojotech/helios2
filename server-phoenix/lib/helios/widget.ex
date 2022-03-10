@@ -19,4 +19,20 @@ defmodule Helios.Widget do
 
     belongs_to :location, Location
   end
+
+  def enabled(query) do
+    from q in query, where: q.enabled
+  end
+
+  def available(query, time) when is_binary(time) do
+    case DateTime.from_iso8601(time) do
+      {:ok, datetime, _} -> available(query, datetime)
+      _ -> raise ArgumentError, message: "the argument value is invalid"
+    end
+  end
+
+  def available(query, time) do
+    tod = DateTime.to_time(time)
+    from q in query, where: (q.start <= ^tod or is_nil(q.start)) and (q.stop >= ^tod or is_nil(q.stop))
+  end
 end
