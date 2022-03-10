@@ -55,7 +55,8 @@ defmodule Helios.MixProject do
       {:dotenv, "~> 3.0.0", only: [:dev, :test]},
       {:tzdata, "~> 1.1"},
       {:httpoison, "~> 1.7"},
-      {:sun_times, "~> 0.1.2"}
+      {:sun_times, "~> 0.1.2"},
+      {:timex, "~> 3.7.7"}
     ]
   end
 

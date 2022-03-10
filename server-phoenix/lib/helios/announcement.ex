@@ -16,4 +16,16 @@ defmodule Helios.Announcement do
 
     belongs_to :location, Location
   end
+
+  def with_location(query, location) do
+    from q in query, where: q.location == ^location
+  end
+
+  def happen_today(query, _time_zone) do
+    today = DateTime.utc_now()
+    # When DB is changed to Postgres (UTC -> Naive Time zone), the following code will be used:
+    # today = elem(DateTime.now(time_zone), 1)
+    tomorrow = DateTime.add(today, 86400)
+    from q in query, where: q.publish_on == fragment("?", ^today) and fragment("?", ^tomorrow)
+  end
 end
