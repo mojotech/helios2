@@ -2,12 +2,24 @@ defmodule HeliosWeb.Schema do
   use Absinthe.Schema
 
   def middleware(middleware, %{identifier: identifier} = field, object) do
-    middleware_spec = {{__MODULE__, :get_string_key}, Atom.to_string(identifier)}
+    middleware_spec = {{__MODULE__, :get_atoms_or_string_key}, identifier}
     Absinthe.Schema.replace_default(middleware, middleware_spec, field, object)
   end
 
-  def get_string_key(%{source: source} = res, key) do
-    %{res | state: :resolved, value: Map.get(source, key)}
+  def get_atoms_or_string_key(%{source: source} = res, key) when is_atom(key) do
+    if Map.has_key?(source, key) do
+      %{res | state: :resolved, value: Map.get(source, key)}
+    else
+      %{res | state: :resolved, value: Map.get(source, Atom.to_string(key))}
+    end
+  end
+
+  def get_atoms_or_string_key(%{source: source} = res, key) when is_binary(key) do
+    if Map.has_key?(source, key) do
+      %{res | state: :resolved, value: Map.get(source, key)}
+    else
+      raise ArgumentError, message: "#{key} is missing in source"
+    end
   end
 
   # Types
