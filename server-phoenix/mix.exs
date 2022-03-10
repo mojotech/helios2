@@ -20,7 +20,7 @@ defmodule Helios.MixProject do
   def application do
     [
       mod: {Helios.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :con_cache],
     ]
   end
 
@@ -55,7 +55,8 @@ defmodule Helios.MixProject do
       {:tzdata, "~> 1.1"},
       {:httpoison, "~> 1.7"},
       {:sun_times, "~> 0.1.2"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:con_cache, "~> 0.13"}
     ]
   end
 

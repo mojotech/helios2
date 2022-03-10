@@ -20,9 +20,10 @@ defmodule Helios.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Helios.PubSub},
       # Start the Endpoint (http/https)
-      HeliosWeb.Endpoint
+      HeliosWeb.Endpoint,
       # Start a worker by calling: Helios.Worker.start_link(arg)
       # {Helios.Worker, arg}
+      {ConCache, [name: :weather_cache, ttl_check_interval: :timer.minutes(1), global_ttl: :timer.minutes(5)]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
