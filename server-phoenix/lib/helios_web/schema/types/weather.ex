@@ -33,7 +33,9 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
-    field(:weather, non_null(:weather_info_data))
+    field :weather, non_null(:weather_info_data) do
+      resolve(&Weather.weather_info_data/3)
+    end
     field(:sunrise, non_null(:unix_date_time))
     field(:sunset, non_null(:unix_date_time))
     field :precip_probability, non_null(:float) do
@@ -55,7 +57,9 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
-    field(:weather, non_null(:weather_info_data))
+    field :weather, non_null(:weather_info_data) do
+      resolve(&Weather.weather_info_data/3)
+    end
     field :precip_probability, non_null(:float) do
       resolve(&Weather.precip_probability/3)
     end
@@ -83,7 +87,9 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
-    field(:weather, non_null(:weather_info_data))
+    field :weather, non_null(:weather_info_data) do
+      resolve(&Weather.weather_info_data/3)
+    end
     field(:nearest_storm_distance, non_null(:integer))
     field(:nearest_storm_bearing, non_null(:integer))
     field(:temp, non_null(:float))
