@@ -104,8 +104,4 @@ class Types::WeatherType < Types::WeatherObject
   field "hourly", [Types::WeatherHourlyDataType]
   field "daily", [Types::WeatherDailyDataType]
   field "offset", Int
-
-  field "moonPhase", Float, deprecation_reason: "Moved to Location"
-
-  # field "flags", # TODO: skipping this for now
 end
