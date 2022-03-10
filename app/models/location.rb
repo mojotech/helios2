@@ -13,11 +13,9 @@ class Location < ApplicationRecord
   end
 
   def weather
-    Rails.cache.fetch("location-weather-response-#{city_name}", expires_in: 15.minutes) do
-      response = ::Clients::WeatherClient.forecast(self).dup
-      response.freeze
-      response
-    end
+    response = ::Clients::WeatherClient.forecast(self).dup
+    response.freeze
+    response
   end
 
   # rubocop:disable Metrics/AbcSize
