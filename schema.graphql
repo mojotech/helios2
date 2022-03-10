@@ -249,7 +249,6 @@ type Weather {
   lat: Float!
   lon: Float!
   minutely: [WeatherMinutelyData!]!
-  moonPhase: Float! @deprecated(reason: "Moved to Location")
   offset: Int!
   timeZone: String!
 }
