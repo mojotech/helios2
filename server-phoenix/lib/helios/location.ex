@@ -8,11 +8,10 @@ defmodule Helios.Location do
     field :longitude, :float, presence: true
     field :city_name, :string, presence: true, uniqueness: true
     field :time_zone, :string, presence: true
-    field :created_at, :utc_datetime, presence: true
-    field :updated_at, :utc_datetime, presence: true
     field :wifi_name, :string
     field :wifi_password, :string
     field :bathroom_code, :string
+    timestamps([inserted_at: :created_at, type: :utc_datetime])
 
     has_many :announcements, Helios.Announcement
     has_many :traffic_cams, Helios.TrafficCam
