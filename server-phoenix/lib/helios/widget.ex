@@ -10,12 +10,11 @@ defmodule Helios.Widget do
     field :enabled, :boolean, presence: true
     field :duration_seconds, :integer, presence: true
     field :position, :integer, presence: true
-    field :created_at, :utc_datetime, presence: true
-    field :updated_at, :utc_datetime, presence: true
     field :start, :time
     field :stop, :time
     field :sidebar_text, :string
     field :show_weather, :boolean
+    timestamps([inserted_at: :created_at, type: :utc_datetime])
 
     belongs_to :location, Location
   end

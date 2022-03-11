@@ -6,9 +6,8 @@ defmodule Helios.TrafficCam do
   schema "traffic_cams" do
     field :title, :string, presence: true
     field :url, :string, presence: true
-    field :created_at, :utc_datetime, presence: true
-    field :updated_at, :utc_datetime, presence: true
     field :feed_format, :string, presence: true
+    timestamps([inserted_at: :created_at, type: :utc_datetime])
 
     belongs_to :location, Location
   end
