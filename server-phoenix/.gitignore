@@ -32,3 +32,7 @@ helios-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore newly generated sqlite3 db
+db/development.sqlite3-shm
+db/development.sqlite3-wal
+
