@@ -17,4 +17,8 @@ defmodule Helios.Location do
     has_many :traffic_cams, Helios.TrafficCam
     has_many :widgets, Helios.Widget
   end
+
+  def time_now(%{time_zone: time_zone}) do
+    DateTime.now!(time_zone)
+  end
 end
