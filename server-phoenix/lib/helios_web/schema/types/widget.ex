@@ -14,7 +14,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
       "Events" => :events_widget
     }
 
-    widgetName = obj["name"]
+    widgetName = obj.name
 
     unless Map.has_key?(widgets, widgetName) do
       raise "Unexpected WidgetType"

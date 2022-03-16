@@ -1,7 +1,7 @@
 defmodule Helios.Widget do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Helios.Location
+  alias Helios.{Repo, Location}
   import Ecto.Query
 
   @primary_key {:id, :id, autogenerate: true}
@@ -17,6 +17,10 @@ defmodule Helios.Widget do
     timestamps(inserted_at: :created_at, type: :utc_datetime)
 
     belongs_to :location, Location
+  end
+
+  def with_location(query, location) do
+    from q in query, where: q.location_id == ^location.id
   end
 
   def enabled(query) do
@@ -35,5 +39,19 @@ defmodule Helios.Widget do
 
     from q in query,
       where: (q.start <= ^tod or is_nil(q.start)) and (q.stop >= ^tod or is_nil(q.stop))
+  end
+
+  def next(query, current_id) do
+    current_position = from q in query, where: q.id == ^current_id, select: q.position, limit: 1
+
+    from q in query,
+      join: s in subquery(current_position),
+      where: q.position > s.position,
+      order_by: q.position,
+      limit: 1
+  end
+
+  def default(query) do
+    from q in query, order_by: q.position, limit: 1
   end
 end
