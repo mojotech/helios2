@@ -58,7 +58,8 @@ defmodule Helios.MixProject do
       {:sun_times, "~> 0.1.2"},
       {:timex, "~> 3.7.7"},
       {:cors_plug, "~> 3.0"},
-      {:con_cache, "~> 0.13"}
+      {:con_cache, "~> 0.13"},
+      {:extwitter, "~> 0.13.0"}
     ]
   end
 
