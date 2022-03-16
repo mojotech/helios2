@@ -23,7 +23,7 @@ defmodule HeliosWeb.Schema.Types.Location do
     end
 
     field :widgets, non_null(:widget_collection) do
-      resolve(fn _, _, _ -> {:ok, %{}} end)
+      resolve(fn parent, _, _ -> {:ok, parent} end)
     end
 
     field :moon_phase, non_null(:float) do
