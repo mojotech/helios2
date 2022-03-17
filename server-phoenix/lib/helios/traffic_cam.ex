@@ -7,7 +7,7 @@ defmodule Helios.TrafficCam do
     field :title, :string, presence: true
     field :url, :string, presence: true
     field :feed_format, :string, presence: true
-    timestamps([inserted_at: :created_at, type: :utc_datetime])
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
 
     belongs_to :location, Location
   end

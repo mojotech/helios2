@@ -33,14 +33,18 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
+
     field :weather, non_null(:weather_info_data) do
       resolve(&Weather.weather_info_data/3)
     end
+
     field(:sunrise, non_null(:unix_date_time))
     field(:sunset, non_null(:unix_date_time))
+
     field :precip_probability, non_null(:float) do
       resolve(&Weather.precip_probability/3)
     end
+
     field(:rain, :float)
     field(:temp, non_null(:weather_temperature_data))
     field(:feels_like, non_null(:weather_apparent_temperature_data))
@@ -57,12 +61,15 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
+
     field :weather, non_null(:weather_info_data) do
       resolve(&Weather.weather_info_data/3)
     end
+
     field :precip_probability, non_null(:float) do
       resolve(&Weather.precip_probability/3)
     end
+
     field(:temp, non_null(:float))
     field(:feels_like, non_null(:float))
     field(:dew_point, non_null(:float))
@@ -80,6 +87,7 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
+
     field(:precipitation, non_null(:float))
   end
 
@@ -87,9 +95,11 @@ defmodule HeliosWeb.Schema.Types.Weather do
     field :time, non_null(:unix_date_time) do
       resolve(&Weather.time/3)
     end
+
     field :weather, non_null(:weather_info_data) do
       resolve(&Weather.weather_info_data/3)
     end
+
     field(:nearest_storm_distance, non_null(:integer))
     field(:nearest_storm_bearing, non_null(:integer))
     field(:temp, non_null(:float))
@@ -108,9 +118,11 @@ defmodule HeliosWeb.Schema.Types.Weather do
   object :weather do
     field(:lat, non_null(:float))
     field(:lon, non_null(:float))
+
     field :time_zone, non_null(:string) do
       resolve(&Weather.time_zone/3)
     end
+
     field(:current, non_null(:weather_currently_detail))
     field(:minutely, non_null(list_of(:weather_minutely_data)))
     field(:hourly, non_null(list_of(:weather_hourly_data)))

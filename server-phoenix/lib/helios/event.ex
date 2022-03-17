@@ -5,7 +5,7 @@ defmodule Helios.Event do
   schema "events" do
     field :source, Ecto.Enum, values: [:github_commit, :github_pull, :slack_message]
     field :external_id, :string
-    timestamps([inserted_at: :created_at, type: :utc_datetime])
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
   end
 
   def with_source(query, source) do
@@ -33,7 +33,7 @@ defmodule Helios.Event do
   end
 
   def before_beginning_of_week(query) do
-    bow = Date.to_iso8601(Date.utc_today() |> Date.beginning_of_week) <> " " <> "00:00:00Z"
+    bow = Date.to_iso8601(Date.utc_today() |> Date.beginning_of_week()) <> " " <> "00:00:00Z"
     bow = elem(DateTime.from_iso8601(bow), 1)
     from q in query, where: q.created_at < ^bow
   end

@@ -47,6 +47,7 @@ Repo.all(Location)
     sidebar_text: "Guests",
     show_weather: false
   })
+
   EctoHelpers.find_or_initialize_by(Widget, [name: "Weather", location_id: location.id], %Widget{
     enabled: true,
     duration_seconds: 20,
@@ -54,6 +55,7 @@ Repo.all(Location)
     sidebar_text: "Weather",
     show_weather: false
   })
+
   EctoHelpers.find_or_initialize_by(Widget, [name: "Twitter", location_id: location.id], %Widget{
     enabled: true,
     duration_seconds: 20,
@@ -61,6 +63,7 @@ Repo.all(Location)
     sidebar_text: "@MojoTech",
     show_weather: true
   })
+
   EctoHelpers.find_or_initialize_by(Widget, [name: "Numbers", location_id: location.id], %Widget{
     enabled: true,
     duration_seconds: 20,
@@ -68,6 +71,7 @@ Repo.all(Location)
     sidebar_text: "MojoTech by the Numbers",
     show_weather: true
   })
+
   EctoHelpers.find_or_initialize_by(Widget, [name: "Traffic", location_id: location.id], %Widget{
     enabled: true,
     duration_seconds: 20,
@@ -77,6 +81,7 @@ Repo.all(Location)
     start: Time.from_iso8601!("16:00:00"),
     stop: Time.from_iso8601!("23:00:00")
   })
+
   EctoHelpers.find_or_initialize_by(Widget, [name: "Events", location_id: location.id], %Widget{
     enabled: true,
     duration_seconds: 20,
@@ -117,7 +122,8 @@ EctoHelpers.find_or_initialize_by(TrafficCam, [title: "I-95 I-195 Split"], %Traf
 })
 
 EctoHelpers.find_or_initialize_by(TrafficCam, [title: "Dean Street"], %TrafficCam{
-  url: "https://www.dot.ri.gov/img/travel/camimages/6-1%20Rt%206%20E%20%20%2010%20N%20@%20Dean%20St.jpg",
+  url:
+    "https://www.dot.ri.gov/img/travel/camimages/6-1%20Rt%206%20E%20%20%2010%20N%20@%20Dean%20St.jpg",
   location: providence,
   feed_format: "image"
 })
@@ -129,7 +135,8 @@ EctoHelpers.find_or_initialize_by(TrafficCam, [title: "Broadway and Canyon"], %T
 })
 
 EctoHelpers.find_or_initialize_by(TrafficCam, [title: "Foothills and Arapahoe"], %TrafficCam{
-  url: "https://videostream.bouldercolorado.gov/live/smil:foothills_and_arapahoe.smil/playlist.m3u8",
+  url:
+    "https://videostream.bouldercolorado.gov/live/smil:foothills_and_arapahoe.smil/playlist.m3u8",
   location: boulder,
   feed_format: "video"
 })

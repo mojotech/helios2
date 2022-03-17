@@ -14,7 +14,7 @@ defmodule Helios.Widget do
     field :stop, :time
     field :sidebar_text, :string
     field :show_weather, :boolean
-    timestamps([inserted_at: :created_at, type: :utc_datetime])
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
 
     belongs_to :location, Location
   end
@@ -32,6 +32,8 @@ defmodule Helios.Widget do
 
   def available(query, time) do
     tod = DateTime.to_time(time)
-    from q in query, where: (q.start <= ^tod or is_nil(q.start)) and (q.stop >= ^tod or is_nil(q.stop))
+
+    from q in query,
+      where: (q.start <= ^tod or is_nil(q.start)) and (q.stop >= ^tod or is_nil(q.stop))
   end
 end
