@@ -13,10 +13,13 @@ defmodule HeliosWeb.Schema.Types.Widget do
       "Traffic" => :traffic_widget,
       "Events" => :events_widget
     }
+
     widgetName = obj["name"]
+
     unless Map.has_key?(widgets, widgetName) do
       raise "Unexpected WidgetType"
     end
+
     widgets[widgetName]
   end
 
@@ -43,6 +46,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field(:sidebar_text, :string)
     field(:show_weather, :boolean)
     field(:location_id, non_null(:string))
+
     field :day_announcements, non_null(list_of(:announcement)) do
       description("MojoTech announcements today")
       resolve(&Widget.day_announcements/3)
@@ -59,6 +63,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field(:sidebar_text, :string)
     field(:show_weather, :boolean)
     field(:location_id, non_null(:string))
+
     field :weather, non_null(:weather) do
       description("Weather response from Dark Sky")
       resolve(&Widget.weather/3)
@@ -75,6 +80,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field(:sidebar_text, :string)
     field(:show_weather, :boolean)
     field(:location_id, non_null(:string))
+
     field :tweets, non_null(list_of(:tweet)) do
       description("Tweets from MojoTech")
       resolve(&Widget.tweets/3)
@@ -91,6 +97,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field(:sidebar_text, :string)
     field(:show_weather, :boolean)
     field(:location_id, non_null(:string))
+
     field :events, :event_collection do
       description("MojoTech slack/github events")
       arg(:after, :string)
@@ -121,6 +128,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field(:sidebar_text, :string)
     field(:show_weather, :boolean)
     field(:location_id, non_null(:string))
+
     field :traffic_cams, non_null(list_of(:traffic_cam)) do
       resolve(&Widget.traffic_cams/3)
     end

@@ -13,19 +13,24 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
   end
 
   def weather(_parent, _args, _info) do
-    {:ok, Jason.decode!(WeatherData.weather)}
+    {:ok, Jason.decode!(WeatherData.weather())}
   end
 
   def traffic_cams(_parent, _args, _info) do
-    {:ok, Jason.decode!(TrafficCamsData.traffic_cams)}
+    {:ok, Jason.decode!(TrafficCamsData.traffic_cams())}
   end
 
   def solar_cycles(parent, _args, _info) do
     today = DateTime.now!(parent["time_zone"])
-    yesterday_sunset = LocationHelpers.sunset(today, parent["latitude"], parent["longitude"], -86400)
+
+    yesterday_sunset =
+      LocationHelpers.sunset(today, parent["latitude"], parent["longitude"], -86400)
+
     today_sunrise = LocationHelpers.sunrise(today, parent["latitude"], parent["longitude"])
     today_sunset = LocationHelpers.sunset(today, parent["latitude"], parent["longitude"])
-    tomorrow_sunrise = LocationHelpers.sunrise(today, parent["latitude"], parent["longitude"], 86400)
+
+    tomorrow_sunrise =
+      LocationHelpers.sunrise(today, parent["latitude"], parent["longitude"], 86400)
 
     cycles = [
       %{"time" => yesterday_sunset, "type" => "sunset"},
@@ -58,5 +63,4 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
 
     {:ok, result}
   end
-
 end

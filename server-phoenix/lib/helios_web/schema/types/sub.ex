@@ -10,7 +10,9 @@ defmodule HeliosWeb.Schema.Types.Sub do
       arg(:longitude, non_null(:float))
     end
 
-    field(:announcement_published, non_null(:announcement), description: "An announcement was published")
+    field(:announcement_published, non_null(:announcement),
+      description: "An announcement was published"
+    )
 
     field(:deployment_sha, non_null(:string), description: "Updated SHA value")
   end

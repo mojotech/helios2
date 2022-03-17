@@ -7,7 +7,7 @@ defmodule HeliosWeb.Schema.Resolvers.Widget do
   end
 
   def weather(_parent, _args, _info) do
-    {:ok, Jason.decode!(WeatherData.weather)}
+    {:ok, Jason.decode!(WeatherData.weather())}
   end
 
   def tweets(_parent, _args, _info) do
@@ -15,6 +15,6 @@ defmodule HeliosWeb.Schema.Resolvers.Widget do
   end
 
   def traffic_cams(_parent, _args, _info) do
-    {:ok, Jason.decode!(TrafficCamsData.traffic_cams)}
+    {:ok, Jason.decode!(TrafficCamsData.traffic_cams())}
   end
 end

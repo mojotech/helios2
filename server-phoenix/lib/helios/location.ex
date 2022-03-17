@@ -11,7 +11,7 @@ defmodule Helios.Location do
     field :wifi_name, :string
     field :wifi_password, :string
     field :bathroom_code, :string
-    timestamps([inserted_at: :created_at, type: :utc_datetime])
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
 
     has_many :announcements, Helios.Announcement
     has_many :traffic_cams, Helios.TrafficCam
