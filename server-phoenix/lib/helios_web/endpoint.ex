@@ -1,5 +1,6 @@
 defmodule HeliosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :helios
+  alias HeliosWeb.Plugs.AuthenticateGithub
   use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,
@@ -40,6 +41,8 @@ defmodule HeliosWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+
+  plug AuthenticateGithub
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
