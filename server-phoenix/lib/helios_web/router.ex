@@ -23,7 +23,13 @@ defmodule HeliosWeb.Router do
   scope "/api" do
     pipe_through(:api)
     forward "/graphql", Absinthe.Plug, schema: HeliosWeb.Schema
-    forward("/graphiql", Absinthe.Plug.GraphiQL, schema: HeliosWeb.Schema)
+
+    forward("/graphiql", Absinthe.Plug.GraphiQL,
+      schema: HeliosWeb.Schema,
+      socket: HeliosWeb.UserSocket
+    )
+  end
+
   end
 
   # Other scopes may use custom stacks.

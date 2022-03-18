@@ -1,5 +1,6 @@
 defmodule HeliosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :helios
+  use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -10,7 +11,9 @@ defmodule HeliosWeb.Endpoint do
     signing_salt: "oq2zX4/B"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/socket", HeliosWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
