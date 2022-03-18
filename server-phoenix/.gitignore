@@ -32,10 +32,6 @@ helios-*.tar
 npm-debug.log
 /assets/node_modules/
 
-# Ignore newly generated sqlite3 db
-db/development.sqlite3-shm
-db/development.sqlite3-wal
-
 # Ignore newly generated test files
 helios_test
 helios_test-shm
