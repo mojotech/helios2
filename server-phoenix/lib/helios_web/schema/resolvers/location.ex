@@ -48,7 +48,7 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
     {:ok, round(phase_ratio * 8) * 0.125}
   end
 
-  def day_announcements(parent, _args, _info) do
+  def day_announcements(_parent, _args, _info) do
     # {:ok, Repo.all(Announcement |> Announcement.happen_today(parent.time_zone))}
     {:ok, Repo.all(Announcement |> Announcement.happen_today())}
   end
