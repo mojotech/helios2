@@ -28,7 +28,8 @@ defmodule Helios.Application do
          name: :weather_cache,
          ttl_check_interval: :timer.minutes(1),
          global_ttl: :timer.minutes(5)
-       ]}
+       ]},
+      {Absinthe.Subscription, [HeliosWeb.Endpoint]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
