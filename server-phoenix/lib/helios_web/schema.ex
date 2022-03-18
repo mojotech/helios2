@@ -37,6 +37,7 @@ defmodule HeliosWeb.Schema do
   import_types(HeliosWeb.Schema.Types.Weather)
   import_types(HeliosWeb.Schema.Types.WidgetCollection)
   import_types(HeliosWeb.Schema.Types.Widget)
+  import_types(HeliosWeb.Schema.Types.Sub)
 
   # Queries
   import_types(HeliosWeb.Schema.Queries.Location)
@@ -47,5 +48,9 @@ defmodule HeliosWeb.Schema do
     import_fields(:location_queries)
     import_fields(:tweet_queries)
     import_fields(:event_collection_queries)
+  end
+
+  subscription do
+    import_fields(:sub)
   end
 end
