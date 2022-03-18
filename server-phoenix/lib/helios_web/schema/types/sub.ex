@@ -2,7 +2,15 @@ defmodule HeliosWeb.Schema.Types.Sub do
   use Absinthe.Schema.Notation
 
   object :sub do
-    field(:event_published, non_null(:event), description: "An event was published to the API")
+    field(:event_published, non_null(:event), description: "An event was published to the API") do
+      config(fn _args, _resolution ->
+        {:ok, topic: "all"}
+      end)
+
+      resolve(fn event, _, _ ->
+        {:ok, event}
+      end)
+    end
 
     field(:weather_published, non_null(:weather)) do
       description("Latest weather data retrieved")
