@@ -15,7 +15,7 @@ defmodule HeliosWeb.Router do
   end
 
   scope "/", HeliosWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
     get "/", PageController, :index
   end
@@ -30,6 +30,11 @@ defmodule HeliosWeb.Router do
     )
   end
 
+  scope "/web_hooks", HeliosWeb.WebHooks do
+    post("/github", GithubController, :handle)
+    post("/slack", SlackController, :handle)
+
+    post("/publish", PublishController, :handle)
   end
 
   # Other scopes may use custom stacks.
