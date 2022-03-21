@@ -14,13 +14,7 @@ defmodule HeliosWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", HeliosWeb do
-    pipe_through(:browser)
-
-    get "/", PageController, :index
-  end
-
-  scope "/api" do
+  scope "/" do
     pipe_through(:api)
     forward "/graphql", Absinthe.Plug, schema: HeliosWeb.Schema
 
