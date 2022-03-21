@@ -4,6 +4,7 @@ import {
   isAfter,
   differenceInMinutes,
   startOfWeek,
+  formatISO,
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
@@ -51,4 +52,4 @@ export const parseDay = datetime => {
 };
 
 export const getStartOfWeek = () =>
-  startOfWeek(new Date(), { weekStartsOn: 1 }).toUTCString();
+  formatISO(startOfWeek(new Date(), { weekStartsOn: 1 }));
