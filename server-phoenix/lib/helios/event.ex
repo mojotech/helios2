@@ -47,4 +47,8 @@ defmodule Helios.Event do
     bow = elem(DateTime.from_iso8601(bow), 1)
     from q in query, where: q.created_at < ^bow
   end
+
+  def count(query) do
+    from e in query, group_by: e.source, select: {e.source, count(e.source)}
+  end
 end
