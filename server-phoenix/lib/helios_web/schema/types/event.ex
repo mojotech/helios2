@@ -2,11 +2,11 @@ defmodule HeliosWeb.Schema.Types.Event do
   use Absinthe.Schema.Notation
 
   enum :event_source do
-    value(:github_pull, as: "github_pull", name: "githubPull", description: "Github pull request")
+    value(:github_pull, name: "githubPull", description: "Github pull request")
 
-    value(:github_commit, as: "github_commit", name: "githubCommit", description: "Github commit")
+    value(:github_commit, name: "githubCommit", description: "Github commit")
 
-    value(:slack_message, as: "slack_message", name: "slackMessage", description: "Slack message")
+    value(:slack_message, name: "slackMessage", description: "Slack message")
   end
 
   object :event do
