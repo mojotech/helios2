@@ -60,7 +60,8 @@ defmodule Helios.MixProject do
       {:cors_plug, "~> 3.0"},
       {:con_cache, "~> 0.13"},
       {:extwitter, "~> 0.13.0"},
-      {:absinthe_phoenix, "~> 2.0.0"}
+      {:absinthe_phoenix, "~> 2.0.0"},
+      {:uuid, "~> 1.1"}
     ]
   end
 
