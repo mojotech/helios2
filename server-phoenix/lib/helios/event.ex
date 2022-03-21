@@ -12,7 +12,17 @@ defmodule Helios.Event do
     from q in query, where: q.source == ^source
   end
 
-  def created_after(query, c_after) do
+  def created_after(query, c_after) when is_binary(c_after) do
+    case DateTime.from_iso8601(c_after) do
+      {:error, msg} ->
+        raise msg
+
+      {:ok, result, _} ->
+        created_after(query, result)
+    end
+  end
+
+  def created_after(query, c_after) when is_struct(c_after) do
     from q in query, where: q.created_at > ^c_after
   end
 
