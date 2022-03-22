@@ -2,9 +2,9 @@ defmodule HeliosWeb.Schema.Types.EventCollection do
   use Absinthe.Schema.Notation
 
   object :event_count do
-    field(:github_pull, non_null(:integer))
-    field(:github_commit, non_null(:integer))
-    field(:slack_message, non_null(:integer))
+    field(:github_pull, :integer)
+    field(:github_commit, :integer)
+    field(:slack_message, :integer)
   end
 
   object :event_collection do
