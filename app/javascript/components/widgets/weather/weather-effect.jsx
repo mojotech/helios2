@@ -509,4 +509,4 @@ WeatherEffect.propTypes = {
   }).isRequired,
 };
 
-export default withFragment(WeatherEffect, { weather: getWeatherEffect });
+export default withFragment({ weather: getWeatherEffect })(WeatherEffect);

@@ -140,7 +140,7 @@ SunriseSunset.propTypes = {
   weather: PropTypes.shape({}).isRequired,
 };
 
-export default withFragment(SunriseSunset, {
+export default withFragment({
   weather: getSunriseSunsetWeather,
   location: getSunriseSunsetLocation,
-});
+})(SunriseSunset);

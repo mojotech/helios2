@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
+import { compose } from 'react-recompose';
 import { WhiteSubTitle, WhiteTitleLarge } from '@components/typography';
 import { Row } from '@components/row';
 import { LoadingMessage, ErrorMessage } from '@messages/default-messages';
 import WifiIcon from '@assets/images/icons/icon-wifi.svg';
 import LockIcon from '@assets/images/icons/icon-key.svg';
+import renderWhileError from '@hocs/render-while-error';
+import renderWhileLoading from '@hocs/render-while-loading';
 import withFragment from './hocs/with-fragment';
 
 const Column = styled.div`
@@ -30,14 +33,7 @@ export const getWifi = gql`
   }
 `;
 
-export const Wifi = ({ loading, error, location }) => {
-  if (loading) {
-    return <LoadingMessage />;
-  }
-  if (error) {
-    return <ErrorMessage />;
-  }
-
+export const Wifi = ({ location }) => {
   const { wifiName, wifiPassword } = location;
   if (!wifiName || !wifiPassword) {
     return null;
@@ -70,13 +66,10 @@ Wifi.propTypes = {
     wifiName: PropTypes.string,
     wifiPassword: PropTypes.string,
   }).isRequired,
-  loading: PropTypes.bool,
-  error: PropTypes.bool,
 };
 
-Wifi.defaultProps = {
-  loading: true,
-  error: false,
-};
-
-export default withFragment(Wifi, { location: getWifi });
+export default compose(
+  renderWhileError(ErrorMessage),
+  renderWhileLoading(LoadingMessage),
+  withFragment({ location: getWifi }),
+)(Wifi);

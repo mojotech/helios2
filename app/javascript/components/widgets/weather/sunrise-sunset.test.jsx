@@ -2,6 +2,8 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 
 const location = {
+  cityName: 'Providence',
+  moonPhase: 0.5,
   timezone: 'America/New_York',
   solarCycles: [
     { type: 'sunset', time: '2021-06-09T00:18:31Z' },
@@ -11,7 +13,10 @@ const location = {
   ],
 };
 
-const weather = { moonPhase: 1, current: { weather: { id: 803 } } };
+const weather = {
+  moonPhase: 1,
+  current: { weather: { id: 803 }, windSpeed: 1 },
+};
 
 describe('SunriseSunset component', () => {
   const mockDate = new Date('2021-06-09T00:18:31Z');

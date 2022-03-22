@@ -43,9 +43,9 @@ describe('withFragment higher order component', () => {
       });
       return 'testComponent rendered';
     };
-    const WrappedComponent = withFragment(testComponent, {
+    const WrappedComponent = withFragment({
       location: locationQuery,
-    });
+    })(testComponent);
     expect(
       ReactTestRenderer.create(
         <WrappedComponent location={locationData} />,

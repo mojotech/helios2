@@ -20,4 +20,4 @@ CurrentTemp.propTypes = {
   }).isRequired,
 };
 
-export default withFragment(CurrentTemp, { weather: getCurrentTemp });
+export default withFragment({ weather: getCurrentTemp })(CurrentTemp);

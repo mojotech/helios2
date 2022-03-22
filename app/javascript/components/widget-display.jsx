@@ -166,4 +166,4 @@ export const WidgetDisabledDisplay = () => (
   </Wrapper>
 );
 
-export default withFragment(WidgetDisplay, { location: getWidgetDisplay });
+export default withFragment({ location: getWidgetDisplay })(WidgetDisplay);

@@ -26,4 +26,4 @@ CurrentIcon.propTypes = {
   }).isRequired,
 };
 
-export default withFragment(CurrentIcon, { weather: getCurrentIcon });
+export default withFragment({ weather: getCurrentIcon })(CurrentIcon);

@@ -92,4 +92,4 @@ DailyWeather.propTypes = {
   }).isRequired,
 };
 
-export default withFragment(DailyWeather, { weather: getDailyWeather });
+export default withFragment({ weather: getDailyWeather })(DailyWeather);

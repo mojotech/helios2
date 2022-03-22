@@ -60,4 +60,4 @@ CurrentWeather.defaultProps = {
   useLargeIcon: false,
 };
 
-export default withFragment(CurrentWeather, { weather: getCurrentWeather });
+export default withFragment({ weather: getCurrentWeather })(CurrentWeather);
