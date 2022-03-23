@@ -100,7 +100,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
 
     field :events, :event_collection do
       description("MojoTech slack/github events")
-      arg(:after, :string)
+      arg(:created_after, :string)
       arg(:type, :event_source)
       resolve(&EventCollection.events/3)
     end
