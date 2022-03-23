@@ -121,7 +121,7 @@ type NumbersWidget implements Widget {
   """
   MojoTech slack/github events
   """
-  events(after: String, type: EventSource): EventCollection!
+  events(createdAfter: String, type: EventSource): EventCollection!
   id: Int!
   locationId: Int!
   name: String!

@@ -137,7 +137,7 @@ SubscribedEvents.propTypes = {
 const Numbers = ({ startTimer }) => (
   <Query
     query={getEventCounts}
-    variables={{ after: getStartOfWeek() }}
+    variables={{ createdAfter: getStartOfWeek() }}
     onCompleted={startTimer}
     onError={startTimer}
   >
