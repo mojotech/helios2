@@ -24,7 +24,7 @@ defmodule HeliosWeb.Schema.Types.Tweet do
 
   object :tweet do
     field(:status, non_null(:string))
-    field(:created_at, non_null(:datetime))
+    field(:created_at, non_null(:string))
     field(:text, non_null(:string))
     field(:interactions, non_null(:interaction))
     field(:media, :media)
