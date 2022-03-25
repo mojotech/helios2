@@ -61,7 +61,9 @@ defmodule Helios.MixProject do
       {:con_cache, "~> 0.13"},
       {:extwitter, "~> 0.13.0"},
       {:absinthe_phoenix, "~> 2.0.0"},
-      {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"},
+      {:exq, "~> 0.16.1"},
+      {:quantum, "~> 3.0"}
     ]
   end
 

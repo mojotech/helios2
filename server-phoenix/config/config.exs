@@ -63,3 +63,8 @@ config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 config :cors_plug,
   origin: ["http://localhost:5000"],
   methods: ["*"]
+
+config :helios, Helios.Scheduler,
+  jobs: [
+    {"*/5 * * * *", fn -> Helios.Workers.ShaPollerWorker.perform() end}
+  ]
