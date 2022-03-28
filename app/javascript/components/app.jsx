@@ -6,7 +6,7 @@ import * as AbsintheSocket from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { ApolloProvider } from 'react-apollo';
-import { split } from 'apollo-link';
+import { ApolloLink, split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { hasSubscription } from '@jumpn/utils-graphql';
@@ -14,6 +14,9 @@ import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory';
+import ActionCable from 'actioncable';
+import { getMainDefinition } from 'apollo-utilities';
+import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 import { persistCache } from 'apollo-cache-persist';
 import WidgetController from '@components/widget-controller';
 import versionCompare from '@components/version-compare';
@@ -21,14 +24,24 @@ import helioSchema from '@javascript/schema.json';
 import Cookies from 'js-cookie';
 import GlobalStyle from '../styles';
 
+const cable = ActionCable.createConsumer(
+  `${process.env.RAILS_BACKEND_URI}/cable`,
+);
+
 const phoenixSocket = new PhoenixSocket(`${process.env.WEBSOCKET_URI}/socket`);
 
 const absintheSocket = AbsintheSocket.create(phoenixSocket);
 
 const webSocketLinkAbsinthe = createAbsintheSocketLink(absintheSocket);
 
+const webSocketLinkRails = new ActionCableLink({ cable });
+
 const httpLink = new HttpLink({
-  uri: `${process.env.BACKEND_URI}/graphql`,
+  uri: `${
+    process.env.BACKEND_LANGUAGE === 'ruby'
+      ? process.env.RAILS_BACKEND_URI
+      : process.env.PHOENIX_BACKEND_URI
+  }/graphql`,
   credentials: 'include',
 });
 
@@ -47,7 +60,16 @@ const authLink = setContext((_, { headers }) => {
 
 const authedHttpLink = authLink.concat(httpLink);
 
-const link = split(
+const railsLink = ApolloLink.split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  webSocketLinkRails,
+  httpLink,
+);
+
+const absintheLink = split(
   operation => hasSubscription(operation.query),
   webSocketLinkAbsinthe,
   authedHttpLink,
@@ -77,7 +99,7 @@ persistCache({
 });
 
 const client = new ApolloClient({
-  link,
+  link: process.env.BACKEND_LANGUAGE === 'ruby' ? railsLink : absintheLink,
   cache,
   defaultOptions: {
     query: {
