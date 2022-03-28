@@ -216,7 +216,7 @@ defmodule HeliosWeb.Clients.TweetTest do
   test "from_api normal status" do
     assert Tweet.from_api(test_tweet_normal()) ===
              %HeliosWeb.Clients.Tweet{
-               created_at: "Wed Mar 16 16:59:00 +0000 2022",
+               created_at: ~U[2022-03-16 16:59:00Z],
                interactions: %HeliosWeb.Clients.Tweet.InteractionQuery{
                  favorite_count: 0,
                  retweet_count: 0
@@ -235,7 +235,7 @@ defmodule HeliosWeb.Clients.TweetTest do
   test "from_api retweet status" do
     assert Tweet.from_api(test_tweet_retweet()) ===
              %HeliosWeb.Clients.Tweet{
-               created_at: "Fri Mar 18 15:56:28 +0000 2022",
+               created_at: ~U[2022-03-18 15:56:28Z],
                interactions: %HeliosWeb.Clients.Tweet.InteractionQuery{
                  favorite_count: 0,
                  retweet_count: 1
