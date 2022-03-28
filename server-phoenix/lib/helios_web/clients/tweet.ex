@@ -1,4 +1,6 @@
 defmodule HeliosWeb.Clients.Tweet do
+  use Timex
+
   defstruct [:text, :media, :interactions, :status, :user, :created_at]
 
   defmodule InteractionQuery do
@@ -20,8 +22,13 @@ defmodule HeliosWeb.Clients.Tweet do
       interactions: interactions(tweet),
       status: status(tweet),
       user: user(tweet),
-      created_at: tweet.created_at
+      created_at: created_at(tweet)
     }
+  end
+
+  def created_at(t) do
+    t.created_at
+    |> Timex.parse!("%a %b %d %T %z %Y", :strftime)
   end
 
   def attributes(t) do
