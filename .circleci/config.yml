@@ -13,6 +13,11 @@ jobs:
           command: |
             cd server-phoenix && mix local.hex --force && mix deps.get && mix format --check-formatted
 
+      - run:
+          name: Unit Test
+          command: |
+            cd server-phoenix && mix local.rebar --force && mix test
+
   build:
     docker:
       # specify the version you desire here
