@@ -128,10 +128,16 @@ class SubscribedEvents extends React.Component {
   }
 }
 SubscribedEvents.propTypes = {
-  githubPull: PropTypes.number.isRequired,
-  githubCommit: PropTypes.number.isRequired,
-  slackMessage: PropTypes.number.isRequired,
+  githubPull: PropTypes.number,
+  githubCommit: PropTypes.number,
+  slackMessage: PropTypes.number,
   subscribeToPublishedEvents: PropTypes.func.isRequired,
+};
+
+SubscribedEvents.defaultProps = {
+  githubPull: 0,
+  githubCommit: 0,
+  slackMessage: 0,
 };
 
 const Numbers = ({ startTimer }) => (
