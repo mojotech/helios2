@@ -41,7 +41,7 @@ EctoHelpers.find_or_initialize_by(Location, [city_name: "San Diego"], %Location{
 Repo.all(Location)
 |> Enum.each(fn location ->
   EctoHelpers.find_or_initialize_by(Widget, [name: "Guests", location_id: location.id], %Widget{
-    enabled: false,
+    enabled: true,
     duration_seconds: 20,
     position: 0,
     sidebar_text: "Guests",

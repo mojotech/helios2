@@ -34,7 +34,7 @@ Location.all.each do |location|
     name: "Guests",
     location: location
   ) do |r|
-    r.enabled = false
+    r.enabled = true
     r.duration_seconds = 20
     r.position = 0
     r.sidebar_text = 'Guests'
