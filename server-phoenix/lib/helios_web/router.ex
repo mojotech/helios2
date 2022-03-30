@@ -20,7 +20,7 @@ defmodule HeliosWeb.Router do
 
     forward("/graphiql", Absinthe.Plug.GraphiQL,
       schema: HeliosWeb.Schema,
-      socket: HeliosWeb.UserSocket
+      socket: HeliosWeb.AbsintheSocketDecorator
     )
   end
 

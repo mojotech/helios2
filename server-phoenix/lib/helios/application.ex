@@ -4,9 +4,12 @@ defmodule Helios.Application do
   @moduledoc false
 
   use Application
+  alias HeliosWeb.Schema.Types.Sub
 
   @impl true
   def start(_type, _args) do
+    Sub.start_link([])
+
     unless Mix.env() == :prod do
       Dotenv.load()
       Mix.Task.run("loadconfig")

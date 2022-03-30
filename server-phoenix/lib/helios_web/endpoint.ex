@@ -12,9 +12,10 @@ defmodule HeliosWeb.Endpoint do
     signing_salt: "oq2zX4/B"
   ]
 
-  socket "/socket", HeliosWeb.UserSocket,
+  socket("/socket", HeliosWeb.AbsintheSocketDecorator,
     websocket: true,
     longpoll: false
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #
