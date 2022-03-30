@@ -9,6 +9,9 @@ export const LoadingMessage = () => <Message message="Loading..." />;
 export const DisconnectedMessage = () => (
   <Message message="Looks like we're disconnected" />
 );
+export const NoAnnouncementsMessage = () => (
+  <Message message="No announcements today" />
+);
 export const WeatherLoadingMessage = () => <WeatherMessage />;
 export const WeatherDisconnectedMessage = () => <WeatherMessage />;
 export const WidgetDisabledMessage = () => (

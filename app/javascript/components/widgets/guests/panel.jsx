@@ -90,8 +90,7 @@ class SubscribedAnnouncements extends React.Component {
   render() {
     const { dayAnnouncements } = this.props;
     const announcement = sortBy(prop('publishOn'), dayAnnouncements)[0];
-
-    return <Announcement anouncement={announcement} />;
+    return <Announcement announcement={announcement} />;
   }
 }
 SubscribedAnnouncements.propTypes = {
@@ -101,14 +100,18 @@ SubscribedAnnouncements.propTypes = {
       people: PropTypes.string.isRequired,
       company: PropTypes.string.isRequired,
       publishOn: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
+      announcementId: PropTypes.string.isRequired,
     }),
   ).isRequired,
   subscribeToPublishedAnnouncements: PropTypes.func.isRequired,
 };
 
-const Guests = ({ cityName }) => (
-  <Query query={getLocationAnnouncements} variables={{ cityName }}>
+const Guests = ({ startTimer, cityName }) => (
+  <Query
+    query={getLocationAnnouncements}
+    variables={{ cityName }}
+    onCompleted={startTimer}
+  >
     {({ loading, error, data, subscribeToMore }) => {
       if (error) {
         return <DisconnectedMessage />;
@@ -159,6 +162,7 @@ const Guests = ({ cityName }) => (
 );
 
 Guests.propTypes = {
+  startTimer: PropTypes.func.isRequired,
   cityName: PropTypes.string.isRequired,
 };
 export default Guests;

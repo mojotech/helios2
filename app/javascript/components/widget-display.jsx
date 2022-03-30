@@ -9,6 +9,7 @@ import {
 } from '@messages/message';
 import FullPanel from '@components/full-panel';
 import SidePanel, { getSidePanel } from '@components/side-panel';
+import Guests from '@widgets/guests';
 import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
@@ -28,6 +29,7 @@ export const getWidgetDisplay = gql`
 `;
 
 const widgetElements = {
+  Guests,
   Weather,
   Twitter,
   Numbers,
@@ -47,6 +49,7 @@ export const WidgetDisplay = ({
 }) => {
   const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
   const WidgetElement = widgetElements[current.name].Panel;
+
   return (
     <Wrapper
       onKeyDown={keyToWidgetAction}
