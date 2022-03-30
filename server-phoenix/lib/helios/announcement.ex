@@ -14,14 +14,14 @@ defmodule Helios.Announcement do
 
   @primary_key {:id, :id, autogenerate: true}
   schema "announcements" do
-    field :publish_on, :utc_datetime
-    field :message, :string
-    field :people, :string
-    field :company, :string
-    field :announcement_id, :string
+    field(:publish_on, :utc_datetime)
+    field(:message, :string)
+    field(:people, :string)
+    field(:company, :string)
+    field(:announcement_id, :string)
     timestamps(inserted_at: :created_at, type: :utc_datetime)
 
-    belongs_to :location, Location
+    belongs_to(:location, Location)
   end
 
   def changeset(announcement, attrs \\ %{}) do
@@ -35,10 +35,8 @@ defmodule Helios.Announcement do
   end
 
   def happen_today(query, time_zone) do
-    {:ok, today} = DateTime.now(time_zone)
+    today = DateTime.now!(time_zone) |> DateTime.shift_zone!("Etc/UTC")
     tomorrow = DateTime.add(today, 86400)
-
-    from q in query,
-      where: q.publish_on > fragment("?", ^today) and q.publish_on < fragment("?", ^tomorrow)
+    from(q in query, where: q.publish_on >= ^today and q.publish_on <= ^tomorrow)
   end
 end
