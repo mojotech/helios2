@@ -6,7 +6,11 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { parseDate, isInFutureToday } from '@lib/datetime';
 import { colors, weights, fontSizes, spacing } from '@lib/theme';
-import { LoadingMessage, DisconnectedMessage } from '@messages/message';
+import {
+  LoadingMessage,
+  DisconnectedMessage,
+  NoAnnouncementsMessage,
+} from '@messages/message';
 
 const subscribeAnnouncementPublished = gql`
   subscription onAnnouncementPublished {
@@ -117,8 +121,12 @@ const Guests = ({ startTimer, cityName }) => (
         return <DisconnectedMessage />;
       }
 
-      if (loading || data.location.dayAnnouncements.length === 0) {
+      if (loading) {
         return <LoadingMessage />;
+      }
+
+      if (data.location.dayAnnouncements.length === 0) {
+        return <NoAnnouncementsMessage />;
       }
 
       return (
