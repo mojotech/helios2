@@ -66,5 +66,6 @@ config :cors_plug,
 
 config :helios, Helios.Scheduler,
   jobs: [
-    {"*/5 * * * *", fn -> Helios.Workers.ShaPollerWorker.perform() end}
+    {"*/5 * * * *", fn -> Helios.Workers.ShaPollerWorker.perform() end},
+    {"*/5 * * * *", fn -> Helios.Workers.WeatherPollerWorker.perform() end}
   ]
