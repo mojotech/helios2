@@ -63,7 +63,11 @@ defmodule HeliosWeb.Schema.Types.Sub do
 
     field(:announcement_published, non_null(:announcement),
       description: "An announcement was published"
-    )
+    ) do
+      config(fn _args, _resolution ->
+        {:ok, topic: "new"}
+      end)
+    end
 
     field(:deployment_sha, non_null(:string), description: "Updated SHA value") do
       config(fn _args, _resolution ->
