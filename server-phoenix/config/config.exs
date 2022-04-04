@@ -68,3 +68,8 @@ config :helios, Helios.Scheduler,
   jobs: [
     {"*/5 * * * *", fn -> Helios.Workers.ShaPollerWorker.perform() end}
   ]
+
+config :kaffy,
+  otp_app: :helios,
+  ecto_repo: Helios.Repo,
+  router: HeliosWeb.Router

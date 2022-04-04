@@ -14,6 +14,9 @@ defmodule HeliosWeb.Router do
     plug :accepts, ["json"]
   end
 
+  use Kaffy.Routes,
+    scope: "/admin"
+
   scope "/" do
     pipe_through(:api)
     forward "/graphql", Absinthe.Plug, schema: HeliosWeb.Schema
