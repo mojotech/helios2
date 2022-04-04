@@ -1,0 +1,8 @@
+<ul>
+<%= if @current_admin_user do %>
+  <li><%= @current_admin_user.email %></li>
+  <li><%= link "Log out", to: Routes.admin_user_session_path(@conn, :delete), method: :delete %></li>
+<% else %>
+  <li><%= link "Log in", to: Routes.admin_user_session_path(@conn, :new) %></li>
+<% end %>
+</ul>

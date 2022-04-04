@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
 /* Includes some default style for the starter application.
  * This can be safely deleted to start fresh.
  */
@@ -50,6 +52,10 @@ select {
 .phx-logo img {
   width: auto;
   display: block;
+}
+
+.logo {
+  font-family: "Open Sans";
 }
 
 /* Headers */
