@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_02_163416) do
+ActiveRecord::Schema.define(version: 2022_04_01_182425) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 2022_03_02_163416) do
     t.integer "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
   create_table "admin_users", force: :cascade do |t|
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 2022_03_02_163416) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "admin_users_tokens", force: :cascade do |t|
+    t.integer "admin_users_id"
+    t.binary "token", null: false
+    t.string "context", null: false
+    t.string "sent_to"
+    t.datetime "created_at", null: false
+    t.index "\"admin_user_id\"", name: "index_admin_users_tokens_on_admin_user_id"
+    t.index ["admin_users_id"], name: "index_admin_users_tokens_on_admin_users_id"
+    t.index ["context", "token"], name: "index_admin_users_tokens_on_context_and_token", unique: true
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -64,16 +75,6 @@ ActiveRecord::Schema.define(version: 2022_03_02_163416) do
     t.string "slack_handle", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "employee_events", force: :cascade do |t|
-    t.string "external_id"
-    t.text "display_name"
-    t.text "birthday"
-    t.text "hire_date"
-    t.boolean "is_photo_uploaded"
-    t.text "photo_url"
-    t.text "time_off_employees", default: "--- []\n"
   end
 
   create_table "events", force: :cascade do |t|
@@ -121,7 +122,7 @@ ActiveRecord::Schema.define(version: 2022_03_02_163416) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "location_id"
+    t.bigint "location_id"
     t.string "start"
     t.string "stop"
     t.string "sidebar_text"
@@ -131,4 +132,5 @@ ActiveRecord::Schema.define(version: 2022_03_02_163416) do
     t.index ["location_id"], name: "index_widgets_on_location_id"
   end
 
+  add_foreign_key "admin_users_tokens", "admin_users", column: "admin_users_id", on_delete: :cascade
 end
