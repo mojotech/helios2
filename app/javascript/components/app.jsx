@@ -52,11 +52,11 @@ const client = new ApolloClient({
   defaultOptions: {
     query: {
       fetchPolicy: 'network-only',
-      errorPolicy: 'all',
+      errorPolicy: 'none',
     },
     watchQuery: {
       fetchPolicy: 'network-only',
-      errorPolicy: 'all',
+      errorPolicy: 'none',
     },
   },
 });
