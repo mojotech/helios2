@@ -12,7 +12,7 @@ defmodule HeliosWeb.Schema.Resolvers.Location do
   end
 
   def weather(parent, _args, _info) do
-    {:ok, WeatherClient.forecast(parent)}
+    WeatherClient.forecast(parent)
   end
 
   def traffic_cams(parent, _args, _info) do

@@ -7,8 +7,8 @@ defmodule HeliosWeb.Schema.Resolvers.Widget do
     {:ok, []}
   end
 
-  def weather(%Widget{location: location}, _args, _info) do
-    {:ok, WeatherClient.forecast(location)}
+  def weather(parent, _args, _info) do
+    WeatherClient.forecast(parent)
   end
 
   def tweets(_parent, _args, _info) do
