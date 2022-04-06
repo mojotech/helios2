@@ -1,30 +1,37 @@
 defmodule HeliosWeb.Clients.WeatherClient do
-  @weather_api_key System.get_env("WEATHER_API_KEY")
+  defp weather_api_key, do: System.get_env("WEATHER_API_KEY")
 
   def forecast(%{latitude: latitude, longitude: longitude}) do
     key = "openweather-response-#{latitude}-#{longitude}"
 
-    ConCache.get_or_store(:weather_cache, key, fn ->
-      get(latitude, longitude)
-    end)
-    |> Jason.decode!()
+    case get(latitude, longitude) do
+      {:ok, body} ->
+        {:ok,
+         ConCache.get_or_store(:weather_cache, key, fn ->
+           body
+         end)
+         |> Jason.decode!()}
+
+      {:error, message} ->
+        {:error, message}
+    end
   end
 
   defp get(latitude, longitude) do
     response =
       HTTPoison.get!(
-        "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{@weather_api_key}&units=imperial"
+        "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{weather_api_key}&units=imperial"
       )
+
+    IO.inspect(response)
 
     case response do
       %{status_code: 200, body: body} ->
-        body
+        {:ok, body}
 
       %{body: body} ->
-        raise body
-
-      _ ->
-        raise "Missing body from HTTP response for OpenWeather"
+        body = body |> Jason.decode!()
+        {:error, body["message"]}
     end
   end
 end
