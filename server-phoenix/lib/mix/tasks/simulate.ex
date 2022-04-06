@@ -35,7 +35,7 @@ defmodule Mix.Tasks.Simulate do
 
       try do
         HTTPoison.post!(
-          "#{System.get_env("PHOENIX_BACKEND_URI")}/web_hooks/publish",
+          "#{System.get_env("BACKEND_URL")}/web_hooks/publish",
           event |> Map.from_struct() |> Map.delete(:__meta__) |> Jason.encode!(),
           [{"Content-type", "application/json"}],
           []
