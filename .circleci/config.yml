@@ -14,6 +14,11 @@ jobs:
             cd server-phoenix && mix local.hex --force && mix deps.get && mix format --check-formatted
 
       - run:
+          name: Create Test DB
+          command: |
+            sudo apt update && sudo apt upgrade && sudo apt install sqlite3 && sqlite3 ./db/test.sqlite3 < ./test.sql && echo '.exit'
+
+      - run:
           name: Unit Test
           command: |
             cd server-phoenix && mix local.rebar --force && mix test

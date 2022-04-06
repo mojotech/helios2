@@ -54,5 +54,5 @@ yarn-debug.log*
 /public/manifest.json
 
 # Ignore newly generated sqlite3 db
-/db/development.sqlite3-shm
-/db/development.sqlite3-wal
+/db/*.sqlite3-shm
+/db/*.sqlite3-wal
