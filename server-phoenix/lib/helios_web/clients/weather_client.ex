@@ -23,8 +23,6 @@ defmodule HeliosWeb.Clients.WeatherClient do
         "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{weather_api_key}&units=imperial"
       )
 
-    IO.inspect(response)
-
     case response do
       %{status_code: 200, body: body} ->
         {:ok, body}
