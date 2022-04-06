@@ -119,7 +119,7 @@ module.exports = {
           '/events',
           '/web_hooks',
         ],
-        target: process.env.BACKEND_URI,
+        target: process.env.BACKEND_URL,
       },
     ],
   },
