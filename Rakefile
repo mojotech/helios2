@@ -4,3 +4,12 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+# Disable migrations
+Rake::Task.tasks.each do |t|
+  next unless t.name.start_with?("db:migrate")
+
+  t.clear
+  t.add_description("DISABLED: Only add and run migrations in phoenix.")
+  t.actions << proc { puts "DISABLED: Only add and run migrations in phoenix." }
+end

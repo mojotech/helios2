@@ -7,7 +7,8 @@ config :helios,
 config :helios, Helios.Repo,
   url: System.get_env("DATABASE_URL", "ecto://postgres:postgres@localhost:5432/helios_dev"),
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  migration_source: "phoenix_schema_migrations"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
