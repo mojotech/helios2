@@ -3,6 +3,12 @@ jobs:
   build-phoenix:
     docker:
        - image: cimg/elixir:1.13.3
+       - image: redis
+       - image: cimg/postgres:14.1
+         environment:
+           POSTGRES_USER: postgres
+           POSTGRES_PASSWORD: postgres
+           POSTGRES_DB: helios_test
 
     working_directory: ~/repo
 
@@ -23,6 +29,11 @@ jobs:
       # specify the version you desire here
        - image: cimg/ruby:2.6.9
        - image: redis
+       - image: cimg/postgres:14.1
+         environment:
+           POSTGRES_USER: postgres
+           POSTGRES_PASSWORD: postgres
+           POSTGRES_DB: helios_test
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images

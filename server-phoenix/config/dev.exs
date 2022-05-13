@@ -4,15 +4,10 @@ import Config
 config :helios,
   ecto_repos: [Helios.Repo]
 
-config :helios, Helios.Repo, database: "../db/development.sqlite3"
-
-# config :helios, Helios.Repo,
-#   username: "postgres",
-#   password: "postgres",
-#   hostname: "localhost",
-#   database: "helios_dev",
-#   show_sensitive_data_on_connection_error: true,
-#   pool_size: 10
+config :helios, Helios.Repo,
+  url: System.get_env("DATABASE_URL", "ecto://postgres:postgres@localhost:5432/helios_dev"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
