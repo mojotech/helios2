@@ -12,7 +12,8 @@ config :helios, Helios.Repo,
       "ecto://postgres:postgres@localhost:5432/helios_test#{System.get_env("MIX_TEST_PARTITION")}"
     ),
   pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  pool_size: 10,
+  migration_source: "phoenix_schema_migrations"
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
