@@ -12,15 +12,15 @@ import WidgetController from '@components/widget-controller';
 import versionCompare from '@components/version-compare';
 import helioSchema from '@javascript/schema.json';
 import GlobalStyle from '../styles';
-import absintheLink from '../lib/phoenix-graphql-backend';
-import railsLink from '../lib/rails-graphql-backend';
 
 let link = null;
 
 if (process.env.BACKEND_LANGUAGE === 'elixir') {
-  link = absintheLink;
+  // eslint-disable-next-line global-require
+  link = require('../lib/phoenix-graphql-backend').default;
 } else {
-  link = railsLink;
+  // eslint-disable-next-line global-require
+  link = require('../lib/rails-graphql-backend').default;
 }
 
 const introspectionQueryResultData = {
