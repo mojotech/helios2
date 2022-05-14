@@ -10,7 +10,7 @@ module.exports = {
       'error',
       {
         env: 'apollo',
-        schemaJson: require('./app/javascript/schema.json'),
+        schemaJson: require('./src/schema.json'),
       },
     ],
     'react/jsx-one-expression-per-line': [0],

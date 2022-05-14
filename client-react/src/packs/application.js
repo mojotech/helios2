@@ -11,7 +11,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import App from '../components/app';
 
-import '@app/assets/stylesheets/base.scss';
+import '@assets/stylesheets/base.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.body.appendChild(document.createElement('div'));

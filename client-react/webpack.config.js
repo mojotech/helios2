@@ -6,7 +6,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 module.exports = {
   mode: 'development',
@@ -14,7 +14,7 @@ module.exports = {
     filename: 'js/[name]-[contenthash].js',
     chunkFilename: 'js/[name]-[contenthash].chunk.js',
     hotUpdateChunkFilename: 'js/[id]-[hash].hot-update.js',
-    path: path.resolve(__dirname, './server-phoenix/priv/static'),
+    path: path.resolve(__dirname, '../server-phoenix/priv/static'),
     publicPath: '/',
     pathinfo: true,
   },
@@ -38,33 +38,20 @@ module.exports = {
     plugins: [PnpWebpackPlugin],
     alias: {
       '@root': __dirname,
-      '@app': path.resolve(__dirname, 'app'),
-      '@javascript': path.resolve(__dirname, 'app/javascript'),
-      '@lib': path.resolve(__dirname, 'app/javascript/lib'),
-      '@components': path.resolve(__dirname, 'app/javascript/components'),
-      '@widgets': path.resolve(__dirname, 'app/javascript/components/widgets'),
-      '@messages': path.resolve(
-        __dirname,
-        'app/javascript/components/widgets/messages',
-      ),
-      '@numbers': path.resolve(
-        __dirname,
-        'app/javascript/components/widgets/numbers',
-      ),
-      '@weather': path.resolve(
-        __dirname,
-        'app/javascript/components/widgets/weather',
-      ),
-      '@twitter': path.resolve(
-        __dirname,
-        'app/javascript/components/widgets/twitter',
-      ),
-      '@hocs': path.resolve(__dirname, 'app/javascript/components/hocs'),
-      '@assets': path.resolve(__dirname, 'app/assets'),
-      '@images': path.resolve(__dirname, 'app/assets/images'),
-      '@icons': path.resolve(__dirname, 'app/assets/images/icons'),
+      '@javascript': path.resolve(__dirname, 'src'),
+      '@lib': path.resolve(__dirname, 'src/lib'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@widgets': path.resolve(__dirname, 'src/components/widgets'),
+      '@messages': path.resolve(__dirname, 'src/components/widgets/messages'),
+      '@numbers': path.resolve(__dirname, 'src/components/widgets/numbers'),
+      '@weather': path.resolve(__dirname, 'src/components/widgets/weather'),
+      '@twitter': path.resolve(__dirname, 'src/components/widgets/twitter'),
+      '@hocs': path.resolve(__dirname, 'src/components/hocs'),
+      '@assets': path.resolve(__dirname, 'assets'),
+      '@images': path.resolve(__dirname, 'assets/images'),
+      '@icons': path.resolve(__dirname, 'assets/images/icons'),
     },
-    modules: [path.resolve(__dirname, 'app/javascript'), 'node_modules'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   resolveLoader: {
     modules: ['node_modules'],
@@ -88,7 +75,7 @@ module.exports = {
     port: 3000,
     https: false,
     hot: false,
-    contentBase: path.resolve(__dirname, './server-phoenix/priv/static'),
+    contentBase: path.resolve(__dirname, '../server-phoenix/priv/static'),
     inline: true,
     useLocalIp: false,
     public: 'localhost:3000',
@@ -124,7 +111,7 @@ module.exports = {
     ],
   },
   entry: {
-    application: path.resolve(__dirname, 'app/javascript/packs/application.js'),
+    application: path.resolve(__dirname, 'src/packs/application.js'),
   },
   module: {
     strictExportPresence: true,
@@ -144,12 +131,12 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: function(file) {
-                if (file.includes('app/javascript')) {
+                if (file.includes('src')) {
                   return 'media/[path][name]-[hash].[ext]';
                 }
                 return 'media/[folder]/[name]-[hash:8].[ext]';
               },
-              context: 'app/javascript',
+              context: 'src',
             },
           },
         ],
@@ -325,7 +312,7 @@ module.exports = {
       },
       {
         test: new RegExp('\\.(js|jsx|mjs)?(\\.erb)?$', ''),
-        include: [path.resolve(__dirname, 'app/javascript')],
+        include: [path.resolve(__dirname, 'src')],
         exclude: new RegExp('node_modules', ''),
         use: [
           {

@@ -24,16 +24,10 @@ jobs:
           command: |
             cd server-phoenix && mix local.rebar --force && mix test
 
-  build:
+  build-react:
     docker:
       # specify the version you desire here
-       - image: cimg/ruby:2.6.9
-       - image: redis
-       - image: cimg/postgres:14.1
-         environment:
-           POSTGRES_USER: postgres
-           POSTGRES_PASSWORD: postgres
-           POSTGRES_DB: helios_test
+       - image: cimg/node:16.14.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -43,85 +37,32 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - run:
-          name: install node/yarn
-          command: |
-            curl -sL https://deb.nodesource.com/setup_16.x | sudo bash && sudo apt-get update -qq && sudo apt-get install -yq build-essential nodejs unzip && sudo npm install -g yarn
-
       - checkout
 
       - restore_cache:
           keys:
-          - gem-cache-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - gem-cache-
-
-      - run:
-          name: install gem dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: gem-cache-{{ checksum "Gemfile.lock" }}
-
-      - restore_cache:
-          keys:
-          - yarn-cache-{{ checksum "yarn.lock" }}
+          - yarn-cache-{{ checksum "client-react/yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
           - yarn-cache-
 
       - run:
           name: install yarn dependencies
           command: |
-            yarn install
+            cd client-react && yarn install
 
       - save_cache:
           paths:
             - ~/.yarn-cache
-          key: yarn-cache-{{ checksum "yarn.lock" }}
+          key: yarn-cache-{{ checksum "client-react/yarn.lock" }}
 
-      - run: yarn run prettier:check
-      - run: yarn run lint
-      - run: yarn run test
-
-      - run: bundle exec rubocop
-
-      # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
-      - run:
-          name: run diff on schema.json
-          command: |
-            bundle exec rake graphql:schema:dump
-            git diff --quiet schema.graphql
-
-      # run tests!
-      - run:
-          name: run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split --split-by=timings)"
-            
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+      - run: cd client-react && yarn run prettier:check
+      - run: cd client-react && yarn run lint
+      - run: cd client-react && yarn run test
 
 workflows:
   version: 2
-  build_and_phoenix:
+  build:
     jobs:
       - build-phoenix
-      - build
+      - build-react
 
