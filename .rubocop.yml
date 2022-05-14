@@ -62,3 +62,6 @@ Style/GlobalVars:
   Enabled: true
   AllowedVariables:
     - '$redis'
+
+Rails/BulkChangeTable:
+  Enabled: false
