@@ -6,8 +6,7 @@ defmodule HeliosWeb.Schema.Helpers.Ecto do
       nil ->
         params = Enum.into(params, %{})
         data = Map.merge(data, params)
-        response = Repo.insert!(data)
-        response
+        Repo.insert!(data)
 
       result ->
         result
