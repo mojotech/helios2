@@ -17,6 +17,9 @@ config :helios, HeliosWeb.Endpoint,
   pubsub_server: Helios.PubSub,
   live_view: [signing_salt: "ryFqXbhy"]
 
+config :exq,
+  url: System.get_env("REDIS_URL", "redis://localhost:6379/1")
+
 # Configure Twitter
 config :extwitter, :oauth,
   consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
