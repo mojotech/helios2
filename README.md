@@ -1,7 +1,26 @@
 # README
 
-This project is a Rails 5.2 app using webpacker and React.
+The tech stack for this project consists of:
+- Rails 5.2 Back end
+- or Phoenix 1.6 Back end
+- webpacker
+- graphQL
+- React Front end
 
+To use the Phoenix back end set the environment variables as follows:
+- BACKEND_URL=http://localhost:4000
+- BACKEND_LANGUAGE=elixir
+
+To use the Rails back end set the environment variables as follows:
+- BACKEND_URL=http://localhost:5001
+- BACKEND_LANGUAGE=ruby
+
+## Local development with Phoenix
+
+[View the README] in the server-phoenix directory.
+
+[View the README]: server-phoenix/README.me
+## Local development with Rails
 ### Ruby version
 
 MRI 2.6.9
@@ -97,7 +116,7 @@ Ubuntu:
 - Install Docker and docker-compose
 - `cp .env.local.sample .env` -- fill in env vars where applicable
 - Sign up for a free [OpenWeather API key](https://home.openweathermap.org/api_keys)
- 
+
   Note: the free API key has a daily limit of 1000 requests
 
 ### Start it up
@@ -119,7 +138,7 @@ Ubuntu:
 - Runs test script as defined by the package
 - `yarn run test`
 
-- Runs cypress tests 
+- Runs cypress tests
 - `yarn run cy:run`
 
 - Opens cypress test interface
