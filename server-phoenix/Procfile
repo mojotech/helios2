@@ -1,0 +1,2 @@
+release: MIX_ENV=prod mix assets.deploy && mix phx.digest && mix ecto.migrate
+web: MIX_ENV=prod mix phx.server
