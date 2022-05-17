@@ -1,0 +1,152 @@
+#!/usr/bin/env sh
+
+setup_echo() {
+  echo "[setup] $1"
+}
+
+set -e
+
+if command -v asdf >/dev/null; then
+  setup_echo "Updating asdf"
+  if [ -f "$HOME/.asdf/asdf.sh" ]; then
+    asdf update
+  elif which brew >/dev/null &&
+    BREW_DIR="$(dirname `which brew`)/.." &&
+    [ -f "$BREW_DIR/opt/asdf/asdf.sh" ]; then
+    brew upgrade asdf
+  else
+    setup_echo "WARNING: Unable to update asdf, skipping"
+  fi
+
+  setup_echo "Creating .tool-versions from Heroku buildpack configs"
+  if [ -f .tool-versions ]; then
+    rm .tool-versions
+  fi
+
+  # Set version variables from buildpacks
+  . server-phoenix/elixir_buildpack.config
+  . server-phoenix/phoenix_static_buildpack.config
+
+  echo "ruby 2.6.9" >> .tool-versions
+  echo "erlang $erlang_version" >> .tool-versions
+  echo "elixir $elixir_version" >> .tool-versions
+  echo "nodejs $node_version" >> .tool-versions
+
+  setup_echo "Installing Erlang"
+  if ! asdf plugin list | grep erlang; then
+    asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
+  else
+    asdf plugin update erlang
+  fi
+
+  export ERLANG_EXTRA_CONFIGURE_OPTIONS="--without-javac"
+  asdf install erlang ${erlang_version}
+
+  setup_echo "Installing Elixir"
+  if ! asdf plugin list | grep elixir; then
+    asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
+  else
+    asdf plugin update elixir
+  fi
+
+  asdf install elixir ${elixir_version}
+
+  setup_echo "Installing Node.js"
+  if ! asdf plugin list | grep nodejs; then
+    asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  else
+    asdf plugin update nodejs
+  fi
+
+  asdf install nodejs ${node_version}
+
+  setup_echo "Installing npm & yarn"
+  npm install -g npm@${npm_version}
+  npm install -g yarn@1.22.17
+
+  echo "yarn 1.22.17" >> .tool-versions
+
+  setup_echo "Reshiming Node.js"
+  asdf reshim nodejs
+else
+  setup_echo "This project recommends using the asdf version manager."
+  setup_echo "Please see README.md for more information."
+fi
+
+
+if [ ! -f .env ]; then
+  setup_echo "Creating .env from .env.sample"
+  cp .env.sample .env
+else
+  setup_echo "It looks like you already have a .env file."
+fi
+
+setup_echo "Removing previous build artifacts"
+rm -rf _build server-phoenix/assets/node_modules deps
+
+if ! command -v mix >/dev/null; then
+  setup_echo "It looks like you don't have Elixir installed."
+  setup_echo "Exiting."
+  exit 1
+fi
+
+setup_echo "Installing server-side dependencies and compiling"
+
+(cd server-phoenix;
+  mix local.rebar --force
+  mix local.hex --force
+  yes | mix deps.get
+  mix deps.compile
+  mix compile
+)
+
+setup_echo "Setting up the database"
+# Ensure migrations directory exists for first run
+mkdir -p "server-phoenix/priv/repo/migrations"
+
+# Uncomment these lines if you want to use a local Postgres db instance
+# Make sure postgreSQL has already been installed with homebrew
+# (cd server-phoenix;
+#   mix ecto.create
+#   mix ecto.migrate
+# )
+
+# Comment these lines to run postgres locally
+# Ensure docker has been installed
+if command -v brew >/dev/null; then
+  if [[ $(which docker) && $(docker --version) ]]; then
+    echo "Docker is already installed and the daemon is running"
+    # command
+  else
+    setup_echo "Install docker (macOS)"
+    brew install docker --cask
+  fi
+else
+  setup_echo "It looks like you don't have homebrew installed."
+fi
+
+if command -v brew >/dev/null; then
+  setup_echo "Installing redis (macOS)"
+  brew install redis
+else
+  setup_echo "It looks like you don't have homebrew installed."
+fi
+
+setup_echo "run dockerized postgres db with redis & seed the db"
+docker-compose up -d
+(cd server-phoenix;
+  mix ecto.create
+  mix ecto.migrate
+  mix run priv/repo/seeds.exs
+)
+
+setup_echo "Installing client-side dependencies"
+if ! command -v yarn >/dev/null; then
+  setup_echo "It looks like you don't have yarn installed."
+  setup_echo "Exiting."
+  exit 1
+fi
+
+yarn install
+
+setup_echo "Congratulations!  The setup script is complete."

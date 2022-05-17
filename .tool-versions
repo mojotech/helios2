@@ -1,4 +1,5 @@
 ruby 2.6.9
-yarn 1.22.4
-nodejs 16.14.0
+erlang 23.0.3
 elixir 1.13.3
+nodejs 16.14.0
+yarn 1.22.17
