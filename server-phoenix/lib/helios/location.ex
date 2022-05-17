@@ -1,21 +1,40 @@
 defmodule Helios.Location do
   use Ecto.Schema
+
+  import Ecto.Changeset
   import Ecto.Changeset
 
+  alias Helios.{Announcement, TrafficCam, Widget}
+
+  @required_fields [:latitude, :longitude, :city_name, :time_zone]
+
+  @optional_fields [:bathroom_code, :wifi_name, :wifi_passord]
+
+  @fields @required_fields ++ @optional_fields
+
   @primary_key {:id, :id, autogenerate: true}
+
   schema "locations" do
-    field :latitude, :float, presence: true
-    field :longitude, :float, presence: true
-    field :city_name, :string, presence: true, uniqueness: true
-    field :time_zone, :string, presence: true
+    has_many :announcements, Announcement
+    has_many :traffic_cams, TrafficCam
+    has_many :widgets, Widget
+
+    field :latitude, :float
+    field :longitude, :float
+    field :city_name, :string
+    field :time_zone, :string
     field :wifi_name, :string
     field :wifi_password, :string
     field :bathroom_code, :string
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
 
-    has_many :announcements, Helios.Announcement
-    has_many :traffic_cams, Helios.TrafficCam
-    has_many :widgets, Helios.Widget
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
+  end
+
+  def changeset(location, attrs \\ %{}) do
+    location
+    |> cast(attrs, @fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:city_name)
   end
 
   def time_now(%{time_zone: time_zone}) do

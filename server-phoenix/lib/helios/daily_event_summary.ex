@@ -1,13 +1,23 @@
 defmodule Helios.DailyEventSummary do
   use Ecto.Schema
+
+  import Ecto.Changeset
   import Ecto.Query
+
   alias Helios.{Repo, DailyEventSummary}
 
   schema "daily_event_summaries" do
-    field :source, :string, presence: true
-    field :day, :date, presence: true
-    field :count, :integer, presence: true
+    field :source, :string
+    field :day, :date
+    field :count, :integer
+
     timestamps(inserted_at: :created_at, type: :utc_datetime)
+  end
+
+  def changeset(daily_event_summary, attrs \\ %{}) do
+    daily_event_summary
+    |> cast(attrs, [:source, :day, :count])
+    |> validate_required([:source, :day, :count])
   end
 
   def archive!(event_scope) do
