@@ -9,7 +9,11 @@ import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 
 const webSocketURL = new URL(process.env.BACKEND_URL);
 
-webSocketURL.protocol = 'ws:';
+if (webSocketURL.protocol === 'https:') {
+  webSocketURL.protocol = 'wss:';
+} else {
+  webSocketURL.protocol = 'ws:';
+}
 
 const phoenixSocket = new PhoenixSocket(`${webSocketURL}/socket`);
 
