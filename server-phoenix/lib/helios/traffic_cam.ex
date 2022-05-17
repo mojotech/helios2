@@ -1,19 +1,29 @@
 defmodule Helios.TrafficCam do
   use Ecto.Schema
-  alias Helios.Location
+
+  import Ecto.Changeset
   import Ecto.Query
+
+  alias Helios.Location
 
   @primary_key {:id, :id, autogenerate: true}
   schema "traffic_cams" do
-    field :title, :string, presence: true
-    field :url, :string, presence: true
-    field :feed_format, :string, presence: true
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
-
     belongs_to :location, Location
+
+    field :title, :string
+    field :url, :string
+    field :feed_format, :string
+
+    timestamps(inserted_at: :created_at, type: :utc_datetime)
+  end
+
+  def changeset(traffic_cam, attrs \\ %{}) do
+    traffic_cam
+    |> cast(attrs, [:title, :url, :feed_format])
+    |> validate_required([:title, :url, :feed_format])
   end
 
   def with_location(query, location) do
-    from q in query, where: q.location_id == ^location.id
+    from(q in query, where: q.location_id == ^location.id)
   end
 end
