@@ -64,4 +64,8 @@ defmodule HeliosWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
+
+  scope "/", HeliosWeb do
+    get("/*path", PageController, :index)
+  end
 end
