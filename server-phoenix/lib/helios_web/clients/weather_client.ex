@@ -4,17 +4,15 @@ defmodule HeliosWeb.Clients.WeatherClient do
   def forecast(%{latitude: latitude, longitude: longitude}) do
     key = "openweather-response-#{latitude}-#{longitude}"
 
-    case get(latitude, longitude) do
-      {:ok, body} ->
-        {:ok,
-         ConCache.get_or_store(:weather_cache, key, fn ->
-           body
-         end)
-         |> Jason.decode!()}
+    ConCache.get_or_store(:weather_cache, key, fn ->
+      case get(latitude, longitude) do
+        {:ok, body} ->
+          {:ok, Jason.decode!(body)}
 
-      {:error, message} ->
-        {:error, message}
-    end
+        error ->
+          %ConCache.Item{value: error, ttl: 0}
+      end
+    end)
   end
 
   defp get(latitude, longitude) do
@@ -22,8 +20,6 @@ defmodule HeliosWeb.Clients.WeatherClient do
       HTTPoison.get!(
         "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{weather_api_key}&units=imperial"
       )
-
-    IO.inspect(response)
 
     case response do
       %{status_code: 200, body: body} ->
