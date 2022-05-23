@@ -107,7 +107,7 @@ Ubuntu:
 ### Start it up
 
 - `foreman start -f Procfile.development`
-- http://localhost:5000
+- http://localhost:3000
 
 ## Docker
 
@@ -123,7 +123,7 @@ Ubuntu:
 
 - `docker-compose build`
 - `docker-compose up`
-- http://localhost:5000
+- http://localhost:3000
 
 ### Commands for local lint/testing steps:
 
@@ -184,7 +184,7 @@ We have switched our client's default fetchPolicy to network-only, preferring to
 ### ActiveAdmin User Interface
 
 Use the admin interface to navigate models and edit their parameters. Can be used to alter the displayed wifi and bathroom codes, rearrange and adjust widget screen time, or even delete a traffic cam from view.
-- Accessible through http://localhost:5000/admin
+- Accessible through http://localhost:3000/admin
 - user email: admin@example.com
 - password: password
 
