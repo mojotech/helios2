@@ -90,8 +90,8 @@ export const SunriseSunset = ({ location, weather }) => {
     );
   }
 
-  const beginTime = take(1, afterNow)[0];
-  const endTime = takeLast(1, beforeNow)[0];
+  const beginTime = takeLast(1, beforeNow)[0];
+  const endTime = take(1, afterNow)[0];
 
   const capitalize = replace(/^./, toUpper());
 
