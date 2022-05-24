@@ -52,7 +52,9 @@ yarn-debug.log*
 
 # Ignore manifest
 /public/manifest.json
+/server-phoenix/priv/static/manifest.json
 
 # Ignore newly generated sqlite3 db
 /db/development.sqlite3-shm
 /db/development.sqlite3-wal
+/db/
