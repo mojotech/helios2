@@ -13,6 +13,6 @@ defmodule HeliosWeb.Schema.Types.Event do
     field(:id, non_null(:id))
     field(:external_id, non_null(:string))
     field(:source, non_null(:event_source))
-    field(:created_at, non_null(:datetime))
+    field(:inserted_at, non_null(:datetime))
   end
 end

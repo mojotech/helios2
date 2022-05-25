@@ -27,7 +27,7 @@ defmodule HeliosWeb.Clients.TweetTest do
       reply_count: nil,
       withheld_copyright: nil,
       user: %ExTwitter.Model.User{
-        created_at: "Wed Mar 16 14:57:07 +0000 2022",
+        inserted_at: "Wed Mar 16 14:57:07 +0000 2022",
         default_profile: true,
         default_profile_image: false,
         derived: nil,
@@ -58,7 +58,7 @@ defmodule HeliosWeb.Clients.TweetTest do
       favorite_count: 0,
       scopes: nil,
       current_user_retweet: nil,
-      created_at: "Wed Mar 16 16:59:00 +0000 2022",
+      inserted_at: "Wed Mar 16 16:59:00 +0000 2022",
       place: nil,
       full_text: nil,
       filter_level: nil,
@@ -77,13 +77,13 @@ defmodule HeliosWeb.Clients.TweetTest do
   defp test_tweet_retweet,
     do: %ExTwitter.Model.Tweet{
       in_reply_to_user_id: nil,
-      created_at: "Fri Mar 18 15:56:28 +0000 2022",
+      inserted_at: "Fri Mar 18 15:56:28 +0000 2022",
       source: "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
       reply_count: nil,
       withheld_scope: nil,
       id: 1_504_849_226_479_587_328,
       user: %ExTwitter.Model.User{
-        created_at: "Wed Mar 16 14:57:07 +0000 2022",
+        inserted_at: "Wed Mar 16 14:57:07 +0000 2022",
         default_profile: true,
         default_profile_image: false,
         derived: nil,
@@ -137,13 +137,13 @@ defmodule HeliosWeb.Clients.TweetTest do
       lang: "en",
       retweeted_status: %ExTwitter.Model.Tweet{
         in_reply_to_user_id: nil,
-        created_at: "Wed Mar 16 16:59:00 +0000 2022",
+        inserted_at: "Wed Mar 16 16:59:00 +0000 2022",
         source: "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
         reply_count: nil,
         withheld_scope: nil,
         id: 1_504_140_186_669_797_381,
         user: %ExTwitter.Model.User{
-          created_at: "Wed Mar 16 14:57:07 +0000 2022",
+          inserted_at: "Wed Mar 16 14:57:07 +0000 2022",
           default_profile: true,
           default_profile_image: false,
           derived: nil,
@@ -216,7 +216,7 @@ defmodule HeliosWeb.Clients.TweetTest do
   test "from_api normal status" do
     assert Tweet.from_api(test_tweet_normal()) ===
              %HeliosWeb.Clients.Tweet{
-               created_at: ~U[2022-03-16 16:59:00Z],
+               inserted_at: ~U[2022-03-16 16:59:00Z],
                interactions: %HeliosWeb.Clients.Tweet.InteractionQuery{
                  favorite_count: 0,
                  retweet_count: 0
@@ -235,7 +235,7 @@ defmodule HeliosWeb.Clients.TweetTest do
   test "from_api retweet status" do
     assert Tweet.from_api(test_tweet_retweet()) ===
              %HeliosWeb.Clients.Tweet{
-               created_at: ~U[2022-03-18 15:56:28Z],
+               inserted_at: ~U[2022-03-18 15:56:28Z],
                interactions: %HeliosWeb.Clients.Tweet.InteractionQuery{
                  favorite_count: 0,
                  retweet_count: 1

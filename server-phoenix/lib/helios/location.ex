@@ -27,7 +27,7 @@ defmodule Helios.Location do
     field :wifi_password, :string
     field :bathroom_code, :string
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps(inserted_at: :inserted_at, type: :utc_datetime)
   end
 
   def changeset(location, attrs \\ %{}) do

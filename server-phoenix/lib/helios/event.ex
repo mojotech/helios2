@@ -8,7 +8,7 @@ defmodule Helios.Event do
     field :source, Ecto.Enum, values: [:github_commit, :github_pull, :slack_message]
     field :external_id, :string
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps(inserted_at: :inserted_at, type: :utc_datetime)
   end
 
   def changeset(event, attrs \\ %{}) do
@@ -31,7 +31,7 @@ defmodule Helios.Event do
   end
 
   def created_after(query, c_after) when is_struct(c_after) do
-    from(q in query, where: q.created_at > ^c_after)
+    from(q in query, where: q.inserted_at > ^c_after)
   end
 
   def pull_requests(query) do
@@ -53,7 +53,7 @@ defmodule Helios.Event do
   def before_beginning_of_week(query) do
     bow = Date.to_iso8601(Date.utc_today() |> Date.beginning_of_week()) <> " " <> "00:00:00Z"
     bow = elem(DateTime.from_iso8601(bow), 1)
-    from(q in query, where: q.created_at < ^bow)
+    from(q in query, where: q.inserted_at < ^bow)
   end
 
   def count(query) do

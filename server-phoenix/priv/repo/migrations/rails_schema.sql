@@ -32,7 +32,7 @@ CREATE TABLE public.active_admin_comments (
     resource_id integer,
     author_type character varying,
     author_id integer,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -66,8 +66,8 @@ CREATE TABLE public.admin_users (
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
+    remember_inserted_at timestamp without time zone,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE public.announcements (
     company character varying,
     announcement_id character varying NOT NULL,
     location_id integer,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -134,7 +134,7 @@ ALTER SEQUENCE public.announcements_id_seq OWNED BY public.announcements.id;
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp(6) without time zone NOT NULL,
+    inserted_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
 
@@ -148,7 +148,7 @@ CREATE TABLE public.daily_event_summaries (
     source character varying NOT NULL,
     day date NOT NULL,
     count integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -181,7 +181,7 @@ CREATE TABLE public.developer_users (
     public_key text NOT NULL,
     git_handle character varying NOT NULL,
     slack_handle character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -249,7 +249,7 @@ CREATE TABLE public.events (
     id bigint NOT NULL,
     source character varying,
     external_id character varying,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -283,7 +283,7 @@ CREATE TABLE public.locations (
     longitude double precision NOT NULL,
     city_name character varying NOT NULL,
     time_zone character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     wifi_name character varying,
     wifi_password character varying,
@@ -328,7 +328,7 @@ CREATE TABLE public.traffic_cams (
     title character varying NOT NULL,
     url character varying NOT NULL,
     location_id integer,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     feed_format character varying DEFAULT 'image'::character varying NOT NULL
 );
@@ -361,7 +361,7 @@ CREATE TABLE public.users (
     id bigint NOT NULL,
     user_name character varying NOT NULL,
     public_key text NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -395,7 +395,7 @@ CREATE TABLE public.widgets (
     enabled boolean NOT NULL,
     duration_seconds integer NOT NULL,
     "position" integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     location_id integer,
     start character varying,
