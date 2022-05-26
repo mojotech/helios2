@@ -109,13 +109,13 @@
     "webpack-sources": "^1.3.0"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",
+    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src/",
     "test": "jest",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ ",
-    "prettier:format": "prettier --write '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
-    "prettier:check": "prettier --check '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
+    "prettier:format": "prettier --write '{src/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
+    "prettier:check": "prettier --check '{src/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
     "build": "webpack",
     "serve": "webpack-dev-server"
   },
@@ -123,29 +123,29 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "roots": [
-      "app/javascript"
+      "src"
     ],
     "moduleNameMapper": {
       "\\.(png|jpg|gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
       "react-hls-player": "<rootDir>/__mocks__/emptyMock.js",
       "^@root(.*)$": "<rootDir>/$1",
-      "^@app(.*)$": "<rootDir>/app$1",
-      "^@javascript(.*)$": "<rootDir>/app/javascript$1",
-      "^@lib(.*)$": "<rootDir>/app/javascript/lib$1",
-      "^@components(.*)$": "<rootDir>/app/javascript/components$1",
-      "^@widgets(.*)$": "<rootDir>/app/javascript/components/widgets$1",
-      "^@messages(.*)$": "<rootDir>/app/javascript/components/widgets/messages$1",
-      "^@numbers(.*)$": "<rootDir>/app/javascript/components/widgets/numbers$1",
-      "^@weather(.*)$": "<rootDir>/app/javascript/components/widgets/weather$1",
-      "^@twitter(.*)$": "<rootDir>/app/javascript/components/widgets/twitter$1",
-      "^@hocs(.*)$": "<rootDir>/app/javascript/components/hocs$1",
+      "^@app(.*)$": "<rootDir>/src$1",
+      "^@javascript(.*)$": "<rootDir>/src$1",
+      "^@lib(.*)$": "<rootDir>/src/lib$1",
+      "^@components(.*)$": "<rootDir>/src/components$1",
+      "^@widgets(.*)$": "<rootDir>/src/components/widgets$1",
+      "^@messages(.*)$": "<rootDir>/src/components/widgets/messages$1",
+      "^@numbers(.*)$": "<rootDir>/src/components/widgets/numbers$1",
+      "^@weather(.*)$": "<rootDir>/src/components/widgets/weather$1",
+      "^@twitter(.*)$": "<rootDir>/src/components/widgets/twitter$1",
+      "^@hocs(.*)$": "<rootDir>/src/components/hocs$1",
       "^@assets(.*)$": "<rootDir>/app/assets$1",
       "^@images(.*)$": "<rootDir>/app/assets/images$1",
       "^@icons(.*)$": "<rootDir>/app/assets/images/icons$1"
     },
     "moduleDirectories": [
       "node_modules",
-      "app/javascript"
+      "src"
     ]
   }
 }

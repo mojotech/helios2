@@ -1,2 +1,2 @@
 phoenix: cd ./server-phoenix/ && mix phx.server
-webpack: yarn serve
+webpack: yarn --cwd client-react/ serve
