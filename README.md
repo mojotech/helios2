@@ -147,6 +147,9 @@ Ubuntu:
 - Ruby-specific code style checker, reports and automaticaly fixes errors
 - `bundle exec rubocop`
 
+- While in server-phoenix, dumps the GraphQL schema
+- `mix absinthe.schema.json --schema HeliosWeb.Schema --pretty ../app/javascript/`
+
 #### Spin up Rails Console
 
 - have the docker image running in one terminal tab (`docker-compose up`)
