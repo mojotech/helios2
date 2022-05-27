@@ -11,7 +11,7 @@ defmodule Helios.User do
     field :user_name, :string
     field :public_key, :string
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
   end
 
   def changeset(user, attrs \\ %{}) do

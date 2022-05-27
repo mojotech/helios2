@@ -25,7 +25,7 @@ defmodule Helios.Widget do
     field :sidebar_text, :string
     field :show_weather, :boolean
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
   end
 
   def changeset(widget, attrs \\ %{}) do
