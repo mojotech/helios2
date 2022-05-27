@@ -14,7 +14,7 @@ defmodule Helios.TrafficCam do
     field :url, :string
     field :feed_format, :string
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
   end
 
   def changeset(traffic_cam, attrs \\ %{}) do

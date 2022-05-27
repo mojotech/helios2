@@ -24,7 +24,7 @@ type EmployeeEventCollection {
 }
 
 type Event {
-  createdAt: DateTime!
+  insertedAt: DateTime!
   externalId: String!
   id: ID!
   source: EventSource!
@@ -103,7 +103,7 @@ type Location {
 }
 
 type MojoTweet {
-  createdAt: DateTime!
+  insertedAt: DateTime!
   interactions: TweetInteraction!
   media: TweetMedia
   status: String!

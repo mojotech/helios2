@@ -12,7 +12,7 @@ defmodule Helios.DeveloperUser do
     field :git_handle, :string
     field :slack_handle, :string
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
   end
 
   def changeset(user, attrs \\ %{}) do

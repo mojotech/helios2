@@ -11,7 +11,7 @@ defmodule Helios.DailyEventSummary do
     field :day, :date
     field :count, :integer
 
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
   end
 
   def changeset(daily_event_summary, attrs \\ %{}) do
@@ -26,7 +26,7 @@ defmodule Helios.DailyEventSummary do
     |> group_by([e], fragment("day"))
     |> select([e], %{
       source: e.source,
-      day: fragment("date(created_at) as day"),
+      day: fragment("date(inserted_at) as day"),
       count: count(e.id)
     })
     |> Repo.all()
