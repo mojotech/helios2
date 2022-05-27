@@ -36,3 +36,17 @@ The Slack Helios App should be subscribed to all `message` Workspace Events in t
 
 The Slack Helios Bot should be subscribed to the `app_mention` Bot Event.
 For the bot to send messages back, the _Incoming Webhooks_ App should be installed from the [Slack App Directory](https://mojotech.slack.com/apps). The `Webhook URL` provided by this app should be supplied to the `SLACK_WEBHOOK_URL` environment variable.
+
+## Twitter
+
+Sign up for a Twitter developer account [here](https://developer.twitter.com/en/portal/petition/essential/basic-info). This will require a new or existing Twitter account.
+This process should also walk you through the process of creating and acquiring API keys for your first app.
+
+You will likely need to [apply for 'Elevated' API access](https://developer.twitter.com/en/portal/products/elevated). This is necessary for Twitter API v1 access, and might take some time for approval.
+This will give you access to your "Access Tokens".
+
+Once access is granted, all the keys needed for your environment variables can be found in your App's "Keys and Tokens" page on the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard), named as follows:
+- `TWITTER_CONSUMER_KEY=<API Key>`
+- `TWITTER_CONSUMER_SECRET=<API Secret>`
+- `TWITTER_ACCESS_TOKEN=<Authentication Token>`
+- `TWITTER_ACCESS_SECRET=<Authentication Secret>`
