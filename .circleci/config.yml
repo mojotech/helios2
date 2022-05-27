@@ -20,6 +20,15 @@ jobs:
             cd server-phoenix && mix local.hex --force && mix deps.get && mix format --check-formatted
 
       - run:
+          name: run diff on schema.json
+          command: |
+            cd server-phoenix
+            mix local.rebar --force
+            mix absinthe.schema.json --schema HeliosWeb.Schema --pretty ../app/javascript/schema.json
+            cd ..
+            git diff --quiet ./app/javascript/schema.json
+
+      - run:
           name: Unit Test
           command: |
             cd server-phoenix && mix local.rebar --force && mix test
@@ -91,12 +100,6 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-
-      - run:
-          name: run diff on schema.json
-          command: |
-            bundle exec rake graphql:schema:dump
-            git diff --quiet schema.graphql
 
       # run tests!
       - run:
