@@ -15,7 +15,7 @@ const subscribeAnnouncementPublished = gql`
       people
       company
       publishOn
-      id
+      announcementId
     }
   }
 `;
@@ -28,6 +28,7 @@ const getLocationAnnouncements = gql`
         people
         company
         publishOn
+        announcementId
       }
     }
   }
@@ -77,7 +78,7 @@ Announcement.propTypes = {
     people: PropTypes.string.isRequired,
     company: PropTypes.string.isRequired,
     publishOn: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    announcementId: PropTypes.string.isRequired,
   }).isRequired,
 };
 
