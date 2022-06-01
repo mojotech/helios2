@@ -12,7 +12,7 @@ const getMojoTweets = gql`
   query getTweets {
     tweets {
       status
-      createdAt
+      insertedAt
       text
       interactions {
         favoriteCount
@@ -70,7 +70,7 @@ const Twitter = ({ tweets }) => {
         <TweetDivider>Previous Tweets</TweetDivider>
         <TabBar />
         {previous.map(tweet => (
-          <React.Fragment key={tweet.createdAt}>
+          <React.Fragment key={tweet.insertedAt}>
             <Tweet tweet={tweet} isPrimary={false} />
             <TabBar />
           </React.Fragment>
@@ -83,7 +83,7 @@ const Twitter = ({ tweets }) => {
 Twitter.propTypes = {
   tweets: PropTypes.arrayOf(
     PropTypes.shape({
-      createdAt: PropTypes.string.isRequired,
+      insertedAt: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       interactions: PropTypes.shape({
         favoriteCount: PropTypes.number.isRequired,

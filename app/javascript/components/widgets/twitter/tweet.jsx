@@ -42,7 +42,7 @@ const RetweetIcon = styled.img`
 `;
 
 const Tweet = ({
-  tweet: { status, createdAt, text, interactions, media, user },
+  tweet: { status, insertedAt, text, interactions, media, user },
   isPrimary,
 }) => {
   return (
@@ -57,7 +57,7 @@ const Tweet = ({
 
       <TweetWrapper primary={isPrimary}>
         <TwitterProfile
-          dateCreated={parseMonthDate(createdAt)}
+          dateCreated={parseMonthDate(insertedAt)}
           user={user}
           isPrimary={isPrimary}
         />
@@ -76,7 +76,7 @@ const Tweet = ({
 Tweet.propTypes = {
   tweet: PropTypes.shape({
     status: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
+    insertedAt: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     interactions: PropTypes.shape({
       favoriteCount: PropTypes.number.isRequired,

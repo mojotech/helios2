@@ -19,7 +19,7 @@ defmodule Helios.Announcement do
     field :people, :string
     field :company, :string
     field :announcement_id, :string
-    timestamps(inserted_at: :created_at, type: :utc_datetime)
+    timestamps()
 
     belongs_to :location, Location
   end
