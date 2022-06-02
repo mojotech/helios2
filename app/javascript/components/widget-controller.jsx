@@ -56,12 +56,17 @@ export const WidgetController = ({ client, cityName }) => {
       variables={{ id: newWidgetId, cityName }}
       fetchPolicy={fetchPolicy}
     >
-      {({ loading, error, data }) => {
+      {({ loading, error, data, refetch }) => {
         if (loading) {
           return <LoadingDisplay cityName={cityName} loading={loading} />;
         }
 
         if (error) {
+          setTimeout(async () => {
+            await client.resetStore();
+            await refetch();
+          }, 5000);
+
           // eslint-disable-next-line
           console.error(error);
           return <DisconnectedDisplay cityName={cityName} error={error} />;
