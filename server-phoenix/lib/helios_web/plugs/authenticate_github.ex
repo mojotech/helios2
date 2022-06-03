@@ -6,7 +6,7 @@ defmodule HeliosWeb.Plugs.AuthenticateGithub do
 
   def init(default), do: default
 
-  def call(conn, default) do
+  def call(conn, _default) do
     if conn.request_path != "web_hooks/github" do
       conn
     else
