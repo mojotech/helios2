@@ -11,6 +11,7 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+require('dotenv').config();
 
 /**
  * @type {Cypress.PluginConfig}
@@ -19,4 +20,6 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+  // eslint-disable-next-line no-param-reassign
+  return { ...config, env: { ...process.env, ...config.env } };
+};

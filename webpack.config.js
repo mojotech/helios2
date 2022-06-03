@@ -8,6 +8,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
+const frontendUrl = new URL(
+  process.env.FRONTEND_URL || 'http://localhost:3000',
+);
+
 module.exports = {
   mode: 'development',
   output: {
@@ -85,13 +89,13 @@ module.exports = {
     quiet: false,
     disableHostCheck: true,
     host: '0.0.0.0',
-    port: 3000,
+    port: frontendUrl.port,
     https: false,
     hot: false,
     contentBase: path.resolve(__dirname, './server-phoenix/priv/static'),
     inline: true,
     useLocalIp: false,
-    public: 'localhost:3000',
+    public: frontendUrl.host,
     publicPath: '/',
     historyApiFallback: {
       disableDotRule: true,
@@ -143,7 +147,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: function(file) {
+              name(file) {
                 if (file.includes('app/javascript')) {
                   return 'media/[path][name]-[hash].[ext]';
                 }

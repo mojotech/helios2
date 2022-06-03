@@ -2,7 +2,7 @@
   describe('main page, smoke test', () => {
     beforeEach(() => {
       cy.fixViewport();
-      cy.visit(`http://localhost:3000/${location}`);
+      cy.visit(`${Cypress.env('FRONTEND_URL')}/${location}`);
       cy.waitForInitialContent();
     });
 
