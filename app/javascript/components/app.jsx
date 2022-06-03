@@ -11,9 +11,30 @@ import { persistCache } from 'apollo-cache-persist';
 import WidgetController from '@components/widget-controller';
 import versionCompare from '@components/version-compare';
 import helioSchema from '@javascript/schema.json';
+import { fetch } from 'isomorphic-fetch';
+import { from } from 'apollo-link';
+import { onError } from 'apollo-link-error';
 import GlobalStyle from '../styles';
 
 let link = null;
+
+// eslint-disable-next-line new-cap
+export const errorLink = new onError(
+  ({ operation, response, graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message, locations, path }) =>
+        // eslint-disable-next-line
+        console.log(
+          `[GraphQL Error]: Message: ${message}, Location: ${locations}, Path: ${path}, Operation: ${operation}, Response: ${response}`,
+        ),
+      );
+    }
+
+    if (networkError) {
+      console.log(`[Network Error]: ${networkError}`); //eslint-disable-line
+    }
+  },
+);
 
 if (process.env.BACKEND_LANGUAGE === 'elixir') {
   // eslint-disable-next-line global-require
@@ -47,7 +68,7 @@ persistCache({
 });
 
 const client = new ApolloClient({
-  link,
+  link: from([errorLink, link]),
   cache,
   defaultOptions: {
     query: {
@@ -59,6 +80,7 @@ const client = new ApolloClient({
       errorPolicy: 'none',
     },
   },
+  fetch,
 });
 
 versionCompare(client);
