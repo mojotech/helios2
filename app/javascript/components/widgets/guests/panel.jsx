@@ -110,6 +110,8 @@ const Guests = ({ cityName }) => (
   <Query query={getLocationAnnouncements} variables={{ cityName }}>
     {({ loading, error, data, subscribeToMore }) => {
       if (error) {
+        // eslint-disable-next-line
+        console.error(error);
         return <DisconnectedMessage />;
       }
 

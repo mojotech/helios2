@@ -72,6 +72,8 @@ export class Date extends React.Component {
     }
 
     if (error) {
+      // eslint-disable-next-line
+      console.error(error);
       return <ErrorMessage />;
     }
 
