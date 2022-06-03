@@ -8,7 +8,7 @@ defmodule HeliosWeb.AbsintheSocketDecorator do
     }
   )
 
-  def connect(params, socket) do
+  def connect(_params, socket) do
     IO.puts("socket decorator connect")
     {:ok, socket}
   end

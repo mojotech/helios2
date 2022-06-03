@@ -18,7 +18,7 @@ defmodule HeliosWeb.Clients.WeatherClient do
   defp get(latitude, longitude) do
     response =
       HTTPoison.get!(
-        "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{weather_api_key}&units=imperial"
+        "https://api.openweathermap.org/data/2.5/onecall?lat=#{latitude}&lon=#{longitude}&appid=#{weather_api_key()}&units=imperial"
       )
 
     case response do
