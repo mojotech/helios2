@@ -1,7 +1,6 @@
 defmodule HeliosWeb.Schema.Resolvers.Widget do
   alias HeliosWeb.Clients.WeatherClient
   alias HeliosWeb.TestData.TrafficCams, as: TrafficCamsData
-  alias Helios.Widget
 
   def day_announcements(_parent, _args, _info) do
     {:ok, []}
