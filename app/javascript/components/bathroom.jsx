@@ -23,6 +23,8 @@ export const Bathroom = ({ loading, error, location }) => {
     return <LoadingMessage />;
   }
   if (error) {
+    // eslint-disable-next-line
+    console.error(error);
     return <ErrorMessage />;
   }
 
