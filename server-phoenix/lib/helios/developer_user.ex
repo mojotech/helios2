@@ -4,8 +4,6 @@ defmodule Helios.DeveloperUser do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Helios.User
-
   @primary_key {:id, :id, autogenerate: true}
   schema "developer_users" do
     field :public_key, :string

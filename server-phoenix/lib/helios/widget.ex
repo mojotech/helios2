@@ -4,8 +4,6 @@ defmodule Helios.Widget do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Helios.{Repo, Location}
-
   @required_fields [:name, :enabled, :duration_seconds, :position]
 
   @optional_fields [:start, :stop, :sidebar_text, :show_weather]

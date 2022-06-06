@@ -1,6 +1,5 @@
 defmodule HeliosWeb.WebHooks.PublishController do
   use HeliosWeb, :controller
-  alias Helios.{Repo, Event}
 
   def handle(conn, params) do
     event =
