@@ -43,7 +43,6 @@ defmodule HeliosWeb.AbsintheChannelDecorator do
           ]
 
           opts = Keyword.put(config_opts, :variables, variables)
-          context = socket.assigns.absinthe.opts[:context]
           run(query, config[:schema], config[:pipeline], opts)
         end
 
