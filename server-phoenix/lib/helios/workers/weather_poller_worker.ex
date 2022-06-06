@@ -1,6 +1,5 @@
 defmodule Helios.Workers.WeatherPollerWorker do
   use Absinthe.Schema.Notation
-  import Ecto.Query
   alias HeliosWeb.Schema.Types.Sub
   alias HeliosWeb.Clients.WeatherClient
 
