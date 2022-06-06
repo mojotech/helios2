@@ -6,7 +6,7 @@ defmodule Helios.Workers.WeatherPollerWorker do
   def perform do
     IO.puts("Running weather poll")
 
-    Enum.each(locations, fn location ->
+    Enum.each(locations(), fn location ->
       get_forecast(location)
     end)
   end
@@ -20,7 +20,7 @@ defmodule Helios.Workers.WeatherPollerWorker do
   end
 
   def locations do
-    Enum.map(subscriptions, fn subscription ->
+    Enum.map(subscriptions(), fn subscription ->
       %LocationParams{latitude: subscription.latitude, longitude: subscription.longitude}
     end)
   end
