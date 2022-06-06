@@ -2,7 +2,6 @@ defmodule Helios.DeveloperUser do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
 
   @primary_key {:id, :id, autogenerate: true}
   schema "developer_users" do
