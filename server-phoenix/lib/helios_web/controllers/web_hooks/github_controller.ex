@@ -32,7 +32,9 @@ defmodule HeliosWeb.WebHooks.GithubController do
   end
 
   defp github_push(payload) do
-    if payload["ref"] == "refs/heads/master" do
+    branch_pushed_to = payload["ref"] |> String.split("/") |> Enum.drop(2) |> Enum.join("/")
+
+    if payload["repository"]["default_branch"] == branch_pushed_to do
       Enum.each(payload["commits"], fn commit ->
         unless(
           Event

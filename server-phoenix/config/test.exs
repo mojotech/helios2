@@ -33,3 +33,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disables redis for test
 config :exq, start_on_application: false
+
+config :cors_plug,
+  origin: ["*"],
+  methods: ["*"]
