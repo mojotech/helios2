@@ -158,6 +158,46 @@ defmodule HeliosWeb.WebHooks.GithubControllerTest do
     assert length(commits) == 1
   end
 
+  test "push: proper author field", %{conn: conn} do
+    conn
+    |> put_req_header("content-type", "application/json")
+    |> put_req_header("x-github-event", "push")
+    |> post(
+      Routes.github_path(conn, :handle),
+      %{
+        ref: "refs/heads/master",
+        commits: [
+          %{
+            id: "a26asde67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
+            author: %{name: "Cole Manning"}
+          }
+        ],
+        repository: %{default_branch: "master"}
+      }
+    )
+
+    assert get_author(get_commits(), 0) == {:ok, "Cole Manning"}
+  end
+
+  test "pr: proper author field", %{conn: conn} do
+    conn
+    |> put_req_header("content-type", "application/json")
+    |> put_req_header("x-github-event", "pull_request")
+    |> post(
+      Routes.github_path(conn, :handle),
+      %{
+        action: "opened",
+        pull_request: %{
+          url: "https://api.github.com/repos/Codertocat/Hello-World/pulls/2",
+          id: "279147437",
+          user: %{login: "RVRX"}
+        }
+      }
+    )
+
+    assert get_author(get_prs(), 0) == {:ok, "RVRX"}
+  end
+
   defp get_commits() do
     Event
     |> Event.commits()
@@ -168,5 +208,9 @@ defmodule HeliosWeb.WebHooks.GithubControllerTest do
     Event
     |> Event.pull_requests()
     |> Repo.all()
+  end
+
+  defp get_author(events, index) do
+    events |> Enum.at(index) |> Map.fetch(:source_author)
   end
 end
