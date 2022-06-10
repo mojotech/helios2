@@ -57,10 +57,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{config_env()}.exs"
-
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 config :cors_plug,
@@ -72,3 +68,7 @@ config :helios, Helios.Scheduler,
     {"*/5 * * * *", {Helios.Workers.ShaPollerWorker, :perform, []}},
     {"*/5 * * * *", {Helios.Workers.WeatherPollerWorker, :perform, []}}
   ]
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{config_env()}.exs"
