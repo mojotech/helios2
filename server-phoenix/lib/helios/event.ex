@@ -7,6 +7,7 @@ defmodule Helios.Event do
   schema "events" do
     field :source, Ecto.Enum, values: [:github_commit, :github_pull, :slack_message]
     field :external_id, :string
+    field :source_author, :string
 
     timestamps()
   end
