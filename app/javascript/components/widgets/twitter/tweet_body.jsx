@@ -96,6 +96,15 @@ const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
+  if (images !== null && !isPrimary) {
+    return (
+      <OneMediaType
+        displayText={displayText}
+        images={images}
+        linkUrl={undefined}
+      />
+    );
+  }
   if ((images === null && link === null) || !isPrimary) {
     return <TweetText text={displayText} isPrimary={isPrimary} />;
   }
