@@ -21,10 +21,18 @@ defmodule HeliosWeb.Schema.Resolvers.EventCollection do
           Event
       end
 
+    {:ok, event_query}
+  end
+
+  def all(parent, _args, _info) do
+    {:ok, Repo.all(parent)}
+  end
+
+  def count(parent, _args, _info) do
     {:ok,
-     %{
-       all: Repo.all(event_query),
-       count: Event.count(event_query) |> Repo.all() |> Enum.into(%{})
-     }}
+     parent
+     |> Event.count()
+     |> Repo.all()
+     |> Enum.into(%{github_pull: 0, github_commit: 0, slack_message: 0})}
   end
 end
