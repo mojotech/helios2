@@ -24,7 +24,7 @@ defmodule HeliosWeb.Schema.Resolvers.EventCollection do
     {:ok,
      %{
        all: Repo.all(event_query),
-       count: Event.count(Event) |> Repo.all() |> Enum.into(%{})
+       count: Event.count(event_query) |> Repo.all() |> Enum.into(%{})
      }}
   end
 end
