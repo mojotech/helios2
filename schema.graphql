@@ -26,15 +26,22 @@ type Announcement {
     publishOn: DateTime!
 }
 
+type AuthorContribution {
+    count: Int
+    sourceAuthor: String
+}
+
 type Event {
     externalId: String!
     id: ID!
     insertedAt: DateTime!
     source: EventSource!
+    sourceAuthor: String!
 }
 
 type EventCollection {
     all: [Event]!
+    byAuthor(top: Int): [AuthorContribution]
     count: EventCount!
 }
 

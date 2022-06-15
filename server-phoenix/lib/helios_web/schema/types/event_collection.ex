@@ -8,9 +8,19 @@ defmodule HeliosWeb.Schema.Types.EventCollection do
     field(:slack_message, :integer)
   end
 
+  object :author_contribution do
+    field(:count, :integer)
+    field(:source_author, :string)
+  end
+
   object :event_collection do
     field(:all, non_null(list_of(:event))) do
       resolve(&EventCollection.all/3)
+    end
+
+    field(:by_author, list_of(:author_contribution)) do
+      arg(:top, :integer)
+      resolve(&EventCollection.by_author/3)
     end
 
     field(:count, non_null(:event_count),

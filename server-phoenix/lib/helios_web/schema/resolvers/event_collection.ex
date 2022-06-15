@@ -28,6 +28,13 @@ defmodule HeliosWeb.Schema.Resolvers.EventCollection do
     {:ok, Repo.all(parent)}
   end
 
+  def by_author(parent, args, _info) do
+    {:ok,
+     parent
+     |> Event.top_commits_by_author(Map.get(args, :top, nil))
+     |> Repo.all()}
+  end
+
   def count(parent, _args, _info) do
     {:ok,
      parent
