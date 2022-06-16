@@ -46,7 +46,7 @@ BothMediaTypes.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      media_url: PropTypes.string.isRequired,
+      mediaUrl: PropTypes.string.isRequired,
     }),
   ),
   linkUrl: PropTypes.string,
@@ -68,7 +68,7 @@ OneMediaType.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      media_url: PropTypes.string.isRequired,
+      mediaUrl: PropTypes.string.isRequired,
     }),
   ),
   linkUrl: PropTypes.string,
