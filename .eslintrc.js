@@ -1,7 +1,7 @@
 module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb', 'prettier'],
-  plugins: ['prettier', 'import', 'graphql', 'react-hooks'],
+  plugins: ['prettier', 'import', 'graphql', 'react-hooks', 'html'],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-indent': [0],
