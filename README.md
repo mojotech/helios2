@@ -3,7 +3,7 @@
 The tech stack for this project consists of:
 - Rails 5.2 Back end
 - or Phoenix 1.6 Back end
-- webpacker
+- esbuild 
 - graphQL
 - React Front end
 
