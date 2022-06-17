@@ -1,7 +1,7 @@
 import { AnticipatedPrecipitation } from './current-weather';
 
 describe('AnticipatedPrecipitation component', () => {
-  test('Light Precipitation starting in 10 minutes and continuing past the hour.', () => {
+  test('Light precipitation starting in 10 minutes and continuing past the hour.', () => {
     const precip = [];
     for (let i = 0; i < 61; i += 1) {
       if (i >= 0 && i < 10) {
@@ -13,10 +13,10 @@ describe('AnticipatedPrecipitation component', () => {
     const weather = { minutely: precip };
     const result = AnticipatedPrecipitation({ weather });
     expect(result).toBe(
-      'Light Precipitation starting in 10 minutes and continuing past the hour.',
+      'Light precipitation starting in 10 minutes and continuing past the hour.',
     );
   });
-  test('Moderate Precipitation starting in 10 minutes and ending in 50 minutes.', () => {
+  test('Moderate precipitation starting in 10 minutes and ending in 50 minutes.', () => {
     const precip = [];
     for (let i = 0; i < 61; i += 1) {
       if (i >= 0 && i < 10) {
@@ -30,7 +30,7 @@ describe('AnticipatedPrecipitation component', () => {
     const weather = { minutely: precip };
     const result = AnticipatedPrecipitation({ weather });
     expect(result).toBe(
-      'Moderate Precipitation starting in 10 minutes and ending in 50 minutes.',
+      'Moderate precipitation starting in 10 minutes and ending in 50 minutes.',
     );
   });
   test('Array with all 0s expects empty string to return', () => {

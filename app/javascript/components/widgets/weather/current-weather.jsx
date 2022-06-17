@@ -61,13 +61,13 @@ export const AnticipatedPrecipitation = ({ weather }) => {
   }
   switch (true) {
     case averagePrecipitation > 50.0:
-      return `Violent Precipitation starting ${descStart} and ${descEnd}`;
+      return `Violent precipitation starting ${descStart} and ${descEnd}`;
     case averagePrecipitation > 7.5:
-      return `Heavy Precipitation starting ${descStart} and ${descEnd}`;
+      return `Heavy precipitation starting ${descStart} and ${descEnd}`;
     case averagePrecipitation > 2.5:
-      return `Moderate Precipitation starting ${descStart} and ${descEnd}`;
+      return `Moderate precipitation starting ${descStart} and ${descEnd}`;
     default:
-      return `Light Precipitation starting ${descStart} and ${descEnd}`;
+      return `Light precipitation starting ${descStart} and ${descEnd}`;
   }
 };
 
