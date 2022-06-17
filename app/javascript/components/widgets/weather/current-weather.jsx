@@ -17,6 +17,11 @@ export const getCurrentWeather = gql`
     minutely {
       precipitation
     }
+    hourly {
+      weather {
+        id
+      }
+    }
   }
 `;
 
@@ -49,6 +54,17 @@ export const AnticipatedPrecipitation = ({ weather }) => {
   if (precip.length === 0) {
     return '';
   }
+  let precipitationType = 'precipitation';
+  const weatherId = weather.hourly[0].weather.id;
+  if (weatherId >= 200 && weatherId <= 232) {
+    precipitationType = 'rain and thunderstorms';
+  } else if (weatherId >= 300 && weatherId <= 531) {
+    precipitationType = 'rain';
+  } else if (weatherId >= 600 && weatherId <= 602) {
+    precipitationType = 'snow';
+  } else if (weatherId >= 611 && weatherId <= 613) {
+    precipitationType = 'sleet';
+  }
   const averagePrecipitation =
     precip.reduce((acc, val) => acc + val.value, 0) / precip.length;
   let descStart = `in ${precip[0].minute} minutes`;
@@ -61,13 +77,13 @@ export const AnticipatedPrecipitation = ({ weather }) => {
   }
   switch (true) {
     case averagePrecipitation > 50.0:
-      return `Violent precipitation starting ${descStart} and ${descEnd}`;
+      return `Violent ${precipitationType} starting ${descStart} and ${descEnd}`;
     case averagePrecipitation > 7.5:
-      return `Heavy precipitation starting ${descStart} and ${descEnd}`;
+      return `Heavy ${precipitationType} starting ${descStart} and ${descEnd}`;
     case averagePrecipitation > 2.5:
-      return `Moderate precipitation starting ${descStart} and ${descEnd}`;
+      return `Moderate ${precipitationType} starting ${descStart} and ${descEnd}`;
     default:
-      return `Light precipitation starting ${descStart} and ${descEnd}`;
+      return `Light ${precipitationType} starting ${descStart} and ${descEnd}`;
   }
 };
 
