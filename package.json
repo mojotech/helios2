@@ -111,6 +111,13 @@
     "sass-loader": "^13.0.0",
     "style-loader": "^3.3.1"
   },
+  "resolutions": {
+    "live-server/**/glob-parent": "^6.0.2",
+    "eslint-plugin-graphql/**/node-fetch": "^3.2.6",
+    "eslint-plugin-graphql/**/cross-fetch": "^3.1.5",
+    "react-svg-loader/**/nth-check": "^2.1.1",
+    "eslint-plugin-graphql/**/ws": "^8.8.0"
+  },
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx app/javascript/",
     "test": "jest",
