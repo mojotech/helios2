@@ -29,6 +29,7 @@ const buildConfig = {
   minify: true,
   outfile: 'server-phoenix/priv/static/assets/application.js',
   define,
+  publicPath: '/assets',
   metafile: true,
   external: ['node_modules'],
   loader: {
@@ -75,7 +76,7 @@ async function serve() {
     });
 
   liveServer.start({
-    root: 'server-phoenix/priv/static/assets',
+    root: 'server-phoenix/priv/static/',
     file: 'index.html',
     open: false,
     port: parseInt(frontendUrl.port, 10),
