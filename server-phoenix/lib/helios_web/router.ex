@@ -31,6 +31,10 @@ defmodule HeliosWeb.Router do
     post("/publish", PublishController, :handle)
   end
 
+  scope "/api/v:version/events", HeliosWeb.EventsAPI do
+    post("/", EventsAPIController, :handle)
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", HeliosWeb do
   #   pipe_through :api
