@@ -20,6 +20,15 @@ defmodule HeliosWeb.EventsAPI.EventsAPIController do
           params["author"]
         )
 
+      "github_pr" ->
+        post_event(
+          conn,
+          Event.pull_requests(Event),
+          :github_pull,
+          params["event_id"],
+          params["author"]
+        )
+
       _ ->
         send_resp(conn, 400, "Bad Request")
     end
