@@ -117,7 +117,7 @@
     "prettier:format": "prettier --write '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
     "prettier:check": "prettier --check '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json webpack.config.js",
     "build": "node ./esbuild.config.js",
-    "serve": "cp app/javascript/packs/index.html server-phoenix/priv/static/assets && node ./esbuild.config.js --serve"
+    "serve": "cp app/javascript/packs/index.html server-phoenix/priv/static/ && node ./esbuild.config.js --serve"
   },
   "jest": {
     "verbose": true,
