@@ -1,12 +1,134 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
-  alias Helios.{Repo, Event}
+  require Logger
+  alias Helios.{Repo, Event, SlackChannelNames}
+  defp slack_bearer_token, do: System.get_env("SLACK_BEARER_TOKEN")
+
+  defp insert_channel_id_async(channel_id) do
+    Logger.info("does this get called?")
+    # put these into a function
+    unless SlackChannelNames
+           |> SlackChannelNames.with_id(channel_id)
+           |> Repo.exists?() do
+      Task.Supervisor.start_child(
+        SlackChannelSupervisor,
+        fn ->
+          try do
+            body = %{
+              "channel" => channel_id
+            }
+
+            request_body = URI.encode_query(body)
+
+            headers = [
+              {"Accept", "application/json"},
+              {"Authorization", "Bearer #{slack_bearer_token()}"},
+              {"Content-Type", "application/x-www-form-urlencoded"}
+            ]
+
+            channel_response =
+              HTTPoison.post!("https://slack.com/api/conversations.info", request_body, headers,
+                follow_redirect: true
+              )
+
+            json = Jason.decode!(channel_response.body)
+            name = json["channel"]["name"]
+
+            Repo.insert!(%SlackChannelNames{
+              channel_id: channel_id,
+              channel_name: name
+            })
+
+            Logger.info("just added")
+          rescue
+            # do something here
+            e -> IO.inspect(e)
+          end
+        end
+      )
+    end
+  end
+
+  defp insert_channel_id(channel_id) do
+    Logger.info("does this get called?")
+    # put these into a function
+    unless SlackChannelNames
+           |> SlackChannelNames.with_id(channel_id)
+           |> Repo.exists?() do
+      # Task.Supervisor.start_child(
+      #  SlackChannelSupervisor,
+      #  fn ->
+      try do
+        body = %{
+          "channel" => channel_id
+        }
+
+        request_body = URI.encode_query(body)
+
+        headers = [
+          {"Accept", "application/json"},
+          {"Authorization", "Bearer #{slack_bearer_token()}"},
+          {"Content-Type", "application/x-www-form-urlencoded"}
+        ]
+
+        channel_response =
+          HTTPoison.post!("https://slack.com/api/conversations.info", request_body, headers,
+            follow_redirect: true
+          )
+
+        json = Jason.decode!(channel_response.body)
+        name = json["channel"]["name"]
+
+        Repo.insert!(%SlackChannelNames{
+          channel_id: channel_id,
+          channel_name: name
+        })
+
+        Logger.info("just added")
+      rescue
+        # do something here
+        e -> IO.inspect(e)
+      end
+
+      # end
+      # )
+    end
+  end
 
   def handle(conn, params) do
     if params["type"] == "url_verification" do
       send_resp(conn, 200, params["challenge"])
     else
       event = params["event"]
+      img = params["event"]["files"]
+
+      if img do
+        url = Enum.at(img, 0)["url_private_download"]
+
+        headers = [Authorization: "Bearer #{slack_bearer_token()}"]
+
+        Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
+
+        Task.Supervisor.start_child(
+          MyTaskSupervisor,
+          fn ->
+            try do
+              response = HTTPoison.post!(url, [], headers, follow_redirect: true)
+            rescue
+              e -> IO.inspect(e)
+            end
+          end
+        )
+      else
+        Logger.info("not an image")
+      end
+
+      channel_id = params["event"]["channel"]
+      # channels = SlackChannelNames
+      #            |> Repo.all()
+      # Logger.info "#{inspect channels}"
+
+      insert_channel_id(channel_id)
 
       unless Event
              |> Event.slack_messages()
