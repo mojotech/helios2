@@ -1,6 +1,10 @@
 defmodule HeliosWeb.Router do
   use HeliosWeb, :router
 
+  pipeline :requires_auth do
+    plug HeliosWeb.Plugs.UserAuthentication
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -32,6 +36,7 @@ defmodule HeliosWeb.Router do
   end
 
   scope "/api/v:version/events", HeliosWeb.EventsAPI do
+    pipe_through(:requires_auth)
     post("/", EventsAPIController, :handle)
   end
 
