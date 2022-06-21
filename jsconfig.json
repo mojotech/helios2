@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "baseUrl": "./",
+    "jsx": "react",
+    "types": ["node"],
+    "paths": {
+      "@root/*": ["./*"],
+      "@app/*": ["app/*"],
+      "@javascript/*": ["app/javascript/*"],
+      "@lib/*": ["app/javascript/lib/*"],
+      "@components/*": ["app/javascript/components/*"],
+      "@widgets/*": ["app/javascript/components/widgets/*"],
+      "@messages/*": ["app/javascript/components/widgets/messages/*"],
+      "@numbers/*": ["app/javascript/components/widgets/numbers/*"],
+      "@weather/*": ["app/javascript/components/widgets/weather/*"],
+      "@twitter/*": ["app/javascript/components/widgets/twitter/*"],
+      "@hocs/*": ["app/javascript/components/hocs/*"],
+      "@assets/*": ["app/assets/*"],
+      "@images/*": ["app/assets/images/*"],
+      "@icons/*": ["app/assets/images/icons/*"],
+      "/fonts/*": ["public/fonts/*"]
+    }
+  },
+  "include": ["./app/javascript/**/*"]
+}

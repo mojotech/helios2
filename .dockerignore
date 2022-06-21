@@ -49,3 +49,5 @@ spec/tmp
 vendor/assets/bower_components
 *.bowerrc
 bower.json
+
+server-phoenix/priv/static/index.html
