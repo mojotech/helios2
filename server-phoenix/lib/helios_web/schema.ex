@@ -38,6 +38,7 @@ defmodule HeliosWeb.Schema do
   import_types(HeliosWeb.Schema.Types.WidgetCollection)
   import_types(HeliosWeb.Schema.Types.Widget)
   import_types(HeliosWeb.Schema.Types.Sub)
+  import_types(HeliosWeb.Schema.Types.SlackChannelNames)
 
   # Queries
   import_types(HeliosWeb.Schema.Queries.Location)
