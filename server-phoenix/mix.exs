@@ -20,7 +20,7 @@ defmodule Helios.MixProject do
   def application do
     [
       mod: {Helios.Application, []},
-      extra_applications: [:logger, :runtime_tools, :con_cache]
+      extra_applications: [:logger, :runtime_tools, :con_cache, :public_key]
     ]
   end
 
