@@ -15,10 +15,15 @@ config :helios, HeliosWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: HeliosWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Helios.PubSub,
-  live_view: [signing_salt: "ryFqXbhy"]
+  live_view: [signing_salt: "ryFqXbhy"],
+  slack_bearer_token: System.get_env("SLACK_BEARER_TOKEN")
 
 config :exq,
   url: System.get_env("REDIS_URL", "redis://localhost:6379/1")
+
+# Configure Slack
+# config :exslack,
+#  bearer_token: System.get_env("SLACK_BEARER_TOKEN")
 
 # Configure Twitter
 config :extwitter, :oauth,

@@ -2,11 +2,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
   require Logger
   alias Helios.{Repo, Event, SlackChannelNames}
-  defp slack_bearer_token, do: System.get_env("SLACK_BEARER_TOKEN")
 
   defp insert_channel_id_async(channel_id) do
-    Logger.info("does this get called?")
-    # put these into a function
     unless SlackChannelNames
            |> SlackChannelNames.with_id(channel_id)
            |> Repo.exists?() do
@@ -22,7 +19,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
             headers = [
               {"Accept", "application/json"},
-              {"Authorization", "Bearer #{slack_bearer_token()}"},
+              {"Authorization",
+               "Bearer #{Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]}"},
               {"Content-Type", "application/x-www-form-urlencoded"}
             ]
 
@@ -41,7 +39,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
             Logger.info("just added")
           rescue
-            # do something here
             e -> IO.inspect(e)
           end
         end
@@ -50,14 +47,9 @@ defmodule HeliosWeb.WebHooks.SlackController do
   end
 
   defp insert_channel_id(channel_id) do
-    Logger.info("does this get called?")
-    # put these into a function
     unless SlackChannelNames
            |> SlackChannelNames.with_id(channel_id)
            |> Repo.exists?() do
-      # Task.Supervisor.start_child(
-      #  SlackChannelSupervisor,
-      #  fn ->
       try do
         body = %{
           "channel" => channel_id
@@ -67,7 +59,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
         headers = [
           {"Accept", "application/json"},
-          {"Authorization", "Bearer #{slack_bearer_token()}"},
+          {"Authorization",
+           "Bearer #{Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]}"},
           {"Content-Type", "application/x-www-form-urlencoded"}
         ]
 
@@ -76,6 +69,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
             follow_redirect: true
           )
 
+        Logger.info("response : #{inspect(channel_response)}")
         json = Jason.decode!(channel_response.body)
         name = json["channel"]["name"]
 
@@ -86,12 +80,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
         Logger.info("just added")
       rescue
-        # do something here
         e -> IO.inspect(e)
       end
-
-      # end
-      # )
     end
   end
 
@@ -105,7 +95,10 @@ defmodule HeliosWeb.WebHooks.SlackController do
       if img do
         url = Enum.at(img, 0)["url_private_download"]
 
-        headers = [Authorization: "Bearer #{slack_bearer_token()}"]
+        headers = [
+          Authorization:
+            "Bearer #{Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]}"
+        ]
 
         Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
 
@@ -124,9 +117,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
       end
 
       channel_id = params["event"]["channel"]
-      # channels = SlackChannelNames
-      #            |> Repo.all()
-      # Logger.info "#{inspect channels}"
 
       insert_channel_id(channel_id)
 
