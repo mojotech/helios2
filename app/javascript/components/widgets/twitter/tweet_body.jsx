@@ -111,7 +111,7 @@ function TweetBody({ text, media: { images, link }, status, isPrimary }) {
       />
     );
   }
-  if ((images === null && link === null) || !isPrimary) {
+  if (images === null && link === null) {
     return <TweetText text={displayText} isPrimary={isPrimary} />;
   }
   if (images !== null && link !== null) {
