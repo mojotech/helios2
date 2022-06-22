@@ -67,10 +67,10 @@ defmodule HeliosWeb.Clients.Tweet do
   end
 
   def text(t) do
-    t.text
+    t.full_text
     |> String.split(~r/\s|\n/)
     |> Enum.filter(fn word -> String.contains?(word, "http") end)
-    |> Enum.reduce(t.text, fn link, acc -> String.replace(acc, link, "") end)
+    |> Enum.reduce(t.full_text, fn link, acc -> String.replace(acc, link, "") end)
   end
 
   def status(t) do

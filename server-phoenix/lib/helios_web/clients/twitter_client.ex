@@ -7,7 +7,8 @@ defmodule HeliosWeb.Clients.TwitterClient do
         screen_name: "MojoTech",
         count: 5,
         include_rts: true,
-        exclude_replies: false
+        exclude_replies: false,
+        tweet_mode: "extended"
       )
 
     Enum.map(feed, fn tweet -> Tweet.from_api(tweet) end)

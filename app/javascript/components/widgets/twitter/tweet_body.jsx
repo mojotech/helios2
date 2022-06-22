@@ -46,7 +46,7 @@ BothMediaTypes.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      media_url: PropTypes.string.isRequired,
+      mediaUrl: PropTypes.string.isRequired,
     }),
   ),
   linkUrl: PropTypes.string,
@@ -68,7 +68,7 @@ OneMediaType.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      media_url: PropTypes.string.isRequired,
+      mediaUrl: PropTypes.string.isRequired,
     }),
   ),
   linkUrl: PropTypes.string,
@@ -95,6 +95,15 @@ const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
   // Twitter auto-adds the letters 'RT ' before each retweet
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
+  }
+  if (images !== null && !isPrimary) {
+    return (
+      <OneMediaType
+        displayText={displayText}
+        images={images}
+        linkUrl={undefined}
+      />
+    );
   }
   if ((images === null && link === null) || !isPrimary) {
     return <TweetText text={displayText} isPrimary={isPrimary} />;

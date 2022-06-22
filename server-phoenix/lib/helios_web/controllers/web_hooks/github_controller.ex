@@ -25,7 +25,8 @@ defmodule HeliosWeb.WebHooks.GithubController do
            |> Repo.exists?() do
       Repo.insert!(%Event{
         source: :github_pull,
-        external_id: pull_request["id"]
+        external_id: pull_request["id"],
+        source_author: pull_request["user"]["login"]
       })
       |> publish
     end
@@ -44,7 +45,8 @@ defmodule HeliosWeb.WebHooks.GithubController do
         ) do
           Repo.insert!(%Event{
             source: :github_commit,
-            external_id: commit["id"]
+            external_id: commit["id"],
+            source_author: commit["author"]["name"]
           })
           |> publish
         end

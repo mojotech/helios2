@@ -38,7 +38,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
              |> Repo.exists?() do
         Repo.insert!(%Event{
           source: :slack_message,
-          external_id: event["event_ts"]
+          external_id: event["event_ts"],
+          source_author: event["user"]
         })
         |> publish
       end
