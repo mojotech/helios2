@@ -8,7 +8,7 @@ const getVersion = gql`
 
 let lastValue = null;
 
-const versionCompare = client =>
+const versionCompare = (client) =>
   client.subscribe({ query: getVersion }).subscribe({
     next: ({ data: { deploymentSha } }) => {
       if (lastValue == null) {

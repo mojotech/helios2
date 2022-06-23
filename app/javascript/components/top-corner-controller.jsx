@@ -37,13 +37,7 @@ const Row = styled.div`
   margin-right: 100px;
 `;
 
-export const TopCorner = ({
-  showWeather,
-  cityName,
-  loading,
-  error,
-  location,
-}) => {
+export function TopCorner({ showWeather, cityName, loading, error, location }) {
   return (
     <div>
       <DateLogoRow>
@@ -58,7 +52,7 @@ export const TopCorner = ({
       </Row>
     </div>
   );
-};
+}
 
 TopCorner.propTypes = {
   loading: PropTypes.bool,

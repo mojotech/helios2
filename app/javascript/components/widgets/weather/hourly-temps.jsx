@@ -26,7 +26,7 @@ const Item = styled.div`
   margin: 0 ${spacing.xl};
   text-align: center;
   font-family: ${fonts.thin};
-  opacity: ${props => opacities[props.index]};
+  opacity: ${(props) => opacities[props.index]};
 `;
 
 const Time = styled.div`
@@ -65,7 +65,7 @@ export const getHourlyWeather = gql`
   }
 `;
 
-const HourlyTemps = ({ weather, hours }) => {
+function HourlyTemps({ weather, hours }) {
   const hourlyWeathers = compose(
     slice(1, hours + 1),
     pathOr([], ['hourly']),
@@ -85,11 +85,11 @@ const HourlyTemps = ({ weather, hours }) => {
       ))}
     </Wrapper>
   );
-};
+}
 
 HourlyTemps.propTypes = {
   weather: PropTypes.shape({
-    hourly: PropTypes.array.isRequired,
+    hourly: PropTypes.arrayOf.isRequired,
   }).isRequired,
   hours: PropTypes.number,
 };

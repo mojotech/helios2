@@ -51,7 +51,7 @@ const introspectionQueryResultData = {
     ...helioSchema.data.__schema,
     // eslint-disable-next-line
     types: helioSchema.data.__schema.types.filter(
-      type => type.possibleTypes !== null,
+      (type) => type.possibleTypes !== null,
     ),
   },
 };
@@ -85,25 +85,27 @@ const client = new ApolloClient({
 
 versionCompare(client);
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <GlobalStyle />
-    <Router>
-      <Route
-        path="/:city_name"
-        render={routeProps => (
-          <WidgetController
-            client={client}
-            cityName={routeProps.match.params.city_name}
-          />
-        )}
-      />
-      <Route
-        exact
-        path="/"
-        render={() => <Redirect to={`/${process.env.PRIMARY_CITY_NAME}`} />}
-      />
-    </Router>
-  </ApolloProvider>
-);
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <GlobalStyle />
+      <Router>
+        <Route
+          path="/:city_name"
+          render={(routeProps) => (
+            <WidgetController
+              client={client}
+              cityName={routeProps.match.params.city_name}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/"
+          render={() => <Redirect to={`/${process.env.PRIMARY_CITY_NAME}`} />}
+        />
+      </Router>
+    </ApolloProvider>
+  );
+}
 export default App;

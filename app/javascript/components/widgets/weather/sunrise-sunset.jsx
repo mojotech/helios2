@@ -70,13 +70,13 @@ export const getSunriseSunsetLocation = gql`
   }
 `;
 
-export const SunriseSunset = ({ location, weather }) => {
+export function SunriseSunset({ location, weather }) {
   const { solarCycles, timeZone, cityName, moonPhase } = location;
 
   const currDate = new Date();
 
   const [beforeNow, afterNow] = splitWhen(
-    cycle => new Date(cycle.time).getTime() - currDate.getTime() > 0,
+    (cycle) => new Date(cycle.time).getTime() - currDate.getTime() > 0,
     solarCycles,
   );
 
@@ -123,7 +123,7 @@ export const SunriseSunset = ({ location, weather }) => {
       </SunsetLabel>
     </SunriseSunsetContainer>
   );
-};
+}
 
 SunriseSunset.propTypes = {
   location: PropTypes.shape({

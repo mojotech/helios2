@@ -29,13 +29,13 @@ const TimeValue = styled(Row)`
   font-weight: ${weights.regular};
 `;
 
-export class Time extends React.Component {
-  static propTypes = {
-    location: PropTypes.shape({
-      timeZone: PropTypes.string.isRequired,
-    }).isRequired,
-  };
+const propTypes = {
+  location: PropTypes.shape({
+    timeZone: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
+export class Time extends React.Component {
   constructor(props) {
     super(props);
     this.state = { time: timeForTimezone(props.location.timeZone) };
@@ -66,10 +66,6 @@ export class Time extends React.Component {
   }
 }
 
-Time.propTypes = {
-  location: PropTypes.shape({
-    timeZone: PropTypes.string.isRequired,
-  }).isRequired,
-};
+Time.propTypes = propTypes;
 
 export default Time;

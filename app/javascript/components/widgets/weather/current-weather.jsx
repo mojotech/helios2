@@ -71,7 +71,7 @@ export const AnticipatedPrecipitation = ({ weather }) => {
   }
 };
 
-const CurrentWeather = ({ weather, useLargeIcon }) => {
+function CurrentWeather({ weather, useLargeIcon }) {
   const { description, icon } = weather.current.weather;
   return (
     <div>
@@ -88,7 +88,7 @@ const CurrentWeather = ({ weather, useLargeIcon }) => {
       </DescriptionWrapper>
     </div>
   );
-};
+}
 
 CurrentWeather.propTypes = {
   weather: PropTypes.shape({

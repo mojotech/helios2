@@ -55,12 +55,12 @@ export const getDailyWeather = gql`
   }
 `;
 
-const formatTempature = temperature => `${parseInt(temperature, 10)}°`;
+const formatTempature = (temperature) => `${parseInt(temperature, 10)}°`;
 
 const formatTempatures = (temperatureLow, temperatureHigh) =>
   `${formatTempature(temperatureLow)}-${formatTempature(temperatureHigh)}`;
 
-const DailyWeather = ({ weather }) => {
+function DailyWeather({ weather }) {
   const dailyWeathers = weather.daily;
 
   return (
@@ -84,11 +84,11 @@ const DailyWeather = ({ weather }) => {
       )}
     </Wrapper>
   );
-};
+}
 
 DailyWeather.propTypes = {
   weather: PropTypes.shape({
-    daily: PropTypes.array.isRequired,
+    daily: PropTypes.arrayOf.isRequired,
   }).isRequired,
 };
 

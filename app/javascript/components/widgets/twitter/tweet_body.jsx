@@ -28,15 +28,17 @@ const quoteStyle = {
   paddingLeft: `24px`,
 };
 
-export const BothMediaTypes = ({ displayText, images, linkUrl }) => (
-  <>
-    <div>
-      <TweetText text={displayText} />
-      <LinkText>{linkUrl}</LinkText>
-    </div>
-    <TweetMedia images={images} linkUrl={undefined} />
-  </>
-);
+export function BothMediaTypes({ displayText, images, linkUrl }) {
+  return (
+    <>
+      <div>
+        <TweetText text={displayText} />
+        <LinkText>{linkUrl}</LinkText>
+      </div>
+      <TweetMedia images={images} linkUrl={undefined} />
+    </>
+  );
+}
 BothMediaTypes.defaultProps = {
   images: null,
   linkUrl: null,
@@ -51,14 +53,16 @@ BothMediaTypes.propTypes = {
   ),
   linkUrl: PropTypes.string,
 };
-const OneMediaType = ({ displayText, images, linkUrl }) => (
-  <>
-    <div>
-      <TweetText text={displayText} isPrimary />
-    </div>
-    <TweetMedia images={images} linkUrl={linkUrl} />
-  </>
-);
+function OneMediaType({ displayText, images, linkUrl }) {
+  return (
+    <>
+      <div>
+        <TweetText text={displayText} isPrimary />
+      </div>
+      <TweetMedia images={images} linkUrl={linkUrl} />
+    </>
+  );
+}
 OneMediaType.defaultProps = {
   images: null,
   linkUrl: null,
@@ -73,14 +77,16 @@ OneMediaType.propTypes = {
   ),
   linkUrl: PropTypes.string,
 };
-export const QuoteTweet = ({ displayText, linkUrl }) => (
-  <>
-    <TweetText text={displayText} isPrimary />
-    <MediaWrapper>
-      <Microlink url={linkUrl} style={quoteStyle} size="small" />
-    </MediaWrapper>
-  </>
-);
+export function QuoteTweet({ displayText, linkUrl }) {
+  return (
+    <>
+      <TweetText text={displayText} isPrimary />
+      <MediaWrapper>
+        <Microlink url={linkUrl} style={quoteStyle} size="small" />
+      </MediaWrapper>
+    </>
+  );
+}
 QuoteTweet.defaultProps = {
   linkUrl: null,
 };
@@ -89,7 +95,7 @@ QuoteTweet.propTypes = {
   linkUrl: PropTypes.string,
 };
 
-const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
+function TweetBody({ text, media: { images, link }, status, isPrimary }) {
   const displayText = new Entities().decode(text);
 
   // Twitter auto-adds the letters 'RT ' before each retweet
@@ -120,7 +126,7 @@ const TweetBody = ({ text, media: { images, link }, status, isPrimary }) => {
   return (
     <OneMediaType displayText={displayText} images={images} linkUrl={link} />
   );
-};
+}
 
 TweetBody.propTypes = {
   text: PropTypes.string.isRequired,

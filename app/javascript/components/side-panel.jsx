@@ -39,7 +39,7 @@ export const getSidePanel = gql`
   ${getTopCorner}
 `;
 
-export const SidePanel = ({
+export function SidePanel({
   widgets,
   selectedWidgetId,
   showWeather,
@@ -49,30 +49,32 @@ export const SidePanel = ({
   location,
   loading,
   error,
-}) => (
-  <Wrapper>
-    <TopCorner
-      showWeather={showWeather}
-      cityName={cityName}
-      loading={loading}
-      error={error}
-      location={location}
-    />
-    <CityName cityName={cityName} />
-    <Row>
-      <Wifi loading={loading} error={error} location={location} />
-      <Bathroom loading={loading} error={error} location={location} />
-    </Row>
-    <FixedContent>
-      <Widgets
-        widgets={widgets}
-        selectedWidgetId={selectedWidgetId}
-        totalTime={totalTime}
-        isPaused={isPaused}
+}) {
+  return (
+    <Wrapper>
+      <TopCorner
+        showWeather={showWeather}
+        cityName={cityName}
+        loading={loading}
+        error={error}
+        location={location}
       />
-    </FixedContent>
-  </Wrapper>
-);
+      <CityName cityName={cityName} />
+      <Row>
+        <Wifi loading={loading} error={error} location={location} />
+        <Bathroom loading={loading} error={error} location={location} />
+      </Row>
+      <FixedContent>
+        <Widgets
+          widgets={widgets}
+          selectedWidgetId={selectedWidgetId}
+          totalTime={totalTime}
+          isPaused={isPaused}
+        />
+      </FixedContent>
+    </Wrapper>
+  );
+}
 
 SidePanel.propTypes = {
   ...Widgets.propTypes,

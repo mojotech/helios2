@@ -36,7 +36,7 @@ const subscribeWeatherPublished = (WeatherFrag, queryName) => gql`
 `;
 /* eslint-enable graphql/template-strings */
 
-export const WeatherQuery = ({
+export function WeatherQuery({
   Subscription,
   LoadingMessage,
   DisconnectedMessage,
@@ -44,59 +44,61 @@ export const WeatherQuery = ({
   queryName,
   cityName,
   startTimer,
-}) => (
-  <Query
-    query={getLocationWeather(WeatherFrag, queryName)}
-    variables={{ cityName }}
-    onCompleted={startTimer}
-    onError={startTimer}
-  >
-    {({ loading, error, data, subscribeToMore }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
-      if (error) {
+}) {
+  return (
+    <Query
+      query={getLocationWeather(WeatherFrag, queryName)}
+      variables={{ cityName }}
+      onCompleted={startTimer}
+      onError={startTimer}
+    >
+      {({ loading, error, data, subscribeToMore }) => {
+        if (loading) {
+          return <LoadingMessage />;
+        }
+        if (error) {
         console.error(error); // eslint-disable-line
-        return <DisconnectedMessage />;
-      }
+          return <DisconnectedMessage />;
+        }
 
-      return (
-        <Subscription
-          location={data.location}
-          subscribeToPublishedEvents={() =>
-            subscribeToMore({
-              document: subscribeWeatherPublished(WeatherFrag, queryName),
-              variables: {
-                latitude: data.location.latitude,
-                longitude: data.location.longitude,
-              },
-              updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) {
-                  return prev;
-                }
+        return (
+          <Subscription
+            location={data.location}
+            subscribeToPublishedEvents={() =>
+              subscribeToMore({
+                document: subscribeWeatherPublished(WeatherFrag, queryName),
+                variables: {
+                  latitude: data.location.latitude,
+                  longitude: data.location.longitude,
+                },
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    return prev;
+                  }
 
-                const { weatherPublished } = subscriptionData.data;
+                  const { weatherPublished } = subscriptionData.data;
 
-                return assocPath(
-                  ['location', 'weather'],
-                  weatherPublished,
-                  prev,
-                );
-              },
-            })
-          }
-        />
-      );
-    }}
-  </Query>
-);
+                  return assocPath(
+                    ['location', 'weather'],
+                    weatherPublished,
+                    prev,
+                  );
+                },
+              })
+            }
+          />
+        );
+      }}
+    </Query>
+  );
+}
 
 WeatherQuery.propTypes = {
   Subscription: PropTypes.func.isRequired,
   LoadingMessage: PropTypes.func.isRequired,
   DisconnectedMessage: PropTypes.func.isRequired,
   WeatherFrag: PropTypes.shape({
-    definitions: PropTypes.array.isRequired,
+    definitions: PropTypes.arrayOf.isRequired,
   }).isRequired,
   queryName: PropTypes.string.isRequired,
   cityName: PropTypes.string.isRequired,

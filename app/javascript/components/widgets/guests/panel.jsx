@@ -60,17 +60,19 @@ const AnnouncementDate = styled.div`
   color: ${colors.white};
 `;
 
-const Announcement = ({
+function Announcement({
   announcement: { message, people, company, publishOn },
-}) => (
-  <AnnouncementWrapper>
-    <AnnouncementMessage>{message}</AnnouncementMessage>
-    <AnnouncementTitle>
-      {people} from {company}
-    </AnnouncementTitle>
-    <AnnouncementDate>{parseDate(publishOn)}</AnnouncementDate>
-  </AnnouncementWrapper>
-);
+}) {
+  return (
+    <AnnouncementWrapper>
+      <AnnouncementMessage>{message}</AnnouncementMessage>
+      <AnnouncementTitle>
+        {people} from {company}
+      </AnnouncementTitle>
+      <AnnouncementDate>{parseDate(publishOn)}</AnnouncementDate>
+    </AnnouncementWrapper>
+  );
+}
 Announcement.propTypes = {
   announcement: PropTypes.shape({
     message: PropTypes.string.isRequired,
@@ -106,58 +108,61 @@ SubscribedAnnouncements.propTypes = {
   subscribeToPublishedAnnouncements: PropTypes.func.isRequired,
 };
 
-const Guests = ({ cityName }) => (
-  <Query query={getLocationAnnouncements} variables={{ cityName }}>
-    {({ loading, error, data, subscribeToMore }) => {
-      if (error) {
-        // eslint-disable-next-line
+function Guests({ cityName }) {
+  return (
+    <Query query={getLocationAnnouncements} variables={{ cityName }}>
+      {({ loading, error, data, subscribeToMore }) => {
+        if (error) {
+          // eslint-disable-next-line
         console.error(error);
-        return <DisconnectedMessage />;
-      }
+          return <DisconnectedMessage />;
+        }
 
-      if (loading || data.location.dayAnnouncements.length === 0) {
-        return <LoadingMessage />;
-      }
+        if (loading || data.location.dayAnnouncements.length === 0) {
+          return <LoadingMessage />;
+        }
 
-      return (
-        <SubscribedAnnouncements
-          dayAnnouncements={data.location.dayAnnouncements}
-          subscribeToPublishedAnnouncements={() =>
-            subscribeToMore({
-              document: subscribeAnnouncementPublished,
-              updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) {
-                  return prev;
-                }
-                const { announcementPublished } = subscriptionData.data;
+        return (
+          <SubscribedAnnouncements
+            dayAnnouncements={data.location.dayAnnouncements}
+            subscribeToPublishedAnnouncements={() =>
+              subscribeToMore({
+                document: subscribeAnnouncementPublished,
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    return prev;
+                  }
+                  const { announcementPublished } = subscriptionData.data;
 
-                if (isInFutureToday(announcementPublished.publishOn)) {
+                  if (isInFutureToday(announcementPublished.publishOn)) {
+                    return set(
+                      lensPath(['location', 'dayAnnouncements']),
+
+                      append(
+                        announcementPublished,
+                        prev.location.dayAnnouncements,
+                      ),
+
+                      prev,
+                    );
+                  }
+
+                  const isFutureToday = (item) =>
+                    isInFutureToday(item.publishOn);
                   return set(
                     lensPath(['location', 'dayAnnouncements']),
-
-                    append(
-                      announcementPublished,
-                      prev.location.dayAnnouncements,
-                    ),
-
+                    filter(isFutureToday, prev.location.dayAnnouncements),
                     prev,
                   );
-                }
-
-                const isFutureToday = item => isInFutureToday(item.publishOn);
-                return set(
-                  lensPath(['location', 'dayAnnouncements']),
-                  filter(isFutureToday, prev.location.dayAnnouncements),
-                  prev,
-                );
-              },
-            })
-          }
-        />
-      );
-    }}
-  </Query>
-);
+                },
+              })
+            }
+          />
+        );
+      }}
+    </Query>
+  );
+}
 
 Guests.propTypes = {
   cityName: PropTypes.string.isRequired,

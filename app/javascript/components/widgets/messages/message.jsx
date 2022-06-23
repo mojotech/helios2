@@ -5,15 +5,21 @@ import { GreySubText } from '@components/typography';
 import { fontSizes, sidePanelWidth } from '@lib/theme';
 import sunMoon from '@images/sunmoon.png';
 
-export const LoadingMessage = () => <Message message="Loading..." />;
-export const DisconnectedMessage = () => (
-  <Message message="Looks like we're disconnected" />
-);
-export const WeatherLoadingMessage = () => <WeatherMessage />;
-export const WeatherDisconnectedMessage = () => <WeatherMessage />;
-export const WidgetDisabledMessage = () => (
-  <Message message="No widget enabled" />
-);
+export function LoadingMessage() {
+  return <Message message="Loading..." />;
+}
+export function DisconnectedMessage() {
+  return <Message message="Looks like we're disconnected" />;
+}
+export function WeatherLoadingMessage() {
+  return <WeatherMessage />;
+}
+export function WeatherDisconnectedMessage() {
+  return <WeatherMessage />;
+}
+export function WidgetDisabledMessage() {
+  return <Message message="No widget enabled" />;
+}
 
 const MessageDisplay = styled(GreySubText)`
   font-size: ${fontSizes.medium};
@@ -39,18 +45,18 @@ const SunMoon = styled.img`
   align-self: center;
 `;
 
-const Message = ({ message }) => {
+function Message({ message }) {
   return (
     <Column>
       <SunMoon src={sunMoon} />
       <MessageDisplay>{message}</MessageDisplay>
     </Column>
   );
-};
+}
 
-const WeatherMessage = () => {
+function WeatherMessage() {
   return <SidePanelSpacing />;
-};
+}
 
 Message.propTypes = {
   message: PropTypes.string.isRequired,

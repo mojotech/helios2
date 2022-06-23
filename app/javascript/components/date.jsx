@@ -20,30 +20,37 @@ export const DateText = styled.div`
   margin-top: ${spacing.xxxl};
 `;
 
+const propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+  location: PropTypes.shape({
+    timeZone: PropTypes.string,
+  }).isRequired,
+};
+
+const defaultProps = {
+  loading: true,
+  error: false,
+};
+
+const timeZone = (props) => (props.location ? props.location.timeZone : null);
+
 export class Date extends React.Component {
-  static propTypes = {
-    loading: PropTypes.bool,
-    error: PropTypes.bool,
-    location: PropTypes.shape({
-      timeZone: PropTypes.string,
-    }).isRequired,
-  };
-
-  static defaultProps = {
-    loading: true,
-    error: false,
-  };
-
-  state = { date: null };
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: null,
+    };
+  }
 
   componentDidMount() {
-    if (this.timeZone(this.props)) {
+    if (timeZone(this.props)) {
       this.startDateTimer();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.timeZone(this.props) && !this.timeZone(prevProps)) {
+    if (timeZone(this.props) && !timeZone(prevProps)) {
       this.startDateTimer();
     }
   }
@@ -55,10 +62,8 @@ export class Date extends React.Component {
   }
 
   setDate = () => {
-    this.setState({ date: dateForTimezone(this.timeZone(this.props)) });
+    this.setState({ date: dateForTimezone(timeZone(this.props)) });
   };
-
-  timeZone = props => (props.location ? props.location.timeZone : null);
 
   startDateTimer = () => {
     this.setDate();
@@ -85,5 +90,8 @@ export class Date extends React.Component {
     return <DateText>{date}</DateText>;
   }
 }
+
+Date.defaultProps = defaultProps;
+Date.propTypes = propTypes;
 
 export default withFragment(Date, { location: getTimeZone });

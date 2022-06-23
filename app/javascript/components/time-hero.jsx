@@ -11,7 +11,7 @@ export const getTimeHero = gql`
   }
 `;
 
-export const TimeHero = ({ loading, error, location }) => {
+export function TimeHero({ loading, error, location }) {
   if (loading) {
     return <LoadingMessage />;
   }
@@ -22,7 +22,7 @@ export const TimeHero = ({ loading, error, location }) => {
   }
 
   return <Time location={location} />;
-};
+}
 
 TimeHero.propTypes = {
   loading: PropTypes.bool,
