@@ -12,7 +12,6 @@ const InteractionWrapper = styled.div`
   width: 15vw;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: ${(props) => (props.primary ? '0px' : '57px')};
 `;
 
 const IconWrapper = styled.div`
@@ -23,25 +22,22 @@ const IconWrapper = styled.div`
 
 const IconLabel = styled.div`
   color: ${colors.white};
-  font-size: ${(props) =>
-    props.primary ? `${fontSizes.small}` : `${fontSizes.tiny}`};
+  font-size: ${fontSizes.small};
   opacity: 0.5;
   margin-left: 8px;
   display: ${(props) => (props.vis ? 'block' : 'none')};
 `;
 
 const IconImg = styled.img`
-  height: ${(props) => (props.primary ? '18px' : '16px')};
+  height: 22px;
   width: auto;
 `;
 
-function StatsIcon({ icon, count, isPrimary }) {
+function StatsIcon({ icon, count }) {
   return (
     <IconWrapper>
-      <IconImg src={icon} alt="stat_icon" primary={isPrimary} />
-      <IconLabel vis={count !== 0} primary={isPrimary}>
-        {count}
-      </IconLabel>
+      <IconImg src={icon} alt="stat_icon" />
+      <IconLabel vis={count !== 0}>{count}</IconLabel>
     </IconWrapper>
   );
 }
@@ -49,21 +45,13 @@ function StatsIcon({ icon, count, isPrimary }) {
 StatsIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
-  isPrimary: PropTypes.bool.isRequired,
 };
 
-function TweetStats({
-  interactions: { favoriteCount, retweetCount },
-  isPrimary,
-}) {
+function TweetStats({ interactions: { favoriteCount, retweetCount } }) {
   return (
-    <InteractionWrapper primary={isPrimary}>
-      <StatsIcon
-        icon={retweetIcon}
-        count={retweetCount}
-        isPrimary={isPrimary}
-      />
-      <StatsIcon icon={likeIcon} count={favoriteCount} isPrimary={isPrimary} />
+    <InteractionWrapper>
+      <StatsIcon icon={retweetIcon} count={retweetCount} />
+      <StatsIcon icon={likeIcon} count={favoriteCount} />
     </InteractionWrapper>
   );
 }
@@ -73,7 +61,6 @@ TweetStats.propTypes = {
     favoriteCount: PropTypes.number.isRequired,
     retweetCount: PropTypes.number.isRequired,
   }).isRequired,
-  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default TweetStats;

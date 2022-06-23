@@ -17,22 +17,12 @@ const TweetWrapper = styled.div`
 
 function Tweet({
   tweet: { status, insertedAt, text, interactions, media, user },
-  isPrimary,
 }) {
   return (
-    <TweetWrapper primary={isPrimary}>
-      <TwitterProfile
-        dateCreated={parseMonthDate(insertedAt)}
-        user={user}
-        isPrimary={isPrimary}
-      />
-      <TweetBody
-        text={text}
-        media={media}
-        status={status}
-        isPrimary={isPrimary}
-      />
-      <TweetStats interactions={interactions} isPrimary={isPrimary} />
+    <TweetWrapper>
+      <TwitterProfile dateCreated={parseMonthDate(insertedAt)} user={user} />
+      <TweetBody text={text} media={media} status={status} />
+      <TweetStats interactions={interactions} />
     </TweetWrapper>
   );
 }
@@ -56,7 +46,6 @@ Tweet.propTypes = {
       avatar: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default Tweet;

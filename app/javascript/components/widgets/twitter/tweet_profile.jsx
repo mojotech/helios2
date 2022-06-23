@@ -10,7 +10,7 @@ const ProfileWrapper = styled.div`
   width: 15vw;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: ${(props) => (props.primary ? '48px' : `${spacing.xl}`)};
+  margin-bottom: 20px;
 `;
 
 const ProfileIcon = styled.img`
@@ -22,23 +22,23 @@ const ProfileIcon = styled.img`
 
 const ProfileInfoWrapper = styled.div`
   display: flex;
-  // flex-wrap: no-wrap;
+  flex-wrap: no-wrap;
   justify-content: space-between;
   flex-direction: column;
   min-width: 300px;
 `;
 
 const ProfileHeader = styled.div`
-  color: ${colors.white}
-  font-size: ${fontSizes.large}
-  margin-bottom: ${spacing.s}
+  color: ${colors.white};
+  font-size: ${fontSizes.large};
+  margin-bottom: ${spacing.s};
   text-align: left;
 `;
 
 const ProfileSub = styled.div`
-  color: ${colors.white}
-  opacity: 0.5
-  font-size: ${fontSizes.small}
+  color: ${colors.white};
+  opacity: 0.5;
+  font-size: ${fontSizes.small};
   flex-wrap: no-wrap;
 `;
 
@@ -52,20 +52,16 @@ const SubHeader = styled.div`
   flex-direction: row;
 `;
 
-function TwitterProfile({
-  dateCreated,
-  user: { name, handle, avatar },
-  isPrimary,
-}) {
+function TwitterProfile({ dateCreated, user: { name, handle, avatar } }) {
   return (
-    <ProfileWrapper primary={isPrimary}>
-      <ProfileIcon src={avatar} alt="twitter profile" primary={isPrimary} />
+    <ProfileWrapper>
+      <ProfileIcon src={avatar} alt="twitter profile" />
       <ProfileInfoWrapper>
-        <ProfileHeader primary={isPrimary}>{name}</ProfileHeader>
+        <ProfileHeader>{name}</ProfileHeader>
         <SubHeader>
-          <ProfileSub primary={isPrimary}>{`@${handle}`}</ProfileSub>
-          <ProfileSeparator primary={isPrimary}> • </ProfileSeparator>
-          <ProfileSub primary={isPrimary}>{dateCreated}</ProfileSub>
+          <ProfileSub>{`@${handle}`}</ProfileSub>
+          <ProfileSeparator> • </ProfileSeparator>
+          <ProfileSub>{dateCreated}</ProfileSub>
         </SubHeader>
       </ProfileInfoWrapper>
     </ProfileWrapper>
@@ -79,7 +75,6 @@ TwitterProfile.propTypes = {
     handle: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
   }).isRequired,
-  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default TwitterProfile;
