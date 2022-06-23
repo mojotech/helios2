@@ -1,3 +1,5 @@
-export const Live = () => null;
+export function Live() {
+  return null;
+}
 
 export default Live;

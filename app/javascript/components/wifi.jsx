@@ -30,7 +30,7 @@ export const getWifi = gql`
   }
 `;
 
-export const Wifi = ({ loading, error, location }) => {
+export function Wifi({ loading, error, location }) {
   if (loading) {
     return <LoadingMessage />;
   }
@@ -65,7 +65,7 @@ export const Wifi = ({ loading, error, location }) => {
       </Row>
     </div>
   );
-};
+}
 
 Wifi.propTypes = {
   location: PropTypes.shape({

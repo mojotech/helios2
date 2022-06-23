@@ -21,15 +21,15 @@ const OtherTabText = styled.div`
   cursor: pointer;
 `;
 
-export class Tab extends React.Component {
-  static propTypes = {
-    selected: PropTypes.bool.isRequired,
-    text: PropTypes.string.isRequired,
-    widgetId: PropTypes.number.isRequired,
-    totalTime: PropTypes.number.isRequired,
-    isPaused: PropTypes.bool.isRequired,
-  };
+const propTypes = {
+  selected: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  widgetId: PropTypes.number.isRequired,
+  totalTime: PropTypes.number.isRequired,
+  isPaused: PropTypes.bool.isRequired,
+};
 
+export class Tab extends React.Component {
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
@@ -53,5 +53,7 @@ export class Tab extends React.Component {
     );
   }
 }
+
+Tab.propTypes = propTypes;
 
 export default Tab;

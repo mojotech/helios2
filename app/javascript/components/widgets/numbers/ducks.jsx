@@ -3,24 +3,29 @@ import React from 'react';
 import { withQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 
-export const withLocalMutation = WrappedComponent => props => (
-  <WrappedComponent
-    {...{
-      ...props,
-      mutation: ({ world }) => {
-        // eslint-disable-next-line react/prop-types
-        props.client.writeData({
-          data: {
-            fallingBlocksState: {
-              __typename: 'FallingBlocksState',
-              world,
-            },
+export const withLocalMutation = (WrappedComponent) =>
+  // eslint-disable-next-line func-names
+  function (props) {
+    return (
+      <WrappedComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...{
+          ...props,
+          mutation: ({ world }) => {
+            // eslint-disable-next-line react/prop-types
+            props.client.writeData({
+              data: {
+                fallingBlocksState: {
+                  __typename: 'FallingBlocksState',
+                  world,
+                },
+              },
+            });
           },
-        });
-      },
-    }}
-  />
-);
+        }}
+      />
+    );
+  };
 
 export const nullState = {
   world: null,

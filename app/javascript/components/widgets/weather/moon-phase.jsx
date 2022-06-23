@@ -127,27 +127,29 @@ const iconRender = (posX, posY, radius, phase, arcPath, arcAnimation) => {
 };
 
 const MoonPart = styled.path`
-  offset-path: path('${p => p.arcPath}');
-  animation: ${p => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
+  offset-path: path('${(p) => p.arcPath}');
+  animation: ${(p) => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
 `;
 
-const MoonPhase = ({ posX, posY, radius, phase, arcPath, arcAnimation }) => (
-  <g>
-    <defs>
-      <filter id="moonShadow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-        <feOffset dx="0" dy="0" result="offsetblur" />
-        <feFlood floodColor="#ffffff" />
-        <feComposite in2="offsetblur" operator="in" />
-        <feMerge>
-          <feMergeNode />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    {iconRender(posX, posY, radius, phase, arcPath, arcAnimation)}
-  </g>
-);
+function MoonPhase({ posX, posY, radius, phase, arcPath, arcAnimation }) {
+  return (
+    <g>
+      <defs>
+        <filter id="moonShadow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+          <feOffset dx="0" dy="0" result="offsetblur" />
+          <feFlood floodColor="#ffffff" />
+          <feComposite in2="offsetblur" operator="in" />
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      {iconRender(posX, posY, radius, phase, arcPath, arcAnimation)}
+    </g>
+  );
+}
 
 MoonPhase.propTypes = {
   posX: PropTypes.number.isRequired,

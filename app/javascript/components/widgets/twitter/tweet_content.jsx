@@ -17,21 +17,21 @@ export const MediaWrapper = styled.div`
 
 export const Text = styled.div`
   color: #959292;
-  font-size: ${props =>
+  font-size: ${(props) =>
     props.primary ? `${fontSizes.large}` : `${fontSizes.small}`};
-  margin-bottom: ${props => (props.primary ? '29px' : `${spacing.xl}`)};
+  margin-bottom: ${(props) => (props.primary ? '29px' : `${spacing.xl}`)};
 `;
 
 const TwitterImage = styled.img`
-  height: ${props => (props.isMain ? '100%' : 'auto')};
-  width: ${props => (!props.isMain ? '100%' : 'auto')};
+  height: ${(props) => (props.isMain ? '100%' : 'auto')};
+  width: ${(props) => (!props.isMain ? '100%' : 'auto')};
   text-align: center;
 `;
 
 const ImageGrid = styled.div`
   display: inline-grid;
   height: 487px;
-  width: ${props => (props.oneImg ? 'auto' : '100%')};
+  width: ${(props) => (props.oneImg ? 'auto' : '100%')};
   grid-gap: ${spacing.s};
   grid-template-columns: auto auto;
   overflow: hidden;
@@ -40,7 +40,7 @@ const ImageGrid = styled.div`
 
 const ImageWrapper = styled.div`
   display: flex;
-  grid-row: ${props => (props.main ? ' 1 / 3' : 'auto')};
+  grid-row: ${(props) => (props.main ? ' 1 / 3' : 'auto')};
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -62,19 +62,21 @@ const linkStyle = {
   border: 'solid 1px #333333',
 };
 
-export const TweetText = ({ text, isPrimary }) => (
-  <Text primary={isPrimary}>
-    {isPrimary ? (
-      <Highlighter
-        highlightStyle={highlighterStyle}
-        searchWords={getMentionsAndTags(text)}
-        textToHighlight={text}
-      />
-    ) : (
-      text
-    )}
-  </Text>
-);
+export function TweetText({ text, isPrimary }) {
+  return (
+    <Text primary={isPrimary}>
+      {isPrimary ? (
+        <Highlighter
+          highlightStyle={highlighterStyle}
+          searchWords={getMentionsAndTags(text)}
+          textToHighlight={text}
+        />
+      ) : (
+        text
+      )}
+    </Text>
+  );
+}
 
 TweetText.defaultProps = {
   isPrimary: true,
@@ -85,8 +87,8 @@ TweetText.propTypes = {
   isPrimary: PropTypes.bool,
 };
 
-const imageLayout = images => {
-  return images.map(image => {
+const imageLayout = (images) =>
+  images.map((image) => {
     const isMain = image === images[0] && images.length === 3;
     return (
       <ImageWrapper key={image.id} main={isMain}>
@@ -94,9 +96,8 @@ const imageLayout = images => {
       </ImageWrapper>
     );
   });
-};
 
-export const TweetMedia = ({ images, linkUrl }) => {
+export function TweetMedia({ images, linkUrl }) {
   return (
     <MediaWrapper>
       {images !== null && (
@@ -109,7 +110,7 @@ export const TweetMedia = ({ images, linkUrl }) => {
       )}
     </MediaWrapper>
   );
-};
+}
 
 TweetMedia.defaultProps = {
   images: null,

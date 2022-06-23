@@ -9,7 +9,7 @@ const WidgetContainer = styled.div`
 `;
 
 export const Widgets = ({ widgets, selectedWidgetId, totalTime, isPaused }) =>
-  widgets.map(widget => (
+  widgets.map((widget) => (
     <WidgetContainer key={widget.id}>
       <Tab
         widgetId={widget.id}

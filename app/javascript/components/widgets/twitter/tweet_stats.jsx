@@ -12,7 +12,7 @@ const InteractionWrapper = styled.div`
   width: 15vw;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: ${props => (props.primary ? '0px' : '57px')};
+  margin-bottom: ${(props) => (props.primary ? '0px' : '57px')};
 `;
 
 const IconWrapper = styled.div`
@@ -23,26 +23,28 @@ const IconWrapper = styled.div`
 
 const IconLabel = styled.div`
   color: ${colors.white};
-  font-size: ${props =>
+  font-size: ${(props) =>
     props.primary ? `${fontSizes.small}` : `${fontSizes.tiny}`};
   opacity: 0.5;
   margin-left: 8px;
-  display: ${props => (props.vis ? 'block' : 'none')};
+  display: ${(props) => (props.vis ? 'block' : 'none')};
 `;
 
 const IconImg = styled.img`
-  height: ${props => (props.primary ? '18px' : '16px')};
+  height: ${(props) => (props.primary ? '18px' : '16px')};
   width: auto;
 `;
 
-const StatsIcon = ({ icon, count, isPrimary }) => (
-  <IconWrapper>
-    <IconImg src={icon} alt="stat_icon" primary={isPrimary} />
-    <IconLabel vis={count !== 0} primary={isPrimary}>
-      {count}
-    </IconLabel>
-  </IconWrapper>
-);
+function StatsIcon({ icon, count, isPrimary }) {
+  return (
+    <IconWrapper>
+      <IconImg src={icon} alt="stat_icon" primary={isPrimary} />
+      <IconLabel vis={count !== 0} primary={isPrimary}>
+        {count}
+      </IconLabel>
+    </IconWrapper>
+  );
+}
 
 StatsIcon.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -50,10 +52,10 @@ StatsIcon.propTypes = {
   isPrimary: PropTypes.bool.isRequired,
 };
 
-const TweetStats = ({
+function TweetStats({
   interactions: { favoriteCount, retweetCount },
   isPrimary,
-}) => {
+}) {
   return (
     <InteractionWrapper primary={isPrimary}>
       <StatsIcon
@@ -64,7 +66,7 @@ const TweetStats = ({
       <StatsIcon icon={likeIcon} count={favoriteCount} isPrimary={isPrimary} />
     </InteractionWrapper>
   );
-};
+}
 
 TweetStats.propTypes = {
   interactions: PropTypes.shape({

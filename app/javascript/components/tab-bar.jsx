@@ -15,7 +15,7 @@ const progressBarFrames = keyframes`
   }
 `;
 
-const progressBarAnimation = props => css`
+const progressBarAnimation = (props) => css`
   animation: ${progressBarFrames} ${props.time}s linear 0s;
   animation-fill-mode: forwards;
   animation-play-state: ${props.isPaused ? `paused` : `playing`};
@@ -34,18 +34,22 @@ const SolidBar = styled.div`
   width: ${width}px;
 `;
 
-export const CurrentTabBar = ({ isPaused, time }) => (
-  <>
-    <ProgressBar time={time / 1000} isPaused={isPaused} />
-    <SolidBar />
-  </>
-);
+export function CurrentTabBar({ isPaused, time }) {
+  return (
+    <>
+      <ProgressBar time={time / 1000} isPaused={isPaused} />
+      <SolidBar />
+    </>
+  );
+}
 
-export const OtherTabBar = () => (
-  <svg width={width} height={height}>
-    <rect width={width} height="1" fill={colors.white} opacity="0.2" />
-  </svg>
-);
+export function OtherTabBar() {
+  return (
+    <svg width={width} height={height}>
+      <rect width={width} height="1" fill={colors.white} opacity="0.2" />
+    </svg>
+  );
+}
 
 CurrentTabBar.propTypes = {
   time: PropTypes.number.isRequired,

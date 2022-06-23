@@ -35,7 +35,7 @@ const widgetElements = {
   Events,
 };
 
-export const WidgetDisplay = ({
+export function WidgetDisplay({
   keyToWidgetAction,
   clickToWidgetAction,
   isPaused,
@@ -44,7 +44,7 @@ export const WidgetDisplay = ({
   loading,
   error,
   startTimer,
-}) => {
+}) {
   const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
   const WidgetElement = widgetElements[current.name].Panel;
   return (
@@ -70,7 +70,7 @@ export const WidgetDisplay = ({
       />
     </Wrapper>
   );
-};
+}
 
 WidgetDisplay.propTypes = {
   keyToWidgetAction: PropTypes.func.isRequired,
@@ -79,7 +79,7 @@ WidgetDisplay.propTypes = {
   cityName: PropTypes.string.isRequired,
   location: PropTypes.shape({
     widgets: PropTypes.shape({
-      enabled: PropTypes.array.isRequired,
+      enabled: PropTypes.arrayOf.isRequired,
       byIdOrFirst: PropTypes.shape({
         durationSeconds: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
@@ -99,22 +99,24 @@ WidgetDisplay.defaultProps = {
   error: false,
 };
 
-export const LoadingDisplay = ({ cityName, loading }) => (
-  <Wrapper>
-    <FullPanel>
-      <LoadingMessage />
-    </FullPanel>
-    <SidePanel
-      widgets={[]}
-      selectedWidgetId={0}
-      showWeather={false}
-      totalTime={0}
-      isPaused={false}
-      cityName={cityName}
-      loading={loading}
-    />
-  </Wrapper>
-);
+export function LoadingDisplay({ cityName, loading }) {
+  return (
+    <Wrapper>
+      <FullPanel>
+        <LoadingMessage />
+      </FullPanel>
+      <SidePanel
+        widgets={[]}
+        selectedWidgetId={0}
+        showWeather={false}
+        totalTime={0}
+        isPaused={false}
+        cityName={cityName}
+        loading={loading}
+      />
+    </Wrapper>
+  );
+}
 
 LoadingDisplay.propTypes = {
   cityName: PropTypes.string.isRequired,
@@ -125,22 +127,24 @@ LoadingDisplay.defaultProps = {
   loading: true,
 };
 
-export const DisconnectedDisplay = ({ cityName, error }) => (
-  <Wrapper>
-    <FullPanel>
-      <DisconnectedMessage />
-    </FullPanel>
-    <SidePanel
-      widgets={[]}
-      selectedWidgetId={0}
-      showWeather={false}
-      totalTime={0}
-      isPaused={false}
-      cityName={cityName}
-      error={error}
-    />
-  </Wrapper>
-);
+export function DisconnectedDisplay({ cityName, error }) {
+  return (
+    <Wrapper>
+      <FullPanel>
+        <DisconnectedMessage />
+      </FullPanel>
+      <SidePanel
+        widgets={[]}
+        selectedWidgetId={0}
+        showWeather={false}
+        totalTime={0}
+        isPaused={false}
+        cityName={cityName}
+        error={error}
+      />
+    </Wrapper>
+  );
+}
 
 DisconnectedDisplay.propTypes = {
   cityName: PropTypes.string.isRequired,
@@ -151,19 +155,21 @@ DisconnectedDisplay.defaultProps = {
   error: false,
 };
 
-export const WidgetDisabledDisplay = () => (
-  <Wrapper>
-    <FullPanel>
-      <WidgetDisabledMessage />
-    </FullPanel>
-    <SidePanel
-      widgets={[]}
-      selectedWidgetId={0}
-      showWeather={false}
-      totalTime={0}
-      isPaused={false}
-    />
-  </Wrapper>
-);
+export function WidgetDisabledDisplay() {
+  return (
+    <Wrapper>
+      <FullPanel>
+        <WidgetDisabledMessage />
+      </FullPanel>
+      <SidePanel
+        widgets={[]}
+        selectedWidgetId={0}
+        showWeather={false}
+        totalTime={0}
+        isPaused={false}
+      />
+    </Wrapper>
+  );
+}
 
 export default withFragment(WidgetDisplay, { location: getWidgetDisplay });

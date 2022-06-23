@@ -14,12 +14,12 @@ const TweetWrapper = styled.div`
   justify-content: space-between;
   flex-direction: column;
   width: 45vw;
-  margin-left: ${props => (props.primary ? '100px' : '0px')};
+  margin-left: ${(props) => (props.primary ? '100px' : '0px')};
   break-inside: avoid;
 `;
 
 const RetweetBanner = styled.div`
-  font-size: ${props =>
+  font-size: ${(props) =>
     props.primary ? `${fontSizes.small}` : `${fontSizes.tiny}`};
   color: ${colors.white};
   opacity: 0.5;
@@ -27,24 +27,24 @@ const RetweetBanner = styled.div`
 `;
 
 const RetweetWrapper = styled.div`
-  display: ${props => props.displayStyle};
+  display: ${(props) => props.displayStyle};
   flex-wrap: no-wrap;
   justify-content: flex-start;
   width: 18vw;
   flex-direction: row;
   align-items: flex-end;
   margin-bottom: 24px;
-  margin-left: ${props => (props.primary ? '100px' : '0px')};
+  margin-left: ${(props) => (props.primary ? '100px' : '0px')};
 `;
 
 const RetweetIcon = styled.img`
-  height: ${props => (props.primary ? '18px' : '16px')};
+  height: ${(props) => (props.primary ? '18px' : '16px')};
 `;
 
-const Tweet = ({
+function Tweet({
   tweet: { status, insertedAt, text, interactions, media, user },
   isPrimary,
-}) => {
+}) {
   return (
     <>
       <RetweetWrapper
@@ -71,7 +71,7 @@ const Tweet = ({
       </TweetWrapper>
     </>
   );
-};
+}
 
 Tweet.propTypes = {
   tweet: PropTypes.shape({

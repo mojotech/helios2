@@ -12,9 +12,7 @@ export const getCurrentIcon = gql`
   }
 `;
 
-const CurrentIcon = ({ weather }) => {
-  return weather.current.weather.icon;
-};
+const CurrentIcon = ({ weather }) => weather.current.weather.icon;
 
 CurrentIcon.propTypes = {
   weather: PropTypes.shape({

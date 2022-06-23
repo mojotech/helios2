@@ -36,7 +36,7 @@ const Count = styled.div`
 
 const CountLabel = styled.div`
   font-size: ${fontSizes.large};
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   font-family: ${fonts.regular};
 `;
 
@@ -58,7 +58,7 @@ const BlockIcon = styled.img`
   margin-top: 8px;
 `;
 
-const CountSummary = ({ count, image, width, height, color, text }) => {
+function CountSummary({ count, image, width, height, color, text }) {
   return (
     <div>
       <Count>{count}</Count>
@@ -68,7 +68,7 @@ const CountSummary = ({ count, image, width, height, color, text }) => {
       </IconTextWrapper>
     </div>
   );
-};
+}
 
 CountSummary.propTypes = {
   count: PropTypes.string.isRequired,
@@ -134,55 +134,58 @@ SubscribedEvents.propTypes = {
   subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
-const Numbers = ({ startTimer }) => (
-  <Query
-    query={getEventCounts}
-    variables={{ createdAfter: getStartOfWeek() }}
-    onCompleted={startTimer}
-    onError={startTimer}
-  >
-    {({ loading, error, data, subscribeToMore }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+function Numbers({ startTimer }) {
+  return (
+    <Query
+      query={getEventCounts}
+      variables={{ createdAfter: getStartOfWeek() }}
+      onCompleted={startTimer}
+      onError={startTimer}
+    >
+      {({ loading, error, data, subscribeToMore }) => {
+        if (loading) {
+          return <LoadingMessage />;
+        }
 
-      if (error) {
-        // eslint-disable-next-line
+        if (error) {
+          // eslint-disable-next-line
         console.error(error);
-        return <DisconnectedMessage />;
-      }
+          return <DisconnectedMessage />;
+        }
 
-      const { count } = data.events;
+        const { count } = data.events;
 
-      return (
-        <>
-          <Count>
-            <SubscribedEvents
-              {...count}
-              subscribeToPublishedEvents={() =>
-                subscribeToMore({
-                  document: subscribeEventPublished,
-                  updateQuery: (prev, { subscriptionData }) => {
-                    if (!subscriptionData.data) {
-                      return prev;
-                    }
-                    const { source } = subscriptionData.data.eventPublished;
-                    return over(
-                      lensPath(['events', 'count', source]),
-                      inc,
-                      prev,
-                    );
-                  },
-                })
-              }
-            />
-          </Count>
-          <FallingBlocks />
-        </>
-      );
-    }}
-  </Query>
-);
+        return (
+          <>
+            <Count>
+              <SubscribedEvents
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...count}
+                subscribeToPublishedEvents={() =>
+                  subscribeToMore({
+                    document: subscribeEventPublished,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData.data) {
+                        return prev;
+                      }
+                      const { source } = subscriptionData.data.eventPublished;
+                      return over(
+                        lensPath(['events', 'count', source]),
+                        inc,
+                        prev,
+                      );
+                    },
+                  })
+                }
+              />
+            </Count>
+            <FallingBlocks />
+          </>
+        );
+      }}
+    </Query>
+  );
+}
 
 Numbers.propTypes = {
   startTimer: PropTypes.func.isRequired,

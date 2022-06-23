@@ -8,12 +8,12 @@ import { colors } from '@lib/theme';
 import styled, { keyframes } from 'styled-components';
 import MoonPhase from '@weather/moon-phase';
 
-const getCityImage = cityName => {
+const getCityImage = (cityName) => {
   if (cityName === 'Boulder') return bldImage;
   return pvdImage;
 };
 
-const getPhaseType = phase => {
+const getPhaseType = (phase) => {
   if (phase === 0) return 'newMoon';
   if (phase > 0 && phase < 0.25) return 'waxCres';
   if (phase === 0.25) return 'firstQuart';
@@ -58,33 +58,33 @@ const NightMode = {
   foreground: colors.lightBlue,
 };
 
+const propTypes = {
+  totalTime: PropTypes.number.isRequired,
+  endTime: PropTypes.instanceOf(Date).isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  timeZone: PropTypes.string.isRequired,
+  cityName: PropTypes.string.isRequired,
+  paddingLeft: PropTypes.number,
+  paddingTop: PropTypes.number,
+  cityImageHeight: PropTypes.string,
+  cityImageWidth: PropTypes.string,
+  ballStartPadding: PropTypes.number,
+  ballRadius: PropTypes.string,
+  nightMode: PropTypes.bool.isRequired,
+  moonPhase: PropTypes.number.isRequired,
+};
+
+const defaultProps = {
+  paddingLeft: 30,
+  paddingTop: 18.1,
+  cityImageHeight: '212px',
+  cityImageWidth: '479px',
+  ballStartPadding: 50,
+  ballRadius: '14.4px',
+};
+
 export class SemiCircle extends React.Component {
-  static propTypes = {
-    totalTime: PropTypes.number.isRequired,
-    endTime: PropTypes.instanceOf(Date).isRequired,
-    width: PropTypes.string.isRequired,
-    height: PropTypes.string.isRequired,
-    timeZone: PropTypes.string.isRequired,
-    cityName: PropTypes.string.isRequired,
-    paddingLeft: PropTypes.number,
-    paddingTop: PropTypes.number,
-    cityImageHeight: PropTypes.string,
-    cityImageWidth: PropTypes.string,
-    ballStartPadding: PropTypes.number,
-    ballRadius: PropTypes.string,
-    nightMode: PropTypes.bool.isRequired,
-    moonPhase: PropTypes.number.isRequired,
-  };
-
-  static defaultProps = {
-    paddingLeft: 30,
-    paddingTop: 18.1,
-    cityImageHeight: '212px',
-    cityImageWidth: '479px',
-    ballStartPadding: 50,
-    ballRadius: '14.4px',
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -232,10 +232,14 @@ export class SemiCircle extends React.Component {
   }
 }
 
+SemiCircle.propTypes = propTypes;
+SemiCircle.defaultProps = defaultProps;
+
 const SunCircle = styled.circle`
-offset-path: path('${p => p.arcPath}');
-animation: ${p => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
-r: ${p => p.ballRadius};
-fill: ${p => p.fillStyle}`;
+  offset-path: path('${(p) => p.arcPath}');
+  animation: ${(p) => p.arcAnimation} 1000ms 1 normal forwards ease-in-out;
+  r: ${(p) => p.ballRadius};
+  fill: ${(p) => p.fillStyle};
+`;
 
 export default SemiCircle;

@@ -10,15 +10,15 @@ const ProfileWrapper = styled.div`
   width: 18vw;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: ${props => (props.primary ? '48px' : `${spacing.xl}`)};
+  margin-bottom: ${(props) => (props.primary ? '48px' : `${spacing.xl}`)};
 `;
 
 const ProfileIcon = styled.img`
   border-radius: 50%;
-  height: ${props => (props.primary ? '80px' : '56px')};
-  width: ${props => (props.primary ? '80px' : '56px')};
+  height: ${(props) => (props.primary ? '80px' : '56px')};
+  width: ${(props) => (props.primary ? '80px' : '56px')};
   margin-right: 24px;
-  opacity: ${props => (props.primary ? '1' : '0.5')};
+  opacity: ${(props) => (props.primary ? '1' : '0.5')};
 `;
 
 const ProfileInfoWrapper = styled.div`
@@ -30,16 +30,16 @@ const ProfileInfoWrapper = styled.div`
 
 const ProfileHeader = styled.div`
   color: ${colors.white}
-  font-size: ${props =>
+  font-size: ${(props) =>
     props.primary ? `${fontSizes.large}` : `${fontSizes.small}`}
   margin-bottom: ${spacing.s}
-  opacity: ${props => (props.primary ? '1' : '0.5')};
+  opacity: ${(props) => (props.primary ? '1' : '0.5')};
 `;
 
 const ProfileSub = styled.div`
   color: ${colors.white}
   opacity: 0.5
-  font-size: ${props =>
+  font-size: ${(props) =>
     props.primary ? `${fontSizes.small}` : `${fontSizes.tiny}`}
 `;
 
@@ -53,11 +53,11 @@ const SubHeader = styled.div`
   flex-direction: row;
 `;
 
-const TwitterProfile = ({
+function TwitterProfile({
   dateCreated,
   user: { name, handle, avatar },
   isPrimary,
-}) => {
+}) {
   return (
     <ProfileWrapper primary={isPrimary}>
       <ProfileIcon src={avatar} alt="twitter profile" primary={isPrimary} />
@@ -71,7 +71,7 @@ const TwitterProfile = ({
       </ProfileInfoWrapper>
     </ProfileWrapper>
   );
-};
+}
 
 TwitterProfile.propTypes = {
   dateCreated: PropTypes.string.isRequired,

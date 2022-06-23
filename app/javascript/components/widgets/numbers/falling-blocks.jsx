@@ -28,8 +28,8 @@ const blockTypes = {
   slackMessage: slackMessageIcon,
 };
 
-const blockTypeKeyFromValue = value =>
-  keys(blockTypes).find(key => blockTypes[key] === value);
+const blockTypeKeyFromValue = (value) =>
+  keys(blockTypes).find((key) => blockTypes[key] === value);
 
 const createFallingBlock = (x, y, blockType, options = {}) =>
   Bodies.polygon(x, y, 8, 8, {
@@ -43,7 +43,7 @@ const createFallingBlock = (x, y, blockType, options = {}) =>
     ...options,
   });
 
-const countByBlockType = countBy(body => body[0]);
+const countByBlockType = countBy((body) => body[0]);
 
 const serializeFallingBlock = ({
   angle,
@@ -102,21 +102,21 @@ const padding = 50;
 // eslint-disable-next-line no-underscore-dangle
 Sleeping._motionSleepThreshold = 0.5;
 
-const setInvisible = body => {
+const setInvisible = (body) => {
   if (body.render.visible) {
     // eslint-disable-next-line no-param-reassign
     body.render.visible = false;
   }
 };
 
-const setStatic = body => {
+const setStatic = (body) => {
   if (!body.isStatic) {
     Body.setStatic(body, true);
   }
 };
 const imageCache = {};
 
-const getImageFromCache = imagePath => {
+const getImageFromCache = (imagePath) => {
   const image = imageCache[imagePath] || new Image();
   image.src = imagePath;
   imageCache[imagePath] = image;
@@ -131,29 +131,26 @@ const getImageFromCache = imagePath => {
   return Promise.resolve(image);
 };
 
-export const getBlocksDroppedSinceLastMount = () => {
-  return localStorage.getItem('blocksDroppedSinceLastMount') === 'true';
-};
+export const getBlocksDroppedSinceLastMount = () =>
+  localStorage.getItem('blocksDroppedSinceLastMount') === 'true';
 
-export const setBlocksAddedSinceLastMount = blocksDropped => {
+export const setBlocksAddedSinceLastMount = (blocksDropped) => {
   localStorage.setItem('blocksDroppedSinceLastMount', blocksDropped);
 };
 
+const propTypes = {
+  mutation: PropTypes.func.isRequired,
+  world: PropTypes.arrayOf(PropTypes.arrayOf),
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+const defaultProps = {
+  world: null,
+};
+
 class Scene extends React.Component {
-  imageCache = {};
-
-  static propTypes = {
-    mutation: PropTypes.func.isRequired,
-    world: PropTypes.arrayOf(PropTypes.array),
-    data: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
-  };
-
-  static defaultProps = {
-    world: null,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -174,8 +171,8 @@ class Scene extends React.Component {
     }
 
     Composite.allBodies(this.engine.world)
-      .filter(body => !body.isStatic)
-      .forEach(block => this.sleepStartEvent(block));
+      .filter((body) => !body.isStatic)
+      .forEach((block) => this.sleepStartEvent(block));
     this.prepareOverlay();
     this.addBlocks();
   }
@@ -273,7 +270,7 @@ class Scene extends React.Component {
     ['data', 'events', 'count'],
   );
 
-  restoreWorld = world => {
+  restoreWorld = (world) => {
     const {
       data: { loading },
     } = this.props;
@@ -324,14 +321,13 @@ class Scene extends React.Component {
     Engine.clear(this.engine);
     this.renderMatter = null;
     this.runner = null;
-    this.enginer = null;
   };
 
-  sleepStartEvent = block => {
+  sleepStartEvent = (block) => {
     Events.on(block, 'sleepStart', () => {
       Events.off(block, 'sleepStart');
       setStatic(block);
-      this.addToOverlay(block).then(body => {
+      this.addToOverlay(block).then((body) => {
         if (body) {
           setInvisible(body);
         }
@@ -342,7 +338,7 @@ class Scene extends React.Component {
   nextBlock = () => {
     const counts = this.getCountsFromProps(this.props);
     const blockKeys = keys(blockTypes).filter(
-      key => counts[key] - this.state[key] > 0,
+      (key) => counts[key] - this.state[key] > 0,
     );
     return blockKeys[Math.floor(Math.random() * blockKeys.length)];
   };
@@ -369,7 +365,7 @@ class Scene extends React.Component {
       setBlocksAddedSinceLastMount(true);
       const newBlock = createFallingBlock(randomDist, -10, block);
 
-      this.setState(state => ({ [block]: state[block] + 1 }));
+      this.setState((state) => ({ [block]: state[block] + 1 }));
 
       World.add(this.engine.world, newBlock);
 
@@ -388,7 +384,7 @@ class Scene extends React.Component {
     body.isOnOverlay = true;
 
     return getImageFromCache(texture)
-      .then(img => {
+      .then((img) => {
         const ctx = this.overlay.current.getContext('2d');
 
         ctx.translate(body.position.x, body.position.y);
@@ -401,7 +397,7 @@ class Scene extends React.Component {
 
         return body;
       })
-      .catch(img => {
+      .catch((img) => {
         // eslint-disable-next-line no-console
         console.error(`Failed loading ${img.src}`);
       });
@@ -410,8 +406,8 @@ class Scene extends React.Component {
   prepareOverlay() {
     const allBodies = Composite.allBodies(this.engine.world);
     allBodies
-      .filter(body => body.isStatic)
-      .forEach(body => this.addToOverlay(body));
+      .filter((body) => body.isStatic)
+      .forEach((body) => this.addToOverlay(body));
   }
 
   render() {
@@ -439,6 +435,9 @@ class Scene extends React.Component {
     );
   }
 }
+
+Scene.propTypes = propTypes;
+Scene.defaultProps = defaultProps;
 
 export default compose(
   withApollo,

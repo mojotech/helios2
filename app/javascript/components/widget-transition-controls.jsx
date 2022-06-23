@@ -4,22 +4,22 @@ import { mathMod } from 'ramda';
 
 const prefetchDelay = 1500;
 
-export const selectShouldRequestWidget = state =>
+export const selectShouldRequestWidget = (state) =>
   state.msRemainingSinceLastStart < Date.now() - state.startTimestamp;
 
-export const selectShouldRequestPrefetch = state =>
+export const selectShouldRequestPrefetch = (state) =>
   !state.prefetchRequestedYet &&
   !!state.msRemainingSinceLastStart &&
   !!state.startTimestamp &&
   state.msRemainingSinceLastStart - (Date.now() - state.startTimestamp) <
     prefetchDelay;
 
-export const selectIsPaused = state => state.startTimestamp === null;
-export const isStarted = state =>
+export const selectIsPaused = (state) => state.startTimestamp === null;
+export const isStarted = (state) =>
   state.startTimestamp !== null && state.msRemainingSinceLastStart !== null;
 
 const resolveWidgetId = (enabledWidgets, currentWidgetId, { type }) => {
-  const index = enabledWidgets.findIndex(w => w.id === currentWidgetId);
+  const index = enabledWidgets.findIndex((w) => w.id === currentWidgetId);
   switch (type) {
     case 'nextWidget':
       return enabledWidgets[mathMod(index + 1, enabledWidgets.length)].id;
@@ -63,7 +63,7 @@ const reducer = (state, action) => {
   }
 };
 
-const WidgetTransitionControls = ({
+function WidgetTransitionControls({
   WrappedComponent,
   requestPrefetch,
   requestWidget,
@@ -71,7 +71,7 @@ const WidgetTransitionControls = ({
   location,
   loading,
   error,
-}) => {
+}) {
   const { byIdOrFirst: current, enabled: enabledWidgets } = location.widgets;
 
   const widgetTransitionTime = current.durationSeconds * 1000;
@@ -153,7 +153,7 @@ const WidgetTransitionControls = ({
       startTimer={startTimer}
     />
   );
-};
+}
 
 WidgetTransitionControls.propTypes = {
   WrappedComponent: PropTypes.func.isRequired,
@@ -162,7 +162,7 @@ WidgetTransitionControls.propTypes = {
   cityName: PropTypes.string.isRequired,
   location: PropTypes.shape({
     widgets: PropTypes.shape({
-      enabled: PropTypes.array.isRequired,
+      enabled: PropTypes.arrayOf.isRequired,
       byIdOrFirst: PropTypes.shape({
         durationSeconds: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,

@@ -18,7 +18,7 @@ const Column = styled.div`
   margin-top: 100px;
 `;
 
-export const Bathroom = ({ loading, error, location }) => {
+export function Bathroom({ loading, error, location }) {
   if (loading) {
     return <LoadingMessage />;
   }
@@ -38,7 +38,7 @@ export const Bathroom = ({ loading, error, location }) => {
       <WhiteTitleLarge>{bathroomCode}</WhiteTitleLarge>
     </Column>
   );
-};
+}
 
 Bathroom.propTypes = {
   location: PropTypes.shape({

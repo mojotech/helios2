@@ -19,7 +19,7 @@ const Heading = styled.div`
   font-size: ${fontSizes.large};
   font-family: ${fonts.regular};
   margin-bottom: ${spacing.m};
-  color: ${p => p.textColor};
+  color: ${(p) => p.textColor};
 `;
 
 const Number = styled.div`
@@ -48,7 +48,7 @@ const GridItem = styled.div`
   height: 375px;
 `;
 
-const Anniversaries = () => {
+function Anniversaries() {
   return (
     <div>
       <Number>0</Number>
@@ -61,9 +61,9 @@ const Anniversaries = () => {
       <WhiteSubTitle>No Mojo Anniversaries</WhiteSubTitle>
     </div>
   );
-};
+}
 
-const Birthdays = () => {
+function Birthdays() {
   return (
     <div>
       <Number>0</Number>
@@ -76,9 +76,9 @@ const Birthdays = () => {
       <WhiteSubTitle>No Mojo Birthdays</WhiteSubTitle>
     </div>
   );
-};
+}
 
-const PTO = () => {
+function PTO() {
   return (
     <div>
       <Number>0</Number>
@@ -91,9 +91,9 @@ const PTO = () => {
       <WhiteSubTitle>No Mojos Out of Office</WhiteSubTitle>
     </div>
   );
-};
+}
 
-const NewHires = () => {
+function NewHires() {
   return (
     <div>
       <Number>0</Number>
@@ -106,9 +106,9 @@ const NewHires = () => {
       <WhiteSubTitle>No New Mojos</WhiteSubTitle>
     </div>
   );
-};
+}
 
-const Events = ({ startTimer }) => {
+function Events({ startTimer }) {
   useEffect(() => {
     startTimer();
   }, []);
@@ -134,7 +134,7 @@ const Events = ({ startTimer }) => {
       </Grid>
     </div>
   );
-};
+}
 
 Events.propTypes = {
   startTimer: PropTypes.func.isRequired,

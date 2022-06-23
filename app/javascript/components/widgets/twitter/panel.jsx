@@ -55,13 +55,15 @@ const PreviousWrapper = styled.div`
   break-inside: avoid;
 `;
 
-export const TabBar = () => (
-  <svg width="1020" height="4" style={{ marginBottom: `${spacing.xxxl}` }}>
-    <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
-  </svg>
-);
+export function TabBar() {
+  return (
+    <svg width="1020" height="4" style={{ marginBottom: `${spacing.xxxl}` }}>
+      <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
+    </svg>
+  );
+}
 
-const Twitter = ({ tweets }) => {
+function Twitter({ tweets }) {
   const previous = takeLast(1, splitAt(1, tweets))[0];
   return (
     <PanelWrapper>
@@ -69,7 +71,7 @@ const Twitter = ({ tweets }) => {
       <PreviousWrapper>
         <TweetDivider>Previous Tweets</TweetDivider>
         <TabBar />
-        {previous.map(tweet => (
+        {previous.map((tweet) => (
           <React.Fragment key={tweet.insertedAt}>
             <Tweet tweet={tweet} isPrimary={false} />
             <TabBar />
@@ -78,7 +80,7 @@ const Twitter = ({ tweets }) => {
       </PreviousWrapper>
     </PanelWrapper>
   );
-};
+}
 
 Twitter.propTypes = {
   tweets: PropTypes.arrayOf(
@@ -107,23 +109,25 @@ Twitter.propTypes = {
   ).isRequired,
 };
 
-const TwitterController = ({ startTimer }) => (
-  <Query query={getMojoTweets} onCompleted={startTimer} onError={startTimer}>
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+function TwitterController({ startTimer }) {
+  return (
+    <Query query={getMojoTweets} onCompleted={startTimer} onError={startTimer}>
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <LoadingMessage />;
+        }
 
-      if (error) {
-        // eslint-disable-next-line
+        if (error) {
+          // eslint-disable-next-line
         console.error(error);
-        return <DisconnectedMessage />;
-      }
+          return <DisconnectedMessage />;
+        }
 
-      return <Twitter tweets={data.tweets} />;
-    }}
-  </Query>
-);
+        return <Twitter tweets={data.tweets} />;
+      }}
+    </Query>
+  );
+}
 
 TwitterController.propTypes = {
   startTimer: PropTypes.func.isRequired,

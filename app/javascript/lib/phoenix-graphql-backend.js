@@ -42,7 +42,7 @@ const httpLink = new HttpLink({
 const authedHttpLink = authLink.concat(httpLink);
 
 const absintheLink = split(
-  operation => hasSubscription(operation.query),
+  (operation) => hasSubscription(operation.query),
   webSocketLinkAbsinthe,
   authedHttpLink,
 );

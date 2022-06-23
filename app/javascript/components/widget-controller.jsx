@@ -35,12 +35,12 @@ const getWidgets = gql`
   }
 `;
 
-export const WidgetController = ({ client, cityName }) => {
+export function WidgetController({ client, cityName }) {
   const [newWidgetId, setNewWidgetId] = useState(0);
 
   const fetchPolicy = newWidgetId === 0 ? 'network-only' : 'cache-first';
 
-  const queryCallback = nextWidgetId => {
+  const queryCallback = (nextWidgetId) => {
     client.query({
       query: getWidgets,
       variables: {
@@ -63,6 +63,7 @@ export const WidgetController = ({ client, cityName }) => {
 
         if (error) {
           setTimeout(async () => {
+            // eslint-disable-next-line react/prop-types
             await client.resetStore();
             await refetch();
           }, 5000);
@@ -91,7 +92,7 @@ export const WidgetController = ({ client, cityName }) => {
       }}
     </Query>
   );
-};
+}
 
 WidgetController.propTypes = {
   client: PropTypes.shape({

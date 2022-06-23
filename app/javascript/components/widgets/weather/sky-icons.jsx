@@ -24,19 +24,24 @@ const iconMapping = {
   'partly-cloudy-night': PartlyCloudyNightIcon,
 };
 
-const SkyIcon = ({ width, height, icon }) => (
-  <img src={iconMapping[icon]} alt={icon} width={width} height={height} />
-);
+function SkyIcon({ width, height, icon }) {
+  return (
+    <img src={iconMapping[icon]} alt={icon} width={width} height={height} />
+  );
+}
 
-export const SmallSkyIcon = props => (
-  <SkyIcon width="32px" height="32px" {...props} />
-);
-export const MediumSkyIcon = props => (
-  <SkyIcon width="55px" height="55px" {...props} />
-);
-export const LargeSkyIcon = props => (
-  <SkyIcon width="72px" height="72px" {...props} />
-);
+export function SmallSkyIcon(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <SkyIcon width="32px" height="32px" {...props} />;
+}
+export function MediumSkyIcon(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <SkyIcon width="55px" height="55px" {...props} />;
+}
+export function LargeSkyIcon(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <SkyIcon width="72px" height="72px" {...props} />;
+}
 
 SkyIcon.propTypes = {
   icon: PropTypes.oneOf([

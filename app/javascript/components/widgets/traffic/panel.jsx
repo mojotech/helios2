@@ -58,16 +58,24 @@ const Notice = styled(GreySubText)`
   margin-right: 750px;
 `;
 
-const TrafficCam = ({ title, url, feedFormat }) => (
-  <div>
-    <Title>{title}</Title>
-    {feedFormat === 'video' ? (
-      <ReactHlsPlayer src={url} autoPlay controls width="450px" height="auto" />
-    ) : (
-      <TrafficCamImage src={url} />
-    )}
-  </div>
-);
+function TrafficCam({ title, url, feedFormat }) {
+  return (
+    <div>
+      <Title>{title}</Title>
+      {feedFormat === 'video' ? (
+        <ReactHlsPlayer
+          src={url}
+          autoPlay
+          controls
+          width="450px"
+          height="auto"
+        />
+      ) : (
+        <TrafficCamImage src={url} />
+      )}
+    </div>
+  );
+}
 
 TrafficCam.propTypes = {
   title: PropTypes.string.isRequired,
@@ -75,56 +83,60 @@ TrafficCam.propTypes = {
   feedFormat: PropTypes.string.isRequired,
 };
 
-const Traffic = ({ cityName, startTimer }) => (
-  <Query
-    query={getTrafficCams}
-    variables={{ cityName }}
-    onCompleted={startTimer}
-    onError={startTimer}
-  >
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <LoadingMessage />;
-      }
+function Traffic({ cityName, startTimer }) {
+  return (
+    <Query
+      query={getTrafficCams}
+      variables={{ cityName }}
+      onCompleted={startTimer}
+      onError={startTimer}
+    >
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <LoadingMessage />;
+        }
 
-      if (error) {
-        return <DisconnectedMessage />;
-      }
+        if (error) {
+          return <DisconnectedMessage />;
+        }
 
-      const { trafficCams } = data.location;
-      if (!trafficCams) {
-        return null;
-      }
-      const columnSize = Math.floor(trafficCams.length / 2);
-      const [firstColumn, secondColumn] = splitAt(columnSize, trafficCams);
-      const getUniqUrls = compose(
-        uniq,
-        map(cam => new URL(cam.url).hostname),
-      );
+        const { trafficCams } = data.location;
+        if (!trafficCams) {
+          return null;
+        }
+        const columnSize = Math.floor(trafficCams.length / 2);
+        const [firstColumn, secondColumn] = splitAt(columnSize, trafficCams);
+        const getUniqUrls = compose(
+          uniq,
+          map((cam) => new URL(cam.url).hostname),
+        );
 
-      return (
-        <>
-          <Row>
-            <Column>
-              {take(columnSize, firstColumn).map(({ id, ...cam }) => (
-                <TrafficCam key={id} {...cam} />
-              ))}
-            </Column>
-            <Column>
-              {take(columnSize, secondColumn).map(({ id, ...cam }) => (
-                <TrafficCam key={id} {...cam} />
-              ))}
-            </Column>
-          </Row>
-          <Notice>Images from:</Notice>
-          {getUniqUrls(trafficCams).map(url => (
-            <Notice key={url}>{url}</Notice>
-          ))}
-        </>
-      );
-    }}
-  </Query>
-);
+        return (
+          <>
+            <Row>
+              <Column>
+                {take(columnSize, firstColumn).map(({ id, ...cam }) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  <TrafficCam key={id} {...cam} />
+                ))}
+              </Column>
+              <Column>
+                {take(columnSize, secondColumn).map(({ id, ...cam }) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  <TrafficCam key={id} {...cam} />
+                ))}
+              </Column>
+            </Row>
+            <Notice>Images from:</Notice>
+            {getUniqUrls(trafficCams).map((url) => (
+              <Notice key={url}>{url}</Notice>
+            ))}
+          </>
+        );
+      }}
+    </Query>
+  );
+}
 
 Traffic.propTypes = {
   cityName: PropTypes.string.isRequired,

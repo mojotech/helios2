@@ -35,15 +35,15 @@ const floorTo = (value, decimal) => {
   return Math.floor(value * exp) / exp;
 };
 
-const percent = value => value * 100;
+const percent = (value) => value * 100;
 
-const evenlyDistribute = (index, total) => {
-  return floorTo(percent(index + Math.random() * 0.8) / total, 2);
-};
+const evenlyDistribute = (index, total) =>
+  floorTo(percent(index + Math.random() * 0.8) / total, 2);
 
 const WeatherWrapper = React.memo(({ Type, duration, variance, count }) =>
   new Array(count).fill().map((_, index) => (
     <Type
+      // eslint-disable-next-line react/no-array-index-key
       key={index.toString()}
       style={{
         left: `${evenlyDistribute(index, count)}%`,
@@ -66,6 +66,7 @@ const HorizontalWeatherWrapper = React.memo(
   ({ Type, duration, variance, count }) =>
     new Array(count).fill().map((_, index) => (
       <Type
+        // eslint-disable-next-line react/no-array-index-key
         key={index.toString()}
         style={{
           top: `${evenlyDistribute(index, count)}%`,
@@ -118,17 +119,19 @@ const RainContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
-  ${props => css`
+  ${(props) => css`
     right: ${Math.tan(props.angle / 57.29) * 10}%;
     transform: skew(${props.angle}deg);
   `}
 `;
 
-const Rain = ({ duration, variance, count, angle }) => (
-  <RainContainer angle={angle}>
-    <WeatherWrapper {...{ Type: RainDrop, duration, variance, count }} />
-  </RainContainer>
-);
+function Rain({ duration, variance, count, angle }) {
+  return (
+    <RainContainer angle={angle}>
+      <WeatherWrapper {...{ Type: RainDrop, duration, variance, count }} />
+    </RainContainer>
+  );
+}
 
 Rain.propTypes = {
   duration: PropTypes.number.isRequired,
@@ -147,9 +150,11 @@ const DrizzleDrop = styled(RainDrop)`
   background: linear-gradient(to bottom, #fff0, #fff8);
 `;
 
-const Drizzle = ({ duration, variance, count }) => (
-  <WeatherWrapper {...{ Type: DrizzleDrop, duration, variance, count }} />
-);
+function Drizzle({ duration, variance, count }) {
+  return (
+    <WeatherWrapper {...{ Type: DrizzleDrop, duration, variance, count }} />
+  );
+}
 
 Drizzle.propTypes = {
   duration: PropTypes.number.isRequired,
@@ -209,9 +214,9 @@ const SnowFall = styled(Drop)`
   animation: ${SnowDropFrames} linear, ${SnowWaveFrames} ease-in-out;
 `;
 
-const Snow = ({ duration, variance, count }) => (
-  <WeatherWrapper {...{ Type: SnowFall, duration, variance, count }} />
-);
+function Snow({ duration, variance, count }) {
+  return <WeatherWrapper {...{ Type: SnowFall, duration, variance, count }} />;
+}
 
 Snow.propTypes = {
   duration: PropTypes.number.isRequired,
@@ -219,9 +224,11 @@ Snow.propTypes = {
   count: PropTypes.number.isRequired,
 };
 
-const HeavySnow = ({ duration, variance, count }) => (
-  <WeatherWrapper {...{ Type: HeavySnowFall, duration, variance, count }} />
-);
+function HeavySnow({ duration, variance, count }) {
+  return (
+    <WeatherWrapper {...{ Type: HeavySnowFall, duration, variance, count }} />
+  );
+}
 
 HeavySnow.propTypes = {
   duration: PropTypes.number.isRequired,
@@ -262,14 +269,14 @@ const Clouds = styled.div`
   background: linear-gradient(to bottom, #999, #9999 40%, #9992 80%, #000b);
 `;
 
-const Thunder = () => {
+function Thunder() {
   return (
     <>
       <Clouds />
       <ThunderClouds />
     </>
   );
-};
+}
 // #endregion
 
 // cloud starts here
@@ -320,7 +327,7 @@ const MovingCloud = styled.div`
   ${CloudImage};
 `;
 
-const Cloud = ({ duration, variance, count, windSpeed }) => {
+function Cloud({ duration, variance, count, windSpeed }) {
   if (windSpeed <= 10) {
     return (
       <HorizontalWeatherWrapper
@@ -340,7 +347,7 @@ const Cloud = ({ duration, variance, count, windSpeed }) => {
       {...{ Type: MovingCloud, duration, variance, count }}
     />
   );
-};
+}
 
 Cloud.propTypes = {
   duration: PropTypes.number.isRequired,
@@ -353,23 +360,31 @@ Cloud.propTypes = {
 // #endregion
 
 /* eslint-disable prettier/prettier */
-const RainLight = () => <Rain duration={0.6} variance={0.4} count={10} />;
-const RainModerate = () => <Rain duration={0.5} variance={0.3} count={20} />;
-const RainHeavy = () => (
-  <Rain duration={0.5} variance={0.2} count={35} angle={15} />
-);
-const RainIntense = () => (
-  <Rain duration={0.4} variance={0.1} count={40} angle={30} />
-);
-const RainExtreme = () => (
-  <Rain duration={0.5} variance={0.1} count={60} angle={45} />
-);
+function RainLight() {
+  return <Rain duration={0.6} variance={0.4} count={10} />
+}
+function RainModerate() {
+  return <Rain duration={0.5} variance={0.3} count={20} />
+}
+function RainHeavy() {
+  return <Rain duration={0.5} variance={0.2} count={35} angle={15} />
+}
+function RainIntense() {
+  return <Rain duration={0.4} variance={0.1} count={40} angle={30} />
+}
+function RainExtreme() {
+  return <Rain duration={0.5} variance={0.1} count={60} angle={45} />
+}
 
-const DrizzleLight = () => <Drizzle duration={1.8} variance={0.5} count={30} />;
-const DrizzleModerate = () => (
-  <Drizzle duration={1.5} variance={0.5} count={45} />
-);
-const DrizzleHeavy = () => <Drizzle duration={1.2} variance={0.4} count={60} />;
+function DrizzleLight() {
+  return <Drizzle duration={1.8} variance={0.5} count={30} />
+}
+function DrizzleModerate() {
+  return <Drizzle duration={1.5} variance={0.5} count={45} />
+}
+function DrizzleHeavy() {
+  return <Drizzle duration={1.2} variance={0.4} count={60} />
+}
 
 const weatherIdMap = {
   200: () => (
@@ -483,7 +498,7 @@ const weatherIdMap = {
 };
 /* eslint-enable prettier/prettier */
 
-const WeatherEffect = ({ weather }) => {
+function WeatherEffect({ weather }) {
   const {
     current: {
       weather: { id },
@@ -497,7 +512,7 @@ const WeatherEffect = ({ weather }) => {
       <Effect windSpeed={weather.current.windSpeed} />
     </EffectContainer>
   ) : null;
-};
+}
 
 WeatherEffect.propTypes = {
   weather: PropTypes.shape({
@@ -505,6 +520,7 @@ WeatherEffect.propTypes = {
       weather: PropTypes.shape({
         id: PropTypes.number.isRequired,
       }).isRequired,
+      windSpeed: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
 };

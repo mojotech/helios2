@@ -36,6 +36,7 @@
     "html-entities": "^1.2.1",
     "http-server": "^14.1.1",
     "isomorphic-fetch": "^3.0.0",
+    "jest-environment-jsdom": "^28.1.1",
     "js-cookie": "^3.0.1",
     "live-server": "^1.2.2",
     "matter-js": "^0.14.2",
@@ -90,7 +91,7 @@
     "file-loader": "^3.0.1",
     "flatted": "^2.0.0",
     "glob": "^7.1.4",
-    "jest": "^26.6.3",
+    "jest": "^28.1.1",
     "js-yaml": "^3.13.1",
     "jscodeshift": "^0.6.4",
     "mini-css-extract-plugin": "^0.7.0",
@@ -122,6 +123,7 @@
   },
   "jest": {
     "verbose": true,
+    "testEnvironment": "jsdom",
     "testURL": "http://localhost/",
     "roots": [
       "app/javascript"
