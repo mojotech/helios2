@@ -51,10 +51,10 @@ function Twitter({ tweets }) {
         interval={4000}
         showStatus={false}
       >
-        <Tweet tweet={tweets[0]} isPrimary />
+        <Tweet tweet={tweets[0]} />
         {previous.map((tweet) => (
           <React.Fragment key={tweet.insertedAt}>
-            <Tweet tweet={tweet} isPrimary={false} />
+            <Tweet tweet={tweet} />
           </React.Fragment>
         ))}
       </Carousel>

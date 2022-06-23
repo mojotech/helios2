@@ -62,29 +62,20 @@ const linkStyle = {
   border: 'solid 1px #333333',
 };
 
-export function TweetText({ text, isPrimary }) {
+export function TweetText({ text }) {
   return (
-    <Text primary={isPrimary}>
-      {isPrimary ? (
-        <Highlighter
-          highlightStyle={highlighterStyle}
-          searchWords={getMentionsAndTags(text)}
-          textToHighlight={text}
-        />
-      ) : (
-        text
-      )}
+    <Text>
+      <Highlighter
+        highlightStyle={highlighterStyle}
+        searchWords={getMentionsAndTags(text)}
+        textToHighlight={text}
+      />
     </Text>
   );
 }
 
-TweetText.defaultProps = {
-  isPrimary: true,
-};
-
 TweetText.propTypes = {
   text: PropTypes.string.isRequired,
-  isPrimary: PropTypes.bool,
 };
 
 const imageLayout = (images) =>
