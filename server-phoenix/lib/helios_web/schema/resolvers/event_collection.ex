@@ -21,10 +21,25 @@ defmodule HeliosWeb.Schema.Resolvers.EventCollection do
           Event
       end
 
+    {:ok, event_query}
+  end
+
+  def all(parent, _args, _info) do
+    {:ok, Repo.all(parent)}
+  end
+
+  def by_author(parent, args, _info) do
     {:ok,
-     %{
-       all: Repo.all(event_query),
-       count: Event.count(Event) |> Repo.all() |> Enum.into(%{})
-     }}
+     parent
+     |> Event.top_commits_by_author(Map.get(args, :top, nil))
+     |> Repo.all()}
+  end
+
+  def count(parent, _args, _info) do
+    {:ok,
+     parent
+     |> Event.count()
+     |> Repo.all()
+     |> Enum.into(%{github_pull: 0, github_commit: 0, slack_message: 0})}
   end
 end

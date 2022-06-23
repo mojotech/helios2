@@ -57,6 +57,18 @@ defmodule Helios.Event do
     from(q in query, where: q.inserted_at < ^bow)
   end
 
+  def top_commits_by_author(query, top) do
+    from(q in query,
+      group_by: q.source_author,
+      select: %{
+        count: fragment("count(?) as count", q.source_author),
+        source_author: q.source_author
+      },
+      order_by: [desc: fragment("count")],
+      limit: ^top
+    )
+  end
+
   def count(query) do
     from(e in query, group_by: e.source, select: {e.source, count(e.source)})
   end

@@ -1,369 +1,319 @@
+# This file was generated based on "schema.json". Do not edit manually.
+
+schema {
+    query: RootQueryType
+    subscription: RootSubscriptionType
+}
+
+"A single tab or panel of Helios"
+interface Widget {
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
+}
+
 type Announcement {
-  announcementId: String!
-  company: String!
-  id: ID!
-  locationId: Int!
-  message: String!
-  people: String!
-  publishOn: UTCDateTime!
+    announcementId: String!
+    company: String!
+    id: ID!
+    locationId: String!
+    message: String!
+    people: String!
+    publishOn: DateTime!
 }
 
-scalar DateTime
-
-type Employee {
-  displayName: String!
-  id: ID!
-  isPhotoUploaded: String!
-  photoUrl: String!
-}
-
-type EmployeeEventCollection {
-  anniversaryEmployees: [Employee!]!
-  birthdayEmployees: [Employee!]!
-  timeOffEmployees: [Employee!]!
+type AuthorContribution {
+    count: Int
+    sourceAuthor: String
 }
 
 type Event {
-  insertedAt: DateTime!
-  externalId: String!
-  id: ID!
-  source: EventSource!
+    externalId: String!
+    id: ID!
+    insertedAt: DateTime!
+    source: EventSource!
+    sourceAuthor: String!
 }
 
 type EventCollection {
-  all: [Event!]!
-  count: EventCount!
+    all: [Event]!
+    byAuthor(top: Int): [AuthorContribution]
+    count: EventCount!
 }
 
 type EventCount {
-  githubCommit: Int!
-  githubPull: Int!
-  slackMessage: Int!
-}
-
-enum EventSource {
-  """
-  Github commit
-  """
-  githubCommit
-
-  """
-  Github pull request
-  """
-  githubPull
-
-  """
-  Slack message
-  """
-  slackMessage
+    githubCommit: Int
+    githubPull: Int
+    slackMessage: Int
 }
 
 type EventsWidget implements Widget {
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
 }
 
 type GuestsWidget implements Widget {
-  """
-  MojoTech announcements today
-  """
-  dayAnnouncements: [Announcement!]!
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
+    "MojoTech announcements today"
+    dayAnnouncements: [Announcement]!
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
 }
 
-scalar IconIdToName
+type Interaction {
+    favoriteCount: Int!
+    retweetCount: Int!
+}
 
 type Location {
-  bathroomCode: String
-  cityName: String!
-  dayAnnouncements: [Announcement!]!
-  id: ID!
-  isPrimary: Boolean!
-  latitude: Float!
-  longitude: Float!
-  moonPhase: Float!
-  solarCycles: [SolarCycle!]!
-  timeZone: String!
-  trafficCams: [TrafficCam!]!
-  weather: Weather!
-  widgets: WidgetCollection!
-  wifiName: String
-  wifiPassword: String
+    bathroomCode: String
+    cityName: String!
+    dayAnnouncements: [Announcement]!
+    id: ID!
+    isPrimary: Boolean!
+    latitude: Float!
+    longitude: Float!
+    moonPhase: Float!
+    solarCycles: [Solarcycle]!
+    timeZone: String!
+    trafficCams: [TrafficCam]!
+    weather: Weather!
+    widgets: WidgetCollection!
+    wifiName: String
+    wifiPassword: String
 }
 
-type MojoTweet {
-  insertedAt: DateTime!
-  interactions: TweetInteraction!
-  media: TweetMedia
-  status: String!
-  text: String!
-  user: TweetUser!
-}
-
-type Mutation {
-  testField: String!
+type Media {
+    images: [TwitterImage]
+    link: String
 }
 
 type NumbersWidget implements Widget {
-  durationSeconds: Int!
-
-  """
-  MojoTech slack/github events
-  """
-  events(createdAfter: String, type: EventSource): EventCollection!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
+    durationSeconds: Int!
+    "MojoTech slack/github events"
+    events(createdAfter: String, type: EventSource): EventCollection
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
 }
 
-type Query {
-  """
-  Employee events from bambooHR
-  """
-  employeeEvents: EmployeeEventCollection!
-
-  """
-  MojoTech slack/github events
-  """
-  events(createdAfter: String, type: EventSource): EventCollection!
-
-  """
-  Target location to receive updates
-  """
-  location(
-    """
-    City name of location
-    """
-    cityName: String!
-  ): Location!
-
-  """
-  Tweets from MojoTech
-  """
-  tweets: [MojoTweet!]!
+type RootQueryType {
+    "MojoTech slack/github events"
+    events(createdAfter: String, type: EventSource): EventCollection
+    location(cityName: String): Location
+    tweets: [Tweet]
 }
 
-type SolarCycle {
-  time: String!
-  type: String!
+type RootSubscriptionType {
+    "An announcement was published"
+    announcementPublished: Announcement!
+    "Updated SHA value"
+    deploymentSha: String!
+    "An event was published to the API"
+    eventPublished: Event!
+    "Latest weather data retrieved"
+    weatherPublished(latitude: Float!, longitude: Float!): Weather!
 }
 
-type Subscription {
-  """
-  An announcement was published
-  """
-  announcementPublished: Announcement!
-
-  """
-  Updated SHA value
-  """
-  deploymentSha: String!
-
-  """
-  An event was published to the API
-  """
-  eventPublished: Event!
-
-  """
-  Latest weather data retrieved
-  """
-  weatherPublished(latitude: Float!, longitude: Float!): Weather!
+type Solarcycle {
+    time: String!
+    type: String!
 }
 
 type TrafficCam {
-  feedFormat: String!
-  id: ID!
-  title: String!
-  url: String!
+    feedFormat: String!
+    id: ID!
+    title: String!
+    url: String!
 }
 
 type TrafficWidget implements Widget {
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
-  trafficCams: [TrafficCam!]!
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
+    trafficCams: [TrafficCam]!
 }
 
-type TweetImageType {
-  id: Int!
-  mediaUrl: String!
+type Tweet {
+    insertedAt: DateTime!
+    interactions: Interaction!
+    media: Media
+    status: String!
+    text: String!
+    user: User!
 }
 
-type TweetInteraction {
-  favoriteCount: Int!
-  retweetCount: Int!
-}
-
-type TweetMedia {
-  images: [TweetImageType!]
-  link: String
-}
-
-type TweetUser {
-  avatar: String!
-  handle: String!
-  name: String!
+type TwitterImage {
+    id: Int!
+    mediaUrl: String!
 }
 
 type TwitterWidget implements Widget {
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
-
-  """
-  Tweets from MojoTech
-  """
-  tweets: [MojoTweet!]!
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
+    "Tweets from MojoTech"
+    tweets: [Tweet]!
 }
 
-scalar UTCDateTime
-
-scalar UnixDateTime
+type User {
+    avatar: String!
+    handle: String!
+    name: String!
+}
 
 type Weather {
-  current: WeatherCurrentlyDetail!
-  daily: [WeatherDailyData!]!
-  hourly: [WeatherHourlyData!]!
-  lat: Float!
-  lon: Float!
-  minutely: [WeatherMinutelyData!]!
-  offset: Int!
-  timeZone: String!
+    current: WeatherCurrentlyDetail!
+    daily: [WeatherDailyData]!
+    hourly: [WeatherHourlyData]!
+    lat: Float!
+    lon: Float!
+    minutely: [WeatherMinutelyData]!
+    offset: Int!
+    timeZone: String!
 }
 
 type WeatherApparentTemperatureData {
-  day: Float!
-  eve: Float!
-  morn: Float!
-  night: Float!
+    day: Float!
+    eve: Float!
+    morn: Float!
+    night: Float!
 }
 
 type WeatherCurrentlyDetail {
-  clouds: Float!
-  dewPoint: Float!
-  feelsLike: Float!
-  humidity: Int!
-  nearestStormBearing: Int!
-  nearestStormDistance: Int!
-  pressure: Int!
-  temp: Float!
-  time: UnixDateTime!
-  uvi: Float!
-  visibility: Int!
-  weather: WeatherInfoData!
-  windDeg: Int!
-  windGust: Float
-  windSpeed: Float!
+    clouds: Float!
+    dewPoint: Float!
+    feelsLike: Float!
+    humidity: Int!
+    nearestStormBearing: Int!
+    nearestStormDistance: Int!
+    pressure: Int!
+    temp: Float!
+    time: UnixDateTime!
+    uvi: Float!
+    visibility: Int!
+    weather: WeatherInfoData!
+    windDeg: Int!
+    windGust: Float
+    windSpeed: Float!
 }
 
 type WeatherDailyData {
-  clouds: Int!
-  dewPoint: Int!
-  feelsLike: WeatherApparentTemperatureData!
-  humidity: Int!
-  precipProbability: Float!
-  pressure: Int!
-  rain: Float
-  sunrise: UnixDateTime!
-  sunset: UnixDateTime!
-  temp: WeatherTemperatureData!
-  time: UnixDateTime!
-  uvi: Float!
-  weather: WeatherInfoData!
-  windDeg: Int!
-  windSpeed: Float!
+    clouds: Int!
+    dewPoint: Int!
+    feelsLike: WeatherApparentTemperatureData!
+    humidity: Int!
+    precipProbability: Float!
+    pressure: Int!
+    rain: Float
+    sunrise: UnixDateTime!
+    sunset: UnixDateTime!
+    temp: WeatherTemperatureData!
+    time: UnixDateTime!
+    uvi: Float!
+    weather: WeatherInfoData!
+    windDeg: Int!
+    windSpeed: Float!
 }
 
 type WeatherHourlyData {
-  clouds: Int!
-  dewPoint: Float!
-  feelsLike: Float!
-  humidity: Int!
-  precipProbability: Float!
-  pressure: Int!
-  temp: Float!
-  time: UnixDateTime!
-  uvi: Float!
-  visibility: Int!
-  weather: WeatherInfoData!
-  windDeg: Int!
-  windGust: Float
-  windSpeed: Float!
+    clouds: Int!
+    dewPoint: Float!
+    feelsLike: Float!
+    humidity: Int!
+    precipProbability: Float!
+    pressure: Int!
+    temp: Float!
+    time: UnixDateTime!
+    uvi: Float!
+    visibility: Int!
+    weather: WeatherInfoData!
+    windDeg: Int!
+    windGust: Float
+    windSpeed: Float!
 }
 
 type WeatherInfoData {
-  description: String!
-  icon: IconIdToName!
-  id: Int!
-  main: String!
+    description: String!
+    icon: IconIdToName!
+    id: Int!
+    main: String!
 }
 
 type WeatherMinutelyData {
-  precipitation: Float!
-  time: UnixDateTime!
+    precipitation: Float!
+    time: UnixDateTime!
 }
 
 type WeatherTemperatureData {
-  day: Float!
-  eve: Float!
-  max: Float!
-  min: Float!
-  morn: Float!
-  night: Float!
+    day: Float!
+    eve: Float!
+    max: Float!
+    min: Float!
+    morn: Float!
+    night: Float!
 }
 
 type WeatherWidget implements Widget {
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
-
-  """
-  Weather response from Dark Sky
-  """
-  weather: Weather!
-}
-
-"""
-A single tab or panel of Helios
-"""
-interface Widget {
-  durationSeconds: Int!
-  id: Int!
-  locationId: Int!
-  name: String!
-  position: Int!
-  showWeather: Boolean
-  sidebarText: String
+    durationSeconds: Int!
+    id: Int!
+    locationId: String!
+    name: String!
+    position: Int!
+    showWeather: Boolean
+    sidebarText: String
+    "Weather response from Dark Sky"
+    weather: Weather!
 }
 
 type WidgetCollection {
-  byIdOrFirst(id: Int): Widget!
-  enabled: [Widget!]!
-  next(currentWidgetId: Int): Widget!
+    byIdOrFirst(id: Int): Widget!
+    enabled: [Widget]!
+    next(currentWidgetId: Int): Widget!
 }
+
+enum EventSource {
+    "Github commit"
+    githubCommit
+    "Github pull request"
+    githubPull
+    "Slack message"
+    slackMessage
+}
+
+"""
+
+The `DateTime` scalar type represents a date and time in the UTC
+timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+string, including UTC timezone ("Z"). The parsed date and time string will
+be converted to UTC if there is an offset.
+"""
+scalar DateTime
+
+scalar IconIdToName
+
+scalar UnixDateTime

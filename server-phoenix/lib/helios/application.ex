@@ -19,6 +19,7 @@ defmodule Helios.Application do
       # Start the Ecto repository
       Helios.Repo,
       # Start the Telemetry supervisor
+      {Task.Supervisor, name: MyTaskSupervisor},
       HeliosWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Helios.PubSub},
