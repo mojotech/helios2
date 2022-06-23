@@ -8,6 +8,7 @@ defmodule Helios.Event do
     field :source, Ecto.Enum, values: [:github_commit, :github_pull, :slack_message]
     field :external_id, :string
     field :source_author, :string
+    field :source_channel, :string
 
     timestamps()
   end
