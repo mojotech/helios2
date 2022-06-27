@@ -62,7 +62,8 @@ defmodule Helios.MixProject do
       {:absinthe_phoenix, "~> 2.0.0"},
       {:elixir_uuid, "~> 1.2"},
       {:exq, "~> 0.16.1"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:elixir_auth_google, "~> 1.6.3"}
     ]
   end
 
