@@ -69,6 +69,11 @@ defmodule HeliosWeb.Router do
     end
   end
 
+  scope "/auth/google/callback", HeliosWeb do
+    pipe_through :browser
+    get("/", GoogleAuthController, :index)
+  end
+
   scope "/", HeliosWeb do
     pipe_through :browser
     get("/*path", PageController, :index)
