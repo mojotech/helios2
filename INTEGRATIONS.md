@@ -50,3 +50,9 @@ Once access is granted, all the keys needed for your environment variables can b
 - `TWITTER_CONSUMER_SECRET=<API Secret>`
 - `TWITTER_ACCESS_TOKEN=<Authentication Token>`
 - `TWITTER_ACCESS_SECRET=<Authentication Secret>`
+
+## Google
+
+In order to set up the API keys for the Google authentication and integration with Elixir, simply follow the instructions found [here](https://github.com/dwyl/elixir-auth-google/blob/main/create-google-app-guide.md). The API keys are stored in `.env` as follows:
+- `GOOGLE_CLIENT_ID=<Client ID>`
+- `GOOGLE_CLIENT_SECRET=<Client Secret>`
