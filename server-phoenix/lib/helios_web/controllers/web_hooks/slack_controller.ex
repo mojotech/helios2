@@ -1,12 +1,56 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
-  alias Helios.{Repo, Event}
+  require Logger
+  alias Helios.{Repo, Event, SlackChannelNames}
+
+  defp insert_channel_id(channel_id) do
+    unless SlackChannelNames
+           |> SlackChannelNames.with_id(channel_id)
+           |> Repo.exists?() do
+      try do
+        body = %{
+          "channel" => channel_id
+        }
+
+        request_body = URI.encode_query(body)
+
+        headers = [
+          {"Accept", "application/json"},
+          {"Authorization",
+           "Bearer #{Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]}"},
+          {"Content-Type", "application/x-www-form-urlencoded"}
+        ]
+
+        channel_response =
+          HTTPoison.post!("https://slack.com/api/conversations.info", request_body, headers,
+            follow_redirect: true
+          )
+
+        Logger.info("response : #{inspect(channel_response)}")
+        json = Jason.decode!(channel_response.body)
+        name = json["channel"]["name"]
+
+        Repo.insert!(%SlackChannelNames{
+          channel_id: channel_id,
+          channel_name: name
+        })
+
+        Logger.info("just added")
+      rescue
+        e -> IO.inspect(e)
+      end
+    end
+  end
 
   def handle(conn, params) do
     if params["type"] == "url_verification" do
       send_resp(conn, 200, params["challenge"])
     else
       event = params["event"]
+
+      channel_id = params["event"]["channel"]
+
+      insert_channel_id(channel_id)
 
       unless Event
              |> Event.slack_messages()
