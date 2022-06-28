@@ -47,6 +47,31 @@ defmodule HeliosWeb.WebHooks.SlackController do
       send_resp(conn, 200, params["challenge"])
     else
       event = params["event"]
+      img = params["event"]["files"]
+
+      if img do
+        url = Enum.at(img, 0)["url_private_download"]
+
+        headers = [
+          Authorization:
+            "Bearer #{Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]}"
+        ]
+
+        Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
+
+        Task.Supervisor.start_child(
+          MyTaskSupervisor,
+          fn ->
+            try do
+              response = HTTPoison.post!(url, [], headers, follow_redirect: true)
+            rescue
+              e -> IO.inspect(e)
+            end
+          end
+        )
+      else
+        Logger.info("not an image")
+      end
 
       channel_id = params["event"]["channel"]
 
