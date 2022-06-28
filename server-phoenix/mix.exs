@@ -62,7 +62,8 @@ defmodule Helios.MixProject do
       {:absinthe_phoenix, "~> 2.0.0"},
       {:elixir_uuid, "~> 1.2"},
       {:exq, "~> 0.16.1"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 
@@ -77,7 +78,7 @@ defmodule Helios.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
