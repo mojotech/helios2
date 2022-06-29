@@ -70,6 +70,7 @@ defmodule HeliosWeb.Router do
   end
 
   scope "/", HeliosWeb do
+    pipe_through :browser
     get("/*path", PageController, :index)
   end
 end
