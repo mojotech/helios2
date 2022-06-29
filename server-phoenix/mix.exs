@@ -64,7 +64,8 @@ defmodule Helios.MixProject do
       {:exq, "~> 0.16.1"},
       {:quantum, "~> 3.0"},
       {:elixir_auth_google, "~> 1.6.3"},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:torch, "~> 4.0"}
     ]
   end
 

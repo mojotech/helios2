@@ -70,6 +70,10 @@ config :helios, Helios.Scheduler,
     {"*/5 * * * *", {Helios.Workers.WeatherPollerWorker, :perform, []}}
   ]
 
+config :torch,
+  otp_app: :helios,
+  template_format: "heex"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
