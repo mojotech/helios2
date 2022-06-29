@@ -1,6 +1,5 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
-  require Logger
   alias Helios.{Repo, Event}
   defp slack_bearer_token, do: System.get_env("SLACK_BEARER_TOKEN")
 
@@ -16,8 +15,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
         headers = [Authorization: "Bearer #{slack_bearer_token()}"]
 
-        Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
-
         Task.Supervisor.start_child(
           SlackImageDownloader,
           fn ->
@@ -28,8 +25,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
             end
           end
         )
-      else
-        Logger.info("not an image")
       end
 
       unless Event
