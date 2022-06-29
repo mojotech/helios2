@@ -57,7 +57,7 @@ function OneMediaType({ displayText, images, linkUrl }) {
   return (
     <>
       <div>
-        <TweetText text={displayText} isPrimary />
+        <TweetText text={displayText} />
       </div>
       <TweetMedia images={images} linkUrl={linkUrl} />
     </>
@@ -80,7 +80,7 @@ OneMediaType.propTypes = {
 export function QuoteTweet({ displayText, linkUrl }) {
   return (
     <>
-      <TweetText text={displayText} isPrimary />
+      <TweetText text={displayText} />
       <MediaWrapper>
         <Microlink url={linkUrl} style={quoteStyle} size="small" />
       </MediaWrapper>
@@ -95,24 +95,15 @@ QuoteTweet.propTypes = {
   linkUrl: PropTypes.string,
 };
 
-function TweetBody({ text, media: { images, link }, status, isPrimary }) {
+function TweetBody({ text, media: { images, link }, status }) {
   const displayText = new Entities().decode(text);
 
   // Twitter auto-adds the letters 'RT ' before each retweet
   if (status === 'quote') {
     return <QuoteTweet displayText={displayText} linkUrl={link} />;
   }
-  if (images !== null && !isPrimary) {
-    return (
-      <OneMediaType
-        displayText={displayText}
-        images={images}
-        linkUrl={undefined}
-      />
-    );
-  }
-  if ((images === null && link === null) || !isPrimary) {
-    return <TweetText text={displayText} isPrimary={isPrimary} />;
+  if (images === null && link === null) {
+    return <TweetText text={displayText} />;
   }
   if (images !== null && link !== null) {
     return (
@@ -140,7 +131,6 @@ TweetBody.propTypes = {
     link: PropTypes.string,
   }).isRequired,
   status: PropTypes.string.isRequired,
-  isPrimary: PropTypes.bool.isRequired,
 };
 
 export default TweetBody;

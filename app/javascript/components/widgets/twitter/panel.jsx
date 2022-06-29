@@ -4,9 +4,10 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import styled from 'styled-components';
-import { colors, fontSizes, spacing } from '@lib/theme';
 import Tweet from '@twitter/tweet';
 import { takeLast, splitAt } from 'ramda';
+import 'react-responsive-carousel/lib/styles/carousel.css';
+import { Carousel } from 'react-responsive-carousel';
 
 const getMojoTweets = gql`
   query getTweets {
@@ -34,50 +35,29 @@ const getMojoTweets = gql`
   }
 `;
 
-const TweetDivider = styled.div`
-  margin-top: 81px;
-  color: #959292;
-  display: flex;
-  margin-bottom: 16px;
-  flex-wrap: no-wrap;
-  justify-content: space-between;
-  flex-direction: column;
-  width: 45vw;
-  font-size: ${fontSizes.small};
-`;
-
 const PanelWrapper = styled.div`
   overflow: hidden;
+  height: 80%;
 `;
-
-const PreviousWrapper = styled.div`
-  margin-left: 100px;
-  break-inside: avoid;
-`;
-
-export function TabBar() {
-  return (
-    <svg width="1020" height="4" style={{ marginBottom: `${spacing.xxxl}` }}>
-      <rect width="1020" height="1" fill={colors.white} opacity="0.2" />
-    </svg>
-  );
-}
 
 function Twitter({ tweets }) {
   const previous = takeLast(1, splitAt(1, tweets))[0];
   return (
     <PanelWrapper>
-      <Tweet tweet={tweets[0]} isPrimary />
-      <PreviousWrapper>
-        <TweetDivider>Previous Tweets</TweetDivider>
-        <TabBar />
+      <Carousel
+        width="50%"
+        autoPlay
+        showThumbs={false}
+        interval={4000}
+        showStatus={false}
+      >
+        <Tweet tweet={tweets[0]} />
         {previous.map((tweet) => (
           <React.Fragment key={tweet.insertedAt}>
-            <Tweet tweet={tweet} isPrimary={false} />
-            <TabBar />
+            <Tweet tweet={tweet} />
           </React.Fragment>
         ))}
-      </PreviousWrapper>
+      </Carousel>
     </PanelWrapper>
   );
 }

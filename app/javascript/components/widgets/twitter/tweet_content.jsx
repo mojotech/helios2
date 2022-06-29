@@ -11,15 +11,15 @@ export const MediaWrapper = styled.div`
   width: auto;
   height: auto;
   max-width: auto;
-  max-height: 487px;
-  margin-bottom: 29px;
+  max-height: 400px;
+  margin-bottom: 100px;
 `;
 
 export const Text = styled.div`
   color: #959292;
-  font-size: ${(props) =>
-    props.primary ? `${fontSizes.large}` : `${fontSizes.small}`};
-  margin-bottom: ${(props) => (props.primary ? '29px' : `${spacing.xl}`)};
+  text-align: left;
+  font-size: ${fontSizes.large};
+  margin-bottom: 30px;
 `;
 
 const TwitterImage = styled.img`
@@ -62,29 +62,20 @@ const linkStyle = {
   border: 'solid 1px #333333',
 };
 
-export function TweetText({ text, isPrimary }) {
+export function TweetText({ text }) {
   return (
-    <Text primary={isPrimary}>
-      {isPrimary ? (
-        <Highlighter
-          highlightStyle={highlighterStyle}
-          searchWords={getMentionsAndTags(text)}
-          textToHighlight={text}
-        />
-      ) : (
-        text
-      )}
+    <Text>
+      <Highlighter
+        highlightStyle={highlighterStyle}
+        searchWords={getMentionsAndTags(text)}
+        textToHighlight={text}
+      />
     </Text>
   );
 }
 
-TweetText.defaultProps = {
-  isPrimary: true,
-};
-
 TweetText.propTypes = {
   text: PropTypes.string.isRequired,
-  isPrimary: PropTypes.bool,
 };
 
 const imageLayout = (images) =>
