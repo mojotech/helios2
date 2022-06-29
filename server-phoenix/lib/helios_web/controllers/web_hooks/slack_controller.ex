@@ -19,7 +19,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
         Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
 
         Task.Supervisor.start_child(
-          MyTaskSupervisor,
+          SlackImageDownloader,
           fn ->
             try do
               response = HTTPoison.post!(url, [], headers, follow_redirect: true)
