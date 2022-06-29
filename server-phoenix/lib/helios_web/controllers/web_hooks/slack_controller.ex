@@ -1,8 +1,41 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
-  require Logger
-  alias Helios.{Repo, Event}
-  defp slack_bearer_token, do: System.get_env("SLACK_BEARER_TOKEN")
+
+  alias Helios.{Repo, Event, SlackChannelNames}
+
+  defp slack_bearer_token,
+    do: Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]
+
+  defp insert_channel_id(channel_id) do
+    unless SlackChannelNames
+           |> SlackChannelNames.with_id(channel_id)
+           |> Repo.exists?() do
+      body = %{
+        "channel" => channel_id
+      }
+
+      request_body = URI.encode_query(body)
+
+      headers = [
+        {"Accept", "application/json"},
+        {"Authorization", "Bearer #{slack_bearer_token()}"},
+        {"Content-Type", "application/x-www-form-urlencoded"}
+      ]
+
+      channel_response =
+        HTTPoison.post!("https://slack.com/api/conversations.info", request_body, headers,
+          follow_redirect: true
+        )
+
+      json = Jason.decode!(channel_response.body)
+      name = json["channel"]["name"]
+
+      Repo.insert!(%SlackChannelNames{
+        channel_id: channel_id,
+        channel_name: name
+      })
+    end
+  end
 
   def handle(conn, params) do
     if params["type"] == "url_verification" do
@@ -16,21 +49,17 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
         headers = [Authorization: "Bearer #{slack_bearer_token()}"]
 
-        Logger.info("user id: #{inspect(Enum.at(params["authorizations"], 0)["user_id"])}")
-
         Task.Supervisor.start_child(
-          MyTaskSupervisor,
+          SlackImageDownloader,
           fn ->
-            try do
-              response = HTTPoison.post!(url, [], headers, follow_redirect: true)
-            rescue
-              e -> IO.inspect(e)
-            end
+            HTTPoison.post!(url, [], headers, follow_redirect: true)
           end
         )
-      else
-        Logger.info("not an image")
       end
+
+      channel_id = params["event"]["channel"]
+
+      insert_channel_id(channel_id)
 
       unless Event
              |> Event.slack_messages()

@@ -127,7 +127,7 @@
     "relative-to-alias": "jscodeshift --extensions jsx -t ./config/transforms/relative_to_alias_path.js ./ ",
     "prettier:format": "prettier --write '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json",
     "prettier:check": "prettier --check '{app/javascript/,__mocks__}/**/*.{js,jsx}' package.json",
-    "build": "node ./esbuild.config.js",
+    "build": "cp app/javascript/packs/index.html server-phoenix/priv/static/ && node ./esbuild.config.js",
     "serve": "cp app/javascript/packs/index.html server-phoenix/priv/static/ && node ./esbuild.config.js --serve"
   },
   "jest": {
