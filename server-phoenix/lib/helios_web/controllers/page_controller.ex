@@ -5,7 +5,7 @@ defmodule HeliosWeb.PageController do
     oauth_google_url = ElixirAuthGoogle.generate_oauth_url(conn)
     file = File.read!("priv/static/index.html")
 
-    in_path = conn.request_path in ["/Boulder", "Providence"]
+    in_path = conn.request_path in ["/Boulder", "/Providence"]
 
     if in_path do
       html(conn, file)
