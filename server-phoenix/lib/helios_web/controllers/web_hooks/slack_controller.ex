@@ -1,7 +1,9 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
   alias Helios.{Repo, Event}
-  defp slack_bearer_token, do: System.get_env("SLACK_BEARER_TOKEN")
+
+  defp slack_bearer_token,
+    do: Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]
 
   def handle(conn, params) do
     if params["type"] == "url_verification" do
