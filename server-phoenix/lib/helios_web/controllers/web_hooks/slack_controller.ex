@@ -18,11 +18,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
         Task.Supervisor.start_child(
           SlackImageDownloader,
           fn ->
-            try do
-              response = HTTPoison.post!(url, [], headers, follow_redirect: true)
-            rescue
-              e -> IO.inspect(e)
-            end
+            HTTPoison.post!(url, [], headers, follow_redirect: true)
           end
         )
       end
