@@ -1,0 +1,42 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class: "torch-button" %>
+    <%= link "Back", to: Routes.user_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>User Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Id:</div>
+          <div class="torch-show-data"><%= @user.id %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">User name:</div>
+          <div class="torch-show-data"><%= @user.user_name %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Public key:</div>
+          <div class="torch-show-data"><%= @user.public_key %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Inserted at:</div>
+          <div class="torch-show-data"><%= @user.inserted_at %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Updated at:</div>
+          <div class="torch-show-data"><%= @user.updated_at %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>
