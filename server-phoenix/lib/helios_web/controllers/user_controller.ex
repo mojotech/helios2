@@ -2,7 +2,7 @@ defmodule HeliosWeb.UserController do
   use HeliosWeb, :controller
 
   alias Helios.TorchContext
-  alias Helios.TorchContext.User
+  alias Helios.User
 
   plug(:put_root_layout, {HeliosWeb.LayoutView, "torch.html"})
   plug(:put_layout, false)

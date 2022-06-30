@@ -12,6 +12,7 @@ defmodule HeliosWeb.Router do
     plug :put_root_layout, {HeliosWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    resources "/users", UserController
   end
 
   pipeline :api do
@@ -38,6 +39,11 @@ defmodule HeliosWeb.Router do
   scope "/api/v:version/events", HeliosWeb.EventsAPI do
     pipe_through(:requires_auth)
     post("/", EventsAPIController, :handle)
+  end
+
+  scope "/admin", HeliosWeb, as: :admin do
+    pipe_through :browser
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
