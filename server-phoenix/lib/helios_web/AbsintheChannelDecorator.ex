@@ -90,7 +90,18 @@ defmodule HeliosWeb.AbsintheChannelDecorator do
   end
 
   def handle_in("unsubscribe", %{"subscriptionId" => doc_id}, socket) do
-    socket = run_unsubscribe(socket, "leave")
+    socket =
+      Socket.put_options(
+        socket,
+        context:
+          Map.merge(
+            socket.assigns.absinthe.opts[:context],
+            %{
+              "status" => "leave"
+            }
+          )
+      )
+
     Absinthe.Phoenix.Channel.handle_in("unsubscribe", %{"subscriptionId" => doc_id}, socket)
   end
 
