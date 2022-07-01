@@ -1,0 +1,46 @@
+<.form let={f} for={@changeset} action={@action} id="torch-form" enctype="multipart/form-data">
+  <fieldset class="torch-panel">
+    <legend>
+      <span>Details</span>
+    </legend>
+    <%= if @changeset.action do %>
+      <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
+    <% end %>
+  
+    <div class="torch-form-group">
+      <%= label f, :source %>
+      <div class="torch-form-group-input">
+        <%= select f, :source, Ecto.Enum.values(Helios.Events.Event, :source), prompt: "Choose a value" %>
+        <%= error_tag f, :source %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :external_id %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :external_id %>
+        <%= error_tag f, :external_id %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :source_author %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :source_author %>
+        <%= error_tag f, :source_author %>
+      </div>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :source_channel %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :source_channel %>
+        <%= error_tag f, :source_channel %>
+      </div>
+    </div>
+  
+    <div class="torch-submit-form">
+      <%= submit "Submit", class: "torch-submit-button" %>
+    </div>
+  </fieldset>
+</.form>

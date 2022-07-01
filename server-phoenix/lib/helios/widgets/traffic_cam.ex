@@ -1,10 +1,10 @@
-defmodule Helios.TrafficCam do
+defmodule Helios.Widgets.TrafficCam do
   use Ecto.Schema
 
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Helios.Location
+  alias Helios.Locations.Location
 
   @primary_key {:id, :id, autogenerate: true}
   schema "traffic_cams" do

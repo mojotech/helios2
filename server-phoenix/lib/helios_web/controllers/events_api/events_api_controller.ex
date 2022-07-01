@@ -1,6 +1,6 @@
 defmodule HeliosWeb.EventsAPI.EventsAPIController do
   use HeliosWeb, :controller
-  alias Helios.{Repo, Event}
+  alias Helios.{Repo, Events.Event}
 
   def handle(conn, params) do
     cond do

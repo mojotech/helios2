@@ -98,6 +98,11 @@ async function serve() {
         route: '/admin',
       }),
       proxy({
+        ...url.parse(`${frontendUrl}/torch`),
+        port: backendUrl.port,
+        route: '/torch',
+      }),
+      proxy({
         ...url.parse(`${frontendUrl}/assets`),
         port: backendUrl.port,
         route: '/assets',

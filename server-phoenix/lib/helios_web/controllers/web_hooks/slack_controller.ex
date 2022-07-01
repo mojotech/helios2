@@ -1,7 +1,7 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
 
-  alias Helios.{Repo, Event, SlackChannelNames}
+  alias Helios.{Repo, Events.Event, SlackChannelNames}
 
   defp slack_bearer_token,
     do: Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]

@@ -1,10 +1,11 @@
-defmodule Helios.DailyEventSummary do
+defmodule Helios.Events.DailyEventSummary do
   use Ecto.Schema
 
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Helios.{Repo, DailyEventSummary}
+  alias Helios.Repo
+  alias Helios.Events.DailyEventSummary
 
   schema "daily_event_summaries" do
     field :source, :string

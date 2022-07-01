@@ -1,7 +1,7 @@
 defmodule HeliosWeb.Schema.Resolvers.Location do
   alias HeliosWeb.Schema.Helpers.Location, as: LocationHelpers
   alias HeliosWeb.Clients.WeatherClient
-  alias Helios.{Repo, Location, Announcement, TrafficCam}
+  alias Helios.{Repo, Locations.Location, Events.Announcement, Widgets.TrafficCam}
 
   def location(_parent, %{city_name: city_name}, _info) do
     {:ok, Repo.get_by(Location, city_name: city_name)}

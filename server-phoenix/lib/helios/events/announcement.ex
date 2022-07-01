@@ -1,10 +1,10 @@
-defmodule Helios.Announcement do
+defmodule Helios.Events.Announcement do
   use Ecto.Schema
 
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Helios.Location
+  alias Helios.Locations.Location
 
   @required_fields [:announcement_id, :people, :publish_on]
 

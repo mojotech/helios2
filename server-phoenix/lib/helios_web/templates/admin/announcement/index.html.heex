@@ -1,0 +1,98 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Announcement", to: Routes.admin_announcement_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Announcements</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Message</label>
+            <%= filter_select(:announcement, :message, @conn.params) %>
+            <%= filter_string_input(:announcement, :message, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>People</label>
+            <%= filter_select(:announcement, :people, @conn.params) %>
+            <%= filter_string_input(:announcement, :people, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Company</label>
+            <%= filter_select(:announcement, :company, @conn.params) %>
+            <%= filter_string_input(:announcement, :company, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Announcement</label>
+            <%= filter_select(:announcement, :announcement_id, @conn.params) %>
+            <%= filter_string_input(:announcement, :announcement_id, @conn.params) %>
+          </div>
+        
+        
+        
+          <div class="field">
+            <label>Publish on</label>
+            <%= filter_date_input(:announcement, :publish_on, @conn.params) %>
+          </div>
+        
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.admin_announcement_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@announcements) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Publish on", :publish_on) %></th>
+            
+              <th><%= table_link(@conn, "Message", :message) %></th>
+            
+              <th><%= table_link(@conn, "People", :people) %></th>
+            
+              <th><%= table_link(@conn, "Company", :company) %></th>
+            
+              <th><%= table_link(@conn, "Announcement", :announcement_id) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for announcement <- @announcements do %>
+            <tr>
+              
+                <td><%= announcement.publish_on %></td>
+              
+                <td><%= announcement.message %></td>
+              
+                <td><%= announcement.people %></td>
+              
+                <td><%= announcement.company %></td>
+              
+                <td><%= announcement.announcement_id %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.admin_announcement_path(@conn, :show, announcement) %></span>
+                <span><%= link "Edit", to: Routes.admin_announcement_path(@conn, :edit, announcement) %></span>
+                <span><%= link "Delete", to: Routes.admin_announcement_path(@conn, :delete, announcement), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Announcements match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

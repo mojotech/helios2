@@ -18,6 +18,18 @@ defmodule HeliosWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/admin", HeliosWeb.Admin, as: :admin do
+    pipe_through :browser
+    resources "/users", UserController
+    resources "/developer_users", DeveloperUserController
+    resources "/locations", LocationController
+    resources "/events", EventController
+    resources "/daily_event_summaries", DailyEventSummaryController
+    resources "/announcements", AnnouncementController
+    resources "/widgets", WidgetController
+    resources "/traffic_cams", TrafficCamController
+  end
+
   scope "/" do
     pipe_through(:api)
     forward "/graphql", Absinthe.Plug, schema: HeliosWeb.Schema

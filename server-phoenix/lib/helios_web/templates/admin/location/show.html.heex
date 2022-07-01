@@ -1,0 +1,52 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_location_path(@conn, :edit, @location), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_location_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>Location Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Latitude:</div>
+          <div class="torch-show-data"><%= @location.latitude %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Longitude:</div>
+          <div class="torch-show-data"><%= @location.longitude %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">City name:</div>
+          <div class="torch-show-data"><%= @location.city_name %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Time zone:</div>
+          <div class="torch-show-data"><%= @location.time_zone %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Wifi name:</div>
+          <div class="torch-show-data"><%= @location.wifi_name %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Wifi password:</div>
+          <div class="torch-show-data"><%= @location.wifi_password %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Bathroom code:</div>
+          <div class="torch-show-data"><%= @location.bathroom_code %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>

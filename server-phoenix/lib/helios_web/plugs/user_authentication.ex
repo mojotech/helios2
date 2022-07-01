@@ -1,6 +1,6 @@
 defmodule HeliosWeb.Plugs.UserAuthentication do
   import Plug.Conn
-  alias Helios.User
+  alias Helios.Accounts.User
   alias Helios.Repo
 
   def init(default), do: default

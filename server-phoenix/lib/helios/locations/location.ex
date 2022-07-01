@@ -1,14 +1,14 @@
-defmodule Helios.Location do
+defmodule Helios.Locations.Location do
   use Ecto.Schema
 
   import Ecto.Changeset
   import Ecto.Changeset
 
-  alias Helios.{Announcement, TrafficCam, Widget}
+  alias Helios.{Events.Announcement, Widgets.TrafficCam, Widgets.Widget}
 
   @required_fields [:latitude, :longitude, :city_name, :time_zone]
 
-  @optional_fields [:bathroom_code, :wifi_name, :wifi_passord]
+  @optional_fields [:bathroom_code, :wifi_name, :wifi_password]
 
   @fields @required_fields ++ @optional_fields
 

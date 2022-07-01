@@ -1,4 +1,4 @@
-defmodule Helios.User do
+defmodule Helios.Accounts.User do
   use Ecto.Schema
 
   import Ecto.Query

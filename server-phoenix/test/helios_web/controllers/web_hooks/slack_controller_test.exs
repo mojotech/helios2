@@ -2,7 +2,7 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
   use HeliosWeb.ConnCase, async: true
   use ExUnit.Case
   import Mock
-  alias Helios.Event
+  alias Helios.Events.Event
   alias Helios.Repo
   alias Helios.SlackChannelNames
   require Logger
