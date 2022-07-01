@@ -1,5 +1,5 @@
 defmodule HeliosWeb.Schema.Resolvers.EventCollection do
-  alias Helios.{Repo, Event}
+  alias Helios.{Repo, Events.Event}
 
   def events(_parent, args, _info) do
     event_query =

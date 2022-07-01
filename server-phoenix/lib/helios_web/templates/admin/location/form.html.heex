@@ -1,0 +1,70 @@
+<.form let={f} for={@changeset} action={@action} id="torch-form" enctype="multipart/form-data">
+  <fieldset class="torch-panel">
+    <legend>
+      <span>Details</span>
+    </legend>
+    <%= if @changeset.action do %>
+      <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
+    <% end %>
+  
+    <div class="torch-form-group">
+      <%= label f, :latitude %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :latitude, step: "any" %>
+        <%= error_tag f, :latitude %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :longitude %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :longitude, step: "any" %>
+        <%= error_tag f, :longitude %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :city_name %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :city_name %>
+        <%= error_tag f, :city_name %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :time_zone %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :time_zone %>
+        <%= error_tag f, :time_zone %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :wifi_name %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :wifi_name %>
+        <%= error_tag f, :wifi_name %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :wifi_password %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :wifi_password %>
+        <%= error_tag f, :wifi_password %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :bathroom_code %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :bathroom_code %>
+        <%= error_tag f, :bathroom_code %>
+      </div>
+    </div>
+  
+    <div class="torch-submit-form">
+      <%= submit "Submit", class: "torch-submit-button" %>
+    </div>
+  </fieldset>
+</.form>

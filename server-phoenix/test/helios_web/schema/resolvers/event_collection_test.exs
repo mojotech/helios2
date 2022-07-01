@@ -1,7 +1,7 @@
 defmodule HeliosWeb.Schema.Resolvers.EventCollectionTest do
   use HeliosWeb.ConnCase, async: true
   use ExUnit.Case
-  alias Helios.Event
+  alias Helios.Events.Event
   alias Helios.Repo
 
   test "getting authors by # of contributions, AUTHORS: top 2 of 3" do

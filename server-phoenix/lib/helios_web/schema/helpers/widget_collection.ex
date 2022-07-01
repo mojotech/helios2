@@ -1,5 +1,5 @@
 defmodule HeliosWeb.Schema.Helpers.WidgetCollection do
-  alias Helios.{Widget, Location}
+  alias Helios.{Widgets.Widget, Locations.Location}
 
   def enabled_and_available(parent) when is_struct(parent, Location) do
     Widget

@@ -1,0 +1,78 @@
+<.form let={f} for={@changeset} action={@action} id="torch-form" enctype="multipart/form-data">
+  <fieldset class="torch-panel">
+    <legend>
+      <span>Details</span>
+    </legend>
+    <%= if @changeset.action do %>
+      <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
+    <% end %>
+  
+    <div class="torch-form-group">
+      <%= label f, :name %>
+      <div class="torch-form-group-input">
+        <%= textarea f, :name %>
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :enabled %>
+      <div class="torch-form-group-input">
+        <%= checkbox f, :enabled %>
+        <%= error_tag f, :enabled %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :duration_seconds %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :duration_seconds %>
+        <%= error_tag f, :duration_seconds %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :position %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :position %>
+        <%= error_tag f, :position %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :start %>
+      <div class="torch-form-group-input">
+        <%= time_select f, :start %>
+        <%= error_tag f, :start %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :stop %>
+      <div class="torch-form-group-input">
+        <%= time_select f, :stop %>
+        <%= error_tag f, :stop %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :sidebar_text %>
+      <div class="torch-form-group-input">
+        <%= textarea f, :sidebar_text %>
+        <%= error_tag f, :sidebar_text %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :show_weather %>
+      <div class="torch-form-group-input">
+        <%= checkbox f, :show_weather %>
+        <%= error_tag f, :show_weather %>
+      </div>
+    </div>
+  
+    <div class="torch-submit-form">
+      <%= submit "Submit", class: "torch-submit-button" %>
+    </div>
+  </fieldset>
+</.form>

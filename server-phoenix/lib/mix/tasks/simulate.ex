@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Simulate do
   use Mix.Task
-  alias Helios.{Repo, Event}
+  alias Helios.{Repo, Events.Event}
   require Phoenix.ConnTest
 
   def run(args) do

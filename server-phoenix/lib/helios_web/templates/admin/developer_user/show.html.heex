@@ -1,0 +1,32 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_developer_user_path(@conn, :edit, @developer_user), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_developer_user_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>Developer user Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Public key:</div>
+          <div class="torch-show-data"><%= @developer_user.public_key %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Git handle:</div>
+          <div class="torch-show-data"><%= @developer_user.git_handle %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Slack handle:</div>
+          <div class="torch-show-data"><%= @developer_user.slack_handle %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>

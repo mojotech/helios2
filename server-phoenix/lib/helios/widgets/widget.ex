@@ -1,8 +1,9 @@
-defmodule Helios.Widget do
+defmodule Helios.Widgets.Widget do
   use Ecto.Schema
 
   import Ecto.Changeset
   import Ecto.Query
+  alias Helios.Locations.Location
 
   @required_fields [:name, :enabled, :duration_seconds, :position]
 

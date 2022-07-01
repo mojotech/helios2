@@ -1,0 +1,115 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Widget", to: Routes.admin_widget_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Widgets</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Name</label>
+            <%= filter_select(:widget, :name, @conn.params) %>
+            <%= filter_string_input(:widget, :name, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Sidebar text</label>
+            <%= filter_select(:widget, :sidebar_text, @conn.params) %>
+            <%= filter_string_input(:widget, :sidebar_text, @conn.params) %>
+          </div>
+        
+        
+          <div class="field">
+            <label>Enabled</label>
+            <%= filter_boolean_input(:widget, :enabled, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Show weather</label>
+            <%= filter_boolean_input(:widget, :show_weather, @conn.params) %>
+          </div>
+        
+        
+        
+          <div class="field">
+            <label>Duration seconds</label>
+            <%= number_filter_select(:widget, :duration_seconds, @conn.params) %>
+            <%= filter_number_input(:widget, :duration_seconds, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Position</label>
+            <%= number_filter_select(:widget, :position, @conn.params) %>
+            <%= filter_number_input(:widget, :position, @conn.params) %>
+          </div>
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.admin_widget_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@widgets) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Name", :name) %></th>
+            
+              <th><%= table_link(@conn, "Enabled", :enabled) %></th>
+            
+              <th><%= table_link(@conn, "Duration seconds", :duration_seconds) %></th>
+            
+              <th><%= table_link(@conn, "Position", :position) %></th>
+            
+              <th><%= table_link(@conn, "Start", :start) %></th>
+            
+              <th><%= table_link(@conn, "Stop", :stop) %></th>
+            
+              <th><%= table_link(@conn, "Sidebar text", :sidebar_text) %></th>
+            
+              <th><%= table_link(@conn, "Show weather", :show_weather) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for widget <- @widgets do %>
+            <tr>
+              
+                <td><%= widget.name %></td>
+              
+                <td><%= widget.enabled %></td>
+              
+                <td><%= widget.duration_seconds %></td>
+              
+                <td><%= widget.position %></td>
+              
+                <td><%= widget.start %></td>
+              
+                <td><%= widget.stop %></td>
+              
+                <td><%= widget.sidebar_text %></td>
+              
+                <td><%= widget.show_weather %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.admin_widget_path(@conn, :show, widget) %></span>
+                <span><%= link "Edit", to: Routes.admin_widget_path(@conn, :edit, widget) %></span>
+                <span><%= link "Delete", to: Routes.admin_widget_path(@conn, :delete, widget), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Widgets match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

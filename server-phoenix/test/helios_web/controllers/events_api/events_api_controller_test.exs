@@ -1,9 +1,9 @@
 defmodule HeliosWeb.WebHooks.EventsAPIControllerTest do
   use HeliosWeb.ConnCase, async: true
   use ExUnit.Case
-  alias Helios.Event
+  alias Helios.Events.Event
   alias Helios.Repo
-  alias Helios.User
+  alias Helios.Accounts.User
 
   ##########################################################################
   # Generating http-auth header:                                           #

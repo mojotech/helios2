@@ -1,4 +1,4 @@
-defmodule Helios.DeveloperUser do
+defmodule Helios.Accounts.DeveloperUser do
   use Ecto.Schema
 
   import Ecto.Changeset

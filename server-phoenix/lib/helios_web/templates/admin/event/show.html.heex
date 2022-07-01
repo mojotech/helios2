@@ -1,0 +1,37 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_event_path(@conn, :edit, @event), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_event_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>Event Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Source:</div>
+          <div class="torch-show-data"><%= @event.source %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">External:</div>
+          <div class="torch-show-data"><%= @event.external_id %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Source author:</div>
+          <div class="torch-show-data"><%= @event.source_author %></div>
+        </div>
+
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Source channel:</div>
+          <div class="torch-show-data"><%= @event.source_channel %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>

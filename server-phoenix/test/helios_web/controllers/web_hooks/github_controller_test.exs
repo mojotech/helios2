@@ -1,7 +1,7 @@
 defmodule HeliosWeb.WebHooks.GithubControllerTest do
   use HeliosWeb.ConnCase, async: true
   use ExUnit.Case
-  alias Helios.Event
+  alias Helios.Events.Event
   alias Helios.Repo
 
   test "connection response OK", %{conn: conn} do

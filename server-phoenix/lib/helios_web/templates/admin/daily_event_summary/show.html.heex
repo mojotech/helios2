@@ -1,0 +1,32 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_daily_event_summary_path(@conn, :edit, @daily_event_summary), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_daily_event_summary_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>Daily event summary Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Source:</div>
+          <div class="torch-show-data"><%= @daily_event_summary.source %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Day:</div>
+          <div class="torch-show-data"><%= @daily_event_summary.day %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Count:</div>
+          <div class="torch-show-data"><%= @daily_event_summary.count %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>

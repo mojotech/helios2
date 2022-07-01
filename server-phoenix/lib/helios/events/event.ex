@@ -1,4 +1,4 @@
-defmodule Helios.Event do
+defmodule Helios.Events.Event do
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -15,7 +15,7 @@ defmodule Helios.Event do
 
   def changeset(event, attrs \\ %{}) do
     event
-    |> cast(attrs, [:source, :external_id])
+    |> cast(attrs, [:source, :external_id, :source_author, :source_channel])
   end
 
   def with_source(query, source) do

@@ -1,6 +1,6 @@
 defmodule HeliosWeb.WebHooks.GithubController do
   use HeliosWeb, :controller
-  alias Helios.{Repo, Event}
+  alias Helios.{Repo, Events.Event}
 
   def handle(conn, params) do
     [event_source] = get_req_header(conn, "x-github-event")

@@ -9,7 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-alias Helios.{Repo, Location, Widget, TrafficCam}
+alias Helios.{Repo, Locations.Location, Widgets.Widget, Widgets.TrafficCam}
 alias HeliosWeb.Schema.Helpers.Ecto, as: EctoHelpers
 
 providence =

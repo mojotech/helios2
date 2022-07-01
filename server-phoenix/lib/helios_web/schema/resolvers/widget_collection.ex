@@ -1,7 +1,7 @@
 defmodule HeliosWeb.Schema.Resolvers.WidgetCollection do
   alias HeliosWeb.Schema.Helpers.WidgetCollection, as: WidgetCollectionHelpers
   import Ecto.Query
-  alias Helios.{Repo, Widget, Location}
+  alias Helios.{Repo, Widgets.Widget, Locations.Location}
 
   def enabled(parent, _args, _info) when is_struct(parent, Location) do
     {:ok, WidgetCollectionHelpers.enabled_and_available(parent) |> Repo.all()}
