@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.TrafficCamControllerTest do
 
   alias Helios.Widgets
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{feed_format: "some feed_format", title: "some title", url: "some url"}
   @update_attrs %{
     feed_format: "some updated feed_format",

@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.DailyEventSummaryControllerTest do
 
   alias Helios.Events
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{count: 42, day: ~D[2022-07-04], source: "some source"}
   @update_attrs %{count: 43, day: ~D[2022-07-05], source: "some updated source"}
   @invalid_attrs %{count: nil, day: nil, source: nil}

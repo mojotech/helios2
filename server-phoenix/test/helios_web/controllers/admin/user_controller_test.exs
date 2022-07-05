@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.UserControllerTest do
 
   alias Helios.Accounts
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{public_key: "some public_key", user_name: "some user_name"}
   @update_attrs %{public_key: "some updated public_key", user_name: "some updated user_name"}
   @invalid_attrs %{public_key: nil, user_name: nil}

@@ -1,0 +1,14 @@
+<h1>Forgot your password?</h1>
+
+<.form let={f} for={:admin} action={Routes.admin_reset_password_path(@conn, :create)}>
+  <%= label f, :email %>
+  <%= email_input f, :email, required: true %>
+
+  <div>
+    <%= submit "Send instructions to reset password" %>
+  </div>
+</.form>
+
+<p>
+  <%= link "Log in", to: Routes.admin_session_path(@conn, :new) %>
+</p>

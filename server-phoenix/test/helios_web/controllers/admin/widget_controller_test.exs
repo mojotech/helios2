@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.WidgetControllerTest do
 
   alias Helios.Widgets
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{
     duration_seconds: 42,
     enabled: true,
