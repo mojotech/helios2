@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.EventControllerTest do
 
   alias Helios.Events
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{
     external_id: "some external_id",
     source: :github_commit,

@@ -1,6 +1,8 @@
 defmodule HeliosWeb.Router do
   use HeliosWeb, :router
 
+  import HeliosWeb.AdminAuth
+
   pipeline :requires_auth do
     plug HeliosWeb.Plugs.UserAuthentication
   end
@@ -12,6 +14,7 @@ defmodule HeliosWeb.Router do
     plug :put_root_layout, {HeliosWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_admin
   end
 
   pipeline :api do
@@ -19,7 +22,7 @@ defmodule HeliosWeb.Router do
   end
 
   scope "/admin", HeliosWeb.Admin, as: :admin do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_admin]
     resources "/users", UserController
     resources "/developer_users", DeveloperUserController
     resources "/locations", LocationController
@@ -28,6 +31,37 @@ defmodule HeliosWeb.Router do
     resources "/announcements", AnnouncementController
     resources "/widgets", WidgetController
     resources "/traffic_cams", TrafficCamController
+  end
+
+  ## Authentication routes
+
+  scope "/", HeliosWeb do
+    pipe_through [:browser, :redirect_if_admin_is_authenticated]
+
+    get "/admins/log_in", AdminSessionController, :new
+    post "/admins/log_in", AdminSessionController, :create
+    get "/admins/reset_password", AdminResetPasswordController, :new
+    post "/admins/reset_password", AdminResetPasswordController, :create
+    get "/admins/reset_password/:token", AdminResetPasswordController, :edit
+    put "/admins/reset_password/:token", AdminResetPasswordController, :update
+  end
+
+  scope "/", HeliosWeb do
+    pipe_through [:browser, :require_authenticated_admin]
+
+    get "/admins/settings", AdminSettingsController, :edit
+    put "/admins/settings", AdminSettingsController, :update
+    get "/admins/settings/confirm_email/:token", AdminSettingsController, :confirm_email
+  end
+
+  scope "/", HeliosWeb do
+    pipe_through [:browser]
+
+    delete "/admins/log_out", AdminSessionController, :delete
+    get "/admins/confirm", AdminConfirmationController, :new
+    post "/admins/confirm", AdminConfirmationController, :create
+    get "/admins/confirm/:token", AdminConfirmationController, :edit
+    post "/admins/confirm/:token", AdminConfirmationController, :update
   end
 
   scope "/" do

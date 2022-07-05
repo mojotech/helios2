@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.AnnouncementControllerTest do
 
   alias Helios.Events
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{
     announcement_id: "some announcement_id",
     company: "some company",

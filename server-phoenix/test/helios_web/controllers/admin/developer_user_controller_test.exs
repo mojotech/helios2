@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.DeveloperUserControllerTest do
 
   alias Helios.Accounts
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{
     git_handle: "some git_handle",
     public_key: "some public_key",

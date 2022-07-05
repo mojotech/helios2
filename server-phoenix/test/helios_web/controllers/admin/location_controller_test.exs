@@ -3,6 +3,8 @@ defmodule HeliosWeb.Admin.LocationControllerTest do
 
   alias Helios.Locations
 
+  setup :register_and_log_in_admin
+
   @create_attrs %{
     bathroom_code: "some bathroom_code",
     city_name: "some city_name",

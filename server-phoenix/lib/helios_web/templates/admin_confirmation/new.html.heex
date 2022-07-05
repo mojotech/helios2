@@ -1,0 +1,14 @@
+<h1>Resend confirmation instructions</h1>
+
+<.form let={f} for={:admin} action={Routes.admin_confirmation_path(@conn, :create)}>
+  <%= label f, :email %>
+  <%= email_input f, :email, required: true %>
+
+  <div>
+    <%= submit "Resend confirmation instructions" %>
+  </div>
+</.form>
+
+<p>
+  <%= link "Log in", to: Routes.admin_session_path(@conn, :new) %>
+</p>
