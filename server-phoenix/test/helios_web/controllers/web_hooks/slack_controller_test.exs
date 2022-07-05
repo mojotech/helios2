@@ -108,6 +108,105 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
     assert Map.fetch(first_message, :source_author) == {:ok, "Priscila"}
   end
 
+  test "check channel name (not nil) was added to events table", %{conn: conn} do
+    body = %{
+      "channel" => "asdf"
+    }
+
+    request_body = URI.encode_query(body)
+
+    headers = [
+      {"Accept", "application/json"},
+      {"Authorization", "Bearer asdf"},
+      {"Content-Type", "application/x-www-form-urlencoded"}
+    ]
+
+    with_mock HTTPoison,
+      post!: fn "https://slack.com/api/conversations.info",
+                request_body,
+                headers,
+                follow_redirect: true ->
+        %HTTPoison.Response{
+          body: "{
+            \"ok\": \"true\",
+            \"channel\": {
+                \"name\": \"general\"
+            }
+        }"
+        }
+      end do
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> post(
+        Routes.slack_path(conn, :handle),
+        %{
+          event: %{
+            channel: "asdf",
+            event_ts: "1559841925.001600"
+          }
+        }
+      )
+
+      events =
+        Event
+        |> Repo.all()
+
+      assert length(events) == 1
+      first_event = events |> Enum.at(0)
+      assert Map.fetch(first_event, :source_channel) == {:ok, "general"}
+    end
+  end
+
+  test "check channel name (nil) was added to events table", %{conn: conn} do
+    body = %{
+      "channel" => "asdf"
+    }
+
+    request_body = URI.encode_query(body)
+
+    headers = [
+      {"Accept", "application/json"},
+      {"Authorization", "Bearer asdf"},
+      {"Content-Type", "application/x-www-form-urlencoded"}
+    ]
+
+    with_mock HTTPoison,
+      post!: fn "https://slack.com/api/conversations.info",
+                request_body,
+                headers,
+                follow_redirect: true ->
+        %HTTPoison.Response{
+          body: "{
+            \"ok\": \"true\",
+            \"channel\": {
+
+            }
+        }"
+        }
+      end do
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> post(
+        Routes.slack_path(conn, :handle),
+        %{
+          event: %{
+            channel: "check_nil",
+            event_ts: "1559841925.001600"
+          }
+        }
+      )
+
+      events =
+        Event
+        |> Repo.all()
+
+      assert length(events) == 1
+      first_event = events |> Enum.at(0)
+
+      assert Map.fetch(first_event, :source_channel) == {:ok, nil}
+    end
+  end
+
   test "channel name (not nil) was added to db with id", %{conn: conn} do
     body = %{
       "channel" => "asdf"
