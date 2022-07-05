@@ -61,6 +61,11 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
       insert_channel_id(channel_id)
 
+      event_channel_name =
+        SlackChannelNames
+        |> SlackChannelNames.name_to_id(channel_id)
+        |> Repo.one()
+
       unless Event
              |> Event.slack_messages()
              |> Event.with_external_id(event["event_ts"])
@@ -68,7 +73,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
         Repo.insert!(%Event{
           source: :slack_message,
           external_id: event["event_ts"],
-          source_author: event["user"]
+          source_author: event["user"],
+          source_channel: event_channel_name
         })
         |> publish
       end

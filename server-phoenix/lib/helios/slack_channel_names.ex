@@ -14,4 +14,8 @@ defmodule Helios.SlackChannelNames do
   def with_id(query \\ __MODULE__, channel_id) do
     from(q in query, where: q.channel_id == ^channel_id, select: {q.channel_id})
   end
+
+  def name_to_id(query, channel_id) do
+    from(q in query, where: q.channel_id == ^channel_id, select: q.channel_name)
+  end
 end
