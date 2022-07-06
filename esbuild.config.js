@@ -7,9 +7,10 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const envObject = Object.entries(process.env);
-const envObjectFormatted = envObject.map(item => {
-  return [`process.env.${item[0]}`, JSON.stringify(item[1])];
-});
+const envObjectFormatted = envObject.map((item) => [
+  `process.env.${item[0]}`,
+  JSON.stringify(item[1]),
+]);
 const defineWithoutGlobal = Object.fromEntries(envObjectFormatted);
 const define = Object.assign(defineWithoutGlobal, { global: 'window' });
 
@@ -61,7 +62,7 @@ const buildServer = async (options = {}) => {
       ...options,
     })
     // eslint-disable-next-line
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 async function serve() {
