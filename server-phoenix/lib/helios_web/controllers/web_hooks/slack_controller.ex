@@ -63,7 +63,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
       event_channel_name =
         SlackChannelNames
-        |> SlackChannelNames.name_to_id(channel_id)
+        |> SlackChannelNames.name_from_id(channel_id)
         |> Repo.one()
 
       unless Event
