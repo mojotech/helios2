@@ -109,22 +109,10 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
   end
 
   test "check channel name (not nil) was added to events table", %{conn: conn} do
-    body = %{
-      "channel" => "asdf"
-    }
-
-    request_body = URI.encode_query(body)
-
-    headers = [
-      {"Accept", "application/json"},
-      {"Authorization", "Bearer asdf"},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-
     with_mock HTTPoison,
       post!: fn "https://slack.com/api/conversations.info",
-                request_body,
-                headers,
+                _request_body,
+                _headers,
                 follow_redirect: true ->
         %HTTPoison.Response{
           body: "{
@@ -158,22 +146,10 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
   end
 
   test "check channel name (nil) was added to events table", %{conn: conn} do
-    body = %{
-      "channel" => "asdf"
-    }
-
-    request_body = URI.encode_query(body)
-
-    headers = [
-      {"Accept", "application/json"},
-      {"Authorization", "Bearer asdf"},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-
     with_mock HTTPoison,
       post!: fn "https://slack.com/api/conversations.info",
-                request_body,
-                headers,
+                _request_body,
+                _headers,
                 follow_redirect: true ->
         %HTTPoison.Response{
           body: "{
@@ -202,28 +178,15 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
 
       assert length(events) == 1
       first_event = events |> Enum.at(0)
-
       assert Map.fetch(first_event, :source_channel) == {:ok, nil}
     end
   end
 
   test "channel name (not nil) was added to db with id", %{conn: conn} do
-    body = %{
-      "channel" => "asdf"
-    }
-
-    request_body = URI.encode_query(body)
-
-    headers = [
-      {"Accept", "application/json"},
-      {"Authorization", "Bearer asdf"},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-
     with_mock HTTPoison,
       post!: fn "https://slack.com/api/conversations.info",
-                request_body,
-                headers,
+                _request_body,
+                _headers,
                 follow_redirect: true ->
         %HTTPoison.Response{
           body: "{
@@ -258,22 +221,10 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
   end
 
   test "channel name (nil) was added to db with id", %{conn: conn} do
-    body = %{
-      "channel" => "asdf"
-    }
-
-    request_body = URI.encode_query(body)
-
-    headers = [
-      {"Accept", "application/json"},
-      {"Authorization", "Bearer asdf"},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-
     with_mock HTTPoison,
       post!: fn "https://slack.com/api/conversations.info",
-                request_body,
-                headers,
+                _request_body,
+                _headers,
                 follow_redirect: true ->
         %HTTPoison.Response{
           body: "{
