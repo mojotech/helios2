@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { assocPath } from 'ramda';
 import { getSunriseSunsetLocation } from '@weather/sunrise-sunset';
 
 /* eslint-disable graphql/template-strings */
@@ -22,20 +21,6 @@ query getLocationWeather($cityName: String!) {
 ${WeatherFrag}
 `;
 
-/* eslint-enable graphql/template-strings */
-
-/* eslint-disable graphql/template-strings */
-const subscribeWeatherPublished = (WeatherFrag, queryName) => gql`
-  subscription onWeatherPublished($latitude: Float!, $longitude: Float!) {
-    weatherPublished(latitude: $latitude, longitude: $longitude) {
-      ...${queryName}
-    }
-  }
-
-  ${WeatherFrag}
-`;
-/* eslint-enable graphql/template-strings */
-
 export function WeatherQuery({
   Subscription,
   LoadingMessage,
@@ -52,7 +37,7 @@ export function WeatherQuery({
       onCompleted={startTimer}
       onError={startTimer}
     >
-      {({ loading, error, data, subscribeToMore }) => {
+      {({ loading, error, data }) => {
         if (loading) {
           return <LoadingMessage />;
         }
@@ -61,33 +46,7 @@ export function WeatherQuery({
           return <DisconnectedMessage />;
         }
 
-        return (
-          <Subscription
-            location={data.location}
-            subscribeToPublishedEvents={() =>
-              subscribeToMore({
-                document: subscribeWeatherPublished(WeatherFrag, queryName),
-                variables: {
-                  latitude: data.location.latitude,
-                  longitude: data.location.longitude,
-                },
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) {
-                    return prev;
-                  }
-
-                  const { weatherPublished } = subscriptionData.data;
-
-                  return assocPath(
-                    ['location', 'weather'],
-                    weatherPublished,
-                    prev,
-                  );
-                },
-              })
-            }
-          />
-        );
+        return <Subscription location={data.location} />;
       }}
     </Query>
   );
