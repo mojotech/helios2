@@ -2331,51 +2331,6 @@
                   "ofType": null
                 }
               }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "latitude",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Float",
-                      "ofType": null
-                    }
-                  }
-                },
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "longitude",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Float",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": "Latest weather data retrieved",
-              "isDeprecated": false,
-              "name": "weatherPublished",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Weather",
-                  "ofType": null
-                }
-              }
             }
           ],
           "inputFields": null,
