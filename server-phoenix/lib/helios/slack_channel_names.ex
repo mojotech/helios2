@@ -1,7 +1,6 @@
 defmodule Helios.SlackChannelNames do
   use Ecto.Schema
 
-  import Ecto.Changeset
   import Ecto.Query
 
   schema "slack_channel_names" do
