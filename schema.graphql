@@ -127,8 +127,6 @@ type RootSubscriptionType {
     deploymentSha: String!
     "An event was published to the API"
     eventPublished: Event!
-    "Latest weather data retrieved"
-    weatherPublished(latitude: Float!, longitude: Float!): Weather!
 }
 
 type Solarcycle {
