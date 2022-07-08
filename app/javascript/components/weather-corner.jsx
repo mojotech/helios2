@@ -42,11 +42,8 @@ const SkyIconWrapper = styled.div`
   margin-bottom: 5px;
 `;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class WeatherCorner extends React.Component {
-  componentDidMount() {
-    this.props.subscribeToPublishedEvents();
-  }
-
   render() {
     const { location } = this.props;
     const { weather } = location;
@@ -74,7 +71,6 @@ WeatherCorner.propTypes = {
       }).isRequired,
     }).isRequired,
   }).isRequired,
-  subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
 const getWeatherQuery = ({ cityName }) => (

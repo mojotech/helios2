@@ -29,38 +29,6 @@ defmodule HeliosWeb.Schema.Types.Sub do
       end)
     end
 
-    field(:weather_published, non_null(:weather)) do
-      description("Latest weather data retrieved")
-      arg(:latitude, non_null(:float))
-      arg(:longitude, non_null(:float))
-
-      config(fn args,
-                %{
-                  context: %{
-                    "status" => status
-                  }
-                } ->
-        IO.puts("Channel Status")
-        IO.inspect(status)
-
-        if(status == "enter") do
-          IO.puts("subscribed")
-          add_args(args)
-        end
-
-        if(status == "leave" || status == "terminate") do
-          IO.puts("unsubscribed")
-          remove_args(args)
-        end
-
-        {:ok, topic: [args.latitude, args.longitude], context_id: "global"}
-      end)
-
-      resolve(fn event, _, _ ->
-        {:ok, event}
-      end)
-    end
-
     field(:announcement_published, non_null(:announcement),
       description: "An announcement was published"
     )

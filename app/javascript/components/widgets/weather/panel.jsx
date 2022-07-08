@@ -72,10 +72,6 @@ const Notice = styled(GreySubText)`
 `;
 
 class SubscribedWeather extends React.Component {
-  componentDidMount() {
-    this.props.subscribeToPublishedEvents();
-  }
-
   shouldComponentUpdate(nextProps) {
     return this.props.location !== nextProps.location;
   }
@@ -106,7 +102,6 @@ SubscribedWeather.propTypes = {
   location: PropTypes.shape({
     weather: PropTypes.shape({}).isRequired,
   }).isRequired,
-  subscribeToPublishedEvents: PropTypes.func.isRequired,
 };
 
 const getWeatherQuery = ({ startTimer, cityName }) => (
