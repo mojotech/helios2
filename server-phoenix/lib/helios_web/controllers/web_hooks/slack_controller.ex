@@ -1,5 +1,6 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
+  require JSON
 
   alias Helios.{Repo, Events.Event, SlackChannelNames}
 
