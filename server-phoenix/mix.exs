@@ -62,7 +62,8 @@ defmodule Helios.MixProject do
       {:absinthe_phoenix, "~> 2.0.0"},
       {:elixir_uuid, "~> 1.2"},
       {:exq, "~> 0.16.1"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:waffle, "~> 1.1"} #refer to docs when its aws time
     ]
   end
 

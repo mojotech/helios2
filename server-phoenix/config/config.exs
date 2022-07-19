@@ -57,6 +57,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :waffle,
+  storage: Waffle.Storage.Local,
+  #asset_host: "/home/billy/Documents/helios/helios2/server-phoenix/images"
+  storage_dir: "/uploads"
+
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 config :cors_plug,

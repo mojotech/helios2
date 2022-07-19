@@ -28,6 +28,7 @@ defmodule HeliosWeb.Schema do
   import_types(HeliosWeb.Schema.Types.EmployeeEventCollection)
   import_types(HeliosWeb.Schema.Types.Employee)
   import_types(HeliosWeb.Schema.Types.Event)
+  import_types(HeliosWeb.Schema.Types.Feed)
   import_types(HeliosWeb.Schema.Types.EventCollection)
   import_types(HeliosWeb.Schema.Types.Location)
   import_types(HeliosWeb.Schema.Types.Solarcycle)
