@@ -38,49 +38,56 @@ defmodule HeliosWeb.WebHooks.SlackController do
     end
   end
 
+
+  def download_slack_image(params) do
+    img = params["event"]["files"]
+
+    if img do
+      image_url = Enum.at(img, 0)["url_private_download"]
+
+      headers = [Authorization: "Bearer #{slack_bearer_token()}"]
+
+      Task.Supervisor.start_child(
+        SlackImageDownloader,
+        fn ->
+          HTTPoison.post!(image_url, [], headers, follow_redirect: true)
+        end
+      )
+    end
+  end
+
   def handle(conn, params) do
-    if params["type"] == "url_verification" do
-      send_resp(conn, 200, params["challenge"])
-    else
-      event = params["event"]
-      img = params["event"]["files"]
+    cond do
+      params["type"] == "url_verification" ->
+        send_resp(conn, 200, params["challenge"])
 
-      if img do
-        url = Enum.at(img, 0)["url_private_download"]
+      true ->
+        event = params["event"]
+        download_slack_image(params)
 
-        headers = [Authorization: "Bearer #{slack_bearer_token()}"]
+        channel_id = params["event"]["channel"]
 
-        Task.Supervisor.start_child(
-          SlackImageDownloader,
-          fn ->
-            HTTPoison.post!(url, [], headers, follow_redirect: true)
-          end
-        )
-      end
+        insert_channel_id(channel_id)
 
-      channel_id = params["event"]["channel"]
+        event_channel_name =
+          SlackChannelNames
+          |> SlackChannelNames.name_from_id(channel_id)
+          |> Repo.one()
 
-      insert_channel_id(channel_id)
+        unless Event
+               |> Event.slack_messages()
+               |> Event.with_external_id(event["event_ts"])
+               |> Repo.exists?() do
+          Repo.insert!(%Event{
+            source: :slack_message,
+            external_id: event["event_ts"],
+            source_author: event["user"],
+            source_channel: event_channel_name
+          })
+          |> publish
+        end
 
-      event_channel_name =
-        SlackChannelNames
-        |> SlackChannelNames.name_from_id(channel_id)
-        |> Repo.one()
-
-      unless Event
-             |> Event.slack_messages()
-             |> Event.with_external_id(event["event_ts"])
-             |> Repo.exists?() do
-        Repo.insert!(%Event{
-          source: :slack_message,
-          external_id: event["event_ts"],
-          source_author: event["user"],
-          source_channel: event_channel_name
-        })
-        |> publish
-      end
-
-      send_resp(conn, 200, "OK")
+        send_resp(conn, 200, "OK")
     end
   end
 
