@@ -80,6 +80,18 @@ defmodule HeliosWeb.WebHooks.SlackController do
     )
   end
 
+  def handle_interactive_message_response(conn, params) do
+    {success, result} = JSON.decode(params["payload"])
+
+    if result["type"] == "interactive_message" &&
+         Enum.at(result["actions"], 0)["name"] == "submit_photo" &&
+         Enum.at(result["actions"], 0)["value"] == "Yes" do
+      send_resp(conn, 200, "message added to helios")
+    else
+      send_resp(conn, 200, "message not added to helios")
+    end
+  end
+
   def download_slack_image(params) do
     img = params["event"]["files"]
 
@@ -102,6 +114,9 @@ defmodule HeliosWeb.WebHooks.SlackController do
     cond do
       params["type"] == "url_verification" ->
         send_resp(conn, 200, params["challenge"])
+
+      params["payload"] ->
+        handle_interactive_message_response(conn, params)
 
       true ->
         event = params["event"]
