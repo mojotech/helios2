@@ -92,7 +92,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
     end
   end
 
-
   def download_slack_image(params) do
     img = params["event"]["files"]
 
