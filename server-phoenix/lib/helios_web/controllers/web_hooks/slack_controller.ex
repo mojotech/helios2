@@ -38,12 +38,54 @@ defmodule HeliosWeb.WebHooks.SlackController do
     end
   end
 
+  defp send_message(channel_id, image_url) do
+    headers = [
+      {"Accept", "application/json"},
+      {"Authorization", "Bearer #{slack_bearer_token()}"},
+      {"Content-Type", "application/json"}
+    ]
+
+    body = %{
+      channel: channel_id,
+      text: "Submit your message to Helios feed images?",
+      attachments: [
+        %{
+          image_url: image_url,
+          fallback: "You are unable to submit photo to Helios",
+          callback_id: "photo_submitted",
+          color: "#3AA3E3",
+          attachment_type: "default",
+          actions: [
+            %{
+              name: "submit_photo",
+              text: "Yes",
+              type: "button",
+              value: "Yes"
+            },
+            %{
+              name: "submit_photo",
+              text: "No",
+              type: "button",
+              value: "No"
+            }
+          ]
+        }
+      ]
+    }
+
+    {status, json_body} = JSON.encode(body)
+
+    HTTPoison.post!("https://slack.com/api/chat.postMessage", json_body, headers,
+      follow_redirect: true
+    )
+  end
 
   def download_slack_image(params) do
     img = params["event"]["files"]
 
     if img do
       image_url = Enum.at(img, 0)["url_private_download"]
+      send_message(params["event"]["user"], image_url)
 
       headers = [Authorization: "Bearer #{slack_bearer_token()}"]
 
