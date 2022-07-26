@@ -144,6 +144,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
           |> publish
         end
 
+
         send_resp(conn, 200, "OK")
     end
   end
