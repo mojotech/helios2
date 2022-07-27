@@ -4,6 +4,7 @@ const liveServer = require('live-server');
 const proxy = require('proxy-middleware');
 const url = require('url');
 const path = require('path');
+const copyStaticFiles = require('esbuild-copy-static-files');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const envObject = Object.entries(process.env);
@@ -31,6 +32,29 @@ const buildConfig = {
   outfile: 'server-phoenix/priv/static/assets/application.js',
   define,
   publicPath: '/assets',
+  plugins: [
+    copyStaticFiles({
+      src: 'node_modules/@handtracking.io/yoha/models',
+      dest: 'server-phoenix/priv/static/assets/yoha',
+      recursive: true,
+    }),
+    //  Ideally this is one .../dist/*.wasm
+    copyStaticFiles({
+      src: 'node_modules/@tensorflow/tfjs-backend-wasm/dist/tfjs-backend-wasm.wasm',
+      dest: 'server-phoenix/priv/static/assets/tensor/tfjs-backend-wasm.wasm',
+      recursive: false,
+    }),
+    copyStaticFiles({
+      src: 'node_modules/@tensorflow/tfjs-backend-wasm/dist/tfjs-backend-wasm-simd.wasm',
+      dest: 'server-phoenix/priv/static/assets/tensor/tfjs-backend-wasm-simd.wasm',
+      recursive: false,
+    }),
+    copyStaticFiles({
+      src: 'node_modules/@tensorflow/tfjs-backend-wasm/dist/tfjs-backend-wasm-threaded-simd.wasm',
+      dest: 'server-phoenix/priv/static/assets/tensor/tfjs-backend-wasm-threaded-simd.wasm',
+      recursive: false,
+    }),
+  ],
   metafile: true,
   external: ['node_modules'],
   loader: {

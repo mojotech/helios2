@@ -8,6 +8,7 @@ import {
   IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
+import * as yohaStarter from '@javascript/yoha-starter';
 import WidgetController from '@components/widget-controller';
 import versionCompare from '@components/version-compare';
 import helioSchema from '@javascript/schema.json';
@@ -84,6 +85,10 @@ const client = new ApolloClient({
 });
 
 versionCompare(client);
+
+if (process.env.HAND_TRACKING_ENABLED === 'true') {
+  yohaStarter.Run();
+}
 
 function App() {
   return (
