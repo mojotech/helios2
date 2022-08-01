@@ -16,7 +16,8 @@ config :helios, HeliosWeb.Endpoint,
   render_errors: [view: HeliosWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Helios.PubSub,
   live_view: [signing_salt: "ryFqXbhy"],
-  slack_bearer_token: System.get_env("SLACK_BEARER_TOKEN")
+  slack_bearer_token: System.get_env("SLACK_BEARER_TOKEN"),
+  upload_bearer_token: System.get_env("UPLOAD_BEARER_TOKEN")
 
 config :exq,
   url: System.get_env("REDIS_URL", "redis://localhost:6379/1")

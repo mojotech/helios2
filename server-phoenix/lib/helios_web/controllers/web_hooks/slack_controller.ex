@@ -7,6 +7,9 @@ defmodule HeliosWeb.WebHooks.SlackController do
   defp slack_bearer_token,
     do: Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]
 
+  defp upload_bearer_token,
+    do: Application.get_env(:helios, HeliosWeb.Endpoint)[:upload_bearer_token]
+
   defp insert_channel_id(channel_id) do
     unless SlackChannelNames
            |> SlackChannelNames.with_id(channel_id)
@@ -41,7 +44,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
   defp send_message(channel_id, image_url) do
     headers = [
       {"Accept", "application/json"},
-      {"Authorization", "Bearer #{slack_bearer_token()}"},
+      {"Authorization", "Bearer #{upload_bearer_token()}"},
       {"Content-Type", "application/json"}
     ]
 
@@ -99,7 +102,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
       image_url = Enum.at(img, 0)["url_private_download"]
       send_message(params["event"]["user"], image_url)
 
-      headers = [Authorization: "Bearer #{slack_bearer_token()}"]
+      headers = [Authorization: "Bearer #{upload_bearer_token()}"]
 
       Task.Supervisor.start_child(
         SlackImageDownloader,
