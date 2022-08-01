@@ -1,6 +1,7 @@
 defmodule HeliosWeb.WebHooks.SlackController do
   use HeliosWeb, :controller
   require JSON
+  require Logger
 
   alias Helios.{Repo, Events.Event, SlackChannelNames}
 
@@ -78,9 +79,12 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
     {status, json_body} = JSON.encode(body)
 
-    HTTPoison.post!("https://slack.com/api/chat.postMessage", json_body, headers,
-      follow_redirect: true
-    )
+    message_response =
+      HTTPoison.post!("https://slack.com/api/chat.postMessage", json_body, headers,
+        follow_redirect: true
+      )
+
+    Logger.info("message success/error: #{inspect(message_response)}")
   end
 
   def handle_interactive_message_response(conn, params) do
@@ -89,6 +93,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
     if result["type"] == "interactive_message" &&
          Enum.at(result["actions"], 0)["name"] == "submit_photo" &&
          Enum.at(result["actions"], 0)["value"] == "Yes" do
+      Logger.info("message response: #{inspect(result)}")
       send_resp(conn, 200, "message added to helios")
     else
       send_resp(conn, 200, "message not added to helios")
@@ -96,6 +101,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
   end
 
   def download_slack_image(params) do
+    Logger.info("inside download slack image")
     img = params["event"]["files"]
 
     if img do
@@ -107,7 +113,8 @@ defmodule HeliosWeb.WebHooks.SlackController do
       Task.Supervisor.start_child(
         SlackImageDownloader,
         fn ->
-          HTTPoison.post!(image_url, [], headers, follow_redirect: true)
+          download_image_response = HTTPoison.post!(image_url, [], headers, follow_redirect: true)
+          Logger.info("download image res: #{inspect(download_image_response)}")
         end
       )
     end
@@ -146,7 +153,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
           })
           |> publish
         end
-
 
         send_resp(conn, 200, "OK")
     end
