@@ -3,7 +3,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
   require JSON
   require Logger
 
-  alias Helios.{Repo, Events.Event, SlackChannelNames}
+  alias Helios.{Repo, Events.Event, Feed, SlackChannelNames}
 
   defp slack_bearer_token,
     do: Application.get_env(:helios, HeliosWeb.Endpoint)[:slack_bearer_token]
@@ -109,7 +109,11 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
     response = HTTPoison.post!(image_url, [], headers, follow_redirect: true)
 
-      headers = [Authorization: "Bearer #{upload_bearer_token()}"]
+    %{uuid: uuid} =
+      Repo.insert!(%Feed{
+        source: channel_id,
+        author: user_id
+      })
 
   end
 
