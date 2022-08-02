@@ -5,6 +5,7 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
   alias Helios.Events.Event
   alias Helios.Repo
   alias Helios.SlackChannelNames
+  alias Helios.Feed
   require Logger
 
   test "connection response OK", %{conn: conn} do
@@ -256,6 +257,99 @@ defmodule HeliosWeb.WebHooks.SlackControllerTest do
       first_channel = channels |> Enum.at(0)
       assert Map.fetch(first_channel, :channel_id) == {:ok, "check_nil"}
       assert Map.fetch(first_channel, :channel_name) == {:ok, nil}
+    end
+  end
+
+  test "interactive message download image", %{conn: conn} do
+    params = %{"payload" => "{\"type\":\"interactive_message\",
+    \"actions\":
+      [{\"name\":\"submit_photo\",\"value\":\"C03KL9YHHGF\"}],
+    \"user\":{\"id\":\"U03GCCMJHFY\",\"name\":\"billy\"},
+    \"original_message\":
+      {
+        \"attachments\":
+          [
+            {
+              \"image_url\":\"https:\\/\\/files.slack.com\\/files-pri\\/T025HSHHX-F03PV6HRG2K\\/download\\/test.jpg\"
+            }
+          ]
+      },
+    }"}
+    {success, result} = JSON.decode(params["payload"])
+    image_url = Enum.at(result["original_message"]["attachments"], 0)["image_url"]
+
+    with_mocks([
+      {HTTPoison, [],
+       post!: fn image_url, _request_body, _headers, follow_redirect: true ->
+         %HTTPoison.Response{
+           body: "{
+                        }"
+         }
+       end},
+      {Helios.Avatar, [], [store: fn _other -> "" end]}
+    ]) do
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> post(
+        Routes.slack_path(conn, :handle),
+        params
+      )
+
+      feed =
+        Feed
+        |> Repo.all()
+
+      assert called(HTTPoison.post!(image_url, :_, :_, follow_redirect: true))
+      assert called(Helios.Avatar.store(:_))
+      assert length(feed) == 1
+      first_feed = feed |> Enum.at(0)
+      assert Map.fetch(first_feed, :source) == {:ok, "C03KL9YHHGF"}
+      assert Map.fetch(first_feed, :author) == {:ok, "U03GCCMJHFY"}
+    end
+  end
+
+  test "interactive message do not download image", %{conn: conn} do
+    params = %{"payload" => "{\"type\":\"interactive_message\",
+    \"actions\":
+      [{\"name\":\"submit_photo\",\"value\":\"No\"}],
+    \"user\":{\"id\":\"U03GCCMJHFY\",\"name\":\"billy\"},
+    \"original_message\":
+      {
+        \"attachments\":
+          [
+            {
+              \"image_url\":\"https:\\/\\/files.slack.com\\/files-pri\\/T025HSHHX-F03PV6HRG2K\\/download\\/test.jpg\"
+            }
+          ]
+      },
+    }"}
+    {success, result} = JSON.decode(params["payload"])
+    image_url = Enum.at(result["original_message"]["attachments"], 0)["image_url"]
+
+    with_mocks([
+      {HTTPoison, [],
+       post!: fn image_url, _request_body, _headers, follow_redirect: true ->
+         %HTTPoison.Response{
+           body: "{
+                        }"
+         }
+       end},
+      {Helios.Avatar, [], [store: fn _other -> "" end]}
+    ]) do
+      conn
+      |> put_req_header("content-type", "application/json")
+      |> post(
+        Routes.slack_path(conn, :handle),
+        params
+      )
+
+      feed =
+        Feed
+        |> Repo.all()
+
+      assert_not_called(HTTPoison.post!(image_url, :_, :_, follow_redirect: true))
+      assert_not_called(Helios.Avatar.store(:_))
+      assert length(feed) == 0
     end
   end
 
