@@ -115,6 +115,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
         author: user_id
       })
 
+    Helios.Avatar.store({%{binary: response.body, filename: uuid}, ""})
   end
 
   def handle(conn, params) do
