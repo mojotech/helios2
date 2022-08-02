@@ -42,7 +42,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
     end
   end
 
-  defp send_message(channel_id, image_url) do
+  defp send_message(channel_id, orig_channel, image_url) do
     headers = [
       {"Accept", "application/json"},
       {"Authorization", "Bearer #{upload_bearer_token()}"},
@@ -64,7 +64,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
               name: "submit_photo",
               text: "Yes",
               type: "button",
-              value: "Yes"
+              value: orig_channel
             },
             %{
               name: "submit_photo",
@@ -132,9 +132,20 @@ defmodule HeliosWeb.WebHooks.SlackController do
       true ->
         event = params["event"]
         download_slack_image(params)
+        img = event["files"]
+
+        if img do
+          mimetype = Enum.at(img, 0)["mimetype"]
+
+          if mimetype == "image/png" || mimetype == "image/jpeg" do
+            img_sender = event["user"]
+            channel_id = event["channel"]
+            image_url = Enum.at(img, 0)["url_private_download"]
+            send_message(img_sender, channel_id, image_url)
+          end
+        end
 
         channel_id = params["event"]["channel"]
-
         insert_channel_id(channel_id)
 
         event_channel_name =
