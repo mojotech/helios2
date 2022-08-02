@@ -67,7 +67,12 @@ defmodule Helios.MixProject do
       {:elixir_auth_google, "~> 1.6.3"},
       {:mock, "~> 0.3.0", only: :test},
       {:torch, "~> 4.2.1"},
-      {:json, "~> 1.4"}
+      {:json, "~> 1.4"},
+      {:waffle, "~> 1.1"},
+      {:ex_aws, "~> 2.1.2"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 

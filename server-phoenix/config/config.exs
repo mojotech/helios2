@@ -29,6 +29,20 @@ config :extwitter, :oauth,
   access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
   access_token_secret: System.get_env("TWITTER_ACCESS_SECRET")
 
+config :waffle,
+  storage: Waffle.Storage.S3,
+  bucket: {:system, "S3_BUCKET"}
+
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role],
+  secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role],
+  region: "us-east-1"
+
+config :ex_aws, :hackney_opts,
+  follow_redirect: true,
+  recv_timeout: 30_000
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
