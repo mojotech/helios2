@@ -103,6 +103,7 @@ defmodule HeliosWeb.WebHooks.SlackController do
   def download_slack_image(params) do
     Logger.info("inside download slack image")
     img = params["event"]["files"]
+    headers = [Authorization: "Bearer #{upload_bearer_token()}"]
 
     if img do
       image_url = Enum.at(img, 0)["url_private_download"]
