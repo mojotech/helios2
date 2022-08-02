@@ -92,33 +92,25 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
     if result["type"] == "interactive_message" &&
          Enum.at(result["actions"], 0)["name"] == "submit_photo" &&
-         Enum.at(result["actions"], 0)["value"] == "Yes" do
-      Logger.info("message response: #{inspect(result)}")
+         Enum.at(result["actions"], 0)["value"] != "No" do
+      channel_id = Enum.at(result["actions"], 0)["value"]
+      user_id = result["user"]["id"]
+      image_url = Enum.at(result["original_message"]["attachments"], 0)["image_url"]
+
+      download_slack_image(image_url, channel_id, user_id)
       send_resp(conn, 200, "message added to helios")
     else
       send_resp(conn, 200, "message not added to helios")
     end
   end
 
-  def download_slack_image(params) do
-    Logger.info("inside download slack image")
-    img = params["event"]["files"]
+  def download_slack_image(image_url, channel_id, user_id) do
     headers = [Authorization: "Bearer #{upload_bearer_token()}"]
 
-    if img do
-      image_url = Enum.at(img, 0)["url_private_download"]
-      send_message(params["event"]["user"], image_url)
+    response = HTTPoison.post!(image_url, [], headers, follow_redirect: true)
 
       headers = [Authorization: "Bearer #{upload_bearer_token()}"]
 
-      Task.Supervisor.start_child(
-        SlackImageDownloader,
-        fn ->
-          download_image_response = HTTPoison.post!(image_url, [], headers, follow_redirect: true)
-          Logger.info("download image res: #{inspect(download_image_response)}")
-        end
-      )
-    end
   end
 
   def handle(conn, params) do
@@ -131,7 +123,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
       true ->
         event = params["event"]
-        download_slack_image(params)
         img = event["files"]
 
         if img do
