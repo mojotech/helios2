@@ -7,8 +7,8 @@ export default function PhysicsApp() {
   const ref = React.useRef(null);
   React.useEffect(() => {
     const app = new PIXI.Application({
-      width: 1000,
-      height: 800,
+      width: 1100,
+      height: 600,
       view: ref.current,
     });
     RAPIER.init().then(() => run_simulation(app));

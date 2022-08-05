@@ -5,8 +5,8 @@ import githubCommitIcon from '@images/commit.png';
 import slackMessageIcon from '@images/slack.png';
 
 export default function run_simulation(app) {
-  const windowSizeX = 1000;
-  const windowSizeY = 800;
+  const windowSizeX = 1100;
+  const windowSizeY = 600;
   const border = 100;
 
   //Rapier world settings
