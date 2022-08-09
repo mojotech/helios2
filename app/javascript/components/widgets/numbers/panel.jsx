@@ -8,7 +8,7 @@ import pluralize from 'pluralize';
 import { getStartOfWeek } from '@lib/datetime';
 import { LoadingMessage, DisconnectedMessage } from '@messages/message';
 import { colors, weights, fontSizes, fonts, spacing } from '@lib/theme';
-import FallingBlocks from '@numbers/falling-blocks';
+import PhysicsApp from '@numbers/physicsApp';
 import { getEventCounts, subscribeEventPublished } from '@numbers/queries';
 import githubPullImage from '@assets/images/displayPR.png';
 import githubCommitImage from '@assets/images/displayCommit.png';
@@ -179,7 +179,7 @@ function Numbers({ startTimer }) {
                 }
               />
             </Count>
-            <FallingBlocks />
+            <PhysicsApp eventCount={count} />
           </>
         );
       }}
