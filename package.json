@@ -136,6 +136,9 @@
   },
   "jest": {
     "verbose": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>/setup-jest.js"
+    ],
     "testEnvironment": "jsdom",
     "testURL": "http://localhost/",
     "roots": [
