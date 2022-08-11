@@ -10,4 +10,12 @@ defmodule Helios.Feed do
 
     timestamps()
   end
+
+  def top_images(query \\ __MODULE__) do
+    from(q in query,
+      select: %{"uuid" => q.uuid},
+      limit: 6,
+      order_by: fragment("RANDOM()")
+    )
+  end
 end

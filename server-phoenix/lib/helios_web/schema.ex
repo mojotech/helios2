@@ -45,11 +45,13 @@ defmodule HeliosWeb.Schema do
   import_types(HeliosWeb.Schema.Queries.Location)
   import_types(HeliosWeb.Schema.Queries.Tweet)
   import_types(HeliosWeb.Schema.Queries.EventCollection)
+  import_types(HeliosWeb.Schema.Queries.Feed)
 
   query do
     import_fields(:location_queries)
     import_fields(:tweet_queries)
     import_fields(:event_collection_queries)
+    import_fields(:feed_queries)
   end
 
   subscription do
