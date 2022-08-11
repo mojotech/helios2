@@ -96,7 +96,6 @@ defmodule HeliosWeb.WebHooks.SlackController do
       channel_id = Enum.at(result["actions"], 0)["value"]
       user_id = result["user"]["id"]
       image_url = Enum.at(result["original_message"]["attachments"], 0)["image_url"]
-
       download_slack_image(image_url, channel_id, user_id)
       send_resp(conn, 200, "message added to helios")
     else
@@ -108,14 +107,17 @@ defmodule HeliosWeb.WebHooks.SlackController do
     headers = [Authorization: "Bearer #{upload_bearer_token()}"]
 
     response = HTTPoison.post!(image_url, [], headers, follow_redirect: true)
+    Logger.info("response : #{inspect(response)}")
 
-    %{uuid: uuid} =
-      Repo.insert!(%Feed{
-        source: channel_id,
-        author: user_id
-      })
+    if response.body do
+      %{uuid: uuid} =
+        Repo.insert!(%Feed{
+          source: channel_id,
+          author: user_id
+        })
 
-    Helios.Avatar.store({%{binary: response.body, filename: uuid}, ""})
+      Helios.Avatar.store({%{binary: response.body, filename: uuid}, ""})
+    end
   end
 
   def handle(conn, params) do
@@ -135,9 +137,13 @@ defmodule HeliosWeb.WebHooks.SlackController do
 
           if mimetype == "image/png" || mimetype == "image/jpeg" do
             img_sender = event["user"]
+            Logger.info("user id: #{inspect(img_sender)}")
             channel_id = event["channel"]
             image_url = Enum.at(img, 0)["url_private_download"]
-            send_message(img_sender, channel_id, image_url)
+
+            if img_sender == "U03GCCMJHFY" || channel_id == "C019VFP21K8" do
+              send_message(img_sender, channel_id, image_url)
+            end
           end
         end
 
