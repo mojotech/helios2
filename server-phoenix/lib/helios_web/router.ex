@@ -57,6 +57,7 @@ defmodule HeliosWeb.Router do
   scope "/", HeliosWeb do
     pipe_through [:browser]
 
+    get "/images/:uuid", SignedImageController, :handle
     delete "/admins/log_out", AdminSessionController, :delete
     get "/admins/confirm", AdminConfirmationController, :new
     post "/admins/confirm", AdminConfirmationController, :create
@@ -77,7 +78,6 @@ defmodule HeliosWeb.Router do
   scope "/web_hooks", HeliosWeb.WebHooks do
     post("/github", GithubController, :handle)
     post("/slack", SlackController, :handle)
-
     post("/publish", PublishController, :handle)
   end
 
