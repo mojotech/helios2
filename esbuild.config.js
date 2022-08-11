@@ -136,6 +136,11 @@ async function serve() {
         port: backendUrl.port,
         route: '/events',
       }),
+      proxy({
+        ...url.parse(`${frontendUrl}/images`),
+        port: backendUrl.port,
+        route: '/images',
+      }),
     ],
     logLevel: 0,
   });
