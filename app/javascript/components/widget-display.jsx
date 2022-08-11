@@ -13,6 +13,7 @@ import Twitter from '@widgets/twitter';
 import Numbers from '@widgets/numbers';
 import Weather from '@widgets/weather';
 import Traffic from '@widgets/traffic';
+import Feed from '@widgets/feed';
 import Events from '@widgets/events';
 import withFragment from './hocs/with-fragment';
 
@@ -33,6 +34,7 @@ const widgetElements = {
   Numbers,
   Traffic,
   Events,
+  Feed,
 };
 
 export function WidgetDisplay({
