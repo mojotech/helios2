@@ -42,7 +42,7 @@ export function WeatherQuery({
           return <LoadingMessage />;
         }
         if (error) {
-        console.error(error); // eslint-disable-line
+          console.error(error); // eslint-disable-line
           return <DisconnectedMessage />;
         }
 

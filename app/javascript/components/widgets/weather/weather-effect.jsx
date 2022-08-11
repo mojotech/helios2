@@ -361,29 +361,29 @@ Cloud.propTypes = {
 
 /* eslint-disable prettier/prettier */
 function RainLight() {
-  return <Rain duration={0.6} variance={0.4} count={10} />
+  return <Rain duration={0.6} variance={0.4} count={10} />;
 }
 function RainModerate() {
-  return <Rain duration={0.5} variance={0.3} count={20} />
+  return <Rain duration={0.5} variance={0.3} count={20} />;
 }
 function RainHeavy() {
-  return <Rain duration={0.5} variance={0.2} count={35} angle={15} />
+  return <Rain duration={0.5} variance={0.2} count={35} angle={15} />;
 }
 function RainIntense() {
-  return <Rain duration={0.4} variance={0.1} count={40} angle={30} />
+  return <Rain duration={0.4} variance={0.1} count={40} angle={30} />;
 }
 function RainExtreme() {
-  return <Rain duration={0.5} variance={0.1} count={60} angle={45} />
+  return <Rain duration={0.5} variance={0.1} count={60} angle={45} />;
 }
 
 function DrizzleLight() {
-  return <Drizzle duration={1.8} variance={0.5} count={30} />
+  return <Drizzle duration={1.8} variance={0.5} count={30} />;
 }
 function DrizzleModerate() {
-  return <Drizzle duration={1.5} variance={0.5} count={45} />
+  return <Drizzle duration={1.5} variance={0.5} count={45} />;
 }
 function DrizzleHeavy() {
-  return <Drizzle duration={1.2} variance={0.4} count={60} />
+  return <Drizzle duration={1.2} variance={0.4} count={60} />;
 }
 
 const weatherIdMap = {
