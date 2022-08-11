@@ -99,7 +99,7 @@ function TwitterController({ startTimer }) {
 
         if (error) {
           // eslint-disable-next-line
-        console.error(error);
+          console.error(error);
           return <DisconnectedMessage />;
         }
 

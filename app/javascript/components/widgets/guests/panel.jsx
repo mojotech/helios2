@@ -114,7 +114,7 @@ function Guests({ cityName }) {
       {({ loading, error, data, subscribeToMore }) => {
         if (error) {
           // eslint-disable-next-line
-        console.error(error);
+          console.error(error);
           return <DisconnectedMessage />;
         }
 
