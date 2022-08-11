@@ -65,7 +65,7 @@ Repo.all(Location)
   })
 
   EctoHelpers.find_or_initialize_by(Widget, [name: "Numbers", location_id: location.id], %Widget{
-    enabled: true,
+    enabled: false,
     duration_seconds: 20,
     position: 3,
     sidebar_text: "MojoTech by the Numbers",
@@ -73,7 +73,7 @@ Repo.all(Location)
   })
 
   EctoHelpers.find_or_initialize_by(Widget, [name: "Traffic", location_id: location.id], %Widget{
-    enabled: true,
+    enabled: false,
     duration_seconds: 20,
     position: 4,
     sidebar_text: "Traffic",
@@ -83,10 +83,18 @@ Repo.all(Location)
   })
 
   EctoHelpers.find_or_initialize_by(Widget, [name: "Events", location_id: location.id], %Widget{
-    enabled: true,
+    enabled: false,
     duration_seconds: 20,
     position: 5,
     sidebar_text: "Events at MojoTech",
+    show_weather: true
+  })
+
+  EctoHelpers.find_or_initialize_by(Widget, [name: "Feed", location_id: location.id], %Widget{
+    enabled: true,
+    duration_seconds: 20,
+    position: 6,
+    sidebar_text: "Feed",
     show_weather: true
   })
 end)
