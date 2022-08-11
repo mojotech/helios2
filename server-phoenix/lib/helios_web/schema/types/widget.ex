@@ -9,6 +9,7 @@ defmodule HeliosWeb.Schema.Types.Widget do
       "Guests" => :guests_widget,
       "Weather" => :weather_widget,
       "Twitter" => :twitter_widget,
+      "Feed" => :feed_widget,
       "Numbers" => :numbers_widget,
       "Traffic" => :traffic_widget,
       "Events" => :events_widget
@@ -84,6 +85,23 @@ defmodule HeliosWeb.Schema.Types.Widget do
     field :tweets, non_null(list_of(:tweet)) do
       description("Tweets from MojoTech")
       resolve(&Widget.tweets/3)
+    end
+  end
+
+  object :feed_widget do
+    interface(:widget)
+
+    field(:id, non_null(:integer))
+    field(:name, non_null(:string))
+    field(:duration_seconds, non_null(:integer))
+    field(:position, non_null(:integer))
+    field(:sidebar_text, :string)
+    field(:show_weather, :boolean)
+    field(:location_id, non_null(:string))
+
+    field :feeds, non_null(list_of(:feed)) do
+      description("feeds from MojoTech")
+      resolve(&Widget.feeds/3)
     end
   end
 
