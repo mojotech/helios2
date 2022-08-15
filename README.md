@@ -1,8 +1,7 @@
 # README
 
 The tech stack for this project consists of:
-- Rails 5.2 Back end
-- or Phoenix 1.6 Back end
+- Phoenix 1.6 Back end
 - esbuild 
 - graphQL
 - React Front end
