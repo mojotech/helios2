@@ -1,16 +1,18 @@
 defmodule HeliosWeb.WebHooks.GithubController do
   use HeliosWeb, :controller
   alias Helios.{Repo, Events.Event}
+  require Logger
+  require JSON
 
   def handle(conn, params) do
     [event_source] = get_req_header(conn, "x-github-event")
 
     case event_source do
       "pull_request" ->
-        github_pull_request(params["payload"])
+        github_pull_request(params)
 
       "push" ->
-        github_push(params["payload"])
+        github_push(params)
 
       _ ->
         nil
@@ -19,16 +21,19 @@ defmodule HeliosWeb.WebHooks.GithubController do
     send_resp(conn, 200, "OK")
   end
 
-  defp github_pull_request(payload) do
+  defp github_pull_request(params) do
+
+    payload = params["payload"]
     pull_request = payload["pull_request"]
+    str_id = to_string(pull_request["id"])
 
     unless Event
            |> Event.pull_requests()
-           |> Event.with_external_id(pull_request["id"])
+           |> Event.with_external_id(str_id)
            |> Repo.exists?() do
       Repo.insert!(%Event{
         source: :github_pull,
-        external_id: pull_request["id"],
+        external_id: str_id,
         source_author: pull_request["user"]["login"]
       })
       |> publish
@@ -36,6 +41,7 @@ defmodule HeliosWeb.WebHooks.GithubController do
   end
 
   defp github_push(payload) do
+
     branch_pushed_to = payload["ref"] |> String.split("/") |> Enum.drop(2) |> Enum.join("/")
 
     if payload["repository"]["default_branch"] == branch_pushed_to do
