@@ -11,6 +11,9 @@ defmodule HeliosWeb.WebHooks.GithubController do
 
       "push" ->
         github_push(params)
+
+      _ ->
+        nil
     end
 
     send_resp(conn, 200, "OK")
@@ -18,14 +21,15 @@ defmodule HeliosWeb.WebHooks.GithubController do
 
   defp github_pull_request(payload) do
     pull_request = payload["pull_request"]
+    str_id = to_string(pull_request["id"])
 
     unless Event
            |> Event.pull_requests()
-           |> Event.with_external_id(pull_request["id"])
+           |> Event.with_external_id(str_id)
            |> Repo.exists?() do
       Repo.insert!(%Event{
         source: :github_pull,
-        external_id: pull_request["id"],
+        external_id: str_id,
         source_author: pull_request["user"]["login"]
       })
       |> publish
