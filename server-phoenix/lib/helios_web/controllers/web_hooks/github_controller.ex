@@ -11,6 +11,9 @@ defmodule HeliosWeb.WebHooks.GithubController do
 
       "push" ->
         github_push(params)
+
+      _ ->
+        nil
     end
 
     send_resp(conn, 200, "OK")
