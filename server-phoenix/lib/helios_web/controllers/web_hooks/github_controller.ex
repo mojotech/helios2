@@ -7,10 +7,10 @@ defmodule HeliosWeb.WebHooks.GithubController do
 
     case event_source do
       "pull_request" ->
-        github_pull_request(params)
+        github_pull_request(params["payload"])
 
       "push" ->
-        github_push(params)
+        github_push(params["payload"])
 
       _ ->
         nil
