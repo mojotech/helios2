@@ -25,6 +25,14 @@ const getMojoDoggos = gql`
 const PanelWrapper = styled.div`
   overflow: hidden;
   height: 90%;
+  .carousel {
+    width: calc(100vw - 780px);
+  }
+  .carousel .slide img {
+    width: 100%;
+    height: calc(100vh - 350px);
+    object-fit: contain;
+  }
 `;
 
 function Feed({ feeds }) {
@@ -35,7 +43,7 @@ function Feed({ feeds }) {
         <WhiteSubTitle>#mojodoggos</WhiteSubTitle>
       </Title>
       <Carousel
-        width="60%"
+        width="calc(100vw-780px)"
         autoPlay
         showThumbs={false}
         interval={3000}
