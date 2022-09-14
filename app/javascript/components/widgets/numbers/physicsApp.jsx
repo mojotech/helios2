@@ -16,6 +16,9 @@ export default function PhysicsApp(eventCount) {
     RAPIER.init().then(() =>
       runSimulation(app, eventCount, Appwidth, Appheight),
     );
+    return () => {
+      app.destroy(true, true);
+    };
   }, []);
   return (
     <div className="App">
